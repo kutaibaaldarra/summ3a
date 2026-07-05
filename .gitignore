@@ -30,6 +30,7 @@ npm-debug.log*
 
 # Nested git repos
 summ/
+summ3a/
 
 # Separate project (delete folder if not needed)
 damascene-modern-card-ui/
