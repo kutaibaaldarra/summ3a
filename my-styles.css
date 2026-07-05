@@ -150,26 +150,20 @@ footer {
 }
 
 /* ═══════════════════════════════════════════════════════════════ *
- *           📜 Scroll Animations - For All Sections               *
+ *           📜 Scroll Animations - GSAP ScrollTrigger            *
  * ═══════════════════════════════════════════════════════════════ */
 
-/* Base scroll animate class - SIMPLIFIED */
+/* Base scroll animate class — GSAP handles the animation */
 .scroll-animate {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Only animate on desktop for better mobile performance */
+/* Desktop: elements start hidden, GSAP ScrollTrigger reveals them */
 @media (min-width: 769px) {
     .scroll-animate {
         opacity: 0;
-        transform: translateY(20px);
-    }
-    
-    .scroll-animate.animate-in {
-        opacity: 1;
-        transform: translateY(0);
+        transform: translateY(50px);
     }
 }
 
@@ -199,31 +193,16 @@ footer {
 .stagger-4 { transition-delay: 0.4s; }
 .stagger-5 { transition-delay: 0.5s; }
 
-/* Hero elements specific animations - SIMPLIFIED for performance */
+/* Hero elements — GSAP handles entrance animation */
 .hero-animate {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* No animation delays on mobile for better performance */
 @media (min-width: 769px) {
     .hero-animate {
         opacity: 0;
         transform: translateY(20px);
-        animation: simpleFadeIn 0.6s ease-out forwards;
-    }
-    
-    .hero-animate.delay-1 { animation-delay: 0.1s; }
-    .hero-animate.delay-2 { animation-delay: 0.2s; }
-    .hero-animate.delay-3 { animation-delay: 0.3s; }
-    .hero-animate.delay-4 { animation-delay: 0.4s; }
-}
-
-@keyframes simpleFadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -1186,10 +1165,12 @@ canvas {
             gap: 1rem;
         }
 
-        /* Reduce heavy animations on mobile for better performance */
+        /* Mobile: skip animations, show immediately */
         .scroll-animate, .footer-animate, .hero-animate {
-            animation-duration: 0.3s !important;
-            transition-duration: 0.3s !important;
+            opacity: 1 !important;
+            transform: none !important;
+            animation: none !important;
+            transition: none !important;
         }
 
     /* Disable heavy blur gradients on mobile */
@@ -1266,20 +1247,9 @@ canvas {
     .corner-accent { width: 16px !important; height: 16px !important; }
 }
 
-/* Performance-Optimized Scroll Animation */
+/* Performance-Optimized Scroll Animation — handled by GSAP ScrollTrigger */
 .scroll-animate.animate-in {
-    animation: scrollFadeInOptimized 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes scrollFadeInOptimized {
-    0% {
-        opacity: 0;
-        transform: translateY(48px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    /* GSAP applies inline styles directly */
 }
 
 /* Stagger timing - minimal delays */
@@ -1357,10 +1327,22 @@ section {
         inset 0 0 10px rgba(246, 135, 32, 0.1);
 }
 
-/* Custom Footer Animation - Scroll Triggered */
+/* Custom Footer Animation — GSAP ScrollTrigger handles reveal */
 .footer-animate {
     position: relative;
     z-index: 100;
+}
+
+/* Footer Section Base — starts hidden on desktop, GSAP reveals it */
+.footer-section {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+@media (min-width: 769px) {
+    .footer-section {
+        opacity: 0;
+        transform: translateY(30px);
+    }
 }
 
 .footer-animate.visible .footer-section {
@@ -1368,16 +1350,11 @@ section {
     transform: translateY(0);
 }
 
-/* Footer Section Base */
-.footer-section {
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-/* Fallback: Ensure footer is visible after 3 seconds if JS fails */
+/* Fallback: Ensure footer is visible after 2 seconds if GSAP fails */
 @media (prefers-reduced-motion: no-preference) {
-    .footer-section:not(.animate-in) {
+    .footer-section {
         animation: footer-fade-in 0.6s ease forwards;
-        animation-delay: 3s;
+        animation-delay: 2s;
     }
 }
 
@@ -2549,7 +2526,7 @@ footer .border-t img[alt="Logo"] {
 
     /* === Performance: disable heavy animations === */
     .animate-float-slow, .animate-float-medium, .animate-float-fast { animation: none !important; }
-    .scroll-animate, .footer-animate, .hero-animate { animation-duration: 0.3s !important; transition-duration: 0.3s !important; }
+    .scroll-animate, .footer-animate, .hero-animate { opacity: 1 !important; transform: none !important; animation: none !important; }
 }
 
 /* ─── Tablet (769px–1024px) — prevent breakout overflow ─── */

@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     } catch (e) { console.warn('islandCore init failed', e); }
 
+    // ═══ Register GSAP Plugins ═══
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
+
     // ═══ Process Engine GSAP Animations ═══
     const continuousTweens = [];
 
@@ -141,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenu = document.getElementById('mobile-menu-overlay');
     const challengeSection = document.querySelector('.challenge-section');
     const processRevealTargets = document.querySelectorAll('#process .mini-card');
-    let processRevealTriggered = false;
 
     header.classList.remove('is-expanded');
     let isIslandMode = false;
@@ -432,31 +436,110 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const secObs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const content = entry.target.querySelector('.section-content');
-                if (content && !content.dataset.animated) {
-                    content.dataset.animated = 'true';
-                    if (typeof gsap !== 'undefined') gsap.fromTo(content, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
-                    const sn = content.querySelector('.section-number');
-                    if (sn && typeof gsap !== 'undefined') gsap.fromTo(sn, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)', delay: 0.1 });
-                }
-            }
-        });
-    }, { threshold: 0.2 });
-    if (typeof sections.forEach === 'function') sections.forEach(s => secObs.observe(s));
+    // ═══ Section content reveals — now handled by GSAP ScrollTrigger above ═══
 
-    // ═══ General scroll-animate observer ═══
-    const scrollAnimateObs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                scrollAnimateObs.unobserve(entry.target);
+    // ═══ Smooth Scroll Animations with GSAP ScrollTrigger ═══
+    const isMobile = window.innerWidth <= 768;
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !isMobile) {
+        // Batch scroll-animate elements for smooth staggered reveals
+        ScrollTrigger.batch('.scroll-animate', {
+            onEnter: (batch) => {
+                gsap.fromTo(batch,
+                    { opacity: 0, y: 50, scale: 0.97 },
+                    {
+                        opacity: 1, y: 0, scale: 1,
+                        duration: 0.9,
+                        ease: 'power3.out',
+                        stagger: 0.12,
+                        overwrite: true
+                    }
+                );
+            },
+            start: 'top 88%',
+            once: true
+        });
+
+        // Smooth hero section reveal on load
+        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        heroTl
+            .fromTo('.absolute-left', { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
+            .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
+            .fromTo('.become-pro', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+
+        // Subtle parallax on hero elements while scrolling
+        gsap.to('.absolute-left', {
+            y: -30,
+            scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1 }
+        });
+        gsap.to('.absolute-right', {
+            y: -20,
+            scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1 }
+        });
+        gsap.to('.become-pro', {
+            y: -15,
+            scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1.5 }
+        });
+
+        // FAQ items — staggered reveal
+        ScrollTrigger.batch('.faq-item', {
+            onEnter: (batch) => {
+                gsap.fromTo(batch,
+                    { opacity: 0, y: 30, x: -20 },
+                    { opacity: 1, y: 0, x: 0, duration: 0.7, ease: 'back.out(1.4)', stagger: 0.1, overwrite: true }
+                );
+            },
+            start: 'top 85%',
+            once: true
+        });
+
+        // CTA section — scale up reveal
+        ScrollTrigger.create({
+            trigger: '.cta-glass-card, .cta-section',
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                gsap.fromTo('.cta-glass-card, .cta-section', { opacity: 0, scale: 0.92, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'power3.out' });
             }
         });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.scroll-animate').forEach(el => scrollAnimateObs.observe(el));
+
+        // Footer — smooth reveal
+        const footerSection = document.querySelector('.footer-animate');
+        if (footerSection) {
+            ScrollTrigger.create({
+                trigger: footerSection,
+                start: 'top 90%',
+                once: true,
+                onEnter: () => {
+                    gsap.fromTo(footerSection.querySelectorAll('.footer-section'),
+                        { opacity: 0, y: 30 },
+                        { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.1 }
+                    );
+                }
+            });
+        }
+
+        // Process section content — smooth reveal with section numbers
+        ScrollTrigger.batch('#process [data-process] .section-content', {
+            onEnter: (batch) => {
+                batch.forEach((el, i) => {
+                    const num = el.querySelector('.section-number');
+                    const tl = gsap.timeline();
+                    tl.fromTo(el, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0);
+                    if (num) tl.fromTo(num, { scale: 0.4, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)' }, 0.15);
+                });
+            },
+            start: 'top 80%',
+            once: true
+        });
+    } else {
+        // Fallback for mobile: simple show without animation
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        });
+        const footerSection = document.querySelector('.footer-animate');
+        if (footerSection) footerSection.classList.add('visible');
+    }
 
     // ═══ Testimonials Island Notification ═══
     const testimonialsSection = document.getElementById('testimonials');
@@ -605,18 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(prePaintHeavy, 800);
     }
 
-    const glassSection = document.querySelector('.glass-canvas');
-    if (glassSection) {
-        const obs = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        obs.observe(glassSection);
-    }
+    // ═══ Glass canvas animation — now handled by GSAP ScrollTrigger batch ═══
 
     const orbitNodes = document.querySelectorAll('.icon-node');
     const stepId = document.getElementById('stepId');
@@ -689,15 +761,9 @@ document.addEventListener('DOMContentLoaded', () => {
         orbitObs.observe(orbitSection);
     }
 
-    // ISLAND EXPANSION (FAST ON-ENTER)
-    if (typeof ScrollTrigger !== 'undefined') {
-        function revealProcessCards() {
-            if (processRevealTriggered) return;
-            processRevealTriggered = true;
-            if (typeof gsap !== 'undefined') gsap.fromTo(processRevealTargets, { opacity: 0, y: 30, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out', stagger: 0.06, clearProps: 'all' });
-        }
-        ScrollTrigger.create({ trigger: '#process', start: 'top 85%', onEnter: revealProcessCards, once: true });
-        if (typeof ScrollTrigger.refresh === 'function') ScrollTrigger.refresh();
+    // ═══ Process card reveal — handled by GSAP ScrollTrigger batch above ═══
+    if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
+        ScrollTrigger.refresh();
     }
 
     // ═══ FAQ Accordion ═══
