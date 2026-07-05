@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استبيان عملك | سمعة</title>
+    <script src="tailwind.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic-ext.woff2') format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic.woff2') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-vietnamese.woff2') format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic-ext.woff2') format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic.woff2') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-vietnamese.woff2') format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        body { font-family: 'Cairo', sans-serif; background: #0a0a0a; color: white; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Step Animation */
+        .step {
+            display: none;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .step.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .step.prev {
+            transform: translateX(-50px);
+        }
+
+        /* Option Button */
+        .option-btn {
+            background: linear-gradient(145deg, #161616, #0c0c0c);
+            border: 1px solid rgba(246, 135, 32, 0.1);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .option-btn:hover, .option-btn.selected {
+            border-color: rgba(246, 135, 32, 0.6);
+            box-shadow: 0 0 20px rgba(246, 135, 32, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.selected {
+            background: linear-gradient(145deg, rgba(246, 135, 32, 0.1), rgba(246, 135, 32, 0.05));
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #f68720, #ed6a00);
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.5s ease;
+        }
+
+        /* Step Indicator */
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background: #f68720;
+            box-shadow: 0 0 10px rgba(246, 135, 32, 0.6);
+        }
+        
+        .step-dot.completed {
+            background: #f68720;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: linear-gradient(145deg, #161616, #0c0c0c);
+            border: 1px solid rgba(246, 135, 32, 0.1);
+            border-radius: 2rem;
+        }
+
+        /* Input Styling */
+        .custom-input {
+            background: #111113;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-input:focus {
+            outline: none;
+            border-color: #f68720;
+            box-shadow: 0 0 20px rgba(246, 135, 32, 0.1);
+        }
+
+        /* Range Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-webkit-slider-track {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #f68720;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(246, 135, 32, 0.5);
+        }
+
+        /* Success Animation */
+        .success-check {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #f68720, #ed6a00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Mobile Responsive - Same as terms.html */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 80px !important;
+            }
+
+            header {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 99999 !important;
+                background: #000 !important;
+                border-bottom: 2px solid #f68720 !important;
+                height: 80px !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 0 1rem !important;
+                width: 100% !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+                grid-template-columns: none !important;
+            }
+
+            header img {
+                width: 50px !important;
+                height: 50px !important;
+                display: block !important;
+                border: 2px solid #f68720 !important;
+                border-radius: 8px !important;
+            }
+
+            header nav {
+                display: none !important;
+            }
+
+            #mobile-menu-btn {
+                display: flex !important;
+                padding: 0.5rem !important;
+                background: #f68720 !important;
+                border-radius: 8px !important;
+            }
+
+            #mobile-menu-btn div {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 4px !important;
+            }
+
+            #menu-line-1, #menu-line-2 {
+                width: 24px !important;
+                height: 3px !important;
+                background: #000 !important;
+                display: block !important;
+            }
+
+            #mobile-menu {
+                position: fixed !important;
+                top: 80px !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: #000 !important;
+                border-bottom: 2px solid #f68720 !important;
+                z-index: 9998 !important;
+                padding: 1rem !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+            }
+
+            #mobile-menu.hidden {
+                display: none !important;
+            }
+
+            #mobile-menu:not(.hidden) {
+                display: block !important;
+            }
+
+            #mobile-menu a {
+                display: block !important;
+                padding: 1rem !important;
+                text-align: center !important;
+                font-size: 1.1rem !important;
+                border-radius: 8px !important;
+                transition: all 0.3s ease !important;
+            }
+
+            #mobile-menu a:hover {
+                background: rgba(246, 135, 32, 0.1) !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-black min-h-screen">
+    <!-- Header -->
+    <header class="grid grid-cols-3 items-center px-5 md:px-10 py-4 md:py-6 bg-black border-b border-white/5 sticky top-0 z-50">
+        <div class="flex items-center">
+            <a href="index.html">
+                <img src="3.png" alt="Logo" class="w-14 h-14 object-contain cursor-pointer">
+            </a>
+        </div>
+        <nav class="hidden md:flex justify-center gap-8 font-bold text-xs tracking-widest text-gray-400">
+            <a href="index.html" class="hover:text-white transition-colors">الرئيسية</a>
+            <a href="packages.html" class="hover:text-white transition-colors">الباقات</a>
+            <a href="results.html" class="hover:text-white transition-colors">النتائج</a>
+            <a href="questionnaire.html" class="text-white border-b-2 border-[#f68720] pb-1">استبيان</a>
+            <a href="terms.html" class="hover:text-white transition-colors">الشروط</a>
+        </nav>
+        <div class="flex justify-end">
+            <button id="mobile-menu-btn" class="md:hidden flex items-center gap-4 p-2">
+                <div class="space-y-1 cursor-pointer">
+                    <div class="w-6 h-0.5 bg-white" id="menu-line-1"></div>
+                    <div class="w-6 h-0.5 bg-white" id="menu-line-2"></div>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 md:hidden z-40">
+        <div class="flex flex-col p-4 gap-4">
+            <a href="index.html" class="text-gray-400 hover:text-white transition-colors py-2">الرئيسية</a>
+            <a href="packages.html" class="text-gray-400 hover:text-white transition-colors py-2">الباقات</a>
+            <a href="results.html" class="text-gray-400 hover:text-white transition-colors py-2">النتائج</a>
+            <a href="questionnaire.html" class="text-[#f68720] font-bold py-2">استبيان</a>
+            <a href="terms.html" class="text-gray-400 hover:text-white transition-colors py-2">الشروط</a>
+        </div>
+    </div>
+
+    <main class="px-4 py-8 md:py-16">
+        <div class="max-w-3xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <span class="text-[#f68720] text-sm font-bold tracking-[0.3em] uppercase mb-4 block">خطوات قليلة تفصلك</span>
+                <h1 class="text-3xl md:text-4xl font-black text-white mb-4">
+                    دعنا نتعرف على <span class="text-[#f68720]">عملك</span>
+                </h1>
+                <p class="text-gray-400">سؤالان في كل خطوة للوصول لاقتراح مناسب لك</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex justify-between text-sm text-gray-500 mb-2">
+                    <span>تقدمك</span>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="progress-bar h-2">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-center gap-2 mt-4">
+                    <div class="step-dot active" data-step="1"></div>
+                    <div class="step-dot" data-step="2"></div>
+                    <div class="step-dot" data-step="3"></div>
+                    <div class="step-dot" data-step="4"></div>
+                </div>
+            </div>
+
+            <!-- Form Container -->
+            <div class="glass-card p-6 md:p-10">
+                <form id="questionnaire-form" onsubmit="return false;">
+                    
+                    <!-- Step 1: Business Type & Goals -->
+                    <div class="step active" id="step-1">
+                        <h2 class="text-2xl font-black text-white mb-2">ما هو نوع نشاطك التجاري؟</h2>
+                        <p class="text-gray-500 text-sm mb-6">اختر القطاع الذي يمثل عملك</p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="retail">
+                                <div class="text-3xl mb-2">🛍️</div>
+                                <span class="text-white font-bold text-sm">تجارة التجزئة</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="food">
+                                <div class="text-3xl mb-2">🍽️</div>
+                                <span class="text-white font-bold text-sm">مطاعم ومقاهي</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="services">
+                                <div class="text-3xl mb-2">💼</div>
+                                <span class="text-white font-bold text-sm">خدمات مهنية</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="health">
+                                <div class="text-3xl mb-2">💪</div>
+                                <span class="text-white font-bold text-sm">صحة ولياقة</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="tech">
+                                <div class="text-3xl mb-2">💻</div>
+                                <span class="text-white font-bold text-sm">تكنولوجيا</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="other">
+                                <div class="text-3xl mb-2">✨</div>
+                                <span class="text-white font-bold text-sm">أخرى</span>
+                            </button>
+                        </div>
+
+                        <h2 class="text-2xl font-black text-white mb-2 mt-8">ما أهدافك الرئيسية؟</h2>
+                        <p class="text-gray-500 text-sm mb-6">حدد هدفك الأساسي</p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <button type="button" class="option-btn w-full p-4 flex items-center gap-4" data-question="goals" data-value="awareness">
+                                <div class="w-10 h-10 rounded-lg bg-[#f68720]/10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#f68720]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-white font-bold block">زيادة الوعي بالعلامة</span>
+                                    <span class="text-gray-500 text-sm">المزيد من الناس يعرفون علامتي</span>
+                                </div>
+                            </button>
+                            <button type="button" class="option-btn w-full p-4 flex items-center gap-4" data-question="goals" data-value="sales">
+                                <div class="w-10 h-10 rounded-lg bg-[#f68720]/10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#f68720]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-white font-bold block">زيادة المبيعات</span>
+                                    <span class="text-gray-500 text-sm">تحويل المتابعين لزبائن</span>
+                                </div>
+                            </button>
+                            <button type="button" class="option-btn w-full p-4 flex items-center gap-4" data-question="goals" data-value="engagement">
+                                <div class="w-10 h-10 rounded-lg bg-[#f68720]/10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#f68720]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-white font-bold block">بناء مجتمع</span>
+                                    <span class="text-gray-500 text-sm">زيادة التفاعل والولاء</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="button" onclick="nextStep(2)" class="px-8 py-3 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#ff9e47] transition-all disabled:opacity-50" id="btn-step-1" disabled>
+                                التالي ←
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Platforms -->
+                    <div class="step" id="step-2">
+                        <h2 class="text-2xl font-black text-white mb-2">أي منصات تستهدف؟</h2>
+                        <p class="text-gray-500 text-sm mb-6">اختر جميع المنصات المناسبة</p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                            <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="instagram">
+                                <div class="text-3xl mb-2">📸</div>
+                                <span class="text-white font-bold text-sm">انستقرام</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="tiktok">
+                                <div class="text-3xl mb-2">🎵</div>
+                                <span class="text-white font-bold text-sm">تيك توك</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="twitter">
+                                <div class="text-3xl mb-2">🐦</div>
+                                <span class="text-white font-bold text-sm">تويتر</span>
+                            </button>
+                            <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="snapchat">
+                                <div class="text-3xl mb-2">👻</div>
+                                <span class="text-white font-bold text-sm">سناب شات</span>
+                            </button>
+                        </div>
+
+                        <h2 class="text-2xl font-black text-white mb-2 mt-8">ما حالة وجودك الرقمي؟</h2>
+                        <p class="text-gray-500 text-sm mb-6">ساعدنا في فهم وضعك الحالي</p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <button type="button" class="option-btn w-full p-4 text-right" data-question="presence" data-value="none">
+                                <span class="text-white font-bold block">لا أوجد على السوشال ميديا</span>
+                                <span class="text-gray-500 text-sm">نبدأ من الصفر</span>
+                            </button>
+                            <button type="button" class="option-btn w-full p-4 text-right" data-question="presence" data-value="basic">
+                                <span class="text-white font-bold block">لدي حسابات لكن غير نشطة</span>
+                                <span class="text-gray-500 text-sm">بحاجة لإعادة تنشيط</span>
+                            </button>
+                            <button type="button" class="option-btn w-full p-4 text-right" data-question="presence" data-value="active">
+                                <span class="text-white font-bold block">أنشر بشكل منتظم</span>
+                                <span class="text-gray-500 text-sm">أريد تحسين الأداء</span>
+                            </button>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep(1)" class="px-8 py-3 border border-gray-600 text-white font-bold rounded-full hover:border-[#f68720] transition-all">
+                                → السابق
+                            </button>
+                            <button type="button" onclick="nextStep(3)" class="px-8 py-3 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#ff9e47] transition-all disabled:opacity-50" id="btn-step-2" disabled>
+                                التالي ←
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Budget & Timeline -->
+                    <div class="step" id="step-3">
+                        <h2 class="text-2xl font-black text-white mb-2">ما ميزانيتك الشهرية المتوقعة؟</h2>
+                        <p class="text-gray-500 text-sm mb-6">ساعدنا في اقتراح الباقة المناسبة</p>
+                        
+                        <div class="mb-8">
+                            <div class="text-center mb-4">
+                                <span class="text-[#f68720] text-3xl font-black" id="budget-display">$500</span>
+                                <span class="text-gray-500">/شهر</span>
+                            </div>
+                            <input type="range" min="300" max="2000" step="100" value="500" class="w-full" id="budget-slider" oninput="updateBudget(this.value)">
+                            <div class="flex justify-between text-gray-500 text-sm mt-2">
+                                <span>$300</span>
+                                <span>$2000+</span>
+                            </div>
+                        </div>
+
+                        <h2 class="text-2xl font-black text-white mb-2 mt-8">متى تريد البدء؟</h2>
+                        <p class="text-gray-500 text-sm mb-6">الجدول الزمني المتوقع</p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <button type="button" class="option-btn w-full p-4 text-right" data-question="timeline" data-value="immediate">
+                                <span class="text-white font-bold block">في أقرب وقت ممكن</span>
+                                <span class="text-gray-500 text-sm">خلال هذا الأسبوع</span>
+                            </button>
+                            <button type="button" class="option-btn w-full p-4 text-right" data-question="timeline" data-value="month">
+                                <span class="text-white font-bold block">خلال شهر</span>
+                                <span class="text-gray-500 text-sm">بعد التخطيط الجيد</span>
+                            </button>
+                            <button type="button" class="option-btn w-full p-4 text-right" data-question="timeline" data-value="planning">
+                                <span class="text-white font-bold block">ما زلت أخطط</span>
+                                <span class="text-gray-500 text-sm">أبحث عن أفضل خيار</span>
+                            </button>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep(2)" class="px-8 py-3 border border-gray-600 text-white font-bold rounded-full hover:border-[#f68720] transition-all">
+                                → السابق
+                            </button>
+                            <button type="button" onclick="nextStep(4)" class="px-8 py-3 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#ff9e47] transition-all disabled:opacity-50" id="btn-step-3" disabled>
+                                التالي ←
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Contact Info -->
+                    <div class="step" id="step-4">
+                        <h2 class="text-2xl font-black text-white mb-2">بيانات التواصل</h2>
+                        <p class="text-gray-500 text-sm mb-6">لنرسل لك اقتراحنا المخصص</p>
+                        
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <label for="fullName" class="text-gray-400 text-sm mb-2 block">الاسم الكامل</label>
+                                <input type="text" id="fullName" class="custom-input w-full p-4" placeholder="أدخل اسمك" required>
+                            </div>
+                            <div>
+                                <label for="email" class="text-gray-400 text-sm mb-2 block">البريد الإلكتروني</label>
+                                <input type="email" id="email" class="custom-input w-full p-4" placeholder="email@example.com" required>
+                            </div>
+                            <div>
+                                <label for="phone" class="text-gray-400 text-sm mb-2 block">رقم الجوال</label>
+                                <input type="tel" id="phone" class="custom-input w-full p-4" placeholder="05xxxxxxxx" required>
+                            </div>
+                            <div>
+                                <label for="brand" class="text-gray-400 text-sm mb-2 block">اسم العلامة التجارية (اختياري)</label>
+                                <input type="text" id="brand" class="custom-input w-full p-4" placeholder="اسم شركتك أو مشروعك">
+                            </div>
+                            <div>
+                                <label for="notes" class="text-gray-400 text-sm mb-2 block">ملاحظات إضافية (اختياري)</label>
+                                <textarea id="notes" class="custom-input w-full p-4 h-24 resize-none" placeholder="أخبرنا بمزيد من التفاصيل عن احتياجاتك..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep(3)" class="px-8 py-3 border border-gray-600 text-white font-bold rounded-full hover:border-[#f68720] transition-all">
+                                → السابق
+                            </button>
+                            <button type="submit" onclick="submitForm()" class="px-8 py-3 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#ff9e47] transition-all hover:shadow-[0_0_30px_rgba(246,135,32,0.4)]">
+                                إرسال الطلب 🚀
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Success Step -->
+                    <div class="step" id="step-success">
+                        <div class="text-center py-8">
+                            <div class="success-check mx-auto mb-6">
+                                <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-black text-white mb-4">تم استلام طلبك بنجاح!</h2>
+                            <p class="text-gray-400 mb-8">سنراجع بياناتك ونرسل لك اقتراحاً مخصصاً خلال 24 ساعة</p>
+                            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                                <a href="packages.html" class="px-8 py-3 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#ff9e47] transition-all">
+                                    تصفح الباقات
+                                </a>
+                                <a href="index.html" class="px-8 py-3 border border-gray-600 text-white font-bold rounded-full hover:border-[#f68720] transition-all">
+                                    العودة للرئيسية
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile Menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // State Management
+        let currentStep = 1;
+        const formData = {};
+
+        // Progress Update
+        function updateProgress() {
+            const progress = ((currentStep - 1) / 3) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = Math.round(progress) + '%';
+            
+            // Update dots
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    dot.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Step Navigation
+        function nextStep(step) {
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            document.getElementById('step-' + currentStep).classList.add('prev');
+            
+            if (step === 'success') {
+                document.getElementById('step-success').classList.add('active');
+            } else {
+                currentStep = step;
+                document.getElementById('step-' + currentStep).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function prevStep(step) {
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            currentStep = step;
+            document.getElementById('step-' + currentStep).classList.remove('prev');
+            document.getElementById('step-' + currentStep).classList.add('active');
+            updateProgress();
+        }
+
+        // Budget Slider
+        function updateBudget(value) {
+            document.getElementById('budget-display').textContent = '$' + value;
+            formData.budget = value;
+            checkStep3Completion();
+        }
+
+        // Option Selection
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.dataset.question;
+                const value = this.dataset.value;
+                const isMulti = this.classList.contains('multi-select');
+
+                if (isMulti) {
+                    // Multi-select logic
+                    this.classList.toggle('selected');
+                    if (!formData[question]) formData[question] = [];
+                    
+                    if (this.classList.contains('selected')) {
+                        formData[question].push(value);
+                    } else {
+                        formData[question] = formData[question].filter(v => v !== value);
+                    }
+                } else {
+                    // Single-select logic
+                    document.querySelectorAll(`[data-question="${question}"]`).forEach(b => {
+                        b.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    formData[question] = value;
+                }
+
+                checkStepCompletion();
+            });
+        });
+
+        // Check Step Completion
+        function checkStepCompletion() {
+            // Step 1: business-type and goals
+            if (formData['business-type'] && formData['goals']) {
+                document.getElementById('btn-step-1').disabled = false;
+            }
+
+            // Step 2: platforms (array) and presence
+            if (formData['platforms']?.length > 0 && formData['presence']) {
+                document.getElementById('btn-step-2').disabled = false;
+            }
+        }
+
+        function checkStep3Completion() {
+            if (formData['budget'] && formData['timeline']) {
+                document.getElementById('btn-step-3').disabled = false;
+            }
+        }
+
+        // Timeline selection
+        document.querySelectorAll('[data-question="timeline"]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                formData['timeline'] = this.dataset.value;
+                checkStep3Completion();
+            });
+        });
+
+        // Form Submit
+        function submitForm() {
+            // Here you would normally send data to server
+            console.log('Form Data:', formData);
+            nextStep('success');
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>

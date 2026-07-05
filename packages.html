@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سمعة</title>
+    <script src="tailwind.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Cairo';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic-ext.woff2') format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic.woff2') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-vietnamese.woff2') format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/montserrat-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic-ext.woff2') format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-cyrillic.woff2') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-vietnamese.woff2') format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/montserrat-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+                .glow-edges {
+                    position:relative;
+                    display:inline-block;
+                    padding:0 18px;
+                    overflow:visible;
+                }
+                .glow-edges .glow-effect {
+                    content: "";
+                    pointer-events:none;
+                    position:absolute;
+                    inset: -7px;
+                    border-radius:22px;
+                    z-index:0;
+                    border: 2.5px solid #f68720;
+                    box-shadow:
+                        0 0 8px 1.2px #f68720,
+                        0 0 20px 4.8px #f6872077,
+                        0 0 30px 7.2px #f6872033;
+                    animation: neon-glow 2.5s linear infinite;
+                    opacity:0.85;
+                    will-change: box-shadow, border-color;
+                }
+                .glow-edges .glow-effect.glow-paused {
+                    animation: none;
+                    box-shadow: 0 0 8px 1.2px #f68720, 0 0 20px 4.8px #f6872077, 0 0 30px 7.2px #f6872033 !important;
+                    border-color: #f68720 !important;
+                }
+@keyframes neon-glow {
+                    0% { box-shadow: 0 0 8px 1.2px #f68720, 0 0 20px 4.8px #f6872077, 0 0 30px 7.2px #f6872033; border-color: #f68720; }
+                    25% { box-shadow: 0 0 12px 2.4px #ffae42, 0 0 22px 6px #f68720aa, 0 0 36px 9.6px #f6872033; border-color: #ffae42; }
+                    50% { box-shadow: 0 0 16px 3.6px #fff176, 0 0 24px 7.2px #f68720bb, 0 0 43px 12px #f6872033; border-color: #fff176; }
+                    75% { box-shadow: 0 0 12px 2.4px #ffae42, 0 0 22px 6px #f68720aa, 0 0 36px 9.6px #f6872033; border-color: #ffae42; }
+                    100% { box-shadow: 0 0 8px 1.2px #f68720, 0 0 20px 4.8px #f6872077, 0 0 30px 7.2px #f6872033; border-color: #f68720; }
+                }
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); opacity: 1; }
+                    50% { transform: scale(1.05); opacity: 0.9; }
+                }
+        body { font-family: 'Cairo', sans-serif; background: #0a0a0a; color: white; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.1em;
+            color: #f68720;
+        }
+        .package-card {
+            background: #121212;
+            border: 1px solid #222;
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem 2rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(246,135,32,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .package-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(246,135,32,0.12);
+            border-color: #f68720;
+        }
+        .badge {
+            position: absolute;
+            top: -18px;
+            right: 24px;
+            background: linear-gradient(90deg, #f68720, #ed6a00);
+            color: #000;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 6px 18px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(246, 135, 32, 0.18);
+        }
+        .video-art {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 8px 32px rgba(246,135,32,0.12);
+        }
+.video-art::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(246,135,32,0.18) 0%, transparent 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Bolt.new Glassmorphism for Launch Details */
+        .glass-card {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(246, 135, 32, 0.2);
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            --tilt-x: 0;
+            --tilt-y: 0;
+            transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1);
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(246,135,32,0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(246,135,32,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+            border-color: rgba(246, 135, 32, 0.4);
+        }
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        /* CTA Glass Shimmer */
+        .cta-glass {
+            background: linear-gradient(135deg, rgba(246,135,32,0.1), rgba(246,135,32,0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(246,135,32,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        .cta-glass:hover::before {
+            left: 100%;
+        }
+
+        /* Revert to simple stagger reveal - reliable button trigger */
+        .detail-item {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .detail-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .detail-item:nth-child(1).visible { transition-delay: 0.1s; }
+        .detail-item:nth-child(2).visible { transition-delay: 0.2s; }
+        .detail-item:nth-child(3).visible { transition-delay: 0.3s; }
+        .detail-item:nth-child(4).visible { transition-delay: 0.4s; }
+
+        /* Summary tiles - static visible */
+        .summary-tile {
+            background: rgba(18,18,18,0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(246,135,32,0.1);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: none;
+        }
+        .summary-tile:hover {
+            border-color: rgba(246,135,32,0.3);
+            transform: translateY(-5px);
+        }
+
+        /* Lazy Media Frame */
+        .media-frame {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .media-frame:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(246,135,32,0.2);
+        }
+        .media-frame img, 
+        .media-frame iframe {
+            will-change: transform;
+        }
+        .video-art video, .video-art iframe {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            display: block;
+            border-radius: 1.5rem;
+            z-index: 1;
+        }
+        .video-art iframe {
+            aspect-ratio: 16 / 9;
+            height: auto;
+        }
+        /* قسم البداية مع الفيديو */
+        section:first-of-type {
+            border-bottom: 1px solid rgba(246, 135, 32, 0.1);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .posts-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .post-thumb {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(246,135,32,0.10);
+            background: #181818;
+            border: 1px solid #222;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .post-thumb img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+        }
+        .post-thumb:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 32px rgba(246,135,32,0.18);
+            border-color: #f68720;
+        }
+        .service-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #f68720;
+            color: #f68720;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #f68720;
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        .service-btn:hover {
+            color: #000;
+        }
+        .service-btn:hover::before {
+            left: 0;
+        }
+        .footer {
+            background: #111;
+            color: #aaa;
+            text-align: center;
+            padding: 2rem 0 1rem 0;
+            font-size: 0.95rem;
+            margin-top: 3rem;
+            border-top: 1px solid #222;
+        }
+        @media (max-width: 768px) {
+            /* Body padding for fixed header */
+            body {
+                padding-top: 80px !important;
+            }
+
+            /* Mobile Header - Fixed position */
+            header {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 99999 !important;
+                background: #000 !important;
+                border-bottom: 2px solid #f68720 !important;
+                height: 80px !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 0 1rem !important;
+                width: 100% !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+                grid-template-columns: none !important;
+            }
+
+            header img {
+                width: 50px !important;
+                height: 50px !important;
+                display: block !important;
+                border: 2px solid #f68720 !important;
+                border-radius: 8px !important;
+            }
+
+            header nav {
+                display: none !important;
+            }
+
+            #mobile-menu-btn {
+                display: flex !important;
+                padding: 0.5rem !important;
+                background: #f68720 !important;
+                border-radius: 8px !important;
+            }
+
+            #mobile-menu-btn div {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 4px !important;
+            }
+
+            #menu-line-1, #menu-line-2 {
+                width: 24px !important;
+                height: 3px !important;
+                background: #000 !important;
+                display: block !important;
+            }
+
+            /* Mobile Menu Dropdown - Fixed position below header */
+            #mobile-menu {
+                position: fixed !important;
+                top: 80px !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: #000 !important;
+                border-bottom: 2px solid #f68720 !important;
+                z-index: 9998 !important;
+                padding: 1rem !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+            }
+
+            #mobile-menu.hidden {
+                display: none !important;
+            }
+
+            #mobile-menu:not(.hidden) {
+                display: block !important;
+            }
+
+            #mobile-menu a {
+                display: block !important;
+                padding: 1rem !important;
+                text-align: center !important;
+                font-size: 1.1rem !important;
+                border-radius: 8px !important;
+                transition: all 0.3s ease !important;
+            }
+
+            #mobile-menu a:hover {
+                background: rgba(246, 135, 32, 0.1) !important;
+            }
+
+            .section-title { font-size: 1.5rem; }
+            .package-card { padding: 1.5rem 1rem; }
+            .video-art video { height: 180px; }
+            .video-art iframe { height: auto; aspect-ratio: 16/9; }
+            section:first-of-type h2 { font-size: 1.75rem; }
+            section:first-of-type p { font-size: 0.95rem; }
+            .my-16 { margin-top: 2rem; margin-bottom: 2rem; }
+        .my-24 { margin-top: 4rem; margin-bottom: 4rem; }
+        
+        /* Expandable Package Styles */
+        .expand-cta {
+            font-size: 1rem !important;
+            padding: 14px 20px !important;
+        }
+        .details-container {
+            max-height: 0;
+            opacity: 0;
+        }
+        .details-container.expanded {
+            max-height: 2000px;
+            opacity: 1;
+        }
+        .detail-section {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .detail-section.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .expand-cta.expanded::after {
+            content: "▁";
+        }
+        
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+        .scroll-btn { scroll-margin-top: 100px; }
+        
+        /* Detail item animations */
+        .detail-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .detail-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Image Modal Styles */
+        #imageModal {
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        #imageModal img {
+            animation: imageZoomIn 0.4s ease-out;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+@keyframes imageZoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Carousel Slider Styles */
+        .carousel-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dot.active {
+            background: #f68720;
+            transform: scale(1.2);
+        }
+        @keyframes clickPulse {
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 0 0 0px rgba(246,135,32, 0.7);
+            }
+            40% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 0 20px rgba(246,135,32, 0);
+            }
+            100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 0 0px rgba(246,135,32, 0);
+            }
+        }
+        .btn-animate-click {
+            animation: clickPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @media (max-width: 768px) {
+            #imageModal img { max-width: 95vw; max-height: 80vh; }
+            .detail-item { margin-bottom: 3rem !important; }
+        }
+        }
+    </style>
+</head>
+<body class="bg-glow">
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- │                    🏠 قسم الهيدر (Header)                      │ -->
+        <!-- │            شريط التنقل العلوي مع اللوقو والقائمة               │ -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <header class="grid grid-cols-3 items-center px-5 md:px-10 py-4 md:py-6 bg-black border-b border-white/5 sticky top-0 z-50">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="3.png" alt="Logo" class="w-14 h-14 object-contain cursor-pointer">
+                </a>
+            </div>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex justify-center gap-6 font-bold text-xs tracking-widest text-gray-400">
+                <a href="index.html" class="hover:text-white transition-colors">الرئيسية</a>
+                <a href="packages.html" class="text-white border-b-2 border-[#f68720] pb-1">الباقات</a>
+                <a href="results.html" class="hover:text-white transition-colors">النتائج</a>
+                <a href="questionnaire.html" class="hover:text-white transition-colors">استبيان</a>
+                <a href="terms.html" class="hover:text-white transition-colors">الشروط</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex justify-end">
+                <button id="mobile-menu-btn" class="md:hidden flex items-center gap-4 p-2">
+                    <div class="space-y-1 cursor-pointer">
+                        <div class="w-6 h-0.5 bg-white transition-all duration-300" id="menu-line-1"></div>
+                        <div class="w-6 h-0.5 bg-white transition-all duration-300" id="menu-line-2"></div>
+                    </div>
+                </button>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 md:hidden z-40">
+            <div class="flex flex-col p-4 gap-4">
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors py-2">الرئيسية</a>
+                <a href="packages.html" class="text-[#f68720] font-bold py-2">الباقات</a>
+                <a href="results.html" class="text-gray-400 hover:text-white transition-colors py-2">النتائج</a>
+                <a href="questionnaire.html" class="text-gray-400 hover:text-white transition-colors py-2">استبيان</a>
+                <a href="terms.html" class="text-gray-400 hover:text-white transition-colors py-2">الشروط</a>
+            </div>
+        </div>
+
+        <main>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- │               📦 قسم عرض الباقات الرئيسي                       │ -->
+    <!-- │          البانر التعريفي مع الفيديو والنص التوضيحي             │ -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="px-4 md:px-0 max-w-7xl mx-auto">
+        <section class="py-16 md:py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- النص -->
+                <div class="order-2 md:order-1" dir="rtl">
+                    <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
+                        <span class="text-white">ماهي هذه الباقات ؟</span>
+                        
+                    </h2>
+                    <p class="text-gray-400 text-base md:text-lg mb-6 leading-relaxed">
+                        نحن نفهم أن كل مشروع فريد من نوعه. لذا قمنا بتصميم باقات متعددة تتناسب مع احتياجات عملك وميزانيتك، من البداية البسيطة إلى الحل الشامل الاحترافي.
+                    </p>
+                                            <span class="text-white">كيف تختار الباقة التي تناسبك ؟</span>
+
+                    <p class="text-gray-400 text-base md:text-lg mb-8 leading-relaxed">
+هذه الباقات ليست معيار لمستوى العمل بل مصممة بعناية لتناسب المشروع بحسب مستوى الاندماج الرقمي الحالي و المطلوب                     </p>
+                </div>
+
+                <!-- الفيديو -->
+                <div class="order-1 md:order-2">
+                                        <div class="video-art" style="margin-bottom: 0;">
+                        <iframe
+                            src="https://www.youtube.com/embed/vMj1biJ-JKM"
+                            title="YouTube video player"
+                            style="border: 0;"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
+                            loading="lazy">
+                        </iframe>
+            </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- │           💎 شبكة بطاقات الباقات (Packages Grid)              │ -->
+        <!-- │      عرض الباقات المتاحة: أساسي، احترافي، مؤسسي، VIP           │ -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- الباقات -->
+        <div id="packages" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+<div class="package-card" style="border-width:2px;">
+<div class="badge">الانطلاقة</div>
+                <h3 class="font-montserrat text-xl font-black mb-2">باقة الانطلاقة الاستراتيجية</h3>
+                <div class="mb-4 relative">
+                    <p class="text-gray-400 text-sm mb-4">عرض محدود الوقت</p>
+                    <div class="mx-auto max-w-xs">
+                        <span class="block bg-gradient-to-r from-[#f68720]/95 to-orange-400 px-6 py-2 rounded-full text-black font-bold text-base shadow-2xl glow-edges text-center relative z-10" style="animation: pulse 2s infinite;">
+                            🎉 كان $700 الآن فقط $550! 🎉
+                        </span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">بناء ماكينة بيع تجذب الزبائن وتعمل لصالحك على المدى الطويل مناسبة للمشاريع التي تبني منصاتها الرقمية(سوشال ميديا)حديثاً.</p>
+
+                <div class="text-[#f68720] font-black text-2xl mb-6">$550 / لمدة شهرين</div>
+                
+                <!-- Scroll CTA to bottom details -->
+<a id="scroll-to-details" href="#package-details" class="cta-glass service-btn w-full text-center block no-underline scroll-btn py-4 px-8 font-bold text-lg rounded-xl mb-3" data-package="launch">
+                    التفاصيل ▽
+                </a>
+                <a href="#" class="cta-glass service-btn w-full text-center block no-underline py-4 px-8 font-bold text-lg rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    اشترك الآن
+                </a>
+            </div>
+            <div class="package-card" style="border-width:2px;">
+                <div class="badge">المحترف</div>
+                <h3 class="font-montserrat text-xl font-black mb-2">باقة المحترف  للاستقرار والتطور</h3>
+                <div class="mb-4 relative">
+                    <p class="text-gray-400 text-sm mb-4">عرض محدودة</p>
+                    <div class="mx-auto max-w-xs">
+                        <span class="block bg-gradient-to-r from-[#f68720]/95 to-orange-400 px-6 py-2 rounded-full text-black font-bold text-base shadow-2xl glow-edges text-center relative z-10" style="animation: pulse 2s infinite;">
+                            🎉 كان $950 الآن فقط $750! 🎉
+                        </span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">الحل الأمثل للمشاريع التي تبحث عن الاستمرار و تطوير محتواها بأفضل طريقة ممكنة مناسب للمشاريع التي تريد تطوير واكمال مسيرتها على الانترنت.</p>
+                <div class="text-[#f68720] font-black text-2xl mb-6">$750 / لمدة 3 أشهر</div>
+                
+                <a id="scroll-to-professional" href="#package-details" class="cta-glass service-btn w-full text-center block no-underline scroll-btn py-4 px-8 font-bold text-lg rounded-xl mb-3" data-package="professional">
+                    التفاصيل ▽
+                </a>
+                <a href="#" class="cta-glass service-btn w-full text-center block no-underline py-4 px-8 font-bold text-lg rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    اشترك الآن
+                </a>
+        </div>
+            <div class="package-card">
+                <div class="badge">النخبة</div>
+                <h3 class="font-montserrat text-xl font-black mb-2">باقة النخبة </h3>
+                <div class="mb-4 relative">
+                    <p class="text-gray-400 text-sm mb-4">عرض حصري </p>
+                    <div class="mx-auto max-w-xs">
+                        <span class="block bg-gradient-to-r from-[#f68720]/95 to-orange-400 px-6 py-2 rounded-full text-black font-bold text-base shadow-2xl glow-edges text-center relative z-10" style="animation: pulse 2s infinite;">
+                            🔥 كان $1500 الآن فقط $1200! 🔥
+                        </span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">تهدف هذه الباقة لنقل علامتك التجارية الى مستوى النخبة مناسبة جداً للمشاريع التي ترغب بالحصول على اقصى استفادة من الانترنت</p>
+                <div class="text-[#f68720] font-black text-2xl mb-6">$1200 / لمدة 4 أشهر</div>
+                
+                <a id="scroll-to-elite" href="#package-details" class="cta-glass service-btn w-full text-center block no-underline scroll-btn py-4 px-8 font-bold text-lg rounded-xl mb-3" data-package="elite">
+                    التفاصيل ▽
+                </a>
+                <a href="#" class="cta-glass service-btn w-full text-center block no-underline py-4 px-8 font-bold text-lg rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    اشترك الآن
+                </a>
+        </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- │         📋 جدول تفاصيل الباقة (Package Details)                │ -->
+        <!-- │     عرض تفاعلي لمحتوى كل باقة عند اختيارها                    │ -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="package-details" class="py-16 md:py-24 mt-20">
+            <div class="glass-hero max-w-7xl mx-auto glass-card p-8 md:p-12 rounded-3xl my-8">
+                <h2 id="package-title" class="text-3xl md:text-4xl font-montserrat font-black mb-12 text-center" style="color: #f68720;">
+                    اختر باقة لعرض التفاصيل
+                </h2>
+                
+                <div id="details-note" class="text-center mb-8">
+                    <div class="inline-block bg-gradient-to-r from-[rgba(246,135,32,0.2)] to-[rgba(255,158,71,0.1)] border border-[rgba(246,135,32,0.4)] rounded-xl px-8 py-4 shadow-lg">
+                        <p class="text-[#f68720] font-bold text-xl mb-2">!ملاحظة هامة</p>
+                        <p class="text-gray-200 text-base">اضغط على زر التفاصيل أعلاه حتى تظهر التفاصيل</p>
+                    </div>
+                </div>
+                
+                <div id="package-content" class="hidden">
+                    <!-- المحتوى سيتم تحديثه ديناميكياً -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- │         📚 قسم الرؤى والموارد (Social Media Insights)          │ -->
+        <!-- │      مقالات، نصائح، وتقارير لتأكيد السلطة في المجال            │ -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <section id="insights" class="py-16 md:py-24 border-t border-gray-900">
+            <div class="max-w-7xl mx-auto px-4 md:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-[#f68720] text-sm font-bold tracking-[0.3em] uppercase mb-4 block">معرفة احترافية</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+                        Explore Our <span class="text-[#f68720]">Social Media</span> Insights
+                    </h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto">نصائح، خدع، وتحليلات شهرية لتبقى متقدماً على منافسيك</p>
+                </div>
+
+                <!-- Articles Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <!-- Article 1: Tips -->
+                    <div class="glass-card p-6 rounded-2xl border border-[#f68720]/10 hover:border-[#f68720]/30 transition-all duration-300 group">
+                        <div class="w-12 h-12 rounded-xl bg-[#f68720]/10 flex items-center justify-center mb-4 group-hover:bg-[#f68720]/20 transition-colors">
+                            <svg class="w-6 h-6 text-[#f68720]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">نصيحة سريعة</span>
+                        <h3 class="text-lg font-bold text-white mt-2 mb-3">5 خدع لزيادة التفاعل في الريلز</h3>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">اكتشف كيف تجعل فيديوهاتك تنتشر بشكل أكبر باستخدام هذه الحيل البسيطة...</p>
+                        <a href="#" class="text-[#f68720] text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                            اقرأ المزيد →
+                        </a>
+                    </div>
+
+                    <!-- Article 2: Report -->
+                    <div class="glass-card p-6 rounded-2xl border border-[#f68720]/10 hover:border-[#f68720]/30 transition-all duration-300 group">
+                        <div class="w-12 h-12 rounded-xl bg-[#f68720]/10 flex items-center justify-center mb-4 group-hover:bg-[#f68720]/20 transition-colors">
+                            <svg class="w-6 h-6 text-[#f68720]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">تقرير شهري</span>
+                        <h3 class="text-lg font-bold text-white mt-2 mb-3">تحليل ترندات 2025</h3>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">أحدث الاتجاهات في عالم السوشال ميديا وكيف تستفيد منها لعلامتك...</p>
+                        <a href="#" class="text-[#f68720] text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                            تحميل التقرير →
+                        </a>
+                    </div>
+
+                    <!-- Article 3: Hack -->
+                    <div class="glass-card p-6 rounded-2xl border border-[#f68720]/10 hover:border-[#f68720]/30 transition-all duration-300 group">
+                        <div class="w-12 h-12 rounded-xl bg-[#f68720]/10 flex items-center justify-center mb-4 group-hover:bg-[#f68720]/20 transition-colors">
+                            <svg class="w-6 h-6 text-[#f68720]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                            </svg>
+                        </div>
+                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">Social Media Hack</span>
+                        <h3 class="text-lg font-bold text-white mt-2 mb-3">الوقت المثالي للنشر</h3>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">احصائيات دقيقة عن أفضل أوقات النشر على كل منصة لتحقيق أقصى وصول...</p>
+                        <a href="#" class="text-[#f68720] text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                            اكتشف الآن →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="glass-card p-8 rounded-2xl border border-[#f68720]/20 bg-gradient-to-r from-[#151515] to-[#0a0a0a]">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h3 class="text-xl font-black text-white mb-2">اشترك في نشرتنا البريدية</h3>
+                            <p class="text-gray-400 text-sm">احصل على نصائح أسبوعية وتقارير شهرية مجاناً</p>
+                        </div>
+                        <div class="flex gap-3 w-full md:w-auto">
+                            <input type="email" placeholder="بريدك الإلكتروني" class="flex-1 md:w-64 px-4 py-3 rounded-xl bg-black/50 border border-gray-700 text-white text-sm focus:border-[#f68720] focus:outline-none transition-colors">
+                            <button class="px-6 py-3 bg-[#f68720] text-black font-bold rounded-xl hover:bg-[#ff9e47] transition-all whitespace-nowrap">
+                                اشتراك
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- │           📊 قسم المقارنة التفاعلي (Draggable Marquee)         │ -->
+    <!-- │      جدول مقارنة الباقات القابل للسحب بالماوس أفقياً           │ -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="py-12 overflow-hidden" style="background: linear-gradient(180deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%);">
+        <div class="max-w-7xl mx-auto px-4 md:px-0 mb-6">
+            <h3 class="text-center text-2xl font-bold text-[#f68720] mb-2">📊 مقارنة الباقات</h3>
+            <p class="text-center text-gray-400 text-sm mb-4">اسحب بالماوس يميناً أو يساراً لمشاهدة جميع التفاصيل</p>
+        </div>
+        
+        <div class="draggable-container" id="comparisonMarquee">
+            <div class="draggable-content">
+                <!-- بطاقة المقارنة 1 -->
+                <div class="comparison-card">
+                    <div class="card-header">
+                        <span class="text-[#f68720] text-2xl">🚀</span>
+                        <h4 class="text-white font-bold">الانطلاقة</h4>
+                    </div>
+                    <ul class="card-features">
+                        <li><span class="check">✓</span> 16 ريل/بوست شهرياً</li>
+                        <li><span class="check">✓</span> 4 قصص يومياً</li>
+                        <li><span class="check">✓</span> تحليل حساب مجاني</li>
+                        <li><span class="check">✓</span> 2 شهر</li>
+                        <li class="price">$550</li>
+                    </ul>
+                </div>
+
+                <!-- بطاقة المقارنة 2 -->
+                <div class="comparison-card">
+                    <div class="card-header">
+                        <span class="text-[#f68720] text-2xl">⭐</span>
+                        <h4 class="text-white font-bold">المحترف</h4>
+                    </div>
+                    <ul class="card-features">
+                        <li><span class="check">✓</span> 20 ريل/بوست شهرياً</li>
+                        <li><span class="check">✓</span> 6 قصص يومياً</li>
+                        <li><span class="check">✓</span> إعلانات ممولة</li>
+                        <li><span class="check">✓</span> 3 أشهر</li>
+                        <li class="price">$750</li>
+                    </ul>
+                </div>
+
+                <!-- بطاقة المقارنة 3 -->
+                <div class="comparison-card">
+                    <div class="card-header">
+                        <span class="text-[#f68720] text-2xl">👑</span>
+                        <h4 class="text-white font-bold">النخبة</h4>
+                    </div>
+                    <ul class="card-features">
+                        <li><span class="check">✓</span> 30 ريل/بوست شهرياً</li>
+                        <li><span class="check">✓</span> 8 قصص يومياً</li>
+                        <li><span class="check">✓</span> مدير حساب مخصص</li>
+                        <li><span class="check">✓</span> 4 أشهر</li>
+                        <li class="price">$1200</li>
+                    </ul>
+                </div>
+
+                <!-- بطاقة إضافية -->
+                <div class="comparison-card featured">
+                    <div class="card-header">
+                        <span class="text-[#f68720] text-2xl">💎</span>
+                        <h4 class="text-white font-bold">VIP</h4>
+                    </div>
+                    <ul class="card-features">
+                        <li><span class="check">✓</span> محتوى غير محدود</li>
+                        <li><span class="check">✓</span> فريق متكامل</li>
+                        <li><span class="check">✓</span> استشارات استراتيجية</li>
+                        <li><span class="check">✓</span> دعم 24/7</li>
+                        <li class="price">تواصل معنا</li>
+                    </ul>
+                </div>
+
+               
+
+        <!-- مؤشر السحب -->
+        <div class="drag-indicator">
+            <div class="drag-hint">
+                <span class="drag-icon">👆</span>
+                <span class="drag-text">اسحب للتنقل</span>
+                <span class="drag-icon">👆</span>
+            </div>
+        </div>
+    </section>
+
+    </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- │                 📋 قسم الفوتر (Footer Section)                  │ -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <footer class="footer-animate" style="background: #111; border: 1px solid rgba(246, 135, 32, 0.3); color:#ffffff; padding:4rem 0 3rem 0; margin-top:4rem; border-radius: 2rem 2rem 0 0; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(246,135,32,0.15);">
+        <div class="max-w-7xl mx-auto px-4 md:px-0">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Company Info -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <img src="3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4">
+                    <p class="text-sm mb-6 leading-relaxed">
+                        شركة "سمعة" للتصميم و التسويق الالكتروني  تابعنا على كل المنصات
+                    </p>
+                    <div class="flex justify-center md:justify-start gap-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">f</span>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">IG</span>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">TW</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Quick Links</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="index.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Home</a></li>
+                        <li><a href="packages.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Packages</a></li>
+                        <li><a href="results.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Results</a></li>
+                        <li><a href="questionnaire.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Get Started</a></li>
+                        <li><a href="terms.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Terms</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Services</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Social Media Management</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Content Creation</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Brand Design</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div class="footer-section text-center p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Contact Us</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium">+962 7XXXXXXX</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium">info@smh.com</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Amman, Jordan</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-6 mt-12">
+                <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+                    <div class="flex items-center justify-center gap-2">
+                        <img src="3.png" alt="Logo" class="w-12 h-12 object-contain">
+                        <span class="font-montserrat tracking-tighter">&copy; 2026. All Rights Reserved.</span>
+                    </div>
+                    <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Privacy Policy</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Terms of Service</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* ===== قسم المقارنة القابل للسحب ===== */
+        .draggable-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            scrollbar-width: thin;
+            scrollbar-color: #f68720 #222;
+            padding: 20px 0;
+        }
+        
+        .draggable-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .draggable-container::-webkit-scrollbar-track {
+            background: #222;
+            border-radius: 4px;
+        }
+        
+        .draggable-container::-webkit-scrollbar-thumb {
+            background: #f68720;
+            border-radius: 4px;
+        }
+        
+        .draggable-container::-webkit-scrollbar-thumb:hover {
+            background: #ff9a44;
+        }
+        
+        .draggable-container:active {
+            cursor: grabbing;
+        }
+        
+        .draggable-content {
+            display: flex;
+            gap: 24px;
+            padding: 10px 40px;
+            width: max-content;
+        }
+        
+        .comparison-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #121212 100%);
+            border: 1px solid rgba(246, 135, 32, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            min-width: 260px;
+            max-width: 280px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f68720, #ff9a44);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .comparison-card:hover {
+            transform: translateY(-8px);
+            border-color: #f68720;
+            box-shadow: 0 20px 40px rgba(246, 135, 32, 0.2);
+        }
+        
+        .comparison-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .comparison-card.featured {
+            border: 2px solid #f68720;
+            background: linear-gradient(145deg, #1a1a1a 0%, #1f1508 100%);
+        }
+        
+        .comparison-card.featured::after {
+            content: 'VIP';
+            position: absolute;
+            top: 12px;
+            right: -30px;
+            background: #f68720;
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 30px;
+            transform: rotate(45deg);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(246, 135, 32, 0.2);
+        }
+        
+        .card-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .card-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            color: #ccc;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .card-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .card-features li.price {
+            display: block;
+            text-align: center;
+            color: #f68720;
+            font-size: 24px;
+            font-weight: 900;
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(30, 15, 0, 0.8);
+            border-radius: 12px;
+        }
+        
+        .check {
+            color: #f68720;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .drag-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        
+        .drag-hint {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(246, 135, 32, 0.1);
+            border: 1px solid rgba(246, 135, 32, 0.3);
+            border-radius: 30px;
+            padding: 10px 24px;
+            animation: bounce-hint 2s infinite;
+        }
+        
+        .drag-icon {
+            font-size: 18px;
+            animation: swipe-hint 1.5s infinite;
+        }
+        
+        .drag-icon:first-child {
+            animation-delay: 0s;
+        }
+        
+        .drag-icon:last-child {
+            animation-delay: 0.75s;
+        }
+        
+        .drag-text {
+            color: #f68720;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        @keyframes bounce-hint {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes swipe-hint {
+            0%, 100% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(8px); opacity: 0.5; }
+        }
+        
+        /* تعطيل السحب على الصور والروابط داخل البطاقات */
+        .comparison-card img,
+        .comparison-card a {
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-card {
+                min-width: 240px;
+                max-width: 260px;
+                padding: 20px;
+            }
+            
+            .draggable-content {
+                padding: 10px 20px;
+                gap: 16px;
+            }
+        }
+    </style>
+
+    <script>
+        (function() {
+            const container = document.getElementById('comparisonMarquee');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            // بدء السحب
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                container.classList.add('active');
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+                container.style.cursor = 'grabbing';
+            });
+            
+            // إنهاء السحب
+            container.addEventListener('mouseleave', () => {
+                isDown = false;
+                container.classList.remove('active');
+                container.style.cursor = 'grab';
+            });
+            
+            container.addEventListener('mouseup', () => {
+                isDown = false;
+                container.classList.remove('active');
+                container.style.cursor = 'grab';
+            });
+            
+            // حركة السحب
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2; // سرعة السحب
+                container.scrollLeft = scrollLeft - walk;
+            });
+            
+            // دعم اللمس للهواتف
+            let touchStartX;
+            let touchScrollLeft;
+            
+            container.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].pageX - container.offsetLeft;
+                touchScrollLeft = container.scrollLeft;
+            }, { passive: true });
+            
+            container.addEventListener('touchmove', (e) => {
+                const x = e.touches[0].pageX - container.offsetLeft;
+                const walk = (x - touchStartX) * 2;
+                container.scrollLeft = touchScrollLeft - walk;
+            }, { passive: true });
+            
+            // دعم عجلة الفأرة للتمرير الأفقي
+            container.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    container.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+        })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- │                 📋 قسم الفوتر (Footer Section)                  │ -->
+    <!-- │         معلومات الشركة، روابط سريعة، ووسائل التواصل            │ -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <footer class="glass-card" style="background: #111; border: 1px solid rgba(246, 135, 32, 0.3); color:#aaa; padding:4rem 0 3rem 0; margin-top:4rem; border-radius: 2rem 2rem 0 0; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(246,135,32,0.15);">
+        <div class="max-w-7xl mx-auto px-4 md:px-0">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Company Info -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <img src="3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4">
+                    <p class="text-sm mb-6 leading-relaxed">
+                         شركة "سمعة" للتصميم و التسويق الالكتروني  تابعنا على كل المنصات
+                    </p>
+                    <div class="flex justify-center md:justify-start gap-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">f</span>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">IG</span>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">TW</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Quick Links</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="index.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Home</a></li>
+                        <li><a href="packages.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Packages</a></li>
+                        <li><a href="terms.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Terms & Policies</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Services</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Social Media Management</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Content Creation</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Brand Design</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div class="footer-section text-center p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Contact Us</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium">+962 7XXXXXXX</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium">info@smh.com</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Amman, Jordan</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-6 mt-12">
+                <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+                    <div class="flex items-center justify-center gap-2">
+                        <img src="3.png" alt="Logo" class="w-12 h-12 object-contain">
+                        <span class="font-montserrat tracking-tighter">&copy; 2026. All Rights Reserved.</span>
+                    </div>
+                    <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Privacy Policy</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Terms of Service</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- │              ⚙️ سكريبتات JavaScript                             │ -->
+    <!-- │     تفاعلات الباقات والرسوم المتحركة وقائمة الموبايل           │ -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        // Observer للـ Glow Edges - تشغيل الأنميشن فقط عند الـ Visibility
+        document.addEventListener('DOMContentLoaded', () => {
+            const glowEdgesElements = document.querySelectorAll('.glow-edges .glow-effect');
+            const glowEdgesObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // العنصر ظاهر - تشغيل الأنميشن
+                        entry.target.classList.remove('glow-paused');
+                    } else {
+                        // العنصر غير ظاهر - إيقاف الأنميشن لتوفير CPU
+                        entry.target.classList.add('glow-paused');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            glowEdgesElements.forEach(element => {
+                // إضافة glow-paused في البداية لأن العناصر قد تكون غير ظاهرة في البداية
+                element.classList.add('glow-paused');
+                glowEdgesObserver.observe(element);
+            });
+
+            // Carousel initialization function
+            function initCarousel() {
+                const carouselImg = document.getElementById('postsCarouselImg');
+                if (carouselImg && !carouselImg.dataset.initialized) {
+                    const images = ['./صور/01.png', './صور/02.png', './صور/03.png', './صور/04.png', './صور/05.png'];
+                    const dots = carouselImg.parentElement.querySelectorAll('.carousel-dot');
+                    let currentSlide = 0;
+                    const slideInterval = 3000;
+
+                    function showSlide(index) {
+                        carouselImg.style.opacity = '0';
+                        setTimeout(() => {
+                            carouselImg.src = images[index];
+                            carouselImg.style.opacity = '1';
+                        }, 300);
+                        dots.forEach((dot, i) => {
+                            dot.style.background = i === index ? '#f68720' : 'rgba(255,255,255,0.5)';
+                            dot.classList.toggle('active', i === index);
+                        });
+                    }
+
+                    function nextSlide() {
+                        currentSlide = (currentSlide + 1) % images.length;
+                        showSlide(currentSlide);
+                    }
+
+                    // Auto-play
+                    let carouselInterval = setInterval(nextSlide, slideInterval);
+
+                    // Click on dots
+                    dots.forEach((dot, index) => {
+                        dot.addEventListener('click', () => {
+                            currentSlide = index;
+                            showSlide(currentSlide);
+                            clearInterval(carouselInterval);
+                            carouselInterval = setInterval(nextSlide, slideInterval);
+                        });
+                    });
+
+                    carouselImg.dataset.initialized = 'true';
+                }
+            }
+
+            // Stories viewer initialization function
+            function initStories() {
+                const storiesImg = document.getElementById('storiesImg');
+                const storiesViewer = document.getElementById('storiesViewer');
+                if (storiesImg && storiesViewer && !storiesViewer.dataset.initialized) {
+                    const images = ['./صور/ستوري01 (1).png', './صور/ستوري01 (2).png', './صور/ستوري01 (3).png'];
+                    const progressBars = storiesViewer.querySelectorAll('.story-progress-fill');
+                    let currentStory = 0;
+                    const storyDuration = 3000;
+                    let progressInterval = null;
+                    let progressValue = 0;
+
+                    function updateProgress() {
+                        progressBars.forEach((bar, i) => {
+                            if (i < currentStory) {
+                                bar.style.width = '100%';
+                            } else if (i === currentStory) {
+                                bar.style.width = progressValue + '%';
+                            } else {
+                                bar.style.width = '0%';
+                            }
+                        });
+                    }
+
+                    function animateStoryIn(index, direction) {
+                        storiesImg.src = images[index];
+                        storiesImg.style.transition = 'none';
+                        if (direction === 'next') {
+                            storiesImg.style.transform = 'translateY(20px)';
+                        } else {
+                            storiesImg.style.transform = 'translateY(-20px)';
+                        }
+                        setTimeout(() => {
+                            storiesImg.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+                            storiesImg.style.transform = 'translateY(0)';
+                            storiesImg.style.opacity = '1';
+                        }, 16);
+                    }
+
+                    function showStory(index, direction = 'next') {
+                        storiesImg.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+                        if (direction === 'next') {
+                            storiesImg.style.transform = 'translateY(-20px)';
+                        } else {
+                            storiesImg.style.transform = 'translateY(20px)';
+                        }
+                        storiesImg.style.opacity = '0';
+                        setTimeout(() => animateStoryIn(index, direction), 300);
+
+                        currentStory = index;
+                        progressValue = 0;
+                        updateProgress();
+                        startProgress();
+                    }
+
+                    function autoAdvanceStory() {
+                        const nextIdx = currentStory < images.length - 1 ? currentStory + 1 : 0;
+                        showStory(nextIdx, 'next');
+                    }
+
+                    function startProgress() {
+                        clearInterval(progressInterval);
+                        progressValue = 0;
+                        const step = 100 / (storyDuration / 50);
+                        progressInterval = setInterval(() => {
+                            progressValue += step;
+                            if (progressValue < 100) {
+                                updateProgress();
+                                return;
+                            }
+                            progressValue = 100;
+                            updateProgress();
+                            clearInterval(progressInterval);
+                            setTimeout(autoAdvanceStory, 100);
+                        }, 50);
+                    }
+
+                    // Navigation clicks
+                    const storyPrev = document.getElementById('storyPrev');
+                    const storyNext = document.getElementById('storyNext');
+
+                    if (storyPrev) {
+                        storyPrev.addEventListener('click', () => {
+                            if (currentStory > 0) {
+                                showStory(currentStory - 1, 'prev');
+                            }
+                        });
+                    }
+                    if (storyNext) {
+                        storyNext.addEventListener('click', () => {
+                            if (currentStory < images.length - 1) {
+                                showStory(currentStory + 1, 'next');
+                            } else {
+                                showStory(0, 'next');
+                            }
+                        });
+                    }
+
+                    // Start first story
+                    updateProgress();
+                    startProgress();
+
+                    storiesImg.dataset.initialized = 'true';
+                }
+            }
+
+            // Post image modal functionality
+            const modal = document.createElement('div');
+            modal.id = 'imageModal';
+            modal.style.cssText = `
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.95);
+                cursor: zoom-out;
+            `;
+            modal.innerHTML = `
+                <img id="modalImage" style="max-width: 90%; max-height: 90%; margin: auto; display: block; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
+                <span id="closeModal" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001;">×</span>
+            `;
+            document.body.appendChild(modal);
+
+            const modalImg = document.getElementById('modalImage');
+            const closeBtn = document.getElementById('closeModal');
+
+            document.querySelectorAll('.post-thumb img').forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.addEventListener('click', (e) => {
+                    modal.style.display = 'block';
+                    modalImg.src = img.src;
+                });
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            globalThis.addEventListener('click', (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+
+            // Package data
+            const packageData = {
+                launch: {
+                    title: 'تفاصيل باقة <span style="color: white;">الانطلاقة الاستراتيجية</span>',
+                    content: `
+                        <!-- بند 1: Facebook -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. إنشاء وإدارة صفحات السوشال ميديا</h3>
+                                                 <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]"> (Instagram + Facebook)</h3>
+
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">يشمل إعداداً احترافياً كاملاً للحسابات:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• تصميم الهوية البصرية الموحدة (صورة الغلاف – البايو – القصص البارزة)</li>
+                                    <li>• إعداد هيكلية الصفحات وفق هوية بصرية كاملة مع ادراج معلومات الصفحة</li>
+                                    <li>• ربط الصفحات معاً وإنشاء وادارة صفحة Meta Business</li>
+                                    <li>• استلام خدمة العملاء داخل الصفحات والرد على الرسائل</li>
+                                </ul>
+                            </div>
+                            <div class="video-art" style="height: 300px;">
+                                <img src="Gemini_Generated_Image_20cdk320cdk320cd.png" alt="Social Media Pages" class="w-full h-full object-cover rounded-xl">
+                            </div>
+                        </div>
+
+                        <!-- بند 2: Reels -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. إنشاء 16 ريل احترافي</h3>
+                                                                                 <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]"> (Instagram + Facebook)</h3>
+
+                                <p class="text-gray-300 text-lg mb-6">مقسمة إلى 3 أنواع:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• فيديوهات بالذكاء الاصطناعي مع تعليق صوتي</li>
+                                    <li>• فيديوهات تصوير احترافي للمنتجات</li>
+                                    <li>• فيديوهات تصوير شخصية (Personal Branding)</li>
+                                                                        <li>• تضمن تفاعل وجلب عملاء محتملين</li>
+
+                                </ul>
+                            </div>
+                            <div class="video-art" style="height: 300px;">
+                                <iframe src="https://www.youtube.com/embed/vMj1biJ-JKM" style="border: 0;" allowfullscreen loading="lazy" class="w-full h-full rounded-xl"></iframe>
+                            </div>
+                        </div>
+
+                        <!-- بند 3: Posts -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                            <div dir="rtl" class="flex flex-col justify-center">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. تصميم 24 منشور ثابت</h3>
+                                <p class="text-gray-300 text-lg mb-6">يشمل:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• منشورات فردية</li>
+                                    <li>• منشورات متعددة (Carousel)</li>
+                                </ul>
+                            </div>
+                            <div class="video-art rounded-xl overflow-hidden mx-auto" style="position: relative; aspect-ratio: 1/1; max-height: 480px; width: 100%; max-width: 480px;">
+                                <img id="postsCarouselImg" src="./صور/01.png" alt="Carousel Post" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.5s ease;">
+                                <div style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10;">
+                                    <div class="carousel-dot active" data-slide="0" style="width: 8px; height: 8px; border-radius: 50%; background: #f68720; cursor: pointer; transition: all 0.3s;"></div>
+                                    <div class="carousel-dot" data-slide="1" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s;"></div>
+                                    <div class="carousel-dot" data-slide="2" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s;"></div>
+                                    <div class="carousel-dot" data-slide="3" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s;"></div>
+                                    <div class="carousel-dot" data-slide="4" style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- بند 4: Stories -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                            <div dir="rtl" class="flex flex-col justify-center">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">4. إنشاء 15 قصة تفاعلية (Stories)</h3>
+                                <p class="text-gray-300 text-lg mb-6">مصممة لرفع التفاعل وتعزيز وصول الحساب.</p>
+                            </div>
+                            <div class="flex justify-center">
+                                <div id="storiesViewer" style="width: 240px; aspect-ratio: 9/16; background: #111; border-radius: 24px; border: 3px solid #333; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(246,135,32,0.2);">
+                                    <!-- Progress bars -->
+                                    <div style="position: absolute; top: 8px; left: 8px; right: 8px; display: flex; gap: 3px; z-index: 20;">
+                                        <div class="story-progress" style="flex: 1; height: 2px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden;">
+                                            <div class="story-progress-fill" style="width: 0%; height: 100%; background: white; border-radius: 2px; transition: width 0.1s linear;"></div>
+                                        </div>
+                                        <div class="story-progress" style="flex: 1; height: 2px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden;">
+                                            <div class="story-progress-fill" style="width: 0%; height: 100%; background: white; border-radius: 2px; transition: width 0.1s linear;"></div>
+                                        </div>
+                                        <div class="story-progress" style="flex: 1; height: 2px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden;">
+                                            <div class="story-progress-fill" style="width: 0%; height: 100%; background: white; border-radius: 2px; transition: width 0.1s linear;"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Story image -->
+                                    <img id="storiesImg" src="./صور/ستوري01 (1).png" alt="Story" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;">
+                                    <!-- Navigation arrows -->
+                                    <div style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; cursor: pointer; z-index: 15;" id="storyPrev"></div>
+                                    <div style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; cursor: pointer; z-index: 15;" id="storyNext"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- بند 5: تصوير منتجات -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">5. تصوير منتجات احترافي</h3>
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">يشمل:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• إعداد إضاءة احترافية</li>
+                                    <li>• خلفيات متعددة للمنتجات</li>
+                                    <li>• خلق بيئة مناسبة للمنتج لإظهار قيمته</li>
+                                </ul>
+                            </div>
+                            <div class="video-art" style="height: 300px;">
+                               <img src="صور/منتجات04.jpg" alt="Product Photography" class="w-full h-full object-cover rounded-xl">
+                            </div>
+                        </div>
+
+                        <!-- نوع الخطة -->
+                        <div class="text-center py-16 mt-20 border-t border-gray-700">
+                            <h2 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]"> خطة طويلة الأمد</h2>
+                            
+                            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 text-gray-300 text-lg">
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1️⃣ تراكمية القيمة: النشر الكثيف للفيديوهات والبوستات يضاعف الظهور ويزيد الثقة من خلال بناء علاقة بين المحتوى والخوارزميات، مما يرفع معدل الوصول</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2️⃣    تعزيز وصول الصفحات الطبيعي</div>
+                            </div>
+                        </div>
+                    `
+                },
+                professional: {
+                    title: 'تفاصيل باقة <span style="color: white;">المحترف</span>',
+                    content: `
+                        <!-- بند 1: ريلز احترافية -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. 32 ريل احترافي</h3>
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">محتوى فيديو احترافي عالي الجودة:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• ريلز بتقنية 4K</li>
+                                    <li>• مؤثرات احترافية</li>
+                                    <li>• موسيقى تصويرية</li>
+                                    <li>• نصوص احترافية</li>
+                                    <li>• تحسين للأداء</li>
+                                </ul>
+                            </div>
+                            <div class="video-art" style="height: 300px;">
+                                <img src="./صور/01.png" alt="Professional Reels" class="w-full h-full object-cover rounded-xl">
+                            </div>
+                        </div>
+
+                        <!-- بند 2: بوستات مدروسة -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. 48 بوست مدروس</h3>
+                                <p class="text-gray-300 text-lg mb-6">محتوى استراتيجي متنوع:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• 16 بوست تعليمي</li>
+                                    <li>• 16 بوست تسويقي</li>
+                                    <li>• 16 بوست تفاعلي</li>
+                                </ul>
+                            </div>
+                            <div class="video-art" style="height: 300px;">
+                                <iframe src="https://www.youtube.com/embed/vMj1biJ-JKM" style="border: 0;" allowfullscreen loading="lazy" class="w-full h-full rounded-xl"></iframe>
+                            </div>
+                        </div>
+
+                        <!-- بند 3: حملات إعلانية -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. إدارة حملات إعلانية</h3>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• استهداف دقيق للجمهور</li>
+                                    <li>• تحسين ROI</li>
+                                    <li>• تقارير أداء يومية</li>
+                                    <li>• A/B testing</li>
+                                </ul>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 h-72">
+                                <div class="video-art rounded-xl overflow-hidden">
+                                    <img src="./صور/01.png" alt="Campaign Ads" class="w-full h-full object-cover">
+                                </div>
+                                <div class="video-art rounded-xl overflow-hidden">
+                                    <img src="./20548064_6317758_01.jpg" alt="Analytics" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- لماذا باقة المحترف -->
+                        <div class="text-center py-16 mt-20 border-t border-gray-700">
+                            <h3 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]">لماذا باقة المحترف؟</h3>
+                            <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-gray-300 text-lg">
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1️⃣ نمو متسارع</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2️⃣ استهداف احترافي</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">3️⃣ نتائج مضمونة</div>
+                            </div>
+                        </div>
+                    `
+                },
+                elite: {
+                    title: 'تفاصيل باقة <span style="color: white;">النخبة</span>',
+                    content: `
+                        <!-- بند 1: ريلز 4K -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. ريلز بجودة 4K متميزة</h3>
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">محتوى سينمائي فاخر:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• كاميرات احترافية</li>
+                                    <li>• إخراج سينمائي</li>
+                                    <li>• تصحيح ألوان احترافي</li>
+                                    <li>• مؤثرات بصرية</li>
+                                    <li>• جودة استوديو</li>
+                                </ul>
+                            </div>
+                            <div class="video-art" style="height: 300px;">
+                                <img src="./صور/01.png" alt="4K Reels" class="w-full h-full object-cover rounded-xl">
+                            </div>
+                        </div>
+
+                        <!-- بند 2: إدارة مجتمع -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. إدارة مجتمع كاملة مخصصة</h3>
+                                <p class="text-gray-300 text-lg mb-6">بناء مجتمع قوي:</p>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• ردود فورية 24/7</li>
+                                    <li>• إدارة تعليقات</li>
+                                    <li>• تفاعلات استباقية</li>
+                                    <li>• بناء ولاء</li>
+                                </ul>
+                            </div>
+                            <div class="video-art" style="height: 300px;">
+                                <iframe src="https://www.youtube.com/embed/vMj1biJ-JKM" style="border: 0;" allowfullscreen loading="lazy" class="w-full h-full rounded-xl"></iframe>
+                            </div>
+                        </div>
+
+                        <!-- بند 3: مدير حساب مخصص -->
+                        <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+                            <div dir="rtl">
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. مدير حساب مخصص</h3>
+                                <ul class="text-gray-300 space-y-3 text-lg">
+                                    <li>• اتصال مباشر</li>
+                                    <li>• استشارات شخصية</li>
+                                    <li>• خطط مخصصة</li>
+                                    <li>• تقارير مخصصة</li>
+                                </ul>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 h-72">
+                                <div class="video-art rounded-xl overflow-hidden">
+                                    <img src="./صور/01.png" alt="Account Manager" class="w-full h-full object-cover">
+                                </div>
+                                <div class="video-art rounded-xl overflow-hidden">
+                                    <img src="./20548064_6317758_01.jpg" alt="VIP Support" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- لماذا باقة النخبة -->
+                        <div class="text-center py-16 mt-20 border-t border-gray-700">
+                            <h3 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]">لماذا باقة النخبة؟</h3>
+                            <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-gray-300 text-lg">
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1️⃣ حل شامل</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2️⃣ دعم VIP</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">3️⃣ نتائج استثنائية</div>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+
+            // Unified package details functionality
+            const packageButtons = document.querySelectorAll('[data-package]');
+            const packageTitle = document.getElementById('package-title');
+            const packageContent = document.getElementById('package-content');
+            const detailsNote = document.getElementById('details-note');
+
+            function triggerDetailAnimations() {
+                const items = packageContent.querySelectorAll('.detail-item');
+                items.forEach((item, index) => {
+                    setTimeout(() => item.classList.add('visible'), index * 150);
+                });
+            }
+
+            packageButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    const packageName = button.dataset.package;
+                    const selectedPackage = packageData[packageName];
+                    
+                    if (!selectedPackage) return;
+
+                    packageTitle.innerHTML = selectedPackage.title;
+                    packageContent.innerHTML = selectedPackage.content;
+                    packageContent.classList.remove('hidden');
+
+                    setTimeout(initCarousel, 100);
+                    setTimeout(initStories, 100);
+
+                    detailsNote.style.display = 'none';
+                    
+                    button.classList.add('btn-animate-click');
+                    setTimeout(() => button.classList.remove('btn-animate-click'), 600);
+                    
+                    document.getElementById('package-details').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    setTimeout(triggerDetailAnimations, 300);
+                });
+            });
+
+            // 3D Tilt Effect for Glass Cards
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    card.style.setProperty('--tilt-x', `${rotateX}deg`);
+                    card.style.setProperty('--tilt-y', `${rotateY}deg`);
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.setProperty('--tilt-x', '0deg');
+                    card.style.setProperty('--tilt-y', '0deg');
+                });
+            });
+
+            // Simple IntersectionObserver for basic stagger - reliable
+            const detailObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.detail-item').forEach(item => detailObserver.observe(item));
+
+            // No animation needed for summary tiles
+
+            // Observe package-content for carousel and stories changes
+            const packageContentDiv = document.getElementById('package-content');
+            if (packageContentDiv) {
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.addedNodes) {
+                            mutation.addedNodes.forEach((node) => {
+                                if (node.nodeType === 1) {
+                                    const carouselImg = node.querySelector?.('#postsCarouselImg') || (node.id === 'postsCarouselImg' ? node : null);
+                                    if (carouselImg) {
+                                        setTimeout(initCarousel, 100);
+                                    }
+                                    const storiesViewer = node.querySelector?.('#storiesViewer') || (node.id === 'storiesViewer' ? node : null);
+                                    if (storiesViewer) {
+                                        setTimeout(initStories, 100);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+                observer.observe(packageContentDiv, { childList: true, subtree: true });
+            }
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuLine1 = document.getElementById('menu-line-1');
+            const menuLine2 = document.getElementById('menu-line-2');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                if (mobileMenu.classList.contains('hidden')) {
+                    menuLine1.style.transform = '';
+                    menuLine2.style.transform = '';
+                } else {
+                    menuLine1.style.transform = 'rotate(45deg) translateY(4px)';
+                    menuLine2.style.transform = 'rotate(-45deg) translateY(-4px)';
+                }
+            });
+
+            // Close menu when clicking a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuLine1.style.transform = '';
+                    menuLine2.style.transform = '';
+                });
+            });
+
+            // Cleanup
+            window.addEventListener('beforeunload', () => {
+                glowEdgesObserver.disconnect();
+                detailObserver.disconnect();
+            });
+        });
+    </script>
+</body>
+</html>

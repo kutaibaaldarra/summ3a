@@ -1,0 +1,7 @@
+[
+  { "label": "ابدأ الآن", "href": "questionnaire.html", "target": "_self", "color": "#f68720" },
+  { "label": "الباقات", "href": "packages.html", "target": "_self", "color": "#f97316" },
+  { "label": "النتائج", "href": "results.html", "target": "_self", "color": "#14b8a6" },
+  { "label": "استبيان", "href": "questionnaire.html#start", "target": "_self", "color": "#3b82f6" },
+  { "label": "الشروط", "href": "terms.html", "target": "_self", "color": "#a855f7" }
+]
