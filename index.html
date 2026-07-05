@@ -11,12 +11,12 @@
     <link rel="dns-prefetch" href="//img.youtube.com">
     <link rel="icon" type="image/png" href="3.png">
 <title>سمعة</title>
-    <script src="tailwind.js"></script>
+    <script src="tailwind.js" defer></script>
     <!-- vendor scripts loaded from repo root -->
-    <script src="gsap.min.js"></script>
-    <script src="ScrollTrigger.min.js"></script>
-    <script src="lucide.min.js"></script>
-    <script src="lenis.min.js"></script>
+    <script src="gsap.min.js" defer></script>
+    <script src="ScrollTrigger.min.js" defer></script>
+    <script src="lucide.min.js" defer></script>
+    <script src="lenis.min.js" defer></script>
     <link rel="stylesheet" href="my-styles.css">
 <style>
         /* ─── MAIN HEADER (dual-state) ─── */
@@ -290,8 +290,8 @@
             left: 50%;
             width: 280px;
             background: rgba(18,18,18,0.96);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 1rem;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
@@ -495,7 +495,7 @@
             <!-- │                  🎯 قسم البانر الرئيسي (Hero)                   │ -->
             <!-- │          الصورة الرئيسية مع النص والأزرار التفاعلية             │ -->
             <!-- ═══════════════════════════════════════════════════════════════ -->
-            <section class="hero-section relative flex flex-col items-center justify-center text-center px-6 bg-cover bg-center min-h-[85vh]" style="background-image: url('./Gemini_Generated_Image_20cdk320cdk320cd.png'); box-shadow: 0 40px 100px rgba(0, 0, 0, 1) inset, 0 60px 150px rgba(0, 0, 0, 1);">
+            <section class="hero-section relative flex flex-col items-center justify-center text-center px-6 bg-cover bg-center min-h-[85vh]" style="background-image: url('./Gemini_Generated_Image_20cdk320cdk320cd.png'); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9) inset, 0 60px 120px rgba(0, 0, 0, 0.9);">
                 <!-- SEO Hidden H1 -->
                 <h1 class="sr-only">سمعة_شريكيك الابداعية في ادارة السوشال ميديا و التصميم</h1>
 
@@ -597,7 +597,7 @@
                                 <svg viewBox="0 0 600 100" class="w-full max-w-xl h-24" preserveAspectRatio="xMidYMid meet">
                                     <defs>
                                         <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                                            <feGaussianBlur stdDeviation="4" result="blur"/>
+                                            <feGaussianBlur stdDeviation="2" result="blur"/>
                                             <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                                         </filter>
                                     </defs>
@@ -661,7 +661,7 @@
                                                 <stop offset="100%" stop-color="#9e7a2b"/>
                                             </linearGradient>
                                             <filter id="d1-glow-sm">
-                                                <feGaussianBlur stdDeviation="4" result="blur"/>
+                                                <feGaussianBlur stdDeviation="2" result="blur"/>
                                                 <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                                             </filter>
                                             <clipPath id="d1-clip-sm">
@@ -731,7 +731,7 @@
                                                 <stop offset="100%" stop-color="#9e7a2b"/>
                                             </linearGradient>
                                             <filter id="d2-glow-sm">
-                                                <feGaussianBlur stdDeviation="4" result="blur"/>
+                                                <feGaussianBlur stdDeviation="2" result="blur"/>
                                                 <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                                             </filter>
                                             <clipPath id="d2-clip-sm">
@@ -802,7 +802,7 @@
                                                 <stop offset="100%" stop-color="#9e7a2b"/>
                                             </linearGradient>
                                             <filter id="d3-glow-sm">
-                                                <feGaussianBlur stdDeviation="4" result="blur"/>
+                                                <feGaussianBlur stdDeviation="2" result="blur"/>
                                                 <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                                             </filter>
                                             <clipPath id="d3-clip-sm">

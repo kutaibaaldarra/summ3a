@@ -7,15 +7,13 @@
     0%, 100% {
         box-shadow:
             0 0 4px 0.5px #f68720,
-            0 0 10px 2px #f6872077,
-            0 0 15px 3px #f6872033;
+            0 0 10px 2px #f6872077;
         border-color: #f68720;
     }
     50% {
         box-shadow:
-            0 0 8px 1px #f68720,
-            0 0 20px 4px #f6872077,
-            0 0 30px 6px #f6872033;
+            0 0 6px 1px #f68720,
+            0 0 15px 3px #f6872077;
         border-color: #ff9e47;
     }
 }
@@ -283,11 +281,10 @@ footer {
     color: #f68720;
 }
 
-/* Scroll Animation للمستطيلات فقط */
+/* Scroll Animation — GSAP handles transform */
 .service-item.scroll-animate {
     opacity: 0;
     transform: translateY(48px) scale(0.95);
-    will-change: transform, opacity;
 }
 
 .service-item.scroll-animate.animate-in {
@@ -296,7 +293,6 @@ footer {
 
 .service-text-glow.scroll-animate {
     opacity: 0;
-    will-change: transform, opacity;
 }
 
 .service-text-glow.scroll-animate.animate-in {
@@ -327,7 +323,6 @@ footer {
 .service-item p.scroll-animate {
     opacity: 0;
     color: #555;
-    will-change: opacity;
 }
 
 .service-item p.scroll-animate.animate-in {
@@ -961,7 +956,7 @@ canvas {
         box-sizing: border-box !important;
         border-radius: 1.5rem;
         overflow: visible;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 40px rgba(246, 135, 32, 0.3), 0 0 80px rgba(246, 135, 32, 0.15) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 30px rgba(246, 135, 32, 0.25), 0 0 50px rgba(246, 135, 32, 0.1) !important;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -1018,9 +1013,9 @@ canvas {
 
     /* Beautiful Glassmorphism Box for Mobile */
     .mobile-hero-box {
-        background: rgba(0, 0, 0, 0.6);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
+        background: rgba(0, 0, 0, 0.7);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
         border: 1px solid rgba(246, 135, 32, 0.3);
         border-radius: 1.5rem;
         padding: 1.5rem;
@@ -2040,7 +2035,7 @@ footer .border-t img[alt="Logo"] {
     position: absolute;
     inset: 0;
     background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2105,18 +2100,18 @@ footer .border-t img[alt="Logo"] {
 .glass-canvas {
     position: relative;
     background:
-        linear-gradient(rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.8)),
+        linear-gradient(rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.85)),
         url('images/pawel-czerwinski-gSRCehQLUu0-unsplash.jpg');
     background-size: cover;
     background-position: center;
-    backdrop-filter: blur(40px) saturate(160%) contrast(110%);
-    -webkit-backdrop-filter: blur(40px) saturate(160%) contrast(110%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow:
-        0 50px 100px rgba(0, 0, 0, 0.8),
-        inset 0 0 40px rgba(255, 255, 255, 0.05);
+        0 50px 80px rgba(0, 0, 0, 0.7),
+        inset 0 0 30px rgba(255, 255, 255, 0.03);
     overflow: hidden;
 }
 
@@ -2223,8 +2218,8 @@ footer .border-t img[alt="Logo"] {
 /* Orbit stat glass card */
 .orbit-stat-card {
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 /* Mini cards for Process section side cards */
@@ -2274,7 +2269,7 @@ footer .border-t img[alt="Logo"] {
 .glass-core-dark {
     background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #0f766e 100%);
     border: 2px solid rgba(246, 135, 32, 0.6);
-    box-shadow: 0 0 40px rgba(246, 135, 32, 0.3), 0 0 80px rgba(246, 135, 32, 0.15), 0 0 120px rgba(20, 184, 166, 0.1);
+    box-shadow: 0 0 30px rgba(246, 135, 32, 0.25), 0 0 60px rgba(246, 135, 32, 0.12), 0 0 80px rgba(20, 184, 166, 0.08);
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
     contain: layout style;
     will-change: transform, opacity;
@@ -2282,7 +2277,7 @@ footer .border-t img[alt="Logo"] {
 
 .glass-core-dark:hover {
     border-color: rgba(246, 135, 32, 0.8);
-    box-shadow: 0 0 50px rgba(246, 135, 32, 0.4), 0 0 100px rgba(246, 135, 32, 0.2), 0 0 150px rgba(20, 184, 166, 0.15);
+    box-shadow: 0 0 35px rgba(246, 135, 32, 0.35), 0 0 70px rgba(246, 135, 32, 0.18), 0 0 90px rgba(20, 184, 166, 0.1);
     transform: scale(1.02);
 }
 
@@ -2313,8 +2308,8 @@ footer .border-t img[alt="Logo"] {
     background: linear-gradient(135deg, #171717 0%, #211d1a 100%);
     text-align: center;
     box-shadow: 0 10px 30px rgba(20, 20, 20, 0.16);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 

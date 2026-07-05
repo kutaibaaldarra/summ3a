@@ -64,15 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll(".mini-card").forEach((card, index) => {
             const icon = card.querySelector(".card-icon");
+            let idleTween = null;
             if (icon) {
                 card.addEventListener("mouseenter", () => {
+                    if (idleTween) { idleTween.kill(); idleTween = null; }
                     gsap.killTweensOf(icon);
                     gsap.to(icon, { rotation: 360, scale: 1.3, duration: 0.6, ease: "back.out(1.7)" });
                 });
                 card.addEventListener("mouseleave", () => {
                     gsap.to(icon, { rotation: 0, scale: 1, duration: 0.4, ease: "power2.out", onComplete: () => {
-                        const t = gsap.to(icon, { scale: 1.1, duration: 0.8, ease: "power2.inOut", yoyo: true, repeat: -1, delay: index * 0.3 });
-                        continuousTweens.push(t);
+                        idleTween = gsap.to(icon, { scale: 1.1, duration: 0.8, ease: "power2.inOut", yoyo: true, repeat: -1, delay: index * 0.3 });
                     }});
                 });
             }
@@ -261,8 +262,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const hdrRect = header.getBoundingClientRect();
             const cx = hdrRect.left + hdrRect.width / 2;
             const cy = hdrRect.top + hdrRect.height / 2;
-            canvas.width = window.innerWidth * 2;
-            canvas.height = window.innerHeight * 2;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
             canvas.style.width = '100%';
             canvas.style.height = '100%';
             canvas.style.left = '0';
@@ -354,9 +355,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mobile menu handlers moved to inline script in index.html
 
+    let cachedHeaderRect = null;
+    let headerRectTimer = null;
     document.addEventListener('mousemove', (e) => {
         if (!isIslandMode) { return; }
-        const r = header.getBoundingClientRect();
+        if (!cachedHeaderRect) {
+            cachedHeaderRect = header.getBoundingClientRect();
+            clearTimeout(headerRectTimer);
+            headerRectTimer = setTimeout(() => { cachedHeaderRect = null; }, 200);
+        }
+        const r = cachedHeaderRect;
         const cx = r.left + r.width / 2;
         const cy = r.top + r.height / 2;
         const dx = (e.clientX - cx) / r.width;
@@ -565,6 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.testimonial-carousel').forEach(carousel => {
         const cards = carousel.querySelectorAll('.tcard');
         let idx = 0;
+        let carouselInterval = null;
         function rotateCards() {
             cards.forEach((c, i) => {
                 c.classList.remove('active', 'left', 'right');
@@ -575,7 +584,14 @@ document.addEventListener('DOMContentLoaded', () => {
             idx = (idx + 1) % cards.length;
         }
         rotateCards();
-        setInterval(rotateCards, 3000);
+        const carouselObs = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                if (!carouselInterval) carouselInterval = setInterval(rotateCards, 3000);
+            } else {
+                if (carouselInterval) { clearInterval(carouselInterval); carouselInterval = null; }
+            }
+        }, { threshold: 0.1 });
+        carouselObs.observe(carousel);
     });
 
     // ═══ Why Choose — Scroll-pinned (desktop) / Auto-rotate (mobile) ═══
@@ -794,16 +810,28 @@ document.addEventListener('DOMContentLoaded', () => {
         let pos = 0;
         const speed = 0.5;
         let paused = false;
+        let marqueeVisible = false;
+        let marqueeRAF = null;
         mc.addEventListener('mouseenter', () => paused = true);
         mc.addEventListener('mouseleave', () => paused = false);
-        (function loop() {
-            if (!paused) {
+        function marqueeLoop() {
+            if (marqueeVisible && !paused) {
                 pos -= speed;
                 if (pos <= -halfW) pos += halfW;
                 mt.style.transform = 'translateX(' + pos + 'px)';
             }
-            requestAnimationFrame(loop);
-        })();
+            marqueeRAF = requestAnimationFrame(marqueeLoop);
+        }
+        const marqueeObs = new IntersectionObserver((entries) => {
+            marqueeVisible = entries[0].isIntersecting;
+            if (marqueeVisible && !marqueeRAF) marqueeLoop();
+        }, { threshold: 0 });
+        marqueeObs.observe(mc);
+        if (typeof requestIdleCallback !== 'undefined') {
+            requestIdleCallback(() => marqueeLoop(), { timeout: 2000 });
+        } else {
+            setTimeout(marqueeLoop, 500);
+        }
     }
 
     // ═══ Services Marquee — Free Drag & Swipe (Both Directions) ═══
