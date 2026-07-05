@@ -810,28 +810,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let pos = 0;
         const speed = 0.5;
         let paused = false;
-        let marqueeVisible = false;
-        let marqueeRAF = null;
         mc.addEventListener('mouseenter', () => paused = true);
         mc.addEventListener('mouseleave', () => paused = false);
-        function marqueeLoop() {
-            if (marqueeVisible && !paused) {
+        (function loop() {
+            if (!paused) {
                 pos -= speed;
                 if (pos <= -halfW) pos += halfW;
                 mt.style.transform = 'translateX(' + pos + 'px)';
             }
-            marqueeRAF = requestAnimationFrame(marqueeLoop);
-        }
-        const marqueeObs = new IntersectionObserver((entries) => {
-            marqueeVisible = entries[0].isIntersecting;
-            if (marqueeVisible && !marqueeRAF) marqueeLoop();
-        }, { threshold: 0 });
-        marqueeObs.observe(mc);
-        if (typeof requestIdleCallback !== 'undefined') {
-            requestIdleCallback(() => marqueeLoop(), { timeout: 2000 });
-        } else {
-            setTimeout(marqueeLoop, 500);
-        }
+            requestAnimationFrame(loop);
+        })();
     }
 
     // ═══ Services Marquee — Free Drag & Swipe (Both Directions) ═══
