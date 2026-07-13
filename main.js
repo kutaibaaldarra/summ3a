@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
+        // Avoid needless refreshes when the mobile URL bar shows/hides (a common cause of scroll jank).
+        ScrollTrigger.config({ ignoreMobileResize: true });
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -536,26 +538,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const els = gsap.utils.toArray(selector);
             if (!els.length) return;
             const o = Object.assign({ start: 'top 85%', stagger: 0.12, duration: 0.8, ease: 'power3.out' }, opts || {});
-            const to = { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, duration: o.duration, ease: o.ease, overwrite: 'auto', stagger: o.stagger };
-            gsap.set(els, from); // hide immediately (prevents flash of content)
+            // Touch devices: lightweight opacity + tiny translate only — avoids
+            // scale / rotation / 3D transforms that drop frames on mobile GPUs.
+            const fromVars = isTouch ? { opacity: 0, y: 24 } : from;
+            const toVars = isTouch
+                ? { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', overwrite: 'auto', stagger: 0.06 }
+                : { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, duration: o.duration, ease: o.ease, overwrite: 'auto', stagger: o.stagger };
+            gsap.set(els, fromVars); // hide immediately (prevents flash of content)
             if (els.length > 1) {
                 ScrollTrigger.batch(els, {
                     start: o.start, once: true,
-                    onEnter: (batch) => gsap.to(batch, to)
+                    onEnter: (batch) => gsap.to(batch, toVars)
                 });
             } else {
                 els.forEach((el, i) => ScrollTrigger.create({
                     trigger: el, start: o.start, once: true,
-                    onEnter: () => gsap.to(el, Object.assign({}, to, { delay: i * o.stagger, stagger: 0 }))
+                    onEnter: () => gsap.to(el, Object.assign({}, toVars, { delay: i * (isTouch ? 0.06 : o.stagger), stagger: 0 }))
                 }));
             }
         }
 
         // ── Hero entrance (plays immediately) ──
-        gsap.timeline({ defaults: { ease: 'power3.out' } })
-            .fromTo('.absolute-left',  { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
-            .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 },  { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
-            .fromTo('.become-pro',     { opacity: 0, y: 40 },               { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+        if (isTouch) {
+            gsap.fromTo(['.absolute-left', '.absolute-right', '.become-pro'],
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1 });
+        } else {
+            gsap.timeline({ defaults: { ease: 'power3.out' } })
+                .fromTo('.absolute-left',  { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
+                .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 },  { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
+                .fromTo('.become-pro',     { opacity: 0, y: 40 },               { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+        }
 
         // ── Hero parallax — desktop / non-touch only ──
         if (!isTouch) {
@@ -590,13 +603,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // ── Process inner content (data-process) ──
         gsap.utils.toArray('#process [data-process] .section-content').forEach((el) => {
             const num = el.querySelector('.section-number');
-            gsap.set(el, { opacity: 0, y: 50 });
+            gsap.set(el, { opacity: 0, y: isTouch ? 24 : 50 });
             ScrollTrigger.create({
                 trigger: el, start: 'top 80%', once: true,
                 onEnter: () => {
-                    const tl = gsap.timeline();
-                    tl.to(el, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0);
-                    if (num) tl.fromTo(num, { scale: 0.4, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)' }, 0.15);
+                    if (isTouch || !num) {
+                        gsap.to(el, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+                    } else {
+                        const tl = gsap.timeline();
+                        tl.to(el, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0);
+                        tl.fromTo(num, { scale: 0.4, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)' }, 0.15);
+                    }
                 }
             });
         });
