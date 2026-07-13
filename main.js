@@ -533,17 +533,23 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.to('.absolute-right', { y: -20, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1 } });
         gsap.to('.become-pro', { y: -15, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1.5 } });
 
-        // FAQ items staggered reveal
-        ScrollTrigger.batch('.faq-item', {
-            onEnter: (batch) => {
-                gsap.fromTo(batch,
-                    { opacity: 0, y: 30, x: -20 },
-                    { opacity: 1, y: 0, x: 0, duration: 0.7, ease: 'back.out(1.4)', stagger: 0.1, overwrite: true }
+        // FAQ section reveal
+        const faqSection = document.querySelector('#faq');
+        if (faqSection) {
+            const faqTl = gsap.timeline({ scrollTrigger: { trigger: faqSection, start: 'top 80%', once: true } });
+            const faqSub = faqSection.querySelector('.text-center span');
+            const faqTitle = faqSection.querySelector('.text-center h2');
+            const faqItems = faqSection.querySelectorAll('.faq-item');
+            if (faqSub) faqTl.fromTo(faqSub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0);
+            if (faqTitle) faqTl.fromTo(faqTitle, { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.4)' }, 0.15);
+            if (faqItems.length) {
+                faqTl.fromTo(faqItems,
+                    { opacity: 0, y: 40, x: -30, rotationX: 8 },
+                    { opacity: 1, y: 0, x: 0, rotationX: 0, duration: 0.6, ease: 'back.out(1.2)', stagger: 0.12 },
+                    0.35
                 );
-            },
-            start: 'top 85%',
-            once: true
-        });
+            }
+        }
 
         // CTA section reveal
         ScrollTrigger.create({
