@@ -598,6 +598,21 @@
         padding: 0.35rem 0.7rem !important;
         border-radius: 2rem !important;
         overflow: visible !important;
+        direction: rtl !important;
+        justify-content: center !important;
+    }
+
+    /* Enforce strict right-to-left ordering of island content on mobile */
+    #main-header.island .header-island {
+        flex-direction: row !important;
+        direction: rtl !important;
+    }
+    #main-header.island .island-eyes,
+    #main-header.island #island-question,
+    #main-header.island .task-dots,
+    #main-header.island .island-links,
+    #main-header.island #island-quick-actions {
+        direction: rtl !important;
     }
 
     /* ─── Eyes — clearly visible ─── */
