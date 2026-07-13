@@ -1362,10 +1362,10 @@ html { scroll-behavior: auto; }
     opacity: 0;
 }
 
-/* Orbit Section - Initial States */
+/* Orbit Section - Visible by default */
 .glass-canvas .orbit-gear,
 .glass-canvas .inner-card {
-    opacity: 0;
+    opacity: 1;
 }
 
 /* AI Strategy - Initial States */
@@ -1388,11 +1388,11 @@ html { scroll-behavior: auto; }
     transform: translateY(30px);
 }
 
-/* Testimonials - Initial States */
+/* Testimonials - Visible by default */
 #testimonials .text-center span,
 #testimonials .text-center h2,
 .testimonial-carousel {
-    opacity: 0;
+    opacity: 1;
 }
 
 /* FAQ - Initial States */

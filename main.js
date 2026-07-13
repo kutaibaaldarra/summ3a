@@ -566,16 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Orbit / Glass Canvas section reveal
-        ScrollTrigger.create({
-            trigger: '.glass-canvas',
-            start: 'top 80%',
-            once: true,
-            onEnter: () => {
-                gsap.fromTo('.orbit-gear', { opacity: 0, scale: 0.8, rotation: -10 }, { opacity: 1, scale: 1, rotation: 0, duration: 1, ease: 'elastic.out(1, 0.5)' }, 0);
-                gsap.fromTo('.inner-card', { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }, 0.2);
-            }
-        });
+        // Orbit / Glass Canvas section — visible by default, no scroll animation
 
         // Challenge section text reveal
         ScrollTrigger.create({
@@ -605,19 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Testimonials section reveal
-        ScrollTrigger.create({
-            trigger: '#testimonials',
-            start: 'top 80%',
-            once: true,
-            onEnter: () => {
-                const testSub = document.querySelector('#testimonials .text-center span');
-                const testTitle = document.querySelector('#testimonials .text-center h2');
-                if (testSub) gsap.fromTo(testSub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
-                if (testTitle) gsap.fromTo(testTitle, { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.4)' }, 0.1);
-                gsap.fromTo('.testimonial-carousel', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.3);
-            }
-        });
+        // Testimonials — visible by default, no scroll animation
 
         // FAQ section reveal
         const faqSection = document.querySelector('#faq');
