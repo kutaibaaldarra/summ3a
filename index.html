@@ -17,7 +17,7 @@
     <script src="ScrollTrigger.min.js?v=1" defer></script>
     <script src="lucide.min.js?v=1" defer></script>
     <script src="lenis.min.js?v=1" defer></script>
-    <link rel="stylesheet" href="my-styles.css?v=3">
+    <link rel="stylesheet" href="my-styles.css?v=4">
 <style>
         /* ─── MAIN HEADER (dual-state) ─── */
         #main-header {
@@ -187,7 +187,6 @@
             background: #fff;
             border-radius: 50%;
             position: relative;
-            will-change: transform;
             box-shadow: 0 0 5px rgba(255,255,255,0.2);
         }
         .eye-ball::after {
@@ -1384,7 +1383,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
                 <!-- Company Info -->
                 <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
-                    <img src="3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4">
+                    <img src="3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4" loading="lazy">
                     <p class="text-sm mb-6 leading-relaxed">
                         شركة "سمعة" للتصميم و التسويق الالكتروني  تابعنا على كل المنصات
                     </p>
@@ -1461,7 +1460,7 @@
             <div class="border-t border-gray-800 pt-6 mt-12">
                 <div class="flex flex-col md:flex-row justify-between items-center text-sm">
                     <div class="flex items-center justify-center gap-2">
-                        <img src="3.png" alt="Logo" class="w-12 h-12 object-contain">
+                        <img src="3.png" alt="Logo" class="w-12 h-12 object-contain" loading="lazy">
                         <span class="font-montserrat tracking-tighter">&copy; 2026. All Rights Reserved.</span>
                     </div>
                     <div class="flex gap-6 mt-4 md:mt-0">
@@ -1479,6 +1478,6 @@
         <!-- ═══════════════════════════════════════════════════════════════ -->
         <!-- GSAP already loaded in head -->
         <script src="island-core.js"></script>
-        <script src="main.js?v=5"></script>
+        <script src="main.js?v=6"></script>
 </body>
 </html>

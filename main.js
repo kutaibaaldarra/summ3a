@@ -509,12 +509,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobile = window.innerWidth <= 768;
 
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !isMobile) {
-        // Batch scroll-animate elements
+        // Batch scroll-animate elements — smoother stagger
         ScrollTrigger.batch('.scroll-animate', {
             onEnter: (batch) => {
                 gsap.fromTo(batch,
-                    { opacity: 0, y: 50, scale: 0.97 },
-                    { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'power3.out', stagger: 0.12, overwrite: true }
+                    { opacity: 0, y: 40, scale: 0.98 },
+                    { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out', stagger: 0.1, overwrite: true }
                 );
             },
             start: 'top 88%',
@@ -532,6 +532,92 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.to('.absolute-left', { y: -30, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1 } });
         gsap.to('.absolute-right', { y: -20, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1 } });
         gsap.to('.become-pro', { y: -15, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1.5 } });
+
+        // Trusted-By section reveal
+        ScrollTrigger.create({
+            trigger: '#trusted-by',
+            start: 'top 85%',
+            once: true,
+            onEnter: () => {
+                gsap.fromTo('#trusted-by .text-center',
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+                );
+                gsap.fromTo('#trusted-by .trusted-carousel',
+                    { opacity: 0, scaleX: 0.9 },
+                    { opacity: 1, scaleX: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 }
+                );
+            }
+        });
+
+        // AI Strategy section — cinematic cards reveal
+        const aiSection = document.querySelector('#ai-strategy');
+        if (aiSection) {
+            const aiTl = gsap.timeline({ scrollTrigger: { trigger: aiSection, start: 'top 75%', once: true } });
+            const aiTitle = aiSection.querySelector('#title-section');
+            const aiCards = aiSection.querySelectorAll('.cinematic-card');
+            if (aiTitle) aiTl.fromTo(aiTitle, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }, 0);
+            if (aiCards.length) {
+                aiTl.fromTo(aiCards,
+                    { opacity: 0, x: -40, scale: 0.95 },
+                    { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: 'back.out(1.2)', stagger: 0.15 },
+                    0.2
+                );
+            }
+        }
+
+        // Orbit / Glass Canvas section reveal
+        ScrollTrigger.create({
+            trigger: '.glass-canvas',
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                gsap.fromTo('.orbit-gear', { opacity: 0, scale: 0.8, rotation: -10 }, { opacity: 1, scale: 1, rotation: 0, duration: 1, ease: 'elastic.out(1, 0.5)' }, 0);
+                gsap.fromTo('.inner-card', { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }, 0.2);
+            }
+        });
+
+        // Challenge section text reveal
+        ScrollTrigger.create({
+            trigger: '.challenge-section',
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                const h2s = document.querySelectorAll('.challenge-section h2');
+                gsap.fromTo(h2s, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.12 });
+            }
+        });
+
+        // Process section — mini-cards and engine reveal
+        ScrollTrigger.create({
+            trigger: '#process',
+            start: 'top 78%',
+            once: true,
+            onEnter: () => {
+                gsap.fromTo('#process .mini-card',
+                    { opacity: 0, x: (i) => i < 3 ? 30 : -30, scale: 0.95 },
+                    { opacity: 0.85, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)', stagger: 0.08 }
+                );
+                gsap.fromTo('.glass-core-dark',
+                    { opacity: 0, scale: 0.9 },
+                    { opacity: 1, scale: 1, duration: 0.9, ease: 'elastic.out(1, 0.5)', delay: 0.15 }
+                );
+            }
+        });
+
+        // Testimonials section reveal
+        ScrollTrigger.create({
+            trigger: '#testimonials',
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                const testSub = document.querySelector('#testimonials .text-center span');
+                const testTitle = document.querySelector('#testimonials .text-center h2');
+                if (testSub) gsap.fromTo(testSub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+                if (testTitle) gsap.fromTo(testTitle, { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.4)' }, 0.1);
+                gsap.fromTo('.testimonial-carousel', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.3);
+            }
+        });
 
         // FAQ section reveal
         const faqSection = document.querySelector('#faq');
@@ -580,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Process section content reveal
+        // Process section content reveal (kept for section-content within data-process)
         ScrollTrigger.batch('#process [data-process] .section-content', {
             onEnter: (batch) => {
                 batch.forEach((el) => {

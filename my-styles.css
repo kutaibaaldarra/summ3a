@@ -87,7 +87,6 @@ footer {
     display: flex;
     gap: 40px;
     width: max-content;
-    will-change: transform;
 }
 
 .marquee:active {
@@ -175,7 +174,6 @@ footer {
     .scroll-scale {
         opacity: 0;
         transform: scale(0.95);
-        transition: opacity 0.5s ease, transform 0.5s ease;
     }
     
     .scroll-scale.animate-in {
@@ -412,6 +410,19 @@ canvas {
 /* Process Engine */
 #process {
     contain: layout style;
+}
+
+/* Below-fold section performance: skip rendering offscreen */
+#ai-strategy,
+.glass-canvas,
+.challenge-section,
+#process,
+#why-choose,
+#testimonials,
+#faq,
+#cta {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
 }
 
 /* تأثير الإضاءة في الخلفية */
@@ -1354,11 +1365,11 @@ section {
     transform: translateY(0);
 }
 
-/* Fallback: Ensure footer is visible after 2 seconds if GSAP fails */
+/* Fallback: Ensure footer is visible after 3 seconds if GSAP fails */
 @media (prefers-reduced-motion: no-preference) {
     .footer-section {
         animation: footer-fade-in 0.6s ease forwards;
-        animation-delay: 2s;
+        animation-delay: 3s;
     }
 }
 
@@ -1675,7 +1686,6 @@ footer .border-t img[alt="Logo"] {
 .animate-scroll {
     display: flex;
     width: max-content;
-    will-change: transform;
     backface-visibility: hidden;
 }
 .marquee-item {
@@ -1714,13 +1724,11 @@ footer .border-t img[alt="Logo"] {
 /* ═══ AI Strategy Performance ═══ */
 #ai-strategy {
     isolation: isolate;
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 1000px;
 }
 
-.animate-float-slow { animation: float-slow 8s ease-in-out infinite; will-change: transform; backface-visibility: hidden; }
-.animate-float-medium { animation: float-medium 6s ease-in-out infinite; will-change: transform; backface-visibility: hidden; }
-.animate-float-fast { animation: float-fast 4s ease-in-out infinite; will-change: transform; backface-visibility: hidden; }
+.animate-float-slow { animation: float-slow 8s ease-in-out infinite; backface-visibility: hidden; }
+.animate-float-medium { animation: float-medium 6s ease-in-out infinite; backface-visibility: hidden; }
+.animate-float-fast { animation: float-fast 4s ease-in-out infinite; backface-visibility: hidden; }
 
 /* AI Title - SVG Stroke Styles */
 .ai-title-container {
@@ -2233,14 +2241,15 @@ footer .border-t img[alt="Logo"] {
 
 /* Mini cards for Process section side cards */
 .mini-card {
-    padding: 0.75rem 1.5rem !important;
-    gap: 0.75rem !important;
+    padding: 0.6rem 1rem !important;
+    gap: 0.6rem !important;
     background: linear-gradient(135deg, #fef4ea, #feeedf) !important;
-    opacity: 0.75 !important;
+    opacity: 0.85 !important;
     box-shadow: 2px 2px 8px rgba(20, 184, 166, 0.15), -2px -2px 8px rgba(246, 135, 32, 0.1) !important;
     border-radius: 12px !important;
     border: 1px solid rgba(20, 184, 166, 0.25) !important;
     transition: all 0.3s ease !important;
+    align-items: center;
 }
 
 .mini-card:hover {
@@ -2250,27 +2259,30 @@ footer .border-t img[alt="Logo"] {
 }
 
 .mini-card .card-icon {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    min-height: 40px !important;
-    max-width: 40px !important;
-    max-height: 40px !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    max-width: 28px !important;
+    max-height: 28px !important;
+    border: none !important;
+    background: none !important;
+    border-radius: 0 !important;
 }
 
 .mini-card .card-icon svg {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    min-height: 40px !important;
-    max-width: 40px !important;
-    max-height: 40px !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
     color: #14b8a6 !important;
     stroke: #14b8a6 !important;
 }
 
 .mini-card span {
-    font-size: 20px !important;
+    font-size: 14px !important;
     color: #f68720 !important;
     font-weight: 800 !important;
 }
@@ -2281,7 +2293,6 @@ footer .border-t img[alt="Logo"] {
     box-shadow: 0 0 30px rgba(246, 135, 32, 0.25), 0 0 60px rgba(246, 135, 32, 0.12), 0 0 80px rgba(20, 184, 166, 0.08);
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
     contain: layout style;
-    will-change: transform, opacity;
 }
 
 .glass-core-dark:hover {
@@ -2482,8 +2493,11 @@ footer .border-t img[alt="Logo"] {
     /* === Process Engine === */
     #process { padding: 1.25rem 0 !important; }
     #process .glass-core-dark { transform: none !important; min-height: auto !important; }
-    #process .mini-card { padding: 0.4rem 0.75rem !important; }
-    #process .mini-card span { font-size: 13px !important; }
+    #process .mini-card { padding: 0.4rem 0.75rem !important; gap: 0.5rem !important; }
+    #process .mini-card span { font-size: 12px !important; }
+    #process .mini-card .card-icon { width: 22px !important; height: 22px !important; min-width: 22px !important; min-height: 22px !important; }
+    #process .mini-card .card-icon svg { width: 20px !important; height: 20px !important; min-width: 20px !important; min-height: 20px !important; }
+    #process .space-y-4 { gap: 0.5rem !important; }
 
     /* === Why Choose Us (auto-rotate on mobile) === */
     #why-choose { height: auto !important; overflow: hidden !important; padding: 1rem 0 !important; }
@@ -2551,7 +2565,7 @@ footer .border-t img[alt="Logo"] {
 @media (min-width: 769px) and (max-width: 1024px) {
     html, body { overflow-x: clip !important; }
 
-    .card-content { padding-right: 60px !important; }
+    .card-content { padding-right: 80px !important; }
 
     .orbit-gear { width: 320px !important; height: 320px !important; }
     .inner-card { padding: 2rem !important; }
@@ -2562,7 +2576,7 @@ footer .border-t img[alt="Logo"] {
 
     .challenge-section { min-height: 320px !important; }
 
-    .glass-core-dark { min-height: 420px !important; }
+    .glass-core-dark { min-height: 380px !important; }
 }
 
 /* ─── Extra Small (480px) — Final overrides ─── */
