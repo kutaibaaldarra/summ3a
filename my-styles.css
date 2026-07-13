@@ -2075,7 +2075,11 @@ footer .border-t img[alt="Logo"] {
 /* Main Glass Canvas */
 .glass-canvas {
     position: relative;
-    background: linear-gradient(135deg, #1a1a1a 0%, #121212 100%);
+    background:
+        linear-gradient(rgba(5, 5, 5, 0.88), rgba(5, 5, 5, 0.88)),
+        url('images/pawel-czerwinski-gSRCehQLUu0-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-top: 1px solid rgba(255, 255, 255, 0.25);
