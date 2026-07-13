@@ -596,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onEnter: () => {
                 gsap.fromTo('#process .mini-card',
                     { opacity: 0, x: (i) => i < 3 ? 30 : -30, scale: 0.95 },
-                    { opacity: 0.85, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)', stagger: 0.08 }
+                    { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)', stagger: 0.08 }
                 );
                 gsap.fromTo('.glass-core-dark',
                     { opacity: 0, scale: 0.9 },
@@ -681,9 +681,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
         // Mobile fallback: show everything immediately
-        document.querySelectorAll('.scroll-animate').forEach(el => {
+        document.querySelectorAll('.absolute-left, .absolute-right, .become-pro, .glass-canvas .orbit-gear, .glass-canvas .inner-card, #title-section, .cinematic-card, #process .mini-card, .glass-core-dark, .challenge-section h2, #testimonials .text-center span, #testimonials .text-center h2, .testimonial-carousel, #faq .text-center span, #faq .text-center h2, .faq-item, .cta-glass-card, .cta-section, #trusted-by .text-center, #trusted-by .trusted-carousel, .footer-section').forEach(el => {
             el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
+            el.style.transform = 'none';
         });
         const footerEl = document.querySelector('.footer-animate');
         if (footerEl) footerEl.classList.add('visible');

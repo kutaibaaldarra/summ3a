@@ -1359,37 +1359,67 @@ html { scroll-behavior: auto; }
 .absolute-left,
 .become-pro,
 .absolute-right {
-    opacity: 1;
+    opacity: 0;
 }
 
 /* Orbit Section - Initial States */
-.orbit-section {
-    opacity: 1;
-    transform: translateY(0);
+.glass-canvas .orbit-gear,
+.glass-canvas .inner-card {
+    opacity: 0;
+}
+
+/* AI Strategy - Initial States */
+#title-section,
+.cinematic-card {
+    opacity: 0;
+}
+
+/* Process Cards - Initial States */
+#process .mini-card {
+    opacity: 0;
+}
+.glass-core-dark {
+    opacity: 0;
 }
 
 /* Challenge Section - Initial States */
 .challenge-section h2 {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 0;
+    transform: translateY(30px);
 }
 
-/* Process Cards - Initial States */
-.process-card {
-    opacity: 1;
-    transform: translateY(0);
+/* Testimonials - Initial States */
+#testimonials .text-center span,
+#testimonials .text-center h2,
+.testimonial-carousel {
+    opacity: 0;
 }
 
-/* Glass Cards - Initial States */
-.glass-card {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+/* FAQ - Initial States */
+#faq .text-center span,
+#faq .text-center h2,
+.faq-item {
+    opacity: 0;
 }
 
-/* Testimonial Cards - Initial States */
-.testimonial-card {
-    opacity: 1;
-    transform: translateY(0);
+/* CTA - Initial States */
+.cta-glass-card,
+.cta-section {
+    opacity: 0;
+}
+
+/* Trusted-By - Initial States */
+#trusted-by .text-center {
+    opacity: 0;
+}
+#trusted-by .trusted-carousel {
+    opacity: 0;
+}
+
+/* Footer - Initial States */
+.footer-section {
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 /* ???????????????????????????????????????????????????????????????
@@ -2199,7 +2229,6 @@ footer .border-t img[alt="Logo"] {
     padding: 0.6rem 1rem !important;
     gap: 0.6rem !important;
     background: linear-gradient(135deg, #fef4ea, #feeedf) !important;
-    opacity: 0.85 !important;
     box-shadow: 1px 1px 6px rgba(20, 184, 166, 0.1), -1px -1px 6px rgba(246, 135, 32, 0.06) !important;
     border-radius: 12px !important;
     border: 1px solid rgba(20, 184, 166, 0.25) !important;
