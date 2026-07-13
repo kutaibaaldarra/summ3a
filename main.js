@@ -116,26 +116,26 @@ document.addEventListener('DOMContentLoaded', () => {
             { opacity: 0.5, strokeWidth: 2, duration: 1, ease: 'power2.out', stagger: 0.03, delay: 0.1 }
         );
 
-        // Continuous stroke-dash animations (in/out flows)
+        // Continuous stroke-dash animations (in/out flows) — slower to reduce repaints
         gsap.utils.toArray('.data-flow-in').forEach((path, i) => {
             continuousTweens.push(gsap.fromTo(path,
                 { strokeDashoffset: 64 },
-                { strokeDashoffset: -64, duration: 1.2, ease: 'none', repeat: -1, delay: i * 0.2 }
+                { strokeDashoffset: -64, duration: 2.5, ease: 'none', repeat: -1, delay: i * 0.3 }
             ));
         });
 
         gsap.utils.toArray('.data-flow-out').forEach((path, i) => {
             continuousTweens.push(gsap.fromTo(path,
                 { strokeDashoffset: 64 },
-                { strokeDashoffset: -64, duration: 1.2, ease: 'none', repeat: -1, delay: i * 0.15 + 0.3 }
+                { strokeDashoffset: -64, duration: 2.5, ease: 'none', repeat: -1, delay: i * 0.25 + 0.5 }
             ));
         });
 
-        // SVG circle pulse
+        // SVG circle pulse — slower
         if (document.querySelector('circle[stroke="#f68720"], circle[stroke="#10b981"]')) {
             continuousTweens.push(gsap.to('circle[stroke="#f68720"], circle[stroke="#10b981"]', {
-                scale: 1.3, opacity: 0.6, duration: 0.8, ease: 'power2.inOut', yoyo: true, repeat: -1,
-                stagger: { each: 0.1, from: 'random' }
+                scale: 1.2, opacity: 0.7, duration: 1.2, ease: 'power2.inOut', yoyo: true, repeat: -1,
+                stagger: { each: 0.15, from: 'random' }
             }));
         }
 
@@ -158,9 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // CPU core continuous animations
-        continuousTweens.push(gsap.to('.cpu-ring', { rotation: 360, duration: 30, ease: 'none', repeat: -1, transformOrigin: 'center center' }));
-        continuousTweens.push(gsap.to('.zap-icon', { scale: 1.2, opacity: 0.7, duration: 0.5, ease: 'power2.inOut', yoyo: true, repeat: -1 }));
+        // CPU core continuous animations — slower
+        continuousTweens.push(gsap.to('.cpu-ring', { rotation: 360, duration: 60, ease: 'none', repeat: -1, transformOrigin: 'center center' }));
+        continuousTweens.push(gsap.to('.zap-icon', { scale: 1.15, opacity: 0.8, duration: 1, ease: 'power2.inOut', yoyo: true, repeat: -1 }));
 
         // CPU core hover interactions
         const cpuCore = document.getElementById('cpu-core');

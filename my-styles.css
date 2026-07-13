@@ -2,29 +2,14 @@
  * My Styles - Custom CSS
  * ============================================ */
 
-/* تأثير نيون متوهج متحرك حول كلمة خدماتنا */
-@keyframes neon-glow {
-    0%, 100% {
-        box-shadow:
-            0 0 4px 0.5px #f68720,
-            0 0 10px 2px #f6872077;
-        border-color: #f68720;
-    }
-    50% {
-        box-shadow:
-            0 0 6px 1px #f68720,
-            0 0 15px 3px #f6872077;
-        border-color: #ff9e47;
-    }
-}
 .glow-edges {
     position: relative;
     display: inline-block;
     padding: 0 18px;
     overflow: visible;
 }
+/* Static glow effect — no animation to reduce repaints */
 .glow-edges .glow-effect {
-    content: "";
     pointer-events: none;
     position: absolute;
     inset: -7px;
@@ -35,13 +20,7 @@
         0 0 4px 0.5px #f68720,
         0 0 10px 2px #f6872077,
         0 0 15px 3px #f6872033;
-    animation: neon-glow 2.5s linear infinite;
     opacity: 0.45;
-}
-.glow-edges .glow-effect.glow-paused {
-    animation: none;
-    box-shadow: 0 0 4px 0.5px #f68720, 0 0 10px 2px #f6872077, 0 0 15px 3px #f6872033 !important;
-    border-color: #f68720 !important;
 }
 .glow-effect { animation: none; }
 
@@ -412,18 +391,7 @@ canvas {
     contain: layout style;
 }
 
-/* Below-fold section performance: skip rendering offscreen */
-#ai-strategy,
-.glass-canvas,
-.challenge-section,
-#process,
-#why-choose,
-#testimonials,
-#faq,
-#cta {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px;
-}
+/* content-visibility removed — was causing layout thrashing */
 
 /* تأثير الإضاءة في الخلفية */
 .bg-glow {
@@ -716,7 +684,7 @@ canvas {
 .service-card:hover {
     transform: translateY(-12px) scale(1.01);
     border-color: rgba(246, 135, 32, 0.4);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(246, 135, 32, 0.1);
+    box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(246, 135, 32, 0.08);
 }
 
 .service-card:hover::before {
@@ -967,7 +935,7 @@ canvas {
         box-sizing: border-box !important;
         border-radius: 1.25rem;
         overflow: visible;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 30px rgba(246, 135, 32, 0.25), 0 0 50px rgba(246, 135, 32, 0.1) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(246, 135, 32, 0.15) !important;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -981,16 +949,10 @@ canvas {
         position: absolute;
         inset: -15px;
         background: transparent;
-        border: 2px solid rgba(246, 135, 32, 0.6);
+        border: 2px solid rgba(246, 135, 32, 0.5);
         border-radius: 1.75rem;
         z-index: -1;
-        box-shadow: 0 0 20px rgba(246, 135, 32, 0.5), inset 0 0 20px rgba(246, 135, 32, 0.2);
-        animation: neon-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes neon-pulse {
-        0%, 100% { box-shadow: 0 0 20px rgba(246, 135, 32, 0.5), 0 0 40px rgba(246, 135, 32, 0.3), inset 0 0 20px rgba(246, 135, 32, 0.2); border-color: rgba(246, 135, 32, 0.6); }
-        50% { box-shadow: 0 0 30px rgba(246, 135, 32, 0.8), 0 0 60px rgba(246, 135, 32, 0.5), inset 0 0 30px rgba(246, 135, 32, 0.3); border-color: rgba(255, 158, 71, 0.9); }
+        box-shadow: 0 0 15px rgba(246, 135, 32, 0.3);
     }
 
     .absolute-left {
@@ -1025,8 +987,6 @@ canvas {
     /* Beautiful Glassmorphism Box for Mobile */
     .mobile-hero-box {
         background: rgba(0, 0, 0, 0.7);
-        -webkit-backdrop-filter: blur(6px);
-        backdrop-filter: blur(6px);
         border: 1px solid rgba(246, 135, 32, 0.3);
         border-radius: 1.25rem;
         padding: 1.25rem;
@@ -2052,7 +2012,6 @@ footer .border-t img[alt="Logo"] {
     position: absolute;
     inset: 0;
     background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2116,19 +2075,13 @@ footer .border-t img[alt="Logo"] {
 /* Main Glass Canvas */
 .glass-canvas {
     position: relative;
-    background:
-        linear-gradient(rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.85)),
-        url('images/pawel-czerwinski-gSRCehQLUu0-unsplash.jpg');
-    background-size: cover;
-    background-position: center;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: linear-gradient(135deg, #1a1a1a 0%, #121212 100%);
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow:
-        0 50px 80px rgba(0, 0, 0, 0.7),
-        inset 0 0 30px rgba(255, 255, 255, 0.03);
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
     overflow: hidden;
 }
 
@@ -2235,8 +2188,6 @@ footer .border-t img[alt="Logo"] {
 /* Orbit stat glass card */
 .orbit-stat-card {
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
 }
 
 /* Mini cards for Process section side cards */
@@ -2245,7 +2196,7 @@ footer .border-t img[alt="Logo"] {
     gap: 0.6rem !important;
     background: linear-gradient(135deg, #fef4ea, #feeedf) !important;
     opacity: 0.85 !important;
-    box-shadow: 2px 2px 8px rgba(20, 184, 166, 0.15), -2px -2px 8px rgba(246, 135, 32, 0.1) !important;
+    box-shadow: 1px 1px 6px rgba(20, 184, 166, 0.1), -1px -1px 6px rgba(246, 135, 32, 0.06) !important;
     border-radius: 12px !important;
     border: 1px solid rgba(20, 184, 166, 0.25) !important;
     transition: all 0.3s ease !important;
@@ -2253,7 +2204,7 @@ footer .border-t img[alt="Logo"] {
 }
 
 .mini-card:hover {
-    box-shadow: 4px 4px 12px rgba(20, 184, 166, 0.3), -4px -4px 12px rgba(246, 135, 32, 0.2) !important;
+    box-shadow: 3px 3px 8px rgba(20, 184, 166, 0.2), -3px -3px 8px rgba(246, 135, 32, 0.12) !important;
     border-color: rgba(246, 135, 32, 0.4) !important;
     transform: scale(1.03);
 }
@@ -2290,15 +2241,13 @@ footer .border-t img[alt="Logo"] {
 .glass-core-dark {
     background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #0f766e 100%);
     border: 2px solid rgba(246, 135, 32, 0.6);
-    box-shadow: 0 0 30px rgba(246, 135, 32, 0.25), 0 0 60px rgba(246, 135, 32, 0.12), 0 0 80px rgba(20, 184, 166, 0.08);
+    box-shadow: 0 0 20px rgba(246, 135, 32, 0.15), 0 0 40px rgba(246, 135, 32, 0.08);
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
-    contain: layout style;
 }
 
 .glass-core-dark:hover {
     border-color: rgba(246, 135, 32, 0.8);
-    box-shadow: 0 0 35px rgba(246, 135, 32, 0.35), 0 0 70px rgba(246, 135, 32, 0.18), 0 0 90px rgba(20, 184, 166, 0.1);
-    transform: scale(1.02);
+    box-shadow: 0 0 25px rgba(246, 135, 32, 0.25), 0 0 50px rgba(246, 135, 32, 0.1);
 }
 
 /* Terminal line animation */
@@ -2328,8 +2277,6 @@ footer .border-t img[alt="Logo"] {
     background: linear-gradient(135deg, #171717 0%, #211d1a 100%);
     text-align: center;
     box-shadow: 0 10px 30px rgba(20, 20, 20, 0.16);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -2355,7 +2302,7 @@ footer .border-t img[alt="Logo"] {
 
 .cta-glass-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 36px rgba(20, 20, 20, 0.2);
+    box-shadow: 0 8px 20px rgba(20, 20, 20, 0.15);
 }
 
 .cta-glass-card .cta-top-line,
@@ -2380,11 +2327,11 @@ footer .border-t img[alt="Logo"] {
 .faq-item {
     background: linear-gradient(135deg, #0e7970 0%, #12857e 50%, #16a39a 100%);
     color: #fff;
-    box-shadow: 0 10px 25px rgba(14, 121, 112, 0.18);
+    box-shadow: 0 4px 12px rgba(14, 121, 112, 0.12);
 }
 
 .faq-item.active {
-    box-shadow: 0 14px 30px rgba(14, 121, 112, 0.28);
+    box-shadow: 0 6px 16px rgba(14, 121, 112, 0.2);
 }
 
 .faq-item.active .faq-answer {
@@ -2620,16 +2567,12 @@ footer .border-t img[alt="Logo"] {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, background 0.3s ease;
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
 }
 
 .dev-notice-backdrop.active {
     opacity: 1;
     pointer-events: auto;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
 }
 
 .dev-notice-modal {
@@ -2641,9 +2584,8 @@ footer .border-t img[alt="Logo"] {
     max-width: 420px;
     width: 90%;
     box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(246, 135, 32, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(246, 135, 32, 0.1);
     transform: scale(0.9) translateY(20px);
     opacity: 0;
     animation: modalPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
