@@ -1137,10 +1137,8 @@ canvas {
             gap: 1rem;
         }
 
-        /* Mobile: skip animations, show immediately */
+        /* Mobile: let GSAP drive the reveals; only disable heavy CSS animations */
         .scroll-animate, .footer-animate, .hero-animate {
-            opacity: 1 !important;
-            transform: none !important;
             animation: none !important;
             transition: none !important;
         }
@@ -1165,15 +1163,13 @@ canvas {
         height: 120px !important;
     }
 
-    /* AI Section - Cinematic Cards Mobile */
-    .cinematic-card {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 1rem;
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        animation: none !important;
-    }
+        /* AI Section - Cinematic Cards Mobile */
+        .cinematic-card {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            animation: none !important;
+        }
 
     .card-inner {
         padding: 1.25rem;
@@ -2448,7 +2444,7 @@ footer .border-t img[alt="Logo"] {
     .ai-title-container { width: 100% !important; max-width: 100% !important; }
     .ai-title-container svg { width: 100% !important; height: 80px !important; }
 
-    .cinematic-card { width: 100%; max-width: 100%; margin-bottom: 0.75rem; opacity: 1 !important; transform: translateY(0) !important; animation: none !important; }
+    .cinematic-card { width: 100%; max-width: 100%; margin-bottom: 0.75rem; animation: none !important; }
     .card-inner { padding: 1rem; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
     .card-inner::after { opacity: 0.15; }
     .card-icon { width: 52px; height: 52px; }

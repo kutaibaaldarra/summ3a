@@ -503,170 +503,131 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  6. GSAP SCROLL TRIGGER ANIMATIONS
+    //  6. SCROLL REVEAL ANIMATIONS
+    //     Lightweight, organized & responsive. Runs on every
+    //     device; honors prefers-reduced-motion; heavy parallax
+    //     is reserved for non-touch (desktop) devices only.
     // ═══════════════════════════════════════════════════════════
 
-    const isMobile = window.innerWidth <= 768;
+    function initScrollAnimations() {
+        const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !isMobile) {
-        // Batch scroll-animate elements — smoother stagger
-        ScrollTrigger.batch('.scroll-animate', {
-            onEnter: (batch) => {
-                gsap.fromTo(batch,
-                    { opacity: 0, y: 40, scale: 0.98 },
-                    { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out', stagger: 0.1, overwrite: true }
-                );
-            },
-            start: 'top 88%',
-            once: true
-        });
+        // Fallback: reveal every animated target immediately, without motion.
+        function showAll() {
+            const sel = ['.scroll-animate', '.absolute-left', '.absolute-right', '.become-pro',
+                '.glass-canvas .orbit-gear', '.glass-canvas .inner-card', '.cinematic-card', '.orbit-stat-card',
+                '.challenge-section h2', '#process .mini-card', '.glass-core-dark', '.faq-item',
+                '.cta-glass-card', '.cta-section', '.footer-section',
+                '#trusted-by .text-center', '#trusted-by .trusted-carousel',
+                '#testimonials .text-center span', '#testimonials .text-center h2', '.testimonial-carousel'];
+            sel.forEach(s => document.querySelectorAll(s).forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; }));
+            const f = document.querySelector('.footer-animate'); if (f) f.classList.add('visible');
+        }
 
-        // Hero entrance timeline
-        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        heroTl
-            .fromTo('.absolute-left', { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
-            .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
-            .fromTo('.become-pro', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+        if (!hasGsap || prefersReduced) { showAll(); return; }
 
-        // Hero parallax on scroll
-        gsap.to('.absolute-left', { y: -30, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1 } });
-        gsap.to('.absolute-right', { y: -20, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1 } });
-        gsap.to('.become-pro', { y: -15, scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1.5 } });
-
-        // Trusted-By section reveal
-        ScrollTrigger.create({
-            trigger: '#trusted-by',
-            start: 'top 85%',
-            once: true,
-            onEnter: () => {
-                gsap.fromTo('#trusted-by .text-center',
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-                );
-                gsap.fromTo('#trusted-by .trusted-carousel',
-                    { opacity: 0, scaleX: 0.9 },
-                    { opacity: 1, scaleX: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 }
-                );
-            }
-        });
-
-        // AI Strategy section — cinematic cards reveal
-        const aiSection = document.querySelector('#ai-strategy');
-        if (aiSection) {
-            const aiTl = gsap.timeline({ scrollTrigger: { trigger: aiSection, start: 'top 75%', once: true } });
-            const aiTitle = aiSection.querySelector('#title-section');
-            const aiCards = aiSection.querySelectorAll('.cinematic-card');
-            if (aiTitle) aiTl.fromTo(aiTitle, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }, 0);
-            if (aiCards.length) {
-                aiTl.fromTo(aiCards,
-                    { opacity: 0, x: -40, scale: 0.95 },
-                    { opacity: 1, x: 0, scale: 1, duration: 0.7, ease: 'back.out(1.2)', stagger: 0.15 },
-                    0.2
-                );
+        // Reveal helper — hides targets, then animates them in on scroll.
+        // @param {string} selector  elements to reveal
+        // @param {object} from      GSAP "from" vars (initial hidden state)
+        // @param {object} [opts]    { start, stagger, duration, ease }
+        function reveal(selector, from, opts) {
+            const els = gsap.utils.toArray(selector);
+            if (!els.length) return;
+            const o = Object.assign({ start: 'top 85%', stagger: 0.12, duration: 0.8, ease: 'power3.out' }, opts || {});
+            const to = { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, duration: o.duration, ease: o.ease, overwrite: 'auto', stagger: o.stagger };
+            gsap.set(els, from); // hide immediately (prevents flash of content)
+            if (els.length > 1) {
+                ScrollTrigger.batch(els, {
+                    start: o.start, once: true,
+                    onEnter: (batch) => gsap.to(batch, to)
+                });
+            } else {
+                els.forEach((el, i) => ScrollTrigger.create({
+                    trigger: el, start: o.start, once: true,
+                    onEnter: () => gsap.to(el, Object.assign({}, to, { delay: i * o.stagger, stagger: 0 }))
+                }));
             }
         }
 
-        // Orbit / Glass Canvas section — visible by default, no scroll animation
+        // ── Hero entrance (plays immediately) ──
+        gsap.timeline({ defaults: { ease: 'power3.out' } })
+            .fromTo('.absolute-left',  { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
+            .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 },  { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
+            .fromTo('.become-pro',     { opacity: 0, y: 40 },               { opacity: 1, y: 0, duration: 0.8 }, 0.3);
 
-        // Challenge section text reveal
-        ScrollTrigger.create({
-            trigger: '.challenge-section',
-            start: 'top 80%',
-            once: true,
-            onEnter: () => {
-                const h2s = document.querySelectorAll('.challenge-section h2');
-                gsap.fromTo(h2s, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.12 });
-            }
-        });
-
-        // Process section — mini-cards and engine reveal
-        ScrollTrigger.create({
-            trigger: '#process',
-            start: 'top 78%',
-            once: true,
-            onEnter: () => {
-                gsap.fromTo('#process .mini-card',
-                    { opacity: 0, x: (i) => i < 3 ? 30 : -30, scale: 0.95 },
-                    { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)', stagger: 0.08 }
-                );
-                gsap.fromTo('.glass-core-dark',
-                    { opacity: 0, scale: 0.9 },
-                    { opacity: 1, scale: 1, duration: 0.9, ease: 'elastic.out(1, 0.5)', delay: 0.15 }
-                );
-            }
-        });
-
-        // Testimonials — visible by default, no scroll animation
-
-        // FAQ section reveal
-        const faqSection = document.querySelector('#faq');
-        if (faqSection) {
-            const faqTl = gsap.timeline({ scrollTrigger: { trigger: faqSection, start: 'top 80%', once: true } });
-            const faqSub = faqSection.querySelector('.text-center span');
-            const faqTitle = faqSection.querySelector('.text-center h2');
-            const faqItems = faqSection.querySelectorAll('.faq-item');
-            if (faqSub) faqTl.fromTo(faqSub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0);
-            if (faqTitle) faqTl.fromTo(faqTitle, { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.4)' }, 0.15);
-            if (faqItems.length) {
-                faqTl.fromTo(faqItems,
-                    { opacity: 0, y: 40, x: -30, rotationX: 8 },
-                    { opacity: 1, y: 0, x: 0, rotationX: 0, duration: 0.6, ease: 'back.out(1.2)', stagger: 0.12 },
-                    0.35
-                );
-            }
+        // ── Hero parallax — desktop / non-touch only ──
+        if (!isTouch) {
+            const parallax = (sel, y, scrub) => gsap.to(sel, { y, ease: 'none', scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub } });
+            parallax('.absolute-left', -30, 1);
+            parallax('.absolute-right', -20, 1);
+            parallax('.become-pro', -15, 1.5);
         }
 
-        // CTA section reveal
-        ScrollTrigger.create({
-            trigger: '.cta-glass-card, .cta-section',
-            start: 'top 80%',
-            once: true,
-            onEnter: () => {
-                gsap.fromTo('.cta-glass-card, .cta-section',
-                    { opacity: 0, scale: 0.92, y: 40 },
-                    { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'power3.out' }
-                );
-            }
-        });
+        // ── Generic (results page) ──
+        reveal('.scroll-animate', { opacity: 0, y: 40, scale: 0.98 });
 
-        // Footer reveal
-        const footerEl = document.querySelector('.footer-animate');
-        if (footerEl) {
+        // ── Trusted-by ──
+        reveal('#trusted-by .text-center', { opacity: 0, y: 20 }, { duration: 0.6, ease: 'power2.out' });
+        reveal('#trusted-by .trusted-carousel', { opacity: 0, scaleX: 0.9 }, { duration: 0.8, ease: 'power3.out' });
+
+        // ── AI Strategy ──
+        reveal('#ai-strategy #title-section', { opacity: 0, x: 50 }, { start: 'top 75%' });
+        reveal('#ai-strategy .cinematic-card', { opacity: 0, x: -40, scale: 0.95 }, { start: 'top 75%', stagger: 0.15, ease: 'back.out(1.2)', duration: 0.7 });
+
+        // ── Orbit / Glass Canvas ──
+        reveal('.glass-canvas .orbit-gear', { opacity: 0 }, { start: 'top 78%', duration: 0.7 });
+        reveal('.glass-canvas .orbit-stat-card', { opacity: 0, y: 30 }, { start: 'top 82%', stagger: 0.15, duration: 0.6, ease: 'power3.out' });
+
+        // ── Challenge ──
+        reveal('.challenge-section h2', { opacity: 0, y: 30 }, { stagger: 0.12, duration: 0.6 });
+
+        // ── Process ──
+        reveal('#process .mini-card', { opacity: 0, x: (i) => (i < 3 ? 30 : -30), scale: 0.95 }, { stagger: 0.08, ease: 'back.out(1.2)', duration: 0.6 });
+        reveal('.glass-core-dark', { opacity: 0, scale: 0.9 }, { start: 'top 78%', duration: 0.9, ease: 'elastic.out(1, 0.5)' });
+
+        // ── Process inner content (data-process) ──
+        gsap.utils.toArray('#process [data-process] .section-content').forEach((el) => {
+            const num = el.querySelector('.section-number');
+            gsap.set(el, { opacity: 0, y: 50 });
             ScrollTrigger.create({
-                trigger: footerEl,
-                start: 'top 90%',
-                once: true,
+                trigger: el, start: 'top 80%', once: true,
                 onEnter: () => {
-                    gsap.fromTo(footerEl.querySelectorAll('.footer-section'),
-                        { opacity: 0, y: 30 },
-                        { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.1 }
-                    );
+                    const tl = gsap.timeline();
+                    tl.to(el, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0);
+                    if (num) tl.fromTo(num, { scale: 0.4, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)' }, 0.15);
+                }
+            });
+        });
+
+        // ── Testimonials ──
+        reveal('#testimonials .text-center span', { opacity: 0, y: 20 }, { duration: 0.5, ease: 'power2.out' });
+        reveal('#testimonials .text-center h2', { opacity: 0, y: 30, scale: 0.95 }, { duration: 0.7, ease: 'back.out(1.4)', start: 'top 80%' });
+        reveal('.testimonial-carousel', { opacity: 0, y: 40 }, { start: 'top 82%', duration: 0.7 });
+
+        // ── FAQ ──
+        reveal('#faq .text-center span', { opacity: 0, y: 20 }, { duration: 0.5, ease: 'power2.out' });
+        reveal('#faq .text-center h2', { opacity: 0, y: 30, scale: 0.95 }, { duration: 0.7, ease: 'back.out(1.4)', start: 'top 80%' });
+        reveal('.faq-item', { opacity: 0, y: 40, x: -30, rotationX: 8 }, { stagger: 0.12, duration: 0.6, ease: 'back.out(1.2)', start: 'top 80%' });
+
+        // ── CTA ──
+        reveal('.cta-section', { opacity: 0, scale: 0.92, y: 40 }, { duration: 1 });
+
+        // ── Footer ──
+        const footer = document.querySelector('.footer-animate');
+        if (footer) {
+            ScrollTrigger.create({
+                trigger: footer, start: 'top 90%', once: true,
+                onEnter: () => {
+                    footer.classList.add('visible');
+                    reveal('.footer-section', { opacity: 0, y: 30 }, { stagger: 0.1, duration: 0.7, ease: 'power2.out' });
                 }
             });
         }
-
-        // Process section content reveal (kept for section-content within data-process)
-        ScrollTrigger.batch('#process [data-process] .section-content', {
-            onEnter: (batch) => {
-                batch.forEach((el) => {
-                    const num = el.querySelector('.section-number');
-                    const tl = gsap.timeline();
-                    tl.fromTo(el, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0);
-                    if (num) tl.fromTo(num, { scale: 0.4, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.6, ease: 'back.out(2)' }, 0.15);
-                });
-            },
-            start: 'top 80%',
-            once: true
-        });
-    } else {
-        // Mobile fallback: show everything immediately
-        document.querySelectorAll('.absolute-left, .absolute-right, .become-pro, .glass-canvas .orbit-gear, .glass-canvas .inner-card, #title-section, .cinematic-card, #process .mini-card, .glass-core-dark, .challenge-section h2, #testimonials .text-center span, #testimonials .text-center h2, .testimonial-carousel, #faq .text-center span, #faq .text-center h2, .faq-item, .cta-glass-card, .cta-section, #trusted-by .text-center, #trusted-by .trusted-carousel, .footer-section').forEach(el => {
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-        });
-        const footerEl = document.querySelector('.footer-animate');
-        if (footerEl) footerEl.classList.add('visible');
     }
+
+    initScrollAnimations();
 
     // ═══════════════════════════════════════════════════════════
     //  7. TESTIMONIAL CAROUSEL
