@@ -91,6 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { question: 'نحسن ونطور بلا توقف 📊', color: '#eab308', tasks: ['نحلل تقارير الأداء', 'نجري اختبارات A/B', 'نعدل الاستراتيجية للنتائج', 'نضمن تحسن مستمر في العائد'] }
     ];
 
+    // Touch / coarse-pointer detection — used to disable heavy continuous
+    // animations on mobile and to choose the lightweight reveal path.
+    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
     // ═══════════════════════════════════════════════════════════
     //  3. GSAP PROCESS ENGINE ANIMATIONS
     // ═══════════════════════════════════════════════════════════
@@ -106,39 +110,44 @@ document.addEventListener('DOMContentLoaded', () => {
             continuousTweens.forEach(t => t.resume());
         }
 
-        // Glass core entrance
-        gsap.fromTo('.glass-core-dark',
-            { scale: 0.8, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.5)', delay: 0.5 }
-        );
+        // Decorative + continuous animations — desktop only. On touch devices
+        // these infinite tweens saturate the main thread and cause scroll jank,
+        // so they are skipped entirely (mobile uses CSS/IO reveals instead).
+        if (!isTouch) {
+            // Glass core entrance
+            gsap.fromTo('.glass-core-dark',
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.5)', delay: 0.5 }
+            );
 
-        // Data trace paths fade-in
-        gsap.fromTo("path[stroke='url(#copper)']",
-            { opacity: 0, strokeWidth: 0 },
-            { opacity: 0.5, strokeWidth: 2, duration: 1, ease: 'power2.out', stagger: 0.03, delay: 0.1 }
-        );
+            // Data trace paths fade-in
+            gsap.fromTo("path[stroke='url(#copper)']",
+                { opacity: 0, strokeWidth: 0 },
+                { opacity: 0.5, strokeWidth: 2, duration: 1, ease: 'power2.out', stagger: 0.03, delay: 0.1 }
+            );
 
-        // Continuous stroke-dash animations (in/out flows) — slower to reduce repaints
-        gsap.utils.toArray('.data-flow-in').forEach((path, i) => {
-            continuousTweens.push(gsap.fromTo(path,
-                { strokeDashoffset: 64 },
-                { strokeDashoffset: -64, duration: 2.5, ease: 'none', repeat: -1, delay: i * 0.3 }
-            ));
-        });
+            // Continuous stroke-dash animations (in/out flows)
+            gsap.utils.toArray('.data-flow-in').forEach((path, i) => {
+                continuousTweens.push(gsap.fromTo(path,
+                    { strokeDashoffset: 64 },
+                    { strokeDashoffset: -64, duration: 2.5, ease: 'none', repeat: -1, delay: i * 0.3 }
+                ));
+            });
 
-        gsap.utils.toArray('.data-flow-out').forEach((path, i) => {
-            continuousTweens.push(gsap.fromTo(path,
-                { strokeDashoffset: 64 },
-                { strokeDashoffset: -64, duration: 2.5, ease: 'none', repeat: -1, delay: i * 0.25 + 0.5 }
-            ));
-        });
+            gsap.utils.toArray('.data-flow-out').forEach((path, i) => {
+                continuousTweens.push(gsap.fromTo(path,
+                    { strokeDashoffset: 64 },
+                    { strokeDashoffset: -64, duration: 2.5, ease: 'none', repeat: -1, delay: i * 0.25 + 0.5 }
+                ));
+            });
 
-        // SVG circle pulse — slower
-        if (document.querySelector('circle[stroke="#f68720"], circle[stroke="#10b981"]')) {
-            continuousTweens.push(gsap.to('circle[stroke="#f68720"], circle[stroke="#10b981"]', {
-                scale: 1.2, opacity: 0.7, duration: 1.2, ease: 'power2.inOut', yoyo: true, repeat: -1,
-                stagger: { each: 0.15, from: 'random' }
-            }));
+            // SVG circle pulse
+            if (document.querySelector('circle[stroke="#f68720"], circle[stroke="#10b981"]')) {
+                continuousTweens.push(gsap.to('circle[stroke="#f68720"], circle[stroke="#10b981"]', {
+                    scale: 1.2, opacity: 0.7, duration: 1.2, ease: 'power2.inOut', yoyo: true, repeat: -1,
+                    stagger: { each: 0.15, from: 'random' }
+                }));
+            }
         }
 
         // Mini-card icon hover effects
@@ -160,9 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // CPU core continuous animations — slower
-        continuousTweens.push(gsap.to('.cpu-ring', { rotation: 360, duration: 60, ease: 'none', repeat: -1, transformOrigin: 'center center' }));
-        continuousTweens.push(gsap.to('.zap-icon', { scale: 1.15, opacity: 0.8, duration: 1, ease: 'power2.inOut', yoyo: true, repeat: -1 }));
+        // CPU core continuous animations — desktop only (heavy on mobile)
+        if (!isTouch) {
+            continuousTweens.push(gsap.to('.cpu-ring', { rotation: 360, duration: 60, ease: 'none', repeat: -1, transformOrigin: 'center center' }));
+            continuousTweens.push(gsap.to('.zap-icon', { scale: 1.15, opacity: 0.8, duration: 1, ease: 'power2.inOut', yoyo: true, repeat: -1 }));
+        }
 
         // CPU core hover interactions
         const cpuCore = document.getElementById('cpu-core');
@@ -196,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (aiSection) {
             const cardIconTweens = [];
             aiSection.querySelectorAll('.card-icon').forEach(icon => {
-                cardIconTweens.push(gsap.to(icon, { scale: 1.1, duration: 0.8, ease: 'power2.inOut', yoyo: true, repeat: -1 }));
+                if (!isTouch) cardIconTweens.push(gsap.to(icon, { scale: 1.1, duration: 0.8, ease: 'power2.inOut', yoyo: true, repeat: -1 }));
             });
             const aiObserver = new IntersectionObserver((entries) => {
                 cardIconTweens.forEach(t => entries[0].isIntersecting ? t.resume() : t.pause());
@@ -528,47 +539,63 @@ document.addEventListener('DOMContentLoaded', () => {
             const f = document.querySelector('.footer-animate'); if (f) f.classList.add('visible');
         }
 
+        // ── Mobile reveals: IntersectionObserver + CSS (no ScrollTrigger) ──
+        function initMobileReveals() {
+            const targets = ['.scroll-animate',
+                '#trusted-by .text-center', '#trusted-by .trusted-carousel',
+                '#ai-strategy #title-section', '#ai-strategy .cinematic-card',
+                '.glass-canvas .orbit-gear', '.glass-canvas .orbit-stat-card',
+                '.challenge-section h2',
+                '#process .mini-card', '.glass-core-dark',
+                '.testimonial-carousel', '#testimonials .text-center span', '#testimonials .text-center h2',
+                '.faq-item', '#faq .text-center span', '#faq .text-center h2',
+                '.cta-section', '.footer-section', '#process [data-process] .section-content'];
+            targets.forEach(sel => document.querySelectorAll(sel).forEach(el => el.classList.add('reveal-init')));
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+            document.querySelectorAll('.reveal-init').forEach(el => io.observe(el));
+        }
+
         if (!hasGsap || prefersReduced) { showAll(); return; }
 
-        // Reveal helper — hides targets, then animates them in on scroll.
-        // @param {string} selector  elements to reveal
-        // @param {object} from      GSAP "from" vars (initial hidden state)
-        // @param {object} [opts]    { start, stagger, duration, ease }
+        // ── Mobile: lightweight IntersectionObserver reveals (no ScrollTrigger,
+        //    no scroll-event layout reads → perfectly smooth on low-end devices) ──
+        if (isTouch) {
+            initMobileReveals();
+            return;
+        }
+
+        // ── Reveal helper (desktop) — GSAP ScrollTrigger batch ──
         function reveal(selector, from, opts) {
             const els = gsap.utils.toArray(selector);
             if (!els.length) return;
             const o = Object.assign({ start: 'top 85%', stagger: 0.12, duration: 0.8, ease: 'power3.out' }, opts || {});
-            // Touch devices: lightweight opacity + tiny translate only — avoids
-            // scale / rotation / 3D transforms that drop frames on mobile GPUs.
-            const fromVars = isTouch ? { opacity: 0, y: 24 } : from;
-            const toVars = isTouch
-                ? { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', overwrite: 'auto', stagger: 0.06 }
-                : { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, duration: o.duration, ease: o.ease, overwrite: 'auto', stagger: o.stagger };
-            gsap.set(els, fromVars); // hide immediately (prevents flash of content)
+            const toVars = { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, duration: o.duration, ease: o.ease, overwrite: 'auto', stagger: o.stagger };
+            gsap.set(els, from); // hide immediately (prevents flash of content)
             if (els.length > 1) {
-                ScrollTrigger.batch(els, {
-                    start: o.start, once: true,
-                    onEnter: (batch) => gsap.to(batch, toVars)
-                });
+                ScrollTrigger.batch(els, { start: o.start, once: true, onEnter: (batch) => gsap.to(batch, toVars) });
             } else {
                 els.forEach((el, i) => ScrollTrigger.create({
                     trigger: el, start: o.start, once: true,
-                    onEnter: () => gsap.to(el, Object.assign({}, toVars, { delay: i * (isTouch ? 0.06 : o.stagger), stagger: 0 }))
+                    onEnter: () => gsap.to(el, Object.assign({}, toVars, { delay: i * o.stagger, stagger: 0 }))
                 }));
             }
         }
 
-        // ── Hero entrance (plays immediately) ──
-        if (isTouch) {
-            gsap.fromTo(['.absolute-left', '.absolute-right', '.become-pro'],
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1 });
-        } else {
-            gsap.timeline({ defaults: { ease: 'power3.out' } })
-                .fromTo('.absolute-left',  { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
-                .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 },  { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
-                .fromTo('.become-pro',     { opacity: 0, y: 40 },               { opacity: 1, y: 0, duration: 0.8 }, 0.3);
-        }
+        // ── Desktop hero entrance (plays immediately) ──
+        gsap.timeline({ defaults: { ease: 'power3.out' } })
+            .fromTo('.absolute-left',  { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
+            .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 },  { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
+            .fromTo('.become-pro',     { opacity: 0, y: 40 },               { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+
+        // ── Hero parallax — desktop only ──
+        const parallax = (sel, y, scrub) => gsap.to(sel, { y, ease: 'none', scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub } });
+        parallax('.absolute-left', -30, 1);
+        parallax('.absolute-right', -20, 1);
+        parallax('.become-pro', -15, 1.5);
 
         // ── Hero parallax — desktop / non-touch only ──
         if (!isTouch) {
@@ -889,14 +916,18 @@ document.addEventListener('DOMContentLoaded', () => {
         mc.addEventListener('mouseenter', () => paused = true);
         mc.addEventListener('mouseleave', () => paused = false);
 
-        (function marqueeLoop() {
-            if (!paused) {
-                pos -= speed;
-                if (pos <= -halfW) pos += halfW;
-                mt.style.transform = 'translateX(' + pos + 'px)';
-            }
-            requestAnimationFrame(marqueeLoop);
-        })();
+        // Desktop only: this is an infinite requestAnimationFrame loop that
+        // would otherwise run every frame on mobile and hurt scroll performance.
+        if (!isTouch) {
+            (function marqueeLoop() {
+                if (!paused) {
+                    pos -= speed;
+                    if (pos <= -halfW) pos += halfW;
+                    mt.style.transform = 'translateX(' + pos + 'px)';
+                }
+                requestAnimationFrame(marqueeLoop);
+            })();
+        }
     }
 
     // ═══════════════════════════════════════════════════════════
