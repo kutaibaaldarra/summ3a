@@ -1398,11 +1398,8 @@ html { scroll-behavior: auto; }
     opacity: 0;
 }
 
-/* CTA - Initial States */
-.cta-glass-card,
-.cta-section {
-    opacity: 0;
-}
+/* CTA - reveal handled by JS (gsap.set hides, ScrollTrigger reveals).
+   No CSS opacity:0 here, so the card can never get stuck hidden. */
 
 /* Trusted-By - Initial States */
 #trusted-by .text-center {
