@@ -629,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reveal('.faq-item', { opacity: 0, y: 40, x: -30, rotationX: 8 }, { stagger: 0.12, duration: 0.6, ease: 'back.out(1.2)', start: 'top 80%' });
 
         // ── CTA ──
-        reveal('.cta-section', { opacity: 0, scale: 0.92, y: 40 }, { duration: 1 });
+        reveal('.cta-glass-card', { opacity: 0, scale: 0.92, y: 40 }, { duration: 1 });
 
         // ── Footer ──
         const footer = document.querySelector('.footer-animate');
