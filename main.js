@@ -526,6 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
         const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+        const revealTargets = [];
 
         // Fallback: reveal every animated target immediately, without motion.
         function showAll() {
@@ -548,6 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function reveal(selector, from, opts) {
             const els = gsap.utils.toArray(selector);
             if (!els.length) return;
+            els.forEach(el => revealTargets.push(el));
             if (isTouch) {
                 from = { opacity: (from && from.opacity != null) ? from.opacity : 0, y: 24 };
             }
@@ -604,6 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.utils.toArray('#process [data-process] .section-content').forEach((el) => {
             const num = el.querySelector('.section-number');
             gsap.set(el, { opacity: 0, y: isTouch ? 24 : 50 });
+            revealTargets.push(el);
             ScrollTrigger.create({
                 trigger: el, start: 'top 80%', once: true,
                 onEnter: () => {
@@ -642,6 +645,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
+
+        // Safety net: guarantee no section ever stays hidden. Recalc trigger
+        // positions once images/fonts/pins have settled, and as a last resort
+        // force-reveal any target that is still invisible.
+        ScrollTrigger.refresh();
+        window.addEventListener('load', () => ScrollTrigger.refresh());
+        setTimeout(() => {
+            revealTargets.forEach(el => {
+                if (parseFloat(gsap.getProperty(el, 'opacity') || '1') < 0.05) {
+                    gsap.to(el, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+                }
+            });
+            if (footer && !footer.classList.contains('visible')) footer.classList.add('visible');
+        }, 4000);
     }
 
     initScrollAnimations();
