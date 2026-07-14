@@ -539,39 +539,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const f = document.querySelector('.footer-animate'); if (f) f.classList.add('visible');
         }
 
-        // ── Mobile reveals: IntersectionObserver + CSS (no ScrollTrigger) ──
-        function initMobileReveals() {
-            const targets = ['.scroll-animate',
-                '#trusted-by .text-center', '#trusted-by .trusted-carousel',
-                '#ai-strategy #title-section', '#ai-strategy .cinematic-card',
-                '.glass-canvas .orbit-gear', '.glass-canvas .orbit-stat-card',
-                '.challenge-section h2',
-                '#process .mini-card', '.glass-core-dark',
-                '.testimonial-carousel', '#testimonials .text-center span', '#testimonials .text-center h2',
-                '.faq-item', '#faq .text-center span', '#faq .text-center h2',
-                '.cta-section', '.footer-section', '#process [data-process] .section-content'];
-            targets.forEach(sel => document.querySelectorAll(sel).forEach(el => el.classList.add('reveal-init')));
-            const io = new IntersectionObserver((entries) => {
-                entries.forEach(e => {
-                    if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
-                });
-            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-            document.querySelectorAll('.reveal-init').forEach(el => io.observe(el));
-        }
-
         if (!hasGsap || prefersReduced) { showAll(); return; }
 
-        // ── Mobile: lightweight IntersectionObserver reveals (no ScrollTrigger,
-        //    no scroll-event layout reads → perfectly smooth on low-end devices) ──
-        if (isTouch) {
-            initMobileReveals();
-            return;
-        }
-
-        // ── Reveal helper (desktop) — GSAP ScrollTrigger batch ──
+        // ── Reveal helper — GSAP ScrollTrigger batch (reliable on ALL devices) ──
+        // On touch we keep it lightweight: opacity + a small vertical shift only
+        // (no scale / rotation / horizontal slide) so the scroll stays smooth and
+        // no section can ever get stuck hidden (unlike the old CSS/IO approach).
         function reveal(selector, from, opts) {
             const els = gsap.utils.toArray(selector);
             if (!els.length) return;
+            if (isTouch) {
+                from = { opacity: (from && from.opacity != null) ? from.opacity : 0, y: 24 };
+            }
             const o = Object.assign({ start: 'top 85%', stagger: 0.12, duration: 0.8, ease: 'power3.out' }, opts || {});
             const toVars = { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, duration: o.duration, ease: o.ease, overwrite: 'auto', stagger: o.stagger };
             gsap.set(els, from); // hide immediately (prevents flash of content)
@@ -590,12 +569,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .fromTo('.absolute-left',  { opacity: 0, x: -60, scale: 0.95 }, { opacity: 1, x: 0, scale: 1, duration: 1 }, 0)
             .fromTo('.absolute-right', { opacity: 0, x: 60, scale: 0.95 },  { opacity: 1, x: 0, scale: 1, duration: 1 }, 0.15)
             .fromTo('.become-pro',     { opacity: 0, y: 40 },               { opacity: 1, y: 0, duration: 0.8 }, 0.3);
-
-        // ── Hero parallax — desktop only ──
-        const parallax = (sel, y, scrub) => gsap.to(sel, { y, ease: 'none', scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub } });
-        parallax('.absolute-left', -30, 1);
-        parallax('.absolute-right', -20, 1);
-        parallax('.become-pro', -15, 1.5);
 
         // ── Hero parallax — desktop / non-touch only ──
         if (!isTouch) {

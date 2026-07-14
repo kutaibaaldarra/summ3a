@@ -181,23 +181,6 @@ footer {
     }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   Mobile scroll reveals — driven by IntersectionObserver.
-   Uses translate3d + opacity only (GPU-composited), so no
-   main-thread paint happens during scroll → smooth on mobile.
-   ═══════════════════════════════════════════════════════════ */
-.reveal-init {
-    opacity: 0;
-    transform: translate3d(0, 24px, 0);
-    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
-}
-.reveal-init.is-visible {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    will-change: auto;
-}
-
 /* 3D Service Cards */
 .item {
     position: relative;
