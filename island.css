@@ -641,6 +641,7 @@
         height: auto !important;
         min-height: 50px !important;
         padding: 0.4rem 0.8rem !important;
+        justify-content: center !important;
     }
 
     /* ─── Notification — visible ─── */
@@ -672,14 +673,42 @@
         color: rgba(255,255,255,0.5) !important;
     }
 
+    /* ─── Let the island fill the pill so the sentence can reach the far right ─── */
+    #main-header.island.island-expanded .header-island {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        justify-content: flex-end !important;
+        gap: 0 !important;
+    }
+
+    /* ─── Hide default island content (incl. logo) so the sentence reaches the far right ─── */
+    #main-header.island.island-expanded .island-eyes,
+    #main-header.island.island-expanded #island-question,
+    #main-header.island.island-expanded .task-dots,
+    #main-header.island.island-expanded .island-links,
+    #main-header.island.island-expanded #island-quick-actions,
+    #main-header.island.island-expanded .island-links-btn,
+    #main-header.island.island-expanded .island-links-dropdown,
+    #main-header.island.island-expanded .header-full {
+        opacity: 0 !important;
+        max-width: 0 !important;
+        overflow: hidden !important;
+        pointer-events: none !important;
+    }
+    #main-header.island.island-expanded .header-full,
+    #main-header.island.island-expanded .island-links-dropdown,
+    #main-header.island.island-expanded .island-links-btn {
+        display: none !important;
+    }
+
     /* ─── Expanded notification — sentence aligned to the far right (RTL) ─── */
     #main-header.island.island-expanded .island-notification {
         flex-direction: row-reverse !important;
         align-items: center !important;
         justify-content: flex-end !important;
         gap: 10px !important;
-        max-width: 100% !important;
-        width: 100% !important;
+        margin-left: auto !important;
+        min-width: 0 !important;
         white-space: normal !important;
         overflow: visible !important;
     }
