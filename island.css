@@ -635,12 +635,20 @@
     #main-header.island .island-links { gap: 5px !important; }
     #main-header.island .island-links a { font-size: 11px !important; padding: 4px 8px !important; border-radius: 8px !important; }
 
-    /* ─── Mobile: keep the island compact (no wide expansion); show the sentence inside the pill ─── */
-    #main-header.island .header-island {
+    /* ─── Mobile expanded: stay the SAME compact size (no widening); only swap content to the sentence ─── */
+    #main-header.island.island-expanded {
+        width: auto !important;
+        max-width: 90% !important;
+        height: 48px !important;
+        min-height: 48px !important;
+        padding: 0.35rem 0.7rem !important;
+        justify-content: flex-end !important;
+    }
+    #main-header.island.island-expanded .header-island {
         justify-content: flex-end !important;
         gap: 0 !important;
     }
-    #main-header.island .island-notification {
+    #main-header.island.island-expanded .island-notification {
         opacity: 1 !important;
         max-width: 420px !important;
         flex-direction: row-reverse !important;
@@ -652,30 +660,30 @@
         white-space: normal !important;
         min-width: 0 !important;
     }
-    #main-header.island .island-notif-icon,
-    #main-header.island .island-notif-title,
-    #main-header.island .island-notif-desc {
+    #main-header.island.island-expanded .island-notif-icon,
+    #main-header.island.island-expanded .island-notif-title,
+    #main-header.island.island-expanded .island-notif-desc {
         opacity: 1 !important;
     }
-    #main-header.island .island-notif-text {
+    #main-header.island.island-expanded .island-notif-text {
         flex: 1 1 auto !important;
         min-width: 0 !important;
         text-align: right !important;
     }
-    #main-header.island .island-notif-title,
-    #main-header.island .island-notif-desc {
+    #main-header.island.island-expanded .island-notif-title,
+    #main-header.island.island-expanded .island-notif-desc {
         white-space: normal !important;
         text-align: right !important;
         overflow-wrap: anywhere !important;
     }
-    #main-header.island .island-eyes,
-    #main-header.island #island-question,
-    #main-header.island .task-dots,
-    #main-header.island .island-links,
-    #main-header.island #island-quick-actions,
-    #main-header.island .island-links-btn,
-    #main-header.island .island-links-dropdown,
-    #main-header.island .header-full {
+    #main-header.island.island-expanded .island-eyes,
+    #main-header.island.island-expanded #island-question,
+    #main-header.island.island-expanded .task-dots,
+    #main-header.island.island-expanded .island-links,
+    #main-header.island.island-expanded #island-quick-actions,
+    #main-header.island.island-expanded .island-links-btn,
+    #main-header.island.island-expanded .island-links-dropdown,
+    #main-header.island.island-expanded .header-full {
         display: none !important;
     }
 
