@@ -672,6 +672,29 @@
         color: rgba(255,255,255,0.5) !important;
     }
 
+    /* ─── Notification — match desktop RTL order (icon right, text left) ─── */
+    #main-header.island.island-expanded .island-notification {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        white-space: normal !important;
+        overflow: visible !important;
+    }
+    #main-header.island.island-expanded .island-notif-text {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        text-align: right !important;
+    }
+    #main-header.island.island-expanded .island-notif-title,
+    #main-header.island.island-expanded .island-notif-desc {
+        white-space: normal !important;
+        text-align: right !important;
+        overflow-wrap: anywhere !important;
+    }
+
     /* ─── Panel — usable on mobile ─── */
     #island-panel {
         width: 90vw !important;
