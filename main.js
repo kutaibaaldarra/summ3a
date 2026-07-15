@@ -699,14 +699,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (testimonialsSection && header) {
         const testimonialObs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
+                const wide = window.innerWidth >= 768;
                 if (entry.isIntersecting) {
-                    header.classList.add('island-expanded');
+                    if (wide) header.classList.add('island-expanded');
                     const notifTitle = header.querySelector('.island-notif-title');
                     const notifDesc = header.querySelector('.island-notif-desc');
                     if (notifTitle) notifTitle.textContent = 'ابدأ رحلتك';
                     if (notifDesc) notifDesc.textContent = 'وكن واحداً منهم';
                 } else {
-                    header.classList.remove('island-expanded');
+                    if (wide) header.classList.remove('island-expanded');
                 }
             });
         }, { threshold: 0.3 });
