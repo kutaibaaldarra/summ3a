@@ -672,14 +672,45 @@
         color: rgba(255,255,255,0.5) !important;
     }
 
-    /* ─── Notification — match desktop RTL order (icon right, text left) ─── */
-    #main-header.island.island-expanded .island-notification {
-        flex-direction: row !important;
+    /* ─── Expanded island: page links (left) + notification text (right) ─── */
+    #main-header.island.island-expanded .header-island {
+        justify-content: space-between !important;
         align-items: center !important;
-        justify-content: center !important;
+        flex-direction: row !important;
+        gap: 0.6rem !important;
+        flex-wrap: nowrap !important;
+    }
+    #main-header.island.island-expanded .island-eyes,
+    #main-header.island.island-expanded #island-question,
+    #main-header.island.island-expanded .task-dots,
+    #main-header.island.island-expanded #island-quick-actions,
+    #main-header.island.island-expanded .island-links-btn,
+    #main-header.island.island-expanded .island-links-dropdown {
+        display: none !important;
+    }
+    #main-header.island.island-expanded .island-links {
+        display: flex !important;
+        opacity: 1 !important;
+        max-width: none !important;
+        overflow: visible !important;
+        pointer-events: auto !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 6px !important;
+        order: 3 !important;
+    }
+    #main-header.island.island-expanded .island-notification {
+        flex: 0 0 auto !important;
+        flex-direction: row-reverse !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
         gap: 10px !important;
-        max-width: 100% !important;
-        width: 100% !important;
+        max-width: none !important;
+        width: auto !important;
+        order: 1 !important;
         white-space: normal !important;
         overflow: visible !important;
     }
