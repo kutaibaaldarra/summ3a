@@ -1,0 +1,797 @@
+﻿ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SMH - Your creative partner in social media management and design">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="//www.youtube.com">
+    <link rel="dns-prefetch" href="//img.youtube.com">
+    <link rel="icon" type="image/png" href="3.png">
+    <link rel="preload" as="image" href="Gemini_Generated_Image_20cdk320cdk320cd.webp" fetchpriority="high">
+<title>سمعة</title>
+    <link rel="stylesheet" href="tailwind.prod.css?v=1">
+    <!-- vendor scripts loaded from repo root -->
+    <script src="gsap.min.js?v=1" defer></script>
+    <script src="ScrollTrigger.min.js?v=1" defer></script>
+    
+    <script src="lenis.min.js?v=1" defer></script>
+    <link rel="stylesheet" href="my-styles.css?v=11">
+<style>
+        /* ─── MAIN HEADER (dual-state) ─── */
+        #main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 99999;
+            background: rgba(15, 15, 15, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s ease;
+            transform-origin: center center;
+        }
+        #main-header.island {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%) scale(0.97);
+            width: auto;
+            max-width: 92%;
+            height: 50px;
+            overflow: hidden;
+            border-radius: 2.5rem;
+            padding: 0.45rem 0.8rem 0.45rem 1rem;
+            background: rgba(15, 15, 15, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: unset;
+        }
+        #main-header.island::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        #main-header.island.section-0 { border-color: rgba(246,135,32,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 30px rgba(246,135,32,0.08); }
+        #main-header.island.section-1 { border-color: rgba(34,197,94,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 30px rgba(34,197,94,0.08); }
+        #main-header.island.section-2 { border-color: rgba(59,130,246,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 30px rgba(59,130,246,0.08); }
+        #main-header.island.section-3 { border-color: rgba(168,85,247,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 30px rgba(168,85,247,0.08); }
+        #main-header.island.section-4 { border-color: rgba(236,72,153,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 40px rgba(236,72,153,0.12); }
+        #main-header.island.section-5 { border-color: rgba(234,179,8,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 30px rgba(234,179,8,0.08); }
+
+        /* ─── FULL MODE CONTENT ─── */
+        .header-full {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #main-header.island .header-full {
+            opacity: 0;
+            transform: translateY(-12px) scale(0.9);
+            pointer-events: none;
+            display: none;
+        }
+        /* Keep logo and menu compact so nav can center exactly */
+        .header-full .header-logo { flex: 0 0 auto; }
+        .header-full .header-logo img { width: 42px; height: 42px; object-fit: contain; display: block; }
+        .header-full .header-nav {
+            flex: 0 1 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 0 auto;
+        }
+        .header-full .header-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.95);
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 999px;
+            transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+        }
+        .header-full .header-nav a:hover,
+        .header-full .header-nav a:focus,
+        .header-full .header-nav a.active {
+            background: rgba(255,255,255,0.95);
+            color: #111;
+            transform: translateY(-2px);
+        }
+        /* primary (highlight) variant used for questionnaire/get-started */
+        .header-full .header-nav a.primary {
+            background: linear-gradient(90deg, #f68720, #ed6a00);
+            color: #000;
+            box-shadow: 0 12px 36px rgba(246,135,32,0.14);
+            padding: 10px 16px;
+            font-weight: 400;
+        }
+        .header-full .header-menu-btn { flex: 0 0 auto; display: flex; justify-content: flex-end; }
+        .header-full .header-menu-btn button { background: none; border: none; cursor: pointer; }
+
+        @media (max-width: 767px) {
+            .header-full .header-nav { display: none !important; }
+        }
+        .header-island {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            white-space: nowrap;
+        }
+        #main-header.island .header-island {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        /* ─── SECTION VARIANT ─── */
+        #main-header.island.section-0 .header-island { gap: 0.6rem; }
+        #main-header.island.section-3 .header-island { gap: 0.4rem; transform: scale(0.95); }
+        #main-header.island.section-4 .header-island { gap: 0.8rem; }
+
+        /* ─── ISLAND EXPANSION ─── */
+        #main-header.island.is-expanded {
+            width: 86%;
+            max-width: 980px;
+            background: rgba(10, 10, 10, 0.98);
+            border-color: rgba(246, 135, 32, 0.4);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+            justify-content: center;
+        }
+        .challenge-section {
+            min-height: 360px;
+            overflow: visible;
+        }
+        .challenge-section .text-center {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ─── EYES ─── */
+        .island-eyes {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .eye-socket {
+            width: 16px; height: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .eye-ball {
+            width: 9px; height: 9px;
+            background: #fff;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 5px rgba(255,255,255,0.2);
+        }
+        .eye-ball::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 3.5px; height: 3.5px;
+            background: #111;
+            border-radius: 50%;
+        }
+        .eye-blink {
+            animation: blink 4.5s ease-in-out infinite;
+        }
+        .eye-blink:nth-child(2) { animation-delay: 0.2s; }
+        @keyframes blink {
+            0%, 94%, 100% { transform: scaleY(1); }
+            96% { transform: scaleY(0.15); }
+        }
+
+        /* excited eyes per section */
+        #main-header.island.section-4 .eye-socket {
+            animation: excitedEye 0.8s ease-in-out infinite;
+        }
+        @keyframes excitedEye {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ─── ISLAND TEXT ─── */
+        #island-question {
+            color: #f5f5f5;
+            font-size: 0.95rem; /* improved readability */
+            font-weight: 600;
+            max-width: 220px; /* allow more room on desktop */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 1;
+        }
+
+        /* ─── TASK DOTS ─── */
+        .task-dots {
+            display: flex;
+            align-items: center;
+            gap: 6px; /* increased spacing */
+            flex-shrink: 0;
+        }
+        .task-dot {
+            width: 10px; height: 10px; /* larger dots for touch */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: none;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .task-dot:hover { transform: scale(1.8); }
+        .task-dot.active {
+            transform: scale(1.6);
+            box-shadow: 0 0 10px currentColor;
+        }
+        .task-dot.active::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 1.5px solid currentColor;
+            animation: ringPulse 1.5s ease-out infinite;
+        }
+        @keyframes ringPulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        /* ─── TOGGLE ─── */
+        #island-toggle {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(255,255,255,0.65);
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            flex-shrink: 0;
+        }
+        #island-toggle:hover { background: rgba(255,255,255,1); transform: scale(1.12); }
+        #island-toggle svg {
+            width: 11px; height: 11px;
+            transition: transform 0.4s ease;
+        }
+        #island-toggle.active svg { transform: rotate(45deg); }
+
+        /* ─── PANEL ─── */
+        #island-panel {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 50%;
+            width: 280px;
+            background: rgba(18,18,18,0.96);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            opacity: 0; visibility: hidden;
+            transform: translateX(-50%) translateY(8px) scale(0.95);
+            transition: opacity 0.35s, visibility 0.35s, transform 0.35s;
+        }
+        #island-panel.open { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0) scale(1); }
+        .panel-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.7rem 1rem 0.4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .panel-header h4 { color: rgba(255,255,255,0.6); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+        .panel-list { padding: 0.3rem 0.6rem; max-height: 200px; overflow-y: auto; }
+        .panel-list::-webkit-scrollbar { width: 2px; }
+        .panel-list::-webkit-scrollbar-thumb { background: rgba(246,135,32,0.3); border-radius: 10px; }
+        .panel-item {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.4rem 0.5rem; border-radius: 0.5rem;
+            cursor: pointer; transition: background 0.25s;
+            color: rgba(255,255,255,0.65); font-size: 0.75rem;
+        }
+        .panel-item:hover { background: rgba(255,255,255,0.92); color: #111; }
+        .panel-item .dot-indicator { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+        .panel-detail {
+            padding: 0.6rem 1rem 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: none;
+        }
+        .panel-detail.show { display: block; }
+        .panel-detail h5 { color: #f68720; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; }
+        .panel-detail ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+        .panel-detail li {
+            color: #111; font-size: 0.7rem;
+            padding: 0.25rem 0.5rem; background: rgba(255,255,255,0.92);
+            border-radius: 0.3rem; border-right: 2px solid rgba(246,135,32,0.65);
+        }
+
+        /* ─── DISSOLVE ELEMENTS ─── */
+        #dissolve-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 41; pointer-events: none;
+            opacity: 0;
+        }
+        #dissolve-canvas.active { opacity: 1; }
+        #flash-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #fff;
+            z-index: 42; pointer-events: none;
+            opacity: 0;
+        }
+
+#mobile-menu-overlay {
+        position: fixed !important; top: 70px !important; left: 0 !important; right: 0 !important; height: 50% !important;
+        background: #000 !important; border-top: 2px solid #f68720 !important; border-bottom: 2px solid #f68720 !important;
+        z-index: 99999 !important; padding: 1rem !important; box-shadow: 0 20px 60px rgba(0,0,0,0.8) !important;
+        opacity: 0 !important; pointer-events: none !important; transition: opacity 0.3s ease !important;
+        border-radius: 0;
+    }
+
+    #mobile-menu-overlay.open {
+        display: flex !important; flex-direction: column !important; gap: 0.25rem !important;
+        opacity: 1 !important; pointer-events: auto !important;
+    }
+
+    #mobile-menu-overlay a {
+        display: block !important; padding: 1rem !important; text-align: center !important;
+        font-size: 1.1rem !important; border-radius: 8px !important; transition: all 0.3s ease !important;
+    }
+
+    #mobile-menu-overlay a:hover {
+        background: rgba(246,135,32,0.1) !important; color: #f68720 !important;
+    }
+        #mobile-menu-overlay a { display: block; padding: 0.9rem; text-align: center; font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.8); text-decoration: none; border-radius: 8px; transition: background 0.3s, color 0.3s; }
+        #mobile-menu-overlay a:hover { background: rgba(246,135,32,0.1); color: #f68720; }
+        #mobile-menu-overlay .close-btn { display: none; }
+
+        @media (max-width: 767px) {
+            .header-full .header-nav { display: none !important; }
+            .header-full .header-logo { flex-shrink: 0; }
+            .header-full .header-logo img { width: 32px; height: 32px; }
+        }
+        @media (min-width: 768px) {
+            .header-full .header-menu-btn { display: none !important; }
+        }
+    </style>
+    <link rel="stylesheet" href="island.css?v=7">
+</head>
+<body class="bg-glow">
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- │                    🏠 قسم الهيدر (Header)                      │ -->
+        <!-- │            شريط التنقل العلوي مع اللوقو والقائمة               │ -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+<header id="main-header">
+        <div class="header-full">
+            <!-- Logo -->
+            <div class="header-logo">
+                <a href="index.html"><img src="3.png" alt="سمعة"></a>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="header-nav">
+                <a href="index.html">الرئيسية</a>
+                <a href="about.html" class="active primary">من نحن</a>
+                <a href="packages.html">الباقات</a>
+                <a href="results.html">النتائج</a>
+                <a href="questionnaire.html">استبيان</a>
+                <a href="terms.html">الشروط</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <div class="header-menu-btn">
+                <button id="mobile-menu-btn" aria-label="القائمة">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="header-island">
+            <div class="island-eyes">
+                <div class="eye-socket"><div class="eye-ball eye-blink" id="eye-left"></div></div>
+                <div class="eye-socket"><div class="eye-ball eye-blink" id="eye-right"></div></div>
+            </div>
+
+            <span id="island-question">كيف أخدمك؟</span>
+
+            <div class="task-dots" id="task-dots">
+                <span class="task-dot" style="background:#f68720" data-index="0"></span>
+            </div>
+
+            <!-- Desktop: inline links -->
+            <div id="island-links-header" class="island-links island-desktop-links" aria-hidden="false"></div>
+
+            <!-- Mobile/Tablet: dropdown button + dropdown -->
+            <button id="island-links-btn" class="island-links-btn" aria-expanded="false" aria-label="روابط الصفحات">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div id="island-links-dropdown" class="island-links-dropdown"></div>
+
+            <!-- Quick actions: primary CTA -->
+            <div id="island-quick-actions">
+                <button id="island-cta" class="island-quick-link" aria-haspopup="true" aria-expanded="false" style="padding:6px 8px;">⚙️</button>
+            </div>
+
+            <!-- Testimonials notification -->
+            <div class="island-notification">
+                <div class="island-notif-icon">💬</div>
+                <div class="island-notif-text" style="flex:1; min-width:0;">
+                    <div class="island-notif-title">ابدأ رحلتك</div>
+                    <div class="island-notif-desc">وكن واحداً منهم</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel -->
+        <div id="island-panel">
+            <div class="panel-header">
+                <h4>خطوات العملية</h4>
+                <button id="panel-close" style="background:none;border:none;color:rgba(255,255,255,0.35);cursor:pointer;font-size:0.9rem;padding:0;">✕</button>
+                <!-- Alias for alternate scripts expecting `island-close` -->
+                <button id="island-close" type="button" hidden>✕</button>
+            </div>
+            <div class="panel-list" id="panel-list">
+                <!-- Compatibility container for older/newer island scripts -->
+                <div id="island-questions-list"></div>
+                <!-- Dynamic panel links container (populated by island-core.js) -->
+                <div id="island-links-panel" class="panel-links" style="padding:0.5rem 0.6rem"></div>
+            </div>
+            <!-- Overflow menu for quick actions (hidden) -->
+            <div id="island-links-overflow" role="menu" aria-hidden="true" style="position: absolute; top: calc(100% + 8px); right: 0; width: 240px; display:none; background: rgba(18,18,18,0.98); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:8px; z-index:50"></div>
+            <div class="panel-detail" id="panel-detail">
+                <h5 id="detail-title">اختر خطوة</h5>
+                <ol id="detail-steps"></ol>
+            </div>
+        </div>
+    </header>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!--  DISSOLVE OVERLAYS                          -->
+    <!-- ════════════════════════════════════════════ -->
+    <canvas id="dissolve-canvas"></canvas>
+    <div id="flash-overlay"></div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu-overlay">
+        <a href="index.html">الرئيسية</a>
+        <a href="about.html" style="color:#f68720;">من نحن</a>
+        <a href="packages.html">الباقات</a>
+        <a href="results.html">النتائج</a>
+        <a href="questionnaire.html">استبيان</a>
+        <a href="terms.html">الشروط</a>
+    </div>
+
+    <!-- 🎯 Development Notice Modal -->
+    <div id="devNoticeBackdrop" class="dev-notice-backdrop">
+        <div id="devNoticeModal" class="dev-notice-modal">
+            <div class="dev-notice-inner">
+                <div class="dev-notice-icon">⚙️</div>
+                <h2 class="dev-notice-title">ملاحظة هامة</h2>
+                <p class="dev-notice-message">الموقع قيد التطوير الحالي ✨</p>
+                <p class="dev-notice-submessage">نعمل على تحسينات مستمرة لتقديم أفضل تجربة</p>
+                <button id="devNoticeClose" class="dev-notice-btn">حسناً، فهمت</button>
+            </div>
+        </div>
+    </div>
+
+        <main>
+    <!-- HERO -->
+    <section class="relative overflow-hidden py-28 md:py-40 text-center" style="background: radial-gradient(circle at 50% 0%, rgba(246,135,32,0.18), transparent 60%), #0a0a0a;">
+        <div class="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#14b8a6]/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-52 h-52 rounded-full bg-[#f68720]/10 blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-6">
+            <span class="inline-block px-4 py-2 rounded-full border border-[#f68720]/40 text-[#f68720] text-sm font-bold tracking-widest mb-6">ظ‚طµطھظ†ط§</span>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight" style="font-family:'Cairo',sans-serif;">
+                <span class="text-white">ط³ظ…ط¹ط©</span> <span class="text-[#f68720]">â€” ط´ط±ظٹظƒظƒ ظپظٹ ط§ظ„ظ†ظ…ظˆ ط§ظ„ط±ظ‚ظ…ظٹ</span>
+            </h1>
+            <p class="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
+                ظ†ط­ظ† ظˆظƒط§ظ„ط© طھط³ظˆظٹظ‚ ظ…طھظƒط§ظ…ظ„ط© ظ†ط­ظˆظ‘ظ„ ط¨ظٹط§ظ†ط§طھ ط¬ظ…ظ‡ظˆط±ظƒ ط¥ظ„ظ‰ ظ†طھط§ط¦ط¬ ط­ظ‚ظٹظ‚ظٹط©طŒ ط¹ط¨ط± ظ…ط²ظٹط¬ ظ…ظ† ط§ظ„ط°ظƒط§ط، ط§ظ„ط§طµط·ظ†ط§ط¹ظٹ ظˆط§ظ„ط±ط¤ظٹط© ط§ظ„ط¨ط´ط±ظٹط© ظپظٹ ط§ظ„طھطµظ…ظٹظ… ظˆط§ظ„طھطµظˆظٹط± ظˆط§ظ„ظ…ظˆظ†طھط§ط¬ ظˆط§ظ„ط¨ط±ظ…ط¬ط©.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="packages.html" class="inline-flex items-center justify-center px-8 py-4 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#e67d1f] transition-colors">ط§ط³طھظƒط´ظپ ط§ظ„ط¨ط§ظ‚ط§طھ</a>
+                <a href="questionnaire.html" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white/20 text-white font-bold rounded-full hover:bg-[#f68720]/10 transition-colors">ط§ط¨ط¯ط£ ط±ط­ظ„طھظƒ</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION -->
+    <section class="py-20 md:py-28" style="background-color:#fef4ea;">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div dir="rtl">
+                <h2 class="text-3xl md:text-5xl font-black text-[#1e293b] mb-6">ظ…ظ† ظ†ط­ظ†</h2>
+                <p class="text-[#475569] text-lg leading-relaxed mb-4">
+                    ظˆظڈظ„ط¯طھ آ«ط³ظ…ط¹ط©آ» ظ…ظ† ظ‚ظ†ط§ط¹ط© ط¨ط³ظٹط·ط©: ط£ظ† ظƒظ„ ط¹ظ„ط§ظ…ط© طھط¬ط§ط±ظٹط© طھط³طھط­ظ‚ ط­ط¶ظˆط±ط§ظ‹ ط±ظ‚ظ…ظٹط§ظ‹ ظٹظ„ظٹظ‚ ط¨ظ‡ط§. ظ†ط¬ظ…ط¹ ط¨ظٹظ† طھط­ظ„ظٹظ„ ط§ظ„ط¨ظٹط§ظ†ط§طھ ط¨ط¯ظ‚ط©طŒ ظˆط¨ظٹظ† طµظ†ط§ط¹ط© ظ…ط­طھظˆظ‰ ظٹظ…ط³ظ‘ ط§ظ„ط¬ظ…ظ‡ظˆط± ظˆظٹط¯ظپط¹ ظ†ط­ظˆ ط§ظ„ط´ط±ط§ط،.
+                </p>
+                <p class="text-[#475569] text-lg leading-relaxed mb-4">
+                    ظ†ط¹ظ…ظ„ ط¨ظ…ظ†ظ‡ط¬ظٹط© ظˆط§ط¶ط­ط© طھط¨ط¯ط£ ظ…ظ† ظپظ‡ظ… ط¬ظ…ظ‡ظˆط±ظƒطŒ ظ…ط±ظˆط±ط§ظ‹ ط¨ط¨ظ†ط§ط، ط§ظ„ط§ط³طھط±ط§طھظٹط¬ظٹط©طŒ ظˆطµظˆظ„ط§ظ‹ ط¥ظ„ظ‰ طھظ†ظپظٹط° ط§ط­طھط±ط§ظپظٹ ظٹظڈظ‚ط§ط³ ط¨ظ†طھط§ط¦ط¬ظ‡ â€” ظ„ط§ ط¨ظ…ط¸ظ‡ط±ظ‡ ظپظ‚ط·.
+                </p>
+                <p class="text-[#475569] text-lg leading-relaxed">
+                    ظ‡ط¯ظپظ†ط§ ظˆط§ط­ط¯: ط£ظ† طھظƒظˆظ† آ«ط³ظ…ط¹طھظƒآ» ط£طµظ„ط§ظ‹ ظٹطھظ†ط§ظ…ظ‰ ظ…ط¹ ظƒظ„ ط­ظ…ظ„ط©.
+                </p>
+            </div>
+            <div class="relative">
+                <div class="rounded-3xl p-8 text-white" style="background:linear-gradient(135deg,#14b8a6,#0d9488);box-shadow:0 20px 50px rgba(13,148,136,0.25);">
+                    <h3 class="text-2xl font-black mb-4">ط±ط³ط§ظ„طھظ†ط§</h3>
+                    <p class="leading-relaxed text-white/90">
+                        طھظ…ظƒظٹظ† ط§ظ„ط´ط±ظƒط§طھ ظˆط§ظ„ط£ظپط±ط§ط¯ ظ…ظ† ط§ظ„ظ†ظ…ظˆ ط¹ط¨ط± طھط³ظˆظٹظ‚ ظ‚ط§ط¦ظ… ط¹ظ„ظ‰ ط§ظ„ط¨ظٹط§ظ†ط§طھطŒ ط¨ط¬ظˆط¯ط© ط¥ط¨ط¯ط§ط¹ظٹط© ط¹ط§ظ„ظٹط© ظˆط±ظ‚ط§ط¨ط© ظ‡ظ†ط¯ط³ظٹط© طھط¶ظ…ظ† ط£ط¹ظ„ظ‰ ط¹ط§ط¦ط¯ ط¹ظ„ظ‰ ط§ظ„ط§ط³طھط«ظ…ط§ط±.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="py-16 md:py-24 relative overflow-hidden" style="background:#0a0a0a;">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-4xl md:text-6xl font-black text-[#f68720] mb-2">+150</div>
+                <div class="text-gray-400 text-sm">ط¹ظ…ظٹظ„ ظ†ظ…ط§ ظ…ط¹ظ†ط§</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-6xl font-black text-[#f68720] mb-2">5+</div>
+                <div class="text-gray-400 text-sm">ط³ظ†ظˆط§طھ ط®ط¨ط±ط©</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-6xl font-black text-[#f68720] mb-2">30%</div>
+                <div class="text-gray-400 text-sm">طھظˆظپظٹط± ط¨ط§ظ„طھظƒظ„ظپط©</div>
+            </div>
+            <div>
+                <div class="text-4xl md:text-6xl font-black text-[#f68720] mb-2">95%</div>
+                <div class="text-gray-400 text-sm">ط¯ظ‚ط© ط§ظ„ظ…ط·ط§ط¨ظ‚ط©</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="py-20 md:py-28" style="background-color:#fef4ea;">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-14">
+                <span class="text-[#f68720] text-sm font-bold tracking-[0.3em] uppercase">ظ‚ظٹظ…ظ†ط§</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[#1e293b] mt-2">ظ…ط§ ط§ظ„ط°ظٹ ظٹظ…ظٹظ‘ط²ظ†ط§طں</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="rounded-2xl p-8 bg-white shadow-lg border border-[#0e7970]/20 hover:-translate-y-1 transition-transform duration-300">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background:rgba(20,184,166,0.12);">
+                        <svg class="w-7 h-7 text-[#14b8a6]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 14h2M20 9h2M20 14h2"/></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-[#1e293b] mb-3">ط§ظ„ط°ظƒط§ط، ط§ظ„ظ…ظˆط¬ظ‘ظ‡</h3>
+                    <p class="text-[#475569] leading-relaxed">ط®ظˆط§ط±ط²ظ…ظٹط§طھ ط§ط­طھط±ط§ظپظٹط© ظ…طµظ…ظ…ط© ط®طµظٹطµط§ظ‹ ظ„ظپظ‡ظ… ظˆظ‚ط±ط§ط،ط© ط³ظ„ظˆظƒ ط§ظ„ط¹ظ…ظٹظ„ ط§ظ„ظپط¹ظ„ظٹ.</p>
+                </div>
+                <div class="rounded-2xl p-8 bg-white shadow-lg border border-[#0e7970]/20 hover:-translate-y-1 transition-transform duration-300">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background:rgba(246,135,32,0.12);">
+                        <svg class="w-7 h-7 text-[#f68720]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-[#1e293b] mb-3">ط§ظ„ط§ط³طھط¬ط§ط¨ط© ط§ظ„ظ„ط­ط¸ظٹط©</h3>
+                    <p class="text-[#475569] leading-relaxed">ظ…ط¹ط§ظ„ط¬ط© ظپظˆط±ظٹط© ظ„ظ„ط¨ظٹط§ظ†ط§طھ طھط¶ظ…ظ† ط§ظ„طھظˆط§ط¬ط¯ ط£ظ…ط§ظ… ط§ظ„ط¹ظ…ظٹظ„ ظپظٹ ط°ط±ظˆط© ط§ظ‡طھظ…ط§ظ…ظ‡.</p>
+                </div>
+                <div class="rounded-2xl p-8 bg-white shadow-lg border border-[#0e7970]/20 hover:-translate-y-1 transition-transform duration-300">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style="background:rgba(168,85,247,0.12);">
+                        <svg class="w-7 h-7 text-[#a855f7]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-[#1e293b] mb-3">ط§ظ„ط±ظ‚ط§ط¨ط© ط§ظ„ط®ط¨ظٹط±ط©</h3>
+                    <p class="text-[#475569] leading-relaxed">ظ…ط®ط±ط¬ط§طھ طھظ‚ظ†ظٹط© ظ…طµظ‚ظˆظ„ط© ظˆظ…ظڈط¹ط§ظٹط±ط© ط¨ط±ط¤ظٹط© ط¨ط´ط±ظٹط© طھط¶ظ…ظ† ط£ط¹ظ„ظ‰ ط¬ظˆط¯ط© ظ„ظ„ظ…ط­طھظˆظ‰.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT WE DO -->
+    <section class="py-20 md:py-28 relative overflow-hidden" style="background:#0a0a0a;">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-14">
+                <span class="text-[#f68720] text-sm font-bold tracking-[0.3em] uppercase">ط®ط¯ظ…ط§طھظ†ط§</span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mt-2">ظ…ط§ط°ط§ ظ†ظ‚ط¯ظ‘ظ…طں</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="rounded-2xl p-6 border border-white/10 bg-white/[0.03] hover:border-[#f68720]/40 transition-colors">
+                    <div class="w-10 h-1 rounded-full bg-[#f68720] mb-4"></div>
+                    <h3 class="text-lg font-black text-white mb-2">ط§ظ„طھطµظ…ظٹظ…</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">ظ‡ظˆظٹط© ط¨طµط±ظٹط© ظˆظ‚ظˆط§ظ„ط¨ ط¥ط¨ط¯ط§ط¹ظٹط© طھط¹ظƒط³ ط´ط®طµظٹط© ط¹ظ„ط§ظ…طھظƒ ظˆطھط¬ط°ط¨ ط¬ظ…ظ‡ظˆط±ظƒ.</p>
+                </div>
+                <div class="rounded-2xl p-6 border border-white/10 bg-white/[0.03] hover:border-[#14b8a6]/40 transition-colors">
+                    <div class="w-10 h-1 rounded-full bg-[#14b8a6] mb-4"></div>
+                    <h3 class="text-lg font-black text-white mb-2">ط§ظ„طھطµظˆظٹط±</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">ط¥ظ†طھط§ط¬ ط¨طµط±ظٹ ط§ط­طھط±ط§ظپظٹ ط¯ط§ط®ظ„ ط§ط³طھط¯ظٹظˆظ‡ط§طھ ظ…ط¬ظ‡ط²ط© ط¨ط£ط­ط¯ط« ط§ظ„ظƒط§ظ…ظٹط±ط§طھ ظˆط§ظ„ط¥ط¶ط§ط،ط©.</p>
+                </div>
+                <div class="rounded-2xl p-6 border border-white/10 bg-white/[0.03] hover:border-[#f68720]/40 transition-colors">
+                    <div class="w-10 h-1 rounded-full bg-[#f68720] mb-4"></div>
+                    <h3 class="text-lg font-black text-white mb-2">ط§ظ„ظ…ظˆظ†طھط§ط¬</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">ظ…ظˆظ†طھط§ط¬ ط§ط­طھط±ط§ظپظٹ ظٹط­ظˆظ‘ظ„ ط§ظ„ظ„ظ‚ط·ط§طھ ط¥ظ„ظ‰ ظ‚طµطµ ط¨طµط±ظٹط© طھط¨ظٹط¹.</p>
+                </div>
+                <div class="rounded-2xl p-6 border border-white/10 bg-white/[0.03] hover:border-[#14b8a6]/40 transition-colors">
+                    <div class="w-10 h-1 rounded-full bg-[#14b8a6] mb-4"></div>
+                    <h3 class="text-lg font-black text-white mb-2">ط§ظ„ط¨ط±ظ…ط¬ط©</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">ط­ظ„ظˆظ„ طھظ‚ظ†ظٹط© ظˆطµظپط­ط§طھ ظ…ط®طµظ‘طµط© طھط¯ط¹ظ… ط­ظ…ظ„ط§طھظƒ ظˆطھط¹ط²ط² طھط¬ط±ط¨ط© ط§ظ„ط¹ظ…ظٹظ„.</p>
+                </div>
+                <div class="rounded-2xl p-6 border border-white/10 bg-white/[0.03] hover:border-[#f68720]/40 transition-colors">
+                    <div class="w-10 h-1 rounded-full bg-[#f68720] mb-4"></div>
+                    <h3 class="text-lg font-black text-white mb-2">ط¥ط¯ط§ط±ط© ط§ظ„ط³ظˆط´ط§ظ„ ظ…ظٹط¯ظٹط§</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">ط¥ط¯ط§ط±ط© ط´ط§ظ…ظ„ط© ظ„ط­ط³ط§ط¨ط§طھظƒ ط¨ط®ط·ط· ظ†ظ…ظˆ ط°ظƒظٹط© ظˆظ…ط­طھظˆظ‰ ظ…ط³طھظ…ط±.</p>
+                </div>
+                <div class="rounded-2xl p-6 border border-white/10 bg-white/[0.03] hover:border-[#14b8a6]/40 transition-colors">
+                    <div class="w-10 h-1 rounded-full bg-[#14b8a6] mb-4"></div>
+                    <h3 class="text-lg font-black text-white mb-2">طµظ†ط§ط¹ط© ط§ظ„ظ…ط­طھظˆظ‰</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">ظ…ط­طھظˆظ‰ ظ…ظƒطھظˆط¨ ظˆظ…طµظˆظ‘ط± ظٹط³طھظ‡ط¯ظپ ط¬ظ…ظ‡ظˆط±ظƒ ط¨ط¯ظ‚ط© ظˆظٹط¨ظ†ظٹ ط«ظ‚طھظ‡.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 md:py-24 border-t border-[#f68720]/10" style="background-color:#fef4ea;">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-5xl font-black text-[#1e293b] mb-4">ط¬ط§ظ‡ط² ظ„ظ†ط¨ظ†ظٹ ط³ظ…ط¹طھظƒ ظ…ط¹ط§ظ‹طں</h2>
+            <p class="text-[#475569] text-lg mb-8">ط§ظ†ط¶ظ… ظ„ط¹ط¯ط¯ ظ…ظ† ط§ظ„ط´ط±ظƒط§طھ ظˆط£طµط­ط§ط¨ ط§ظ„ظ…ط´ط§ط±ظٹط¹ ط§ظ„ط°ظٹظ† ط­ظ‚ظ‚ظˆط§ ظ†ط¬ط§ط­ظ‡ظ… ظ…ط¹ظ†ط§. ط§ط³طھط´ط§ط±طھظƒ ط§ظ„ط£ظˆظ„ظ‰ ظ…ط¬ط§ظ†ط§ظ‹!</p>
+            <a href="questionnaire.html" class="inline-flex items-center justify-center px-10 py-5 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#e67d1f] transition-colors">ط§ط¨ط¯ط£ ط§ظ„ط¢ظ†</a>
+        </div>
+    </section>
+</main>
+
+<!-- Marquee Section Above Footer - Manual Navigation -->
+<div class="marquee-container" id="servicesMarquee">
+  <div class="marquee" style="overflow: hidden; cursor: grab;">
+    <div class="marquee-track">
+      <div class="item"><div class="inner"><h4>Design Posts</h4><p>Visual content designed for virality</p></div></div>
+    <div class="item"><div class="inner"><h4>Professional Videos</h4><p>High quality video content</p></div></div>
+    <div class="item"><div class="inner"><h4>Social Media</h4><p>Integrated growth strategy</p></div></div>
+    <div class="item"><div class="inner"><h4>Visual Identity</h4><p>Distinct brand presence</p></div></div>
+    <div class="item"><div class="inner"><h4>Content Strategy</h4><p>Smart growth plans</p></div></div>
+    <div class="item"><div class="inner"><h4>Brand Design</h4><p>Complete brand solutions</p></div></div>
+    <div class="item"><div class="inner"><h4>Digital Ads</h4><p>Targeted advertising</p></div></div>
+    <div class="item"><div class="inner"><h4>Design Posts</h4><p>Visual content designed for virality</p></div></div>
+    <div class="item"><div class="inner"><h4>Professional Videos</h4><p>High quality video content</p></div></div>
+    <div class="item"><div class="inner"><h4>Social Media</h4><p>Integrated growth strategy</p></div></div>
+    <div class="item"><div class="inner"><h4>Visual Identity</h4><p>Distinct brand presence</p></div></div>
+    <div class="item"><div class="inner"><h4>Content Strategy</h4><p>Smart growth plans</p></div></div>
+    <div class="item"><div class="inner"><h4>Brand Design</h4><p>Complete brand solutions</p></div></div>
+      <div class="item"><div class="inner"><h4>Digital Ads</h4><p>Targeted advertising</p></div></div>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- │                 📋 قسم الفوتر (Footer Section)                  │ -->
+    <!-- │         معلومات الشركة، روابط سريعة، ووسائل التواصل            │ -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <footer class="footer-animate" style="background: #111; border: 1px solid rgba(246, 135, 32, 0.3); color:#ffffff; padding:4rem 0 3rem 0; margin-top:2rem; border-radius: 2rem 2rem 0 0; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(246,135,32,0.15);">
+        <div class="max-w-7xl mx-auto px-4 md:px-0">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Company Info -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <img src="3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4" loading="lazy">
+                    <p class="text-sm mb-6 leading-relaxed">
+                        شركة "سمعة" للتصميم و التسويق الالكتروني  تابعنا على كل المنصات
+                    </p>
+                    <div class="flex justify-center md:justify-start gap-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">f</span>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">IG</span>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
+                            <span class="text-black text-sm font-bold">TW</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Quick Links</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="index.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Home</a></li>
+                        <li><a href="packages.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Packages</a></li>
+                        <li><a href="results.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Results</a></li>
+                        <li><a href="questionnaire.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Get Started</a></li>
+                        <li><a href="terms.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Terms</a></li>
+                        <li><a href="about.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Services</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Social Media Management</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Content Creation</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Brand Design</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Digital Marketing</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div class="footer-section text-center p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">Contact Us</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                </svg>
+                            </div>
+                            <a href="tel:+963934692217" class="font-medium hover:text-[#f68720]">+963 934692217</a>
+                        </li>
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </div>
+                            <a href="mailto:koutaibadarra307@gmail.com" class="font-medium hover:text-[#f68720]">koutaibadarra307@gmail.com</a>
+                        </li>
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M2 12h20"></path>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                </svg>
+                            </div>
+                            <a href="mailto:koutaibadarra307@gmail.com" class="font-medium hover:text-[#f68720]">kutaiba.com</a>
+                        </li>
+                        <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
+                            <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
+                                <svg class="w-4 h-4 text-[#f68720] group-hover:text-black" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium">Amman, Jordan</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-6 mt-12">
+                <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+                    <div class="flex items-center justify-center gap-2">
+                        <img src="3.png" alt="Logo" class="w-12 h-12 object-contain" loading="lazy">
+                        <span class="font-montserrat tracking-tighter">&copy; 2026. All Rights Reserved.</span>
+                    </div>
+                    <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Privacy Policy</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Terms of Service</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- │     الرسوم المتحركة والتفاعلات وقائمة الموبايل                   │ -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- GSAP already loaded in head -->
+        <script src="island-core.js"></script>
+        <script src="main.js?v=17"></script>
+</body>
+</html>
+
