@@ -2260,11 +2260,8 @@ footer .border-t img[alt="Logo"] {
 
 .mini-card span {
     font-size: 14px !important;
-    color: #111111 !important;
-    font-weight: 800 !important;
-}
-.mini-card span span {
     color: #f68720 !important;
+    font-weight: 800 !important;
 }
 
 .glass-core-dark {
