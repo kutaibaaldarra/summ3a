@@ -2486,7 +2486,7 @@ footer .border-t img[alt="Logo"] {
     .why-sticky-content { padding: 1rem 12px !important; height: auto !important; min-height: auto !important; position: static !important; overflow: visible !important; }
     .why-carousel { flex-direction: column !important; gap: 12px !important; align-items: center !important; overflow: visible !important; position: relative !important; }
     .why-side-visual { flex: 0 0 140px !important; width: 100% !important; height: 140px !important; max-width: 260px; }
-    .why-side-text { height: auto !important; min-height: 70px !important; text-align: center !important; overflow: hidden !important; position: relative !important; padding: 0 0.5rem !important; }
+    .why-side-text { height: auto !important; min-height: 140px !important; text-align: center !important; overflow: visible !important; position: relative !important; padding: 0 0.5rem !important; }
     .why-card-img svg { width: 50px !important; height: 50px !important; }
     .why-text-slide { position: absolute !important; inset: 0 !important; }
     .why-text-slide h3 { font-size: 18px !important; }
