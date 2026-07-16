@@ -1372,7 +1372,7 @@ html { scroll-behavior: auto; }
 
 /* Process Cards - Initial States */
 #process .mini-card {
-    opacity: 0;
+    opacity: 1;
 }
 .glass-core-dark {
     opacity: 0;
