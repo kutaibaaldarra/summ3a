@@ -877,6 +877,27 @@
                             .cinematic-card[data-card="damascus-ana"]:hover .d1-card-svg,
                             .cinematic-card[data-card="damascus-id"]:hover .d2-card-svg,
                             .cinematic-card[data-card="damascus-strat"]:hover .d3-card-svg { transform: translateY(-50%) scale(1.08); filter: drop-shadow(0 0 20px rgba(223,183,108,0.2)); }
+
+                            /* Mobile: stack icon above text so it never overlaps */
+                            @media (max-width: 767px) {
+                                .cinematic-card .card-inner { min-height: unset !important; }
+                                .cinematic-card .card-content {
+                                    position: static !important;
+                                    padding-right: 0 !important;
+                                    padding-top: 110px !important;
+                                    text-align: center !important;
+                                }
+                                .cinematic-card .d1-card-svg,
+                                .cinematic-card .d2-card-svg,
+                                .cinematic-card .d3-card-svg {
+                                    right: 50% !important;
+                                    top: 14px !important;
+                                    transform: translateX(50%) !important;
+                                    width: 80px !important;
+                                    height: 80px !important;
+                                }
+                                .cinematic-card .status-tag { text-align: center !important; }
+                            }
                             </style>
                         </div>
 
