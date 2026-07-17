@@ -2494,7 +2494,7 @@ footer .border-t img[alt="Logo"] {
     .why-card-num { margin: 0 auto 6px !important; }
 
     /* === Testimonials Carousel === */
-    #testimonials { padding: 1rem 0 !important; }
+    #testimonials { padding: 1rem 1.5rem !important; }
     .testimonial-carousel { max-width: 100% !important; height: 300px !important; overflow: hidden !important; }
     .tcard { width: 240px !important; height: 290px !important; margin-left: -120px !important; padding: 16px !important; }
     .tcard.active { transform: translate3d(0, 0, 0) scale(1) !important; }
