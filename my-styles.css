@@ -2504,7 +2504,7 @@ footer .border-t img[alt="Logo"] {
     .tcard-text { font-size: 11px !important; }
 
     /* === FAQ === */
-    #faq { padding: 1rem 1rem 3rem !important; }
+    #faq { padding: 1rem 1rem 5rem !important; }
     #faq h2 { font-size: 1.35rem !important; margin-bottom: 0.5rem !important; }
     #faq .faq-btn { padding: 0.75rem 0.875rem !important; font-size: 0.85rem !important; min-height: 44px !important; }
     #faq .faq-answer div { font-size: 0.8rem !important; line-height: 1.6 !important; }
