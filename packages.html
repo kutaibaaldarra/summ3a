@@ -1421,18 +1421,31 @@
             
             // دعم اللمس للهواتف
             let touchStartX;
+            let touchStartY;
             let touchScrollLeft;
+            let isHorizontalScroll = null;
             
             container.addEventListener('touchstart', (e) => {
                 touchStartX = e.touches[0].pageX - container.offsetLeft;
+                touchStartY = e.touches[0].pageY;
                 touchScrollLeft = container.scrollLeft;
+                isHorizontalScroll = null;
             }, { passive: true });
             
             container.addEventListener('touchmove', (e) => {
                 const x = e.touches[0].pageX - container.offsetLeft;
-                const walk = (x - touchStartX) * 2;
-                container.scrollLeft = touchScrollLeft - walk;
-            }, { passive: true });
+                const y = e.touches[0].pageY;
+                const dx = Math.abs(x - touchStartX);
+                const dy = Math.abs(y - touchStartY);
+                if (isHorizontalScroll === null) {
+                    isHorizontalScroll = dx > dy;
+                }
+                if (isHorizontalScroll) {
+                    e.preventDefault();
+                    const walk = (x - touchStartX) * 2;
+                    container.scrollLeft = touchScrollLeft - walk;
+                }
+            }, { passive: false });
             
             // دعم عجلة الفأرة للتمرير الأفقي
             container.addEventListener('wheel', (e) => {
