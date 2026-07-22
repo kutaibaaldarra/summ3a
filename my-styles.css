@@ -2481,12 +2481,17 @@ footer .border-t img[alt="Logo"] {
     #process .mini-card .card-icon svg { width: 20px !important; height: 20px !important; min-width: 20px !important; min-height: 20px !important; }
     #process .space-y-4 { gap: 0.5rem !important; }
 
-    /* === Why Choose Us (auto-rotate on mobile) === */
+    /* === Why Choose Us — hide text on mobile, keep images === */
     #why-choose { height: auto !important; overflow: hidden !important; padding: 1rem 0 !important; }
     .why-sticky-content { padding: 1rem 12px !important; height: auto !important; min-height: auto !important; position: static !important; overflow: visible !important; }
     .why-carousel { flex-direction: column !important; gap: 12px !important; align-items: center !important; overflow: visible !important; position: relative !important; }
     .why-side-visual { flex: 0 0 140px !important; width: 100% !important; height: 140px !important; max-width: 260px; }
-    .why-side-text { height: auto !important; min-height: 140px !important; text-align: center !important; overflow: visible !important; position: relative !important; padding: 0 0.5rem !important; }
+    .why-side-text { display: none !important; }
+    .why-card-img svg { width: 50px !important; height: 50px !important; }
+    .why-sticky-content { padding: 1rem 12px !important; height: auto !important; min-height: auto !important; position: static !important; overflow: visible !important; }
+    .why-carousel { flex-direction: column !important; gap: 12px !important; align-items: center !important; overflow: visible !important; position: relative !important; }
+    .why-side-visual { flex: 0 0 140px !important; width: 100% !important; height: 140px !important; max-width: 260px; }
+    .why-side-text { height: 200px !important; min-height: 200px !important; text-align: center !important; overflow: visible !important; position: relative !important; padding: 0 0.5rem !important; }
     .why-card-img svg { width: 50px !important; height: 50px !important; }
     .why-text-slide { position: absolute !important; inset: 0 !important; }
     .why-text-slide h3 { font-size: 18px !important; }
@@ -2578,6 +2583,7 @@ footer .border-t img[alt="Logo"] {
     .tcard-role { font-size: 9px !important; }
 
     .why-side-visual { flex: 0 0 120px !important; height: 120px !important; }
+    .why-side-text { height: 180px !important; min-height: 180px !important; }
     .why-text-slide h3 { font-size: 16px !important; }
     .why-text-slide p { font-size: 11px !important; }
 
