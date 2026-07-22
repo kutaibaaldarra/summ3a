@@ -1371,6 +1371,16 @@
         }
     </style>
 
+    <!-- Forum Coming Soon Popup -->
+    <div id="forum-popup" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem;">
+        <div style="background:linear-gradient(135deg,#1a1a1a,#0d0d0d); border:1px solid rgba(246,135,32,0.3); border-radius:1.5rem; padding:2.5rem 2rem; max-width:400px; width:100%; text-align:center; position:relative; box-shadow:0 0 40px rgba(246,135,32,0.15);">
+            <div style="font-size:3rem; margin-bottom:1rem;">🚧</div>
+            <h3 style="color:#f68720; font-size:1.25rem; font-weight:900; margin-bottom:0.75rem;">المنتدى قريباً</h3>
+            <p style="color:#9ca3af; font-size:0.9rem; line-height:1.7; margin-bottom:1.5rem;">نحن نعمل على بناء منتدى احترافي لتشارك فيه خبراتك ونصائحك مع المجتمع. تابعونا!</p>
+            <button onclick="document.getElementById('forum-popup').style.display='none'" style="background:#f68720; color:#000; font-weight:700; padding:0.75rem 2rem; border-radius:0.75rem; border:none; cursor:pointer; font-size:0.95rem;">حسناً</button>
+        </div>
+    </div>
+
     <script>
         (function() {
             const container = document.getElementById('comparisonMarquee');
@@ -2045,14 +2055,12 @@
 
             // Forum coming soon popup
             const forumPopup = document.getElementById('forum-popup');
-            const forumPopupClose = document.getElementById('forum-popup-close');
             document.querySelectorAll('#insights a[href="#"]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     forumPopup.style.display = 'flex';
                 });
             });
-            forumPopupClose.addEventListener('click', () => { forumPopup.style.display = 'none'; });
             forumPopup.addEventListener('click', (e) => { if (e.target === forumPopup) forumPopup.style.display = 'none'; });
 
             // Cleanup
@@ -2062,14 +2070,5 @@
             });
         });
     </script>
-    <!-- Forum Coming Soon Popup -->
-    <div id="forum-popup" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem;">
-        <div style="background:linear-gradient(135deg,#1a1a1a,#0d0d0d); border:1px solid rgba(246,135,32,0.3); border-radius:1.5rem; padding:2.5rem 2rem; max-width:400px; width:100%; text-align:center; position:relative; box-shadow:0 0 40px rgba(246,135,32,0.15);">
-            <div style="font-size:3rem; margin-bottom:1rem;">🚧</div>
-            <h3 style="color:#f68720; font-size:1.25rem; font-weight:900; margin-bottom:0.75rem;">المنتدى قريباً</h3>
-            <p style="color:#9ca3af; font-size:0.9rem; line-height:1.7; margin-bottom:1.5rem;">نحن نعمل على بناء منتدى احترافي لتشارك فيه خبراتك ونصائحك مع المجتمع. تابعونا!</p>
-            <button id="forum-popup-close" style="background:#f68720; color:#000; font-weight:700; padding:0.75rem 2rem; border-radius:0.75rem; border:none; cursor:pointer; font-size:0.95rem;">حسناً</button>
-        </div>
-    </div>
 </body>
 </html>
