@@ -978,10 +978,10 @@
     <!-- │           📊 قسم المقارنة التفاعلي (Draggable Marquee)         │ -->
     <!-- │      جدول مقارنة الباقات القابل للسحب بالماوس أفقياً           │ -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section class="py-12 overflow-hidden" style="background: linear-gradient(180deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%);">
+    <section class="py-12 md:overflow-hidden" style="background: linear-gradient(180deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%);">
         <div class="max-w-7xl mx-auto px-4 md:px-0 mb-6">
             <h3 class="text-center text-2xl font-bold text-[#f68720] mb-2">📊 مقارنة الباقات</h3>
-            <p class="text-center text-gray-400 text-sm mb-4">اسحب بالماوس يميناً أو يساراً لمشاهدة جميع التفاصيل</p>
+            <p class="text-center text-gray-400 text-sm mb-4 comparison-desc">اسحب بالماوس يميناً أو يساراً لمشاهدة جميع التفاصيل</p>
         </div>
         
         <div class="draggable-container" id="comparisonMarquee">
@@ -1365,16 +1365,26 @@
         }
         
         @media (max-width: 768px) {
+            .draggable-container {
+                overflow-x: visible !important;
+                overflow-y: visible !important;
+                cursor: default;
+                padding: 10px 0;
+            }
+            .draggable-content {
+                display: flex !important;
+                flex-direction: column;
+                padding: 10px 16px;
+                gap: 16px;
+                width: 100%;
+            }
             .comparison-card {
-                min-width: 240px;
-                max-width: 260px;
+                min-width: 100% !important;
+                max-width: 100% !important;
                 padding: 20px;
             }
-            
-            .draggable-content {
-                padding: 10px 20px;
-                gap: 16px;
-            }
+            .comparison-desc { display: none !important; }
+            .drag-indicator { display: none !important; }
         }
     </style>
 
