@@ -2,6 +2,16 @@
  * My Styles - Custom CSS
  * ============================================ */
 
+/* Sub-page headers — smaller on all pages except index */
+header:not(#main-header).grid {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+}
+header:not(#main-header).grid img {
+    width: 2rem !important;
+    height: 2rem !important;
+}
+
 .glow-edges {
     position: relative;
     display: inline-block;
