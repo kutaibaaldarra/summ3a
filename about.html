@@ -822,38 +822,6 @@
         <!-- GSAP already loaded in head -->
         <script src="island-core.js"></script>
         <script src="main.js?v=17"></script>
-        <script>
-        (function(){
-            var el = document.getElementById('heroTyping');
-            if(!el) return;
-            var fullText = 'سمعة — شريكك في النمو الرقمي';
-            var i = 0;
-            var orangeAt = fullText.indexOf('—');
-            function type(){
-                if(i <= fullText.length){
-                    var typed = fullText.substring(0, i);
-                    var html = '';
-                    for(var c = 0; c < typed.length; c++){
-                        if(c < orangeAt){
-                            html += '<span style="color:#fff">' + typed[c] + '</span>';
-                        } else {
-                            html += '<span style="color:#f68720">' + typed[c] + '</span>';
-                        }
-                    }
-                    html += '<span class="typing-cursor" style="display:inline-block;width:3px;height:1em;background:#f68720;margin-right:2px;vertical-align:text-bottom;animation:blink 0.7s infinite;"></span>';
-                    el.innerHTML = html;
-                    i++;
-                    setTimeout(type, 80);
-                } else {
-                    el.innerHTML = '<span style="color:#fff">' + fullText.substring(0, orangeAt) + '</span><span style="color:#f68720">' + fullText.substring(orangeAt) + '</span>';
-                }
-            }
-            var style = document.createElement('style');
-            style.textContent = '@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}';
-            document.head.appendChild(style);
-            type();
-        })();
-        </script>
 </body>
 </html>
 
