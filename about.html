@@ -395,124 +395,52 @@
     </style>
     <link rel="stylesheet" href="island.css?v=7">
 </head>
-<body class="bg-glow">
+<body class="bg-black">
 
         <!-- ═══════════════════════════════════════════════════════════════ -->
         <!-- │                    🏠 قسم الهيدر (Header)                      │ -->
         <!-- │            شريط التنقل العلوي مع اللوقو والقائمة               │ -->
         <!-- ═══════════════════════════════════════════════════════════════ -->
-<header id="main-header">
-        <div class="header-full">
+        <header class="grid grid-cols-3 items-center px-4 md:px-10 py-2 md:py-4 bg-black border-b border-white/5 sticky top-0 z-50">
             <!-- Logo -->
-            <div class="header-logo">
-                <a href="index.html"><img src="images/3.png" alt="سمعة"></a>
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="images/3.png" alt="Logo" class="w-10 h-10 object-contain cursor-pointer">
+                </a>
             </div>
 
-            <!-- Navigation -->
-            <nav class="header-nav">
-                <a href="index.html">الرئيسية</a>
-                <a href="about.html" class="active primary">من نحن</a>
-                <a href="packages.html">الباقات</a>
-                <a href="results.html">النتائج</a>
-                <a href="questionnaire.html">استبيان</a>
-                <a href="terms.html">الشروط</a>
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex justify-center gap-6 font-bold text-xs tracking-widest text-gray-400">
+                <a href="index.html" class="hover:text-white transition-colors">الرئيسية</a>
+                <a href="about.html" class="text-white border-b-2 border-[#f68720] pb-1">من نحن</a>
+                <a href="packages.html" class="hover:text-white transition-colors">الباقات</a>
+                <a href="results.html" class="hover:text-white transition-colors">النتائج</a>
+                <a href="questionnaire.html" class="hover:text-white transition-colors">استبيان</a>
+                <a href="terms.html" class="hover:text-white transition-colors">الشروط</a>
             </nav>
 
             <!-- Mobile Menu Button -->
-            <div class="header-menu-btn">
-                <button id="mobile-menu-btn" aria-label="القائمة">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <div class="flex justify-end">
+                <button id="mobile-menu-btn" class="md:hidden flex items-center gap-4 p-2">
+                    <div class="space-y-1 cursor-pointer">
+                        <div class="w-6 h-0.5 bg-white transition-all duration-300" id="menu-line-1"></div>
+                        <div class="w-6 h-0.5 bg-white transition-all duration-300" id="menu-line-2"></div>
+                    </div>
                 </button>
             </div>
-        </div>
+        </header>
 
-        <div class="header-island">
-            <div class="island-eyes">
-                <div class="eye-socket"><div class="eye-ball eye-blink" id="eye-left"></div></div>
-                <div class="eye-socket"><div class="eye-ball eye-blink" id="eye-right"></div></div>
-            </div>
-
-            <span id="island-question">كيف أخدمك؟</span>
-
-            <div class="task-dots" id="task-dots">
-                <span class="task-dot" style="background:#f68720" data-index="0"></span>
-            </div>
-
-            <!-- Desktop: inline links -->
-            <div id="island-links-header" class="island-links island-desktop-links" aria-hidden="false"></div>
-
-            <!-- Mobile/Tablet: dropdown button + dropdown -->
-            <button id="island-links-btn" class="island-links-btn" aria-expanded="false" aria-label="روابط الصفحات">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            </button>
-            <div id="island-links-dropdown" class="island-links-dropdown"></div>
-
-            <!-- Quick actions: primary CTA -->
-            <div id="island-quick-actions">
-                <button id="island-cta" class="island-quick-link" aria-haspopup="true" aria-expanded="false" style="padding:6px 8px;">⚙️</button>
-            </div>
-
-            <!-- Testimonials notification -->
-            <div class="island-notification">
-                <div class="island-notif-icon">💬</div>
-                <div class="island-notif-text" style="flex:1; min-width:0;">
-                    <div class="island-notif-title">ابدأ رحلتك</div>
-                    <div class="island-notif-desc">وكن واحداً منهم</div>
-                </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 md:hidden z-40">
+            <div class="flex flex-col p-4 gap-4">
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors py-2">الرئيسية</a>
+                <a href="about.html" class="text-[#f68720] font-bold py-2">من نحن</a>
+                <a href="packages.html" class="text-gray-400 hover:text-white transition-colors py-2">الباقات</a>
+                <a href="results.html" class="text-gray-400 hover:text-white transition-colors py-2">النتائج</a>
+                <a href="questionnaire.html" class="text-gray-400 hover:text-white transition-colors py-2">استبيان</a>
+                <a href="terms.html" class="text-gray-400 hover:text-white transition-colors py-2">الشروط</a>
             </div>
         </div>
-
-        <!-- Panel -->
-        <div id="island-panel">
-            <div class="panel-header">
-                <h4>خطوات العملية</h4>
-                <button id="panel-close" style="background:none;border:none;color:rgba(255,255,255,0.35);cursor:pointer;font-size:0.9rem;padding:0;">✕</button>
-                <!-- Alias for alternate scripts expecting `island-close` -->
-                <button id="island-close" type="button" hidden>✕</button>
-            </div>
-            <div class="panel-list" id="panel-list">
-                <!-- Compatibility container for older/newer island scripts -->
-                <div id="island-questions-list"></div>
-                <!-- Dynamic panel links container (populated by island-core.js) -->
-                <div id="island-links-panel" class="panel-links" style="padding:0.5rem 0.6rem"></div>
-            </div>
-            <!-- Overflow menu for quick actions (hidden) -->
-            <div id="island-links-overflow" role="menu" aria-hidden="true" style="position: absolute; top: calc(100% + 8px); right: 0; width: 240px; display:none; background: rgba(18,18,18,0.98); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:8px; z-index:50"></div>
-            <div class="panel-detail" id="panel-detail">
-                <h5 id="detail-title">اختر خطوة</h5>
-                <ol id="detail-steps"></ol>
-            </div>
-        </div>
-    </header>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!--  DISSOLVE OVERLAYS                          -->
-    <!-- ════════════════════════════════════════════ -->
-    <canvas id="dissolve-canvas"></canvas>
-    <div id="flash-overlay"></div>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu-overlay">
-        <a href="index.html">الرئيسية</a>
-        <a href="about.html" style="color:#f68720;">من نحن</a>
-        <a href="packages.html">الباقات</a>
-        <a href="results.html">النتائج</a>
-        <a href="questionnaire.html">استبيان</a>
-        <a href="terms.html">الشروط</a>
-    </div>
-
-    <!-- 🎯 Development Notice Modal -->
-    <div id="devNoticeBackdrop" class="dev-notice-backdrop">
-        <div id="devNoticeModal" class="dev-notice-modal">
-            <div class="dev-notice-inner">
-                <div class="dev-notice-icon">⚙️</div>
-                <h2 class="dev-notice-title">ملاحظة هامة</h2>
-                <p class="dev-notice-message">الموقع قيد التطوير الحالي ✨</p>
-                <p class="dev-notice-submessage">نعمل على تحسينات مستمرة لتقديم أفضل تجربة</p>
-                <button id="devNoticeClose" class="dev-notice-btn">حسناً، فهمت</button>
-            </div>
-        </div>
-    </div>
 
     <!-- HERO — Museumofmoney Style -->
     <section style="background:#0a0a0a;">
@@ -708,14 +636,13 @@
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- │                 📋 قسم الفوتر (Footer Section)                  │ -->
-    <!-- │         معلومات الشركة، روابط سريعة، ووسائل التواصل            │ -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <footer class="footer-animate" style="background: #111; border: 1px solid rgba(246, 135, 32, 0.3); color:#ffffff; padding:4rem 0 3rem 0; margin-top:2rem; border-radius: 2rem 2rem 0 0; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(246,135,32,0.15);">
+    <footer class="footer-animate" style="background: #111; border: 1px solid rgba(246, 135, 32, 0.3); color:#ffffff; padding:4rem 0 3rem 0; margin-top:4rem; border-radius: 2rem 2rem 0 0; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(246,135,32,0.15);">
         <div class="max-w-7xl mx-auto px-4 md:px-0">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
                 <!-- Company Info -->
                 <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
-                    <img src="images/3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4" loading="lazy">
+                    <img src="images/3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4">
                     <p class="text-sm mb-6 leading-relaxed">
                         شركة "سمعة" للتصميم و التسويق الالكتروني  تابعنا على كل المنصات
                     </p>
@@ -740,7 +667,7 @@
                         <li><a href="packages.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">الباقات</a></li>
                         <li><a href="results.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">النتائج</a></li>
                         <li><a href="questionnaire.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ابدأ الآن</a></li>
-                        <li><a href="terms.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">الشروط</a></li>
+                        <li><a href="terms.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">الشروط والأحكام</a></li>
                         <li><a href="about.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">من نحن</a></li>
                     </ul>
                 </div>
@@ -750,7 +677,7 @@
                     <h4 class="text-white font-bold text-lg mb-6 font-montserrat">خدماتنا</h4>
                     <ul class="space-y-3 text-sm">
                         <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">إدارة السوشال ميديا</a></li>
-                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">صناعة المحتوى</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">إنشاء المحتوى</a></li>
                         <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">تصميم الهوية</a></li>
                         <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">التسويق الرقمي</a></li>
                     </ul>
@@ -803,13 +730,13 @@
             <div class="border-t border-gray-800 pt-6 mt-12">
                 <div class="flex flex-col md:flex-row justify-between items-center text-sm">
                     <div class="flex items-center justify-center gap-2">
-                        <img src="images/3.png" alt="Logo" class="w-12 h-12 object-contain" loading="lazy">
+                        <img src="images/3.png" alt="Logo" class="w-12 h-12 object-contain">
                         <span class="font-montserrat tracking-tighter">&copy; 2026. جميع الحقوق محفوظة.</span>
                     </div>
                     <div class="flex gap-6 mt-4 md:mt-0">
                         <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">سياسة الخصوصية</a>
                         <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">شروط الخدمة</a>
-                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">سياسة ملفات الارتباط</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">سياسة ملفات تعريف الارتباط</a>
                     </div>
                 </div>
             </div>
@@ -820,8 +747,32 @@
         <!-- │     الرسوم المتحركة والتفاعلات وقائمة الموبايل                   │ -->
         <!-- ═══════════════════════════════════════════════════════════════ -->
         <!-- GSAP already loaded in head -->
-        <script src="island-core.js"></script>
         <script src="main.js?v=17"></script>
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuLine1 = document.getElementById('menu-line-1');
+        const menuLine2 = document.getElementById('menu-line-2');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuLine1.style.transform = '';
+                menuLine2.style.transform = '';
+            } else {
+                menuLine1.style.transform = 'rotate(45deg) translateY(4px)';
+                menuLine2.style.transform = 'rotate(-45deg) translateY(-4px)';
+            }
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuLine1.style.transform = '';
+                menuLine2.style.transform = '';
+            });
+        });
+    </script>
 </body>
 </html>
 
