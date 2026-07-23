@@ -556,23 +556,23 @@
                 <span class="text-[#f68720] text-sm font-bold tracking-wider">وكالة تسويق رقمي</span>
             </div>
 
-            <h1 id="heroTyping" class="text-3xl md:text-5xl font-black mb-8 leading-tight" style="font-family:'Tajawal',sans-serif; min-height: 3.5em;"></h1>
+            <h1 id="heroTyping" class="text-3xl md:text-5xl font-black mb-10 leading-tight" style="font-family:'Tajawal',sans-serif; min-height: 3.5em;"></h1>
 
-            <!-- Stats Row -->
-            <div class="flex flex-wrap justify-center gap-8 md:gap-16 mb-10" style="animation: fadeInUp 1s ease-out 0.5s both;">
-                <div class="text-center">
-                    <div class="text-2xl md:text-3xl font-black text-[#f68720]" style="font-family:'Tajawal',sans-serif;">+150</div>
-                    <div class="text-gray-500 text-xs mt-1 tracking-wider">عميل</div>
-                </div>
-                <div class="w-px h-12 bg-[#f68720]/20"></div>
-                <div class="text-center">
-                    <div class="text-2xl md:text-3xl font-black text-[#f68720]" style="font-family:'Tajawal',sans-serif;">5+</div>
-                    <div class="text-gray-500 text-xs mt-1 tracking-wider">سنوات خبرة</div>
-                </div>
-                <div class="w-px h-12 bg-[#f68720]/20"></div>
-                <div class="text-center">
-                    <div class="text-2xl md:text-3xl font-black text-[#f68720]" style="font-family:'Tajawal',sans-serif;">30%</div>
-                    <div class="text-gray-500 text-xs mt-1 tracking-wider">تخفيض التكلفة</div>
+            <!-- Decorative Tech Ring -->
+            <div class="flex justify-center mb-10" style="animation: fadeInUp 1s ease-out 0.3s both;">
+                <div class="relative w-48 h-48">
+                    <div class="absolute inset-0 rounded-full border border-[#f68720]/20" style="animation: spin 20s linear infinite;"></div>
+                    <div class="absolute inset-3 rounded-full border border-[#f68720]/15" style="animation: spin 15s linear infinite reverse;"></div>
+                    <div class="absolute inset-6 rounded-full border border-[#f68720]/10" style="animation: spin 25s linear infinite;"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-4xl mb-1">🚀</div>
+                            <div class="text-[#f68720] text-xs font-bold tracking-widest">SAMAA</div>
+                        </div>
+                    </div>
+                    <!-- Orbit Dots -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#f68720] rounded-full" style="animation: spin 20s linear infinite;"></div>
+                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#f68720]/60 rounded-full" style="animation: spin 15s linear infinite reverse;"></div>
                 </div>
             </div>
 
@@ -595,6 +595,7 @@
         @keyframes floatShape { 0%,100%{ transform: translateY(0) rotate(0deg); } 50%{ transform: translateY(-15px) rotate(5deg); } }
         @keyframes fadeInDown { from{ opacity:0; transform:translateY(-20px); } to{ opacity:1; transform:translateY(0); } }
         @keyframes fadeInUp { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+        @keyframes spin { from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
     </style>
 
     <!-- MISSION -->
