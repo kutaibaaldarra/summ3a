@@ -514,16 +514,12 @@
         </div>
     </div>
 
-            <!-- HERO -->
-    <section class="relative overflow-hidden py-28 md:py-40 text-center" style="background: radial-gradient(circle at 50% 0%, rgba(246,135,32,0.18), transparent 60%), #0a0a0a;">
+    <!-- HERO -->
+    <section class="relative overflow-hidden py-36 md:py-52 text-center" style="background: radial-gradient(circle at 50% 0%, rgba(246,135,32,0.18), transparent 60%), #0a0a0a;">
         <div class="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#14b8a6]/10 blur-3xl pointer-events-none"></div>
         <div class="absolute bottom-10 right-10 w-52 h-52 rounded-full bg-[#f68720]/10 blur-3xl pointer-events-none"></div>
         <div class="relative z-10 max-w-4xl mx-auto px-6">
-            <span class="inline-block px-4 py-2 rounded-full border border-[#f68720]/40 text-[#f68720] text-sm font-bold tracking-widest mb-6">قصتنا</span>
-            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight" style="font-family:'Tajawal',sans-serif;">
-                <span class="text-white">سمعة</span> <span class="text-[#f68720]">— شريكك في النمو الرقمي</span>
-            </h1>
-            <p class="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10">نحن وكالة تسويق متكاملة نحوّل بيانات جمهورك إلى نتائج حقيقية، عبر مزيج من الذكاء الاصطناعي والرؤية البشرية في التصميم والتصوير والمنتاج والبرمجة.</p>
+            <h1 id="heroTyping" class="text-3xl md:text-5xl font-black mb-6 leading-tight" style="font-family:'Tajawal',sans-serif; min-height: 3.5em;"></h1>
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a href="packages.html" class="inline-flex items-center justify-center px-8 py-4 bg-[#f68720] text-black font-bold rounded-full hover:bg-[#e67d1f] transition-colors">استكشف الباقات</a>
                 <a href="questionnaire.html" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white/20 text-white font-bold rounded-full hover:bg-[#f68720]/10 transition-colors">ابدأ رحلتك</a>
@@ -803,6 +799,38 @@
         <!-- GSAP already loaded in head -->
         <script src="island-core.js"></script>
         <script src="main.js?v=17"></script>
+        <script>
+        (function(){
+            var el = document.getElementById('heroTyping');
+            if(!el) return;
+            var fullText = 'سمعة — شريكك في النمو الرقمي';
+            var i = 0;
+            var orangeAt = fullText.indexOf('—');
+            function type(){
+                if(i <= fullText.length){
+                    var typed = fullText.substring(0, i);
+                    var html = '';
+                    for(var c = 0; c < typed.length; c++){
+                        if(c < orangeAt){
+                            html += '<span style="color:#fff">' + typed[c] + '</span>';
+                        } else {
+                            html += '<span style="color:#f68720">' + typed[c] + '</span>';
+                        }
+                    }
+                    html += '<span class="typing-cursor" style="display:inline-block;width:3px;height:1em;background:#f68720;margin-right:2px;vertical-align:text-bottom;animation:blink 0.7s infinite;"></span>';
+                    el.innerHTML = html;
+                    i++;
+                    setTimeout(type, 80);
+                } else {
+                    el.innerHTML = '<span style="color:#fff">' + fullText.substring(0, orangeAt) + '</span><span style="color:#f68720">' + fullText.substring(orangeAt) + '</span>';
+                }
+            }
+            var style = document.createElement('style');
+            style.textContent = '@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}';
+            document.head.appendChild(style);
+            type();
+        })();
+        </script>
 </body>
 </html>
 
