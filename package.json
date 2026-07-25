@@ -1,0 +1,26 @@
+{
+  "name": "github-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.build.config.js -i tailwind.input.css -o tailwind.prod.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kutaibaaldarra/summ3a.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kutaibaaldarra/summ3a/issues"
+  },
+  "homepage": "https://github.com/kutaibaaldarra/summ3a#readme",
+  "dependencies": {
+    "sharp": "^0.35.3",
+    "tailwindcss": "^3.4.19"
+  }
+}
