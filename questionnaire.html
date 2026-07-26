@@ -850,32 +850,31 @@
 
         // Form Submit
         function submitForm() {
-            const name = document.getElementById('fullName').value;
+            const name = document.getElementById('fullName').value || 'زائر';
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
             const brand = document.getElementById('brand').value;
             const notes = document.getElementById('notes').value;
 
-            const summaryParts = [];
-            if (formData['business-type']) summaryParts.push('النشاط: ' + formData['business-type']);
-            if (formData['goals']) summaryParts.push('الهدف: ' + formData['goals']);
-            if (formData['platforms']?.length) summaryParts.push('المنصات: ' + formData['platforms'].join(', '));
-            if (formData['presence']) summaryParts.push('الوجود: ' + formData['presence']);
-            if (formData['budget']) summaryParts.push('الميزانية: $' + formData['budget']);
-            if (formData['timeline']) summaryParts.push('البدء: ' + formData['timeline']);
-            if (notes) summaryParts.push('ملاحظات: ' + notes);
-            const summary = summaryParts.join(' | ');
+            const parts = [];
+            if (formData['business-type']) parts.push('النشاط: ' + formData['business-type']);
+            if (formData['goals']) parts.push('الهدف: ' + formData['goals']);
+            if (formData['platforms']?.length) parts.push('المنصات: ' + formData['platforms'].join(', '));
+            if (formData['presence']) parts.push('الوجود: ' + formData['presence']);
+            if (formData['budget']) parts.push('الميزانية: $' + formData['budget']);
+            if (formData['timeline']) parts.push('البدء: ' + formData['timeline']);
+            if (phone) parts.push('الجوال: ' + phone);
+            if (brand) parts.push('العلامة: ' + brand);
+            if (notes) parts.push(notes);
+            const summary = parts.join(' | ');
 
             if (typeof Tawk_API !== 'undefined') {
                 Tawk_API.setAttributes({
-                    name: name || 'زائر',
-                    email: email,
-                    phone: phone,
-                    'brand': brand || '',
-                    'إجابات الاستبيان': summary
+                    name: name + ' - ' + summary,
+                    email: email
                 }, function(error) {});
                 Tawk_API.addEvent('استبيان', summary);
-                Tawk_API.toggle();
+                setTimeout(function(){ Tawk_API.toggle(); }, 300);
             }
 
             nextStep('success');
