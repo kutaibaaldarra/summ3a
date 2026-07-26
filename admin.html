@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | سمعة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tailwind.prod.css?v=1">
+    <style>
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 800;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 800;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 800;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-arabic.woff2') format('woff2');
+            unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-latin-ext.woff2') format('woff2');
+            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        @font-face {
+            font-family: 'Tajawal';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('fonts/cairo-latin.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        body { font-family: 'Tajawal', sans-serif; background: #0a0a0a; color: white; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+
+        .glass-card {
+            background: linear-gradient(145deg, #161616, #0c0c0c);
+            border: 1px solid rgba(246, 135, 32, 0.1);
+            border-radius: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #161616, #0c0c0c);
+            border: 1px solid rgba(246, 135, 32, 0.1);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            border-color: rgba(246, 135, 32, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(246, 135, 32, 0.1);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .table-wrap::-webkit-scrollbar { height: 6px; }
+        .table-wrap::-webkit-scrollbar-track { background: #111; border-radius: 3px; }
+        .table-wrap::-webkit-scrollbar-thumb { background: #f68720; border-radius: 3px; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        th {
+            background: rgba(246, 135, 32, 0.08);
+            color: #f68720;
+            padding: 1rem 0.75rem;
+            text-align: right;
+            font-weight: 700;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(246, 135, 32, 0.15);
+        }
+        td {
+            padding: 0.875rem 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: top;
+        }
+        tr:hover td { background: rgba(246, 135, 32, 0.03); }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .badge-whatsapp { background: rgba(37, 211, 102, 0.15); color: #25d366; }
+        .badge-tawk { background: rgba(246, 135, 32, 0.15); color: #f68720; }
+
+        .login-box {
+            background: linear-gradient(145deg, #161616, #0c0c0c);
+            border: 1px solid rgba(246, 135, 32, 0.15);
+            border-radius: 2rem;
+            padding: 3rem;
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .custom-input {
+            background: #111113;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            color: white;
+            padding: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: #f68720;
+            box-shadow: 0 0 20px rgba(246, 135, 32, 0.1);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .login-box { padding: 2rem 1.5rem; }
+            .stat-card { padding: 1rem; }
+            th, td { padding: 0.75rem 0.5rem; font-size: 0.8rem; }
+        }
+
+        @media (max-width: 640px) {
+            .hide-mobile { display: none; }
+        }
+    </style>
+</head>
+<body class="bg-black min-h-screen">
+
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="login-box">
+            <div class="text-center mb-8">
+                <img src="images/3.png" alt="Logo" class="w-20 h-20 mx-auto mb-4">
+                <h1 class="text-2xl font-black text-white">لوحة التحكم</h1>
+                <p class="text-gray-500 text-sm mt-2">سمعة - التسويق والتصميم</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-gray-400 text-sm mb-2 block">كلمة المرور</label>
+                    <input type="password" id="password-input" class="custom-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPassword()">
+                </div>
+                <div id="login-error" class="text-red-500 text-sm text-center hidden">كلمة المرور غير صحيحة</div>
+                <button onclick="checkPassword()" class="w-full py-4 bg-gradient-to-r from-[#f68720] to-orange-400 text-black font-bold rounded-xl hover:shadow-[0_0_30px_rgba(246,135,32,0.3)] transition-all">
+                    دخول
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-screen" class="hidden min-h-screen p-4 md:p-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between mb-8 fade-in">
+                <div class="flex items-center gap-4">
+                    <img src="images/3.png" alt="Logo" class="w-12 h-12">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-black text-white">لوحة التحكم</h1>
+                        <p class="text-gray-500 text-sm">إدارة طلبات الاستبيان</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="px-5 py-2 border border-gray-600 text-gray-400 rounded-xl hover:border-[#f68720] hover:text-[#f68720] transition-all text-sm font-bold">
+                    تسجيل خروج
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 fade-in" id="stats-container">
+                <div class="stat-card">
+                    <div class="text-gray-500 text-sm mb-1">إجمالي الطلبات</div>
+                    <div class="text-3xl font-black text-white" id="stat-total">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-gray-500 text-sm mb-1">هذا الأسبوع</div>
+                    <div class="text-3xl font-black text-[#f68720]" id="stat-week">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-gray-500 text-sm mb-1">هذا الشهر</div>
+                    <div class="text-3xl font-black text-[#f68720]" id="stat-month">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-gray-500 text-sm mb-1">مصدر الاتصال</div>
+                    <div class="text-3xl font-black text-green-400" id="stat-channel">-</div>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 md:p-6 fade-in">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <h2 class="text-lg font-black text-white">الطلبات</h2>
+                    <div class="flex gap-2">
+                        <input type="text" id="search-input" placeholder="بحث..." class="custom-input py-2 px-4 text-sm" style="width:200px" oninput="renderTable()">
+                        <button onclick="exportCSV()" class="px-4 py-2 bg-[#f68720]/10 text-[#f68720] text-sm font-bold rounded-xl border border-[#f68720]/30 hover:bg-[#f68720] hover:text-black transition-all">
+                            تصدير CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الاسم</th>
+                                <th class="hide-mobile">الإيميل</th>
+                                <th>الجوال</th>
+                                <th class="hide-mobile">النشاط</th>
+                                <th>الهدف</th>
+                                <th class="hide-mobile">المنصات</th>
+                                <th class="hide-mobile">الميزانية</th>
+                                <th>التاريخ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <tr><td colspan="9" class="text-center text-gray-500 py-8">جاري تحميل البيانات...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBCP30snA8NGU5PDk6m4Vt_fvYXcxSvem8",
+            authDomain: "summ3a-3fe32.firebaseapp.com",
+            projectId: "summ3a-3fe32",
+            storageBucket: "summ3a-3fe32.firebasestorage.app",
+            messagingSenderId: "587094312862",
+            appId: "1:587094312862:web:ed31e9cf4e97af846ef88f",
+            measurementId: "G-WQQP61SYEM"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const ADMIN_PASSWORD = "summ3a2026";
+        let allData = [];
+
+        function checkPassword() {
+            const pw = document.getElementById('password-input').value;
+            const error = document.getElementById('login-error');
+            if (pw === ADMIN_PASSWORD) {
+                error.classList.add('hidden');
+                sessionStorage.setItem('admin_logged_in', 'true');
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard-screen').classList.remove('hidden');
+                loadData();
+            } else {
+                error.classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('admin_logged_in');
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+        }
+
+        if (sessionStorage.getItem('admin_logged_in') === 'true') {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.remove('hidden');
+            loadData();
+        }
+
+        function loadData() {
+            db.collection('questionnaires').orderBy('createdAt', 'desc').get().then(snapshot => {
+                allData = [];
+                snapshot.forEach(doc => {
+                    allData.push({ id: doc.id, ...doc.data() });
+                });
+                updateStats();
+                renderTable();
+            }).catch(err => {
+                document.getElementById('table-body').innerHTML =
+                    '<tr><td colspan="9" class="text-center text-red-500 py-8">خطأ في تحميل البيانات: ' + err.message + '</td></tr>';
+            });
+        }
+
+        function updateStats() {
+            const total = allData.length;
+            document.getElementById('stat-total').textContent = total;
+
+            const now = new Date();
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+            let weekCount = 0, monthCount = 0;
+            let whatsapp = 0, tawk = 0;
+
+            allData.forEach(d => {
+                const date = new Date(d.createdAt);
+                if (date >= weekAgo) weekCount++;
+                if (date >= monthAgo) monthCount++;
+            });
+
+            document.getElementById('stat-week').textContent = weekCount;
+            document.getElementById('stat-month').textContent = monthCount;
+            document.getElementById('stat-channel').textContent = total > 0 ? 'استبيان' : '-';
+        }
+
+        function renderTable() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const filtered = allData.filter(d =>
+                (d.name || '').toLowerCase().includes(search) ||
+                (d.email || '').toLowerCase().includes(search) ||
+                (d.phone || '').includes(search)
+            );
+
+            if (filtered.length === 0) {
+                document.getElementById('table-body').innerHTML =
+                    '<tr><td colspan="9" class="text-center text-gray-500 py-8">لا توجد بيانات</td></tr>';
+                return;
+            }
+
+            let html = '';
+            filtered.forEach((d, i) => {
+                const date = d.createdAt ? new Date(d.createdAt).toLocaleDateString('ar-SA') : '-';
+                html += `<tr>
+                    <td class="text-gray-400">${i + 1}</td>
+                    <td><span class="font-bold text-white">${d.name || '-'}</span></td>
+                    <td class="hide-mobile text-gray-400 dir-ltr" style="direction:ltr;text-align:right">${d.email || '-'}</td>
+                    <td class="text-gray-400 dir-ltr" style="direction:ltr">${d.phone || '-'}</td>
+                    <td class="hide-mobile"><span class="badge" style="background:rgba(246,135,32,0.1);color:#f68720">${d['business-type'] || '-'}</span></td>
+                    <td>${d.goals || '-'}</td>
+                    <td class="hide-mobile">${(d.platforms || []).join(' · ') || '-'}</td>
+                    <td class="hide-mobile">${d.budget ? '$' + d.budget : '-'}</td>
+                    <td class="text-gray-500 text-xs">${date}</td>
+                </tr>`;
+            });
+            document.getElementById('table-body').innerHTML = html;
+        }
+
+        function exportCSV() {
+            if (allData.length === 0) return;
+            const headers = ['الاسم', 'الإيميل', 'الجوال', 'العلامة', 'النشاط', 'الهدف', 'المنصات', 'الوجود', 'الميزانية', 'البدء', 'ملاحظات', 'التاريخ'];
+            const rows = allData.map(d => [
+                d.name || '', d.email || '', d.phone || '', d.brand || '',
+                d['business-type'] || '', d.goals || '', (d.platforms || []).join('; '),
+                d.presence || '', d.budget || '', d.timeline || '', d.notes || '',
+                d.createdAt ? new Date(d.createdAt).toLocaleString('ar-SA') : ''
+            ]);
+            const csv = '\uFEFF' + [headers.join(','), ...rows.map(r => r.map(v => '"' + (v || '').replace(/"/g, '""') + '"').join(','))].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'استبيانات-سمعة-' + new Date().toISOString().slice(0, 10) + '.csv';
+            a.click();
+        }
+    </script>
+</body>
+</html>
