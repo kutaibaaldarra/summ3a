@@ -106,7 +106,7 @@
                 <form id="checkout-form" onsubmit="return false" style="display:flex;flex-direction:column;gap:1rem">
                     <input type="text" id="cf-name" class="input" placeholder="الاسم الكامل *" required>
                     <input type="tel" id="cf-phone" class="input" placeholder="رقم الجوال *" required>
-                    <input type="email" id="cf-email" class="input" placeholder="البريد الإلكتروني (لإرسال الفاتورة)">
+                    <input type="email" id="cf-email" class="input" placeholder="البريد الإلكتروني *" required>
                     <textarea id="cf-notes" class="input" placeholder="ملاحظات إضافية..." style="resize:none;height:80px"></textarea>
 
                     <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:0.75rem">
@@ -223,6 +223,7 @@ function submitOrder() {
 
     if (!name) { alert('الرجاء إدخال الاسم'); return; }
     if (!phone) { alert('الرجاء إدخال رقم الجوال'); return; }
+    if (!email) { alert('الرجاء إدخال البريد الإلكتروني'); return; }
     if (!document.getElementById('cf-terms').checked) { alert('الرجاء الموافقة على الشروط'); return; }
 
     const btn = document.getElementById('submit-btn');
@@ -365,7 +366,7 @@ function sendConfirmationEmail(data) {
     const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
     const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
 
-    if (EMAILJS_PUBLIC_KEY === 'YOUR_EMAILJS_PUBLIC_KEY' || !data.email) return;
+    if (EMAILJS_PUBLIC_KEY === 'YOUR_EMAILJS_PUBLIC_KEY') return;
 
     const params = {
         to_name: data.name,
