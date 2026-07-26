@@ -14,6 +14,26 @@
     })();
     </script>
     <!--End of Tawk.to Script-->
+
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js">
+    </script>
+    <script>
+    // 🔥 ضع بيانات مشروع Firebase هنا
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>استبيان عملك | سمعة</title>
@@ -856,18 +876,41 @@
             const brand = document.getElementById('brand').value;
             const notes = document.getElementById('notes').value;
 
+            const surveyData = {
+                name: name,
+                email: email,
+                phone: phone,
+                brand: brand,
+                notes: notes,
+                'business-type': formData['business-type'] || '',
+                goals: formData['goals'] || '',
+                platforms: formData['platforms'] || [],
+                presence: formData['presence'] || '',
+                budget: formData['budget'] || '',
+                timeline: formData['timeline'] || '',
+                createdAt: new Date().toISOString()
+            };
+
             const parts = [];
-            if (formData['business-type']) parts.push('النشاط: ' + formData['business-type']);
-            if (formData['goals']) parts.push('الهدف: ' + formData['goals']);
-            if (formData['platforms']?.length) parts.push('المنصات: ' + formData['platforms'].join(', '));
-            if (formData['presence']) parts.push('الوجود: ' + formData['presence']);
-            if (formData['budget']) parts.push('الميزانية: $' + formData['budget']);
-            if (formData['timeline']) parts.push('البدء: ' + formData['timeline']);
+            if (surveyData['business-type']) parts.push('النشاط: ' + surveyData['business-type']);
+            if (surveyData.goals) parts.push('الهدف: ' + surveyData.goals);
+            if (surveyData.platforms?.length) parts.push('المنصات: ' + surveyData.platforms.join(', '));
+            if (surveyData.presence) parts.push('الوجود: ' + surveyData.presence);
+            if (surveyData.budget) parts.push('الميزانية: $' + surveyData.budget);
+            if (surveyData.timeline) parts.push('البدء: ' + surveyData.timeline);
             if (phone) parts.push('الجوال: ' + phone);
             if (brand) parts.push('العلامة: ' + brand);
             if (notes) parts.push(notes);
             const summary = parts.join(' | ');
 
+            // Save to Firestore
+            db.collection('questionnaires').add(surveyData).then(() => {
+                console.log('تم الحفظ في Firestore');
+            }).catch(err => {
+                console.error('خطأ في الحفظ:', err);
+            });
+
+            // Open Tawk.to
             if (typeof Tawk_API !== 'undefined') {
                 Tawk_API.setAttributes({
                     name: name + ' - ' + summary,
