@@ -14,6 +14,30 @@
     })();
     </script>
     <!--End of Tawk.to Script-->
+    <!--Firebase SDK-->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+    <script>
+    const fbConfig = {
+        apiKey: "AIzaSyBCP30snA8NGU5PDk6m4Vt_fvYXcxSvem8",
+        authDomain: "summ3a-3fe32.firebaseapp.com",
+        projectId: "summ3a-3fe32",
+        storageBucket: "summ3a-3fe32.firebasestorage.app",
+        messagingSenderId: "587094312862",
+        appId: "1:587094312862:web:ed31e9cf4e97af846ef88f"
+    };
+    firebase.initializeApp(fbConfig, "packages");
+    const pkgDb = firebase.firestore(firebase.app("packages"));
+    function logLead(pkg, source) {
+        pkgDb.collection('leads').add({
+            name: source === 'chat' ? 'راسلنا - ' + pkg : pkg,
+            source: source,
+            package: pkg,
+            status: 'new',
+            createdAt: new Date().toISOString()
+        }).catch(function(){});
+    }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سمعة</title>
@@ -840,10 +864,10 @@
                     التفاصيل ▽
                 </a>
                 <div class="flex gap-2">
-                <a href="https://wa.me/963934692217?text=أريد%20الاشتراك%20بباقة%20الانطلاقة" target="_blank" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <a href="javascript:void(0)" onclick="logLead('الانطلاقة','whatsapp');window.open('https://wa.me/963934692217?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D8%A8%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%B7%D9%84%D8%A7%D9%82%D8%A9','_blank')" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
                     اشترك عبر واتساب
                 </a>
-                <a href="javascript:void(0)" onclick="if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد الاشتراك بباقة الانطلاقة'},function(){});Tawk_API.toggle()}else{window.location.href='https://wa.me/963934692217?text='+encodeURIComponent('أريد الاشتراك بباقة الانطلاقة')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                <a href="javascript:void(0)" onclick="logLead('الانطلاقة','chat');if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد الاشتراك بباقة الانطلاقة'},function(){});Tawk_API.toggle()}else{window.open('https://wa.me/963934692217?text='+encodeURIComponent('أريد الاشتراك بباقة الانطلاقة'),'_blank')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
                     راسلنا
                 </a>
                 </div>
@@ -866,10 +890,10 @@
                     التفاصيل ▽
                 </a>
                 <div class="flex gap-2">
-                <a href="https://wa.me/963934692217?text=أريد%20الاشتراك%20بباقة%20المحترف" target="_blank" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <a href="javascript:void(0)" onclick="logLead('المحترف','whatsapp');window.open('https://wa.me/963934692217?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D8%A8%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%AD%D8%AA%D8%B1%D9%81','_blank')" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
                     اشترك عبر واتساب
                 </a>
-                <a href="javascript:void(0)" onclick="if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد الاشتراك بباقة المحترف'},function(){});Tawk_API.toggle()}else{window.location.href='https://wa.me/963934692217?text='+encodeURIComponent('أريد الاشتراك بباقة المحترف')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                <a href="javascript:void(0)" onclick="logLead('المحترف','chat');if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد الاشتراك بباقة المحترف'},function(){});Tawk_API.toggle()}else{window.open('https://wa.me/963934692217?text='+encodeURIComponent('أريد الاشتراك بباقة المحترف'),'_blank')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
                     راسلنا
                 </a>
                 </div>
@@ -892,10 +916,10 @@
                     التفاصيل ▽
                 </a>
                 <div class="flex gap-2">
-                <a href="https://wa.me/963934692217?text=أريد%20الاشتراك%20بباقة%20النخبة" target="_blank" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <a href="javascript:void(0)" onclick="logLead('النخبة','whatsapp');window.open('https://wa.me/963934692217?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D8%A8%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%84%D9%86%D8%AE%D8%A8%D8%A9','_blank')" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
                     اشترك عبر واتساب
                 </a>
-                <a href="javascript:void(0)" onclick="if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد الاشتراك بباقة النخبة'},function(){});Tawk_API.toggle()}else{window.location.href='https://wa.me/963934692217?text='+encodeURIComponent('أريد الاشتراك بباقة النخبة')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                <a href="javascript:void(0)" onclick="logLead('النخبة','chat');if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد الاشتراك بباقة النخبة'},function(){});Tawk_API.toggle()}else{window.open('https://wa.me/963934692217?text='+encodeURIComponent('أريد الاشتراك بباقة النخبة'),'_blank')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
                     راسلنا
                 </a>
                 </div>
@@ -918,7 +942,7 @@
                             <p class="text-gray-400 text-sm md:text-base leading-relaxed">باقة مصممة خصيصاً لاحتياجات مشروعك - تواصل معنا لنحدد الخطط والأهداف phùguaً لأكبر عائد</p>
                         </div>
                     </div>
-                    <a href="javascript:void(0)" onclick="if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد استفسار عن باقة VIP المخصصة'},function(){});Tawk_API.toggle()}else{window.location.href='https://wa.me/963934692217?text='+encodeURIComponent('أريد استفسار عن باقة VIP المخصصة')}" class="flex-shrink-0 px-8 py-4 bg-gradient-to-r from-[#f68720] to-orange-400 text-black font-black text-lg rounded-xl hover:from-orange-400 hover-to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-[0_0_25px_rgba(246,135,32,0.3)]">
+                    <a href="javascript:void(0)" onclick="logLead('VIP','chat');if(typeof Tawk_API!=='undefined'){Tawk_API.setAttributes({name:'أريد استفسار عن باقة VIP المخصصة'},function(){});Tawk_API.toggle()}else{window.location.href='https://wa.me/963934692217?text='+encodeURIComponent('أريد استفسار عن باقة VIP المخصصة')}" class="flex-shrink-0 px-8 py-4 bg-gradient-to-r from-[#f68720] to-orange-400 text-black font-black text-lg rounded-xl hover:from-orange-400 hover-to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-[0_0_25px_rgba(246,135,32,0.3)]">
                         تواصل معنا
                     </a>
                 </div>

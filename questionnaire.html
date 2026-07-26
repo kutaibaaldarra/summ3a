@@ -912,6 +912,16 @@
             }).catch(err => {
                 console.error('خطأ في الحفظ:', err);
             });
+            db.collection('leads').add({
+                name: name,
+                email: email,
+                phone: phone,
+                source: 'questionnaire',
+                package: surveyData.budget >= 1500 ? 'النخبة' : surveyData.budget >= 700 ? 'المحترف' : 'الانطلاقة',
+                status: 'new',
+                data: surveyData,
+                createdAt: new Date().toISOString()
+            }).catch(function(){});
 
             // Open Tawk.to
             if (typeof Tawk_API !== 'undefined') {
