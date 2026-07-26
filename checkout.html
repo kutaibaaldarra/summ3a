@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الطلب | سمعة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: #070707; color: #fff; min-height: 100vh; }
+        .bg-glow { position: fixed; top: -30%; right: -15%; width: 50%; height: 70%; background: radial-gradient(circle, rgba(246,135,32,0.04), transparent 70%); pointer-events: none; z-index: 0; }
+
+        .card { background: linear-gradient(145deg, #141414, #0a0a0a); border: 1px solid rgba(246,135,32,0.08); border-radius: 1.5rem; padding: 2rem; }
+        .card-sm { background: linear-gradient(145deg, #141414, #0a0a0a); border: 1px solid rgba(246,135,32,0.06); border-radius: 1rem; padding: 1.25rem; }
+
+        .input { background: #111; border: 1px solid rgba(255,255,255,0.06); border-radius: 1rem; color: #fff; padding: 1rem 1.25rem; width: 100%; transition: all 0.3s ease; font-family: 'Tajawal', sans-serif; font-size: 1rem; }
+        .input:focus { outline: none; border-color: #f68720; box-shadow: 0 0 20px rgba(246,135,32,0.08); }
+        .input::placeholder { color: #555; }
+
+        .btn { padding: 1rem 2rem; border-radius: 1rem; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; cursor: pointer; border: none; font-family: 'Tajawal', sans-serif; }
+        .btn-primary { background: linear-gradient(135deg, #f68720, #e0781c); color: #000; width: 100%; }
+        .btn-primary:hover { box-shadow: 0 0 30px rgba(246,135,32,0.25); transform: translateY(-2px); }
+        .btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #aaa; }
+        .btn-ghost:hover { border-color: #f68720; color: #f68720; }
+
+        .feature-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; color: #ccc; font-size: 0.9rem; }
+        .feature-item .check { color: #22c55e; font-weight: 700; flex-shrink: 0; }
+
+        .fade-in { animation: fi 0.4s ease both; }
+        @keyframes fi { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .success { text-align: center; padding: 3rem 1rem; }
+        .success-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #f68720, #e0781c); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; }
+
+        @media (max-width: 768px) { .card { padding: 1.25rem; } .checkout-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) { .hide-mobile { display: none; } }
+    </style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<div class="page" style="position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem 1rem">
+
+    <!-- Header -->
+    <div class="fade-in" style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem">
+        <a href="packages.html" style="color:#666;text-decoration:none;font-size:1.2rem">→</a>
+        <img src="images/3.png" alt="" style="width:2.5rem;height:2.5rem;border-radius:0.6rem;border:2px solid rgba(246,135,32,0.15)">
+        <div><h1 style="font-size:1.3rem;font-weight:900">إتمام الطلب</h1></div>
+    </div>
+
+    <!-- Main -->
+    <div id="checkout-page">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem" class="checkout-grid">
+
+            <!-- Left: Package Info -->
+            <div class="card fade-in">
+                <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem">
+                    <div>
+                        <span style="color:#888;font-size:0.85rem">الباقة المختارة</span>
+                        <h2 id="pkg-name" style="font-size:1.8rem;font-weight:900;color:#f68720">-</h2>
+                    </div>
+                    <div id="pkg-badge" style="background:rgba(246,135,32,0.1);padding:0.3rem 0.8rem;border-radius:999px;font-size:0.8rem;font-weight:700;color:#f68720"></div>
+                </div>
+                <div style="font-size:2.5rem;font-weight:900;margin-bottom:1rem" id="pkg-price">-</div>
+                <div style="color:#888;font-size:0.9rem;margin-bottom:1rem" id="pkg-duration">-</div>
+                <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem">
+                    <div style="font-weight:700;margin-bottom:0.75rem">المميزات:</div>
+                    <div id="pkg-features"></div>
+                </div>
+            </div>
+
+            <!-- Right: Form -->
+            <div class="card fade-in" style="animation-delay:0.1s">
+                <h3 style="font-weight:700;margin-bottom:1.5rem">معلومات التواصل</h3>
+                <form id="checkout-form" onsubmit="return false" style="display:flex;flex-direction:column;gap:1rem">
+                    <input type="text" id="cf-name" class="input" placeholder="الاسم الكامل" required>
+                    <input type="tel" id="cf-phone" class="input" placeholder="رقم الجوال" required>
+                    <input type="email" id="cf-email" class="input" placeholder="البريد الإلكتروني (اختياري)">
+                    <textarea id="cf-notes" class="input" placeholder="ملاحظات إضافية..." style="resize:none;height:100px"></textarea>
+                    <button type="submit" onclick="submitOrder()" class="btn btn-primary" id="submit-btn" style="margin-top:0.5rem">
+                        تأكيد الطلب
+                    </button>
+                    <p style="color:#555;font-size:0.8rem;text-align:center">سيتم التواصل معك خلال 24 ساعة</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success -->
+    <div id="success-page" style="display:none">
+        <div class="card success fade-in" style="max-width:500px;margin:2rem auto">
+            <div class="success-icon">✅</div>
+            <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:0.5rem">تم استلام طلبك!</h2>
+            <p style="color:#888;margin-bottom:2rem">سنراجع طلبك ونتواصل معك قريباً</p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                <a href="packages.html" class="btn btn-primary" style="width:auto;padding:0.75rem 2rem">العودة للباقات</a>
+                <a href="index.html" class="btn btn-ghost" style="width:auto;padding:0.75rem 2rem">الرئيسية</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+<script>
+const CFG = {
+    apiKey: "AIzaSyBCP30snA8NGU5PDk6m4Vt_fvYXcxSvem8",
+    authDomain: "summ3a-3fe32.firebaseapp.com",
+    projectId: "summ3a-3fe32",
+    storageBucket: "summ3a-3fe32.firebasestorage.app",
+    messagingSenderId: "587094312862",
+    appId: "1:587094312862:web:ed31e9cf4e97af846ef88f"
+};
+firebase.initializeApp(CFG);
+const db = firebase.firestore();
+
+const PACKAGES = {
+    launch: {
+        name: 'الانطلاقة',
+        price: '$550',
+        duration: 'لمدة شهرين',
+        badge: 'أساسي',
+        features: [
+            'حساب انستقرام',
+            'حساب تيك توك',
+            '16 Reels احترافية',
+            '24 منشور ثابت',
+            'نسخ محتوى (Copywriting)',
+            'تصوير باستديو',
+            'استخدام الذكاء الاصطناعي',
+            'تقرير شهري',
+            'إدارة إعلانات ممولة'
+        ]
+    },
+    professional: {
+        name: 'المحترف',
+        price: '$900',
+        duration: 'لمدة 3 أشهر',
+        badge: 'الأكثر مبيعاً',
+        features: [
+            'حساب انستقرام',
+            'حساب تيك توك',
+            '70 Reel احترافية',
+            '50 منشور ثابت',
+            '10 منشور متحرك',
+            'تصوير احترافي',
+            'مونتاج فيديو',
+            'تصميم هوية',
+            'نسخ محتوى (Copywriting)',
+            'تصوير باستديو',
+            'استخدام الذكاء الاصطناعي',
+            'تقرير شهري',
+            'إدارة إعلانات ممولة'
+        ]
+    },
+    elite: {
+        name: 'النخبة',
+        price: '$2500',
+        duration: 'لمدة 4 أشهر',
+        badge: 'حصرية',
+        features: [
+            'حساب انستقرام',
+            'حساب تيك توك',
+            '100 Reel احترافية',
+            '60 منشور ثابت',
+            '20 منشور متحرك',
+            'تصوير احترافي',
+            'مونتاج فيديو',
+            'تصميم هوية كاملة',
+            'نسخ محتوى (Copywriting)',
+            'تصوير باستديو',
+            'استخدام الذكاء الاصطناعي',
+            'تقرير شهري',
+            'إدارة إعلانات ممولة',
+            'رسوم متحركة (Motion Graphics)'
+        ]
+    },
+    vip: {
+        name: 'VIP مخصصة',
+        price: 'مخصص',
+        duration: 'حسب احتياجك',
+        badge: '💎',
+        features: [
+            'باقة مصممة خصيصاً لاحتياجات مشروعك',
+            'تواصل معنا لمناقشة الخطط والأهداف'
+        ]
+    }
+};
+
+const urlParams = new URLSearchParams(window.location.search);
+const pkgKey = urlParams.get('package') || 'launch';
+const pkg = PACKAGES[pkgKey] || PACKAGES.launch;
+
+document.getElementById('pkg-name').textContent = pkg.name;
+document.getElementById('pkg-price').textContent = pkg.price;
+document.getElementById('pkg-duration').textContent = pkg.duration;
+document.getElementById('pkg-badge').textContent = pkg.badge;
+document.getElementById('pkg-badge').style.display = 'inline-block';
+
+const featuresEl = document.getElementById('pkg-features');
+pkg.features.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'feature-item';
+    div.innerHTML = '<span class="check">✓</span>' + f;
+    featuresEl.appendChild(div);
+});
+
+function submitOrder() {
+    const name = document.getElementById('cf-name').value.trim();
+    const phone = document.getElementById('cf-phone').value.trim();
+    if (!name || !phone) { alert('الرجاء إدخال الاسم ورقم الجوال'); return; }
+
+    const email = document.getElementById('cf-email').value.trim();
+    const notes = document.getElementById('cf-notes').value.trim();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'جاري الإرسال...';
+    btn.disabled = true;
+
+    const orderData = {
+        name: name,
+        phone: phone,
+        email: email,
+        notes: notes,
+        package: pkg.name,
+        packageKey: pkgKey,
+        source: 'checkout',
+        status: 'new',
+        createdAt: new Date().toISOString()
+    };
+
+    db.collection('leads').add(orderData).then(() => {
+        document.getElementById('checkout-page').style.display = 'none';
+        document.getElementById('success-page').style.display = 'block';
+    }).catch(err => {
+        alert('حدث خطأ: ' + err.message);
+        btn.textContent = 'تأكيد الطلب';
+        btn.disabled = false;
+    });
+}
+</script>
+</body>
+</html>
