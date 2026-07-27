@@ -4,7 +4,6 @@ module.exports = {
     "./index.html",
     "./packages.html",
     "./questionnaire.html",
-    "./results.html",
     "./terms.html",
     "./main.js",
     "./island-core.js"
