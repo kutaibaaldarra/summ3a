@@ -209,6 +209,12 @@
         </div>
     </div>
 
+    <!-- Clean Data -->
+    <div class="card fade-in" style="margin-bottom:1rem;padding:1rem 1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+        <button onclick="cleanAllData()" class="btn" style="background:#dc2626;color:#fff;border:none;padding:0.6rem 1.5rem;border-radius:0.75rem;font-weight:700;cursor:pointer">مسح كل البيانات</button>
+        <span style="color:#666;font-size:0.8rem">سيتم حذف جميع العملاء والاستبيانات بشكل نهائي</span>
+    </div>
+
     <!-- Filters -->
     <div class="card fade-in" style="margin-bottom:1rem;padding:1rem 1.5rem;display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center">
         <span style="font-size:0.85rem;color:#888;font-weight:700">تصفية:</span>
@@ -508,6 +514,44 @@ function exportCSV() {
     a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
     a.download = 'leads-سمعة-'+new Date().toISOString().slice(0,10)+'.csv';
     a.click();
+}
+
+// ── Clean All Data ──
+function cleanAllData() {
+    if (!confirm('⚠️ تنبيه: سيتم حذف جميع العملاء والاستبيانات بشكل نهائي!\n\nهل أنت متأكد؟')) return;
+    if (!confirm('تأكيد نهائي: لا يمكن التراجع عن هذا الإجراء.\nتابع؟')) return;
+
+    const btn = event.target;
+    btn.textContent = 'جاري المسح...';
+    btn.disabled = true;
+
+    // Delete all leads
+    db.collection('leads').get().then(snap => {
+        const batch = db.batch();
+        snap.forEach(doc => batch.delete(doc.ref));
+        return batch.commit();
+    }).then(() => {
+        return db.collection('questionnaires').get();
+    }).then(snap => {
+        const batch = db.batch();
+        snap.forEach(doc => batch.delete(doc.ref));
+        return batch.commit();
+    }).then(() => {
+        allLeads = [];
+        updateStats();
+        renderTable();
+        btn.textContent = 'تم المسح ✓';
+        btn.style.background = '#16a34a';
+        setTimeout(() => {
+            btn.textContent = 'مسح كل البيانات';
+            btn.style.background = '#dc2626';
+            btn.disabled = false;
+        }, 2000);
+    }).catch(err => {
+        alert('خطأ: ' + err.message);
+        btn.textContent = 'مسح كل البيانات';
+        btn.disabled = false;
+    });
 }
 </script>
 </body>
