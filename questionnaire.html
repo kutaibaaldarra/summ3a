@@ -957,14 +957,13 @@
                 createdAt: new Date().toISOString()
             }).catch(function(){});
 
-            // Open Tawk.to
+            // Set Tawk.to user data (don't open - only "راسلنا" buttons open it)
             if (typeof Tawk_API !== 'undefined') {
                 Tawk_API.setAttributes({
                     name: name + ' - ' + summary,
                     email: email
                 }, function(error) {});
                 Tawk_API.addEvent('استبيان', summary);
-                setTimeout(function(){ Tawk_API.toggle(); }, 300);
             }
 
             if (selectedPackage) {
