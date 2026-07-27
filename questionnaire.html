@@ -968,11 +968,12 @@
             }
 
             if (selectedPackage) {
-                document.getElementById('btn-checkout-redirect').href = 'checkout.html?package=' + selectedPackage;
-                document.getElementById('btn-checkout-redirect').style.display = 'inline-flex';
+                setTimeout(function() {
+                    window.location.href = 'checkout.html?package=' + selectedPackage;
+                }, 500);
+            } else {
+                nextStep('success');
             }
-
-            nextStep('success');
         }
 
         // Initialize
