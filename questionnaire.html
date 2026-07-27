@@ -525,9 +525,12 @@
                             <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="tech">
                                 <span class="text-white font-bold text-sm">تكنولوجيا</span>
                             </button>
-                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="other">
+                            <button type="button" class="option-btn p-4 text-center" data-question="business-type" data-value="other" onclick="showOtherInput(this)">
                                 <span class="text-white font-bold text-sm">أخرى</span>
                             </button>
+                        </div>
+                        <div id="other-business-container" class="hidden mt-4">
+                            <input type="text" id="other-business-input" placeholder="اكتب نشاطك التجاري..." oninput="updateOtherBusiness(this.value)" class="w-full p-4 rounded-xl text-center" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;font-weight:700;outline:none">
                         </div>
 
                         <h2 class="text-2xl font-black text-white mb-2 mt-8">ما أهدافك الرئيسية؟</h2>
@@ -806,11 +809,30 @@
                     });
                     this.classList.add('selected');
                     formData[question] = value;
+
+                    // Hide "أخرى" input if another option is selected
+                    if (question === 'business-type' && value !== 'other') {
+                        document.getElementById('other-business-container').classList.add('hidden');
+                    }
                 }
 
                 checkStepCompletion();
             });
         });
+
+        // Other Business Type Input
+        function showOtherInput(btn) {
+            setTimeout(() => {
+                const container = document.getElementById('other-business-container');
+                container.classList.remove('hidden');
+                document.getElementById('other-business-input').focus();
+            }, 50);
+        }
+
+        function updateOtherBusiness(value) {
+            formData['business-type'] = value || 'other';
+            checkStepCompletion();
+        }
 
         // Check Step Completion
         function checkStepCompletion() {
