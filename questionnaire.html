@@ -576,11 +576,16 @@
                             <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="tiktok">
                                 <span class="text-white font-bold text-sm">تيك توك</span>
                             </button>
-                            <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="twitter">
-                                <span class="text-white font-bold text-sm">تويتر</span>
+                            <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="x">
+                                <span class="text-white font-bold text-sm">X</span>
                             </button>
                             <button type="button" class="option-btn p-4 text-center multi-select" data-question="platforms" data-value="snapchat">
                                 <span class="text-white font-bold text-sm">سناب شات</span>
+                            </button>
+                        </div>
+                        <div class="text-center mb-8">
+                            <button type="button" class="option-btn p-4 text-center" data-question="platforms" data-value="حسب الخطة" style="min-width:200px" onclick="selectPlanBased(event)">
+                                <span class="text-white font-bold text-sm">بحسب الخطة التسويقية</span>
                             </button>
                         </div>
 
@@ -794,6 +799,13 @@
 
                 if (isMulti) {
                     // Multi-select logic
+                    // If selecting a regular platform, deselect "بحسب الخطة"
+                    if (question === 'platforms') {
+                        document.querySelector('[data-question="platforms"][data-value="حسب الخطة"]')?.classList.remove('selected');
+                        if (formData['platforms']?.length === 1 && formData['platforms'][0] === 'حسب الخطة') {
+                            formData['platforms'] = [];
+                        }
+                    }
                     this.classList.toggle('selected');
                     if (!formData[question]) formData[question] = [];
                     
@@ -831,6 +843,26 @@
 
         function updateOtherBusiness(value) {
             formData['business-type'] = value || 'other';
+            checkStepCompletion();
+        }
+
+        function selectPlanBased(e) {
+            e.stopPropagation();
+            const btn = e.currentTarget;
+            const isSelected = btn.classList.contains('selected');
+
+            // Deselect all platform multi-select buttons
+            document.querySelectorAll('[data-question="platforms"].multi-select').forEach(b => {
+                b.classList.remove('selected');
+            });
+
+            if (isSelected) {
+                btn.classList.remove('selected');
+                formData['platforms'] = [];
+            } else {
+                btn.classList.add('selected');
+                formData['platforms'] = ['حسب الخطة'];
+            }
             checkStepCompletion();
         }
 
