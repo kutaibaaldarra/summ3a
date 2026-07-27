@@ -899,11 +899,27 @@
 
         // Form Submit
         function submitForm() {
-            const name = document.getElementById('fullName').value || 'زائر';
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const brand = document.getElementById('brand').value;
-            const notes = document.getElementById('notes').value;
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const brand = document.getElementById('brand').value.trim();
+            const notes = document.getElementById('notes').value.trim();
+
+            const missing = [];
+            if (!name) missing.push('الاسم الكامل');
+            if (!email) missing.push('البريد الإلكتروني');
+            if (!phone) missing.push('رقم الجوال');
+            if (!formData['business-type']) missing.push('نوع النشاط');
+            if (!formData['goals']) missing.push('الهدف');
+            if (!formData['platforms']?.length) missing.push('المنصات');
+            if (!formData['presence']) missing.push('الوجود الرقمي');
+            if (!formData['budget']) missing.push('الميزانية');
+            if (!formData['timeline']) missing.push('موعد البدء');
+
+            if (missing.length > 0) {
+                alert('الرجاء إكمال الحقول التالية:\n- ' + missing.join('\n- '));
+                return;
+            }
 
             const surveyData = {
                 name: name,
