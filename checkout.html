@@ -390,6 +390,22 @@ function sendConfirmationEmail(data) {
 function downloadInvoice() {
     if (orderData) generateInvoice(orderData);
 }
+
+// ── Auto-fill from questionnaire ──
+const pendingData = JSON.parse(localStorage.getItem('checkout_pending') || 'null');
+if (pendingData) {
+    document.getElementById('cf-name').value = pendingData.name || '';
+    document.getElementById('cf-phone').value = pendingData.phone || '';
+    document.getElementById('cf-email').value = pendingData.email || '';
+    document.getElementById('cf-notes').value = (pendingData.brand ? 'العلامة التجارية: ' + pendingData.brand + '\n' : '') + (pendingData.notes || '');
+    document.querySelectorAll('#checkout-form input, #checkout-form textarea').forEach(el => el.readOnly = true);
+    document.getElementById('cf-terms').checked = true;
+    toggleSubmit();
+    localStorage.removeItem('checkout_pending');
+    setTimeout(function() {
+        document.getElementById('submit-btn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+}
 </script>
 </body>
 </html>

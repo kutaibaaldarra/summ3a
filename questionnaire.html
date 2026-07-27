@@ -968,6 +968,13 @@
             }
 
             if (selectedPackage) {
+                localStorage.setItem('checkout_pending', JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    brand: brand,
+                    notes: notes
+                }));
                 setTimeout(function() {
                     window.location.href = 'checkout.html?package=' + selectedPackage;
                 }, 500);
