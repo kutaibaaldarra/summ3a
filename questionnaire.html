@@ -797,6 +797,9 @@
                 const value = this.dataset.value;
                 const isMulti = this.classList.contains('multi-select');
 
+                // Skip if handled by dedicated onclick (e.g. "بحسب الخطة")
+                if (this.hasAttribute('data-handled')) return;
+
                 if (isMulti) {
                     // Multi-select logic
                     // If selecting a regular platform, deselect "بحسب الخطة"
@@ -849,6 +852,7 @@
         function selectPlanBased(e) {
             e.stopPropagation();
             const btn = e.currentTarget;
+            btn.setAttribute('data-handled', '1');
             const isSelected = btn.classList.contains('selected');
 
             // Deselect all platform multi-select buttons
