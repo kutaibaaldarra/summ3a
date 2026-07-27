@@ -37,6 +37,17 @@
             createdAt: new Date().toISOString()
         }).catch(function(){});
     }
+
+    function openTawkWithName() {
+        var name = prompt('الرجاء إدخال الاسم للمراسلة:');
+        if (!name || !name.trim()) return;
+        if (typeof Tawk_API !== 'undefined') {
+            Tawk_API.setAttributes({ name: name.trim() }, function(){});
+            Tawk_API.toggle();
+        } else {
+            window.open('https://wa.me/963934692217?text=' + encodeURIComponent('مرحباً، أنا ' + name.trim()), '_blank');
+        }
+    }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -865,7 +876,7 @@
                 <a href="questionnaire.html?package=launch" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
                     اشترك الآن
                 </a>
-                <a href="javascript:void(0)" onclick="logLead('الانطلاقة','chat');if(typeof Tawk_API!=='undefined'){Tawk_API.toggle()}else{window.open('https://wa.me/963934692217?text='+encodeURIComponent('مرحباً، أريد استشارة'),'_blank')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                <a href="javascript:void(0)" onclick="logLead('الانطلاقة','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
                     راسلنا
                 </a>
                 </div>
@@ -891,7 +902,7 @@
                 <a href="questionnaire.html?package=professional" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
                     اشترك الآن
                 </a>
-                <a href="javascript:void(0)" onclick="logLead('المحترف','chat');if(typeof Tawk_API!=='undefined'){Tawk_API.toggle()}else{window.open('https://wa.me/963934692217?text='+encodeURIComponent('مرحباً، أريد استشارة'),'_blank')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                <a href="javascript:void(0)" onclick="logLead('المحترف','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
                     راسلنا
                 </a>
                 </div>
@@ -917,7 +928,7 @@
                 <a href="questionnaire.html?package=elite" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
                     اشترك الآن
                 </a>
-                <a href="javascript:void(0)" onclick="logLead('النخبة','chat');if(typeof Tawk_API!=='undefined'){Tawk_API.toggle()}else{window.open('https://wa.me/963934692217?text='+encodeURIComponent('مرحباً، أريد استشارة'),'_blank')}" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                <a href="javascript:void(0)" onclick="logLead('النخبة','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
                     راسلنا
                 </a>
                 </div>
