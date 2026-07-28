@@ -219,6 +219,7 @@
         <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
             <span style="font-size:0.9rem;font-weight:700">مصادر الزوار:</span>
             <span id="visitor-sources-list" style="display:flex;gap:1rem;flex-wrap:wrap"></span>
+            <button onclick="testVisitor()" style="background:#f68720;border:none;border-radius:6px;padding:4px 14px;color:#fff;font-size:0.8rem;cursor:pointer">إضافة زيارة اختبارية</button>
         </div>
     </div>
 
@@ -381,6 +382,26 @@ function loadVisitors() {
         }
     }).catch(function(err){
         console.warn('loadVisitors error:', err);
+    });
+}
+
+// ── Test visitor ──
+function testVisitor() {
+    var today = new Date().toISOString().slice(0, 10);
+    var ref = db.collection('visitor_sources').doc(today);
+    ref.get().then(function(doc) {
+        var data = doc.data() || {};
+        data.count = (data.count || 0) + 1;
+        if (!data.sources) data.sources = {};
+        var srcs = ['فيس بوك', 'جوجل', 'مباشر', 'انستغرام'];
+        data.sources[srcs[Math.floor(Math.random() * srcs.length)]] = (data.sources[srcs[Math.floor(Math.random() * srcs.length)]] || 0) + 1;
+        return ref.set(data);
+    }).then(function() {
+        alert('تمت إضافة زيارة اختبارية بنجاح');
+        loadVisitors();
+    }).catch(function(err) {
+        alert('خطأ: ' + err.message);
+        console.error(err);
     });
 }
 
