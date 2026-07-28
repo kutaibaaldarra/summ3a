@@ -28,17 +28,13 @@
             appId: "1:587094312862:web:ed31e9cf4e97af846ef88f"
         }, 'tracker');
         var db = firebase.firestore(app);
-        db.collection('visitors').doc(today).set({
-            count: firebase.firestore.FieldValue.increment(1)
-        }, { merge: true }).then(function() {
-            localStorage.setItem(key + '_src', src);
-            return db.collection('visitor_sources').doc(today).set({
-                count: firebase.firestore.FieldValue.increment(1)
-            }, { merge: true });
-        }).then(function() {
-            return db.collection('visitor_sources').doc(today).update({
-                ['sources.' + src]: firebase.firestore.FieldValue.increment(1)
-            });
+        var ref = db.collection('visitor_sources').doc(today);
+        ref.get().then(function(doc) {
+            var data = doc.data() || {};
+            var count = (data.count || 0) + 1;
+            var sources = data.sources || {};
+            sources[src] = (sources[src] || 0) + 1;
+            return ref.set({ count: count, sources: sources }, { merge: true });
         }).then(function() {
             localStorage.setItem(key, '1');
         }).catch(function(){});

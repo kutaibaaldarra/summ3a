@@ -351,7 +351,7 @@ function loadVisitors() {
         days.push(d.toISOString().slice(0, 10));
     }
     const today = days[6];
-    db.collection('visitors').get().then(snap => {
+    db.collection('visitor_sources').get().then(snap => {
         const data = {};
         snap.forEach(doc => { data[doc.id] = doc.data().count || 0; });
         document.getElementById('s-visitors').textContent = data[today] || 0;
@@ -363,20 +363,21 @@ function loadVisitors() {
             if (el) el.style.height = ((data[d]||0) / maxVis * 100) + '%';
             if (lbl) lbl.textContent = dayLabels[(now.getDay() - 6 + i + 7) % 7];
         });
-    }).catch(function(){});
 
-    // Load visitor sources
-    db.collection('visitor_sources').doc(today).get().then(function(doc) {
+        // Visitor sources for today
         var list = document.getElementById('visitor-sources-list');
-        if (!list) return;
-        if (!doc.exists) { list.innerHTML = ''; return; }
-        var data = doc.data();
-        var sources = data.sources || {};
-        var total = data.count || 1;
-        list.innerHTML = Object.keys(sources).map(function(k) {
-            var pct = Math.round((sources[k] / total) * 100);
-            return '<span><span style="color:#0ea5e9;font-weight:700">' + k + '</span> ' + sources[k] + ' (' + pct + '%)</span>';
-        }).join('');
+        if (list && data[today] !== undefined) {
+            db.collection('visitor_sources').doc(today).get().then(function(doc2) {
+                if (!doc2.exists) { list.innerHTML = ''; return; }
+                var d2 = doc2.data();
+                var sources = d2.sources || {};
+                var total = d2.count || 1;
+                list.innerHTML = Object.keys(sources).map(function(k) {
+                    var pct = Math.round((sources[k] / total) * 100);
+                    return '<span><span style="color:#0ea5e9;font-weight:700">' + k + '</span> ' + sources[k] + ' (' + pct + '%)</span>';
+                }).join('');
+            }).catch(function(){});
+        }
     }).catch(function(){});
 }
 
