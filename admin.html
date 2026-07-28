@@ -230,9 +230,9 @@
             <span><span class="badge badge-whatsapp">واتساب <span id="src-w">0</span></span></span>
             <span><span class="badge badge-chat">مراسلة <span id="src-c">0</span></span></span>
         </div>
-        <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center;margin-top:0.5rem">
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:0.5rem">
             <span style="font-size:0.9rem;font-weight:700;color:#0ea5e9">مصدر الزائر:</span>
-            <span id="lead-source-dist"></span>
+            <div id="lead-source-dist" style="display:flex;gap:0.75rem;flex-wrap:wrap"></div>
         </div>
     </div>
 
@@ -384,10 +384,11 @@ function loadVisitors() {
                 list.innerHTML = '<span style="color:#555">لا توجد بيانات بعد</span>';
             }
         }
+        window._visitorDocs = docs;
     }).catch(function(err){
         console.warn('loadVisitors error:', err);
     });
-}
+
 
 // ── Stats ──
 function updateStats() {
@@ -435,9 +436,16 @@ function updateStats() {
     document.getElementById('src-w').textContent = srcCount.whatsapp;
     document.getElementById('src-c').textContent = srcCount.chat;
 
+    const yesterdayStr = new Date(now.getTime() - 864e5).toISOString().slice(0, 10);
+    const yesterdaySources = (window._visitorDocs && window._visitorDocs[yesterdayStr] && window._visitorDocs[yesterdayStr].sources) || {};
+    const sourceIcons = { 'فيس بوك':'📘', 'انستغرام':'📷', 'جوجل':'🔍', 'تيك توك':'🎵', 'X':'🐦', 'واتساب':'💬', 'مباشر':'🌐', 'رابط خارجي':'🔗' };
     const leadSrcHtml = Object.keys(leadSrcCount).length
-        ? Object.entries(leadSrcCount).sort((a,b) => b[1]-a[1]).map(([k,v]) => `<span><span style="color:#0ea5e9">${k}</span> ${v}</span>`).join(' · ')
-        : '<span style="color:#555">لا توجد بيانات</span>';
+        ? Object.entries(leadSrcCount).sort((a,b) => b[1]-a[1]).map(([k,v]) => {
+            var prev = yesterdaySources[k] || 0;
+            var trend = prev === 0 ? '' : v > prev ? '📈' : v < prev ? '📉' : '➖';
+            return '<div class="stat" style="padding:0.75rem 1rem;min-width:100px;flex-shrink:0"><div style="display:flex;align-items:center;gap:0.5rem"><span style="font-size:1.2rem">' + (sourceIcons[k]||'📌') + '</span><div><div style="font-weight:700;font-size:1.1rem">' + v + '</div><div style="font-size:0.75rem;color:#0ea5e9;white-space:nowrap">' + k + ' ' + trend + '</div></div></div></div>';
+        }).join('')
+        : '<div class="stat" style="padding:0.75rem 1rem"><span style="color:#555;font-size:0.85rem">لا توجد بيانات</span></div>';
     document.getElementById('lead-source-dist').innerHTML = leadSrcHtml;
 
     const maxDay = Math.max(...days, 1);
