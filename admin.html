@@ -390,8 +390,12 @@ function loadVisitors() {
                     var cur = todayData.sources[k] || 0;
                     var week = allSources[k] || 0;
                     var prev = yesterdaySources[k] || 0;
-                    var trend = prev === 0 ? '' : cur > prev ? '📈' : cur < prev ? '📉' : '➖';
-                    return '<div class="stat" style="padding:0.75rem 1rem;min-width:130px;flex-shrink:0"><div style="display:flex;align-items:center;gap:0.5rem"><span style="font-size:1.3rem">' + (sourceIcons[k]||'📌') + '</span><div><div style="font-weight:700;font-size:1.1rem">' + cur + '</div><div style="font-size:0.75rem;color:#0ea5e9;white-space:nowrap">' + k + ' ' + trend + '</div><div style="font-size:0.7rem;color:#666">هذا الأسبوع: ' + week + '</div></div></div></div>';
+                    var trend = cur > prev ? '📈' : cur < prev ? '📉' : (cur > 0 && prev > 0 ? '➖' : (cur > 0 ? '✨' : ''));
+                    var timeEl = '';
+                    if (docs[today] && docs[today].lastVisits && docs[today].lastVisits[k]) {
+                        timeEl = '<div style="font-size:0.65rem;color:#555">آخر: ' + new Date(docs[today].lastVisits[k]).toLocaleTimeString('ar-SA', {hour:'2-digit',minute:'2-digit'}) + '</div>';
+                    }
+                    return '<div class="stat" style="padding:0.75rem 1rem;min-width:140px;flex-shrink:0"><div style="display:flex;align-items:center;gap:0.5rem"><span style="font-size:1.3rem">' + (sourceIcons[k]||'📌') + '</span><div><div style="font-weight:700;font-size:1.1rem">' + cur + '</div><div style="font-size:0.75rem;color:#0ea5e9;white-space:nowrap">' + k + ' ' + trend + '</div><div style="font-size:0.7rem;color:#666">الأسبوع: ' + week + '</div>' + timeEl + '</div></div></div>';
                 }).join('');
             } else {
                 list.innerHTML = '<div class="stat" style="padding:0.75rem 1rem"><span style="color:#555;font-size:0.85rem">لا توجد بيانات بعد</span></div>';

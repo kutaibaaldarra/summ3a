@@ -43,6 +43,8 @@
             data.count = (data.count || 0) + 1;
             data.sources = data.sources || {};
             data.sources[src] = (data.sources[src] || 0) + 1;
+            data.lastVisits = data.lastVisits || {};
+            data.lastVisits[src] = new Date().toISOString();
             return ref.set(data);
         }).then(function() {
             localStorage.setItem(key, '1');
