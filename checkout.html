@@ -7,12 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-    <!-- EmailJS SDK (مجاني 200 إيميل/شهر) -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <!-- jsPDF لإنشاء الفاتورة -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-    (function(){ emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); })();
     </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,10 +43,6 @@
         .checkbox-wrap label { color: #888; font-size: 0.85rem; cursor: pointer; }
         .checkbox-wrap a { color: #f68720; text-decoration: none; }
         .checkbox-wrap a:hover { text-decoration: underline; }
-
-        .invoice-preview { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.04); border-radius: 1rem; padding: 1.5rem; }
-        .invoice-preview .row { display: flex; justify-content: space-between; padding: 0.5rem 0; color: #ccc; font-size: 0.9rem; }
-        .invoice-preview .row.total { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 0.5rem; padding-top: 0.75rem; color: #f68720; font-weight: 700; font-size: 1.1rem; }
 
         @media (max-width: 768px) { .card { padding: 1.25rem; } .checkout-grid { grid-template-columns: 1fr; } }
     </style>
@@ -89,14 +80,6 @@
                     <div id="pkg-features"></div>
                 </div>
 
-                <!-- فاتورة معاينة -->
-                <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;margin-top:1rem">
-                    <div style="font-weight:700;margin-bottom:0.75rem;color:#f68720">📄 فاتورة الطلب</div>
-                    <div class="invoice-preview" id="invoice-preview">
-                        <div class="row"><span>الخدمة</span><span id="inv-service">-</span></div>
-                        <div class="row"><span>المدة</span><span id="inv-duration">-</span></div>
-                        <div class="row total"><span>الإجمالي</span><span id="inv-total">-</span></div>
-                    </div>
                 </div>
             </div>
 
@@ -132,14 +115,9 @@
                 <div class="success-icon">✅</div>
                 <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:0.5rem">تم استلام طلبك!</h2>
                 <p style="color:#888;margin-bottom:0.25rem">رقم الطلب: <span id="order-id" style="color:#f68720;font-weight:700;font-size:1.1rem" dir="ltr"></span></p>
-                <p style="color:#888;margin-bottom:2rem">تم إرسال الفاتورة والتفاصيل إلى بريدك الإلكتروني</p>
+                <p style="color:#888;margin-bottom:2rem">سيتم التواصل معك خلال 24 ساعة</p>
 
-                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-                    <button onclick="downloadInvoice()" class="btn btn-success" style="padding:0.85rem 1.5rem">
-                        📄 تحميل الفاتورة PDF
-                    </button>
-                </div>
-                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem">
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:0.5rem">
                     <a href="packages.html" class="btn btn-ghost" style="padding:0.6rem 1.5rem;font-size:0.85rem">العودة للباقات</a>
                     <a href="index.html" class="btn btn-ghost" style="padding:0.6rem 1.5rem;font-size:0.85rem">الرئيسية</a>
                 </div>
@@ -203,10 +181,6 @@ pkg.features.forEach(f => {
     featuresEl.appendChild(d);
 });
 
-// Invoice preview
-document.getElementById('inv-service').textContent = 'باقة ' + pkg.name;
-document.getElementById('inv-duration').textContent = pkg.duration;
-document.getElementById('inv-total').textContent = pkg.price;
 
 function toggleSubmit() {
     document.getElementById('submit-btn').disabled = !document.getElementById('cf-terms').checked;
@@ -241,12 +215,6 @@ function submitOrder() {
         orderDocId = docRef.id;
         orderData.id = docRef.id;
 
-        // إرسال الفاتورة PDF (jsPDF)
-        generateInvoice(orderData);
-
-        // إرسال إيميل تأكيد عبر EmailJS
-        sendConfirmationEmail(orderData);
-
         // شاشة النجاح
         document.getElementById('checkout-page').style.display = 'none';
         document.getElementById('success-page').style.display = 'block';
@@ -256,100 +224,6 @@ function submitOrder() {
         btn.textContent = 'تأكيد الطلب';
         btn.disabled = false;
     });
-}
-
-// ── فاتورة PDF ──
-function generateInvoice(data) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
-    const orange = [246, 135, 32];
-    const darkBg = [20, 20, 20];
-    const lightText = [200, 200, 200];
-
-    // خلفية
-    doc.setFillColor(...darkBg);
-    doc.rect(0, 0, 210, 297, 'F');
-
-    // شريط علوي برتقالي
-    doc.setFillColor(...orange);
-    doc.rect(0, 0, 210, 8, 'F');
-
-    // شعار "سمعة"
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(28);
-    doc.setTextColor(...orange);
-    doc.text('S U M M 3 A', 105, 30, { align: 'center' });
-    doc.setFontSize(10);
-    doc.setTextColor(...lightText);
-    doc.text('سمعة للتسويق والتصميم', 105, 38, { align: 'center' });
-
-    // خط فاصل
-    doc.setDrawColor(...orange);
-    doc.setLineWidth(0.5);
-    doc.line(20, 45, 190, 45);
-
-    // عنوان الفاتورة
-    doc.setFontSize(18);
-    doc.setTextColor(...orange);
-    doc.text('فاتورة / Invoice', 105, 58, { align: 'center' });
-
-    // رقم الفاتورة
-    doc.setFontSize(10);
-    doc.setTextColor(...lightText);
-    const invoiceNum = 'INV-' + data.id.slice(-8).toUpperCase();
-    doc.text('رقم الفاتورة: ' + invoiceNum, 20, 70);
-    doc.text('التاريخ: ' + new Date().toLocaleDateString('ar-SA'), 190, 70, { align: 'right' });
-
-    // معلومات العميل
-    doc.setFontSize(11);
-    doc.setTextColor(...orange);
-    doc.text('معلومات العميل', 20, 85);
-    doc.setTextColor(...lightText);
-    doc.setFontSize(10);
-    doc.text('الاسم: ' + data.name, 20, 94);
-    doc.text('الجوال: ' + data.phone, 20, 101);
-    if (data.email) doc.text('البريد: ' + data.email, 20, 108);
-
-    // تفاصيل الفاتورة
-    doc.setFontSize(11);
-    doc.setTextColor(...orange);
-    doc.text('تفاصيل الفاتورة', 20, 125);
-
-    // جدول
-    doc.setFillColor(30, 30, 30);
-    doc.rect(20, 130, 170, 8, 'F');
-    doc.setFontSize(9);
-    doc.setTextColor(...orange);
-    doc.text('الوصف', 25, 136);
-    doc.text('المدة', 120, 136);
-    doc.text('المبلغ', 170, 136, { align: 'right' });
-
-    doc.setDrawColor(60, 60, 60);
-    doc.line(20, 139, 190, 139);
-
-    doc.setTextColor(...lightText);
-    doc.text('باقة ' + data.package, 25, 147);
-    doc.text(PACKAGES[data.packageKey]?.duration || '-', 120, 147);
-    doc.text(data.price, 170, 147, { align: 'right' });
-
-    doc.line(20, 153, 190, 153);
-
-    // المجموع
-    doc.setFontSize(12);
-    doc.setTextColor(...orange);
-    doc.setFont('Helvetica', 'bold');
-    doc.text('الإجمالي', 120, 164);
-    doc.text(data.price, 170, 164, { align: 'right' });
-
-    // الشروط
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
-    doc.setFont('Helvetica', 'normal');
-    doc.text('شكراً لثقتكم بسمعة', 105, 250, { align: 'center' });
-    doc.text('تم إنشاء هذه الفاتورة إلكترونياً', 105, 256, { align: 'center' });
-
-    doc.save(invoiceNum + '.pdf');
 }
 
 // ── إيميل تأكيد (EmailJS) ──
@@ -381,11 +255,6 @@ function sendConfirmationEmail(data) {
     }).catch(err => {
         console.warn('فشل إرسال الإيميل (يمكنك تجاهل هذا):', err);
     });
-}
-
-// ── تحميل الفاتورة ──
-function downloadInvoice() {
-    if (orderData) generateInvoice(orderData);
 }
 
 // ── Auto-fill from questionnaire ──
