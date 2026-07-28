@@ -968,6 +968,7 @@
                 source: 'questionnaire',
                 package: pkgName,
                 packageKey: selectedPackage || '',
+                leadSource: localStorage.getItem('leadSource') || 'غير معروف',
                 status: 'new',
                 data: surveyData,
                 createdAt: new Date().toISOString()

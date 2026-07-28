@@ -207,6 +207,7 @@ function submitOrder() {
         packageKey: pkgKey,
         price: pkg.price,
         source: 'checkout',
+        leadSource: localStorage.getItem('leadSource') || 'غير معروف',
         status: 'new',
         createdAt: new Date().toISOString()
     };

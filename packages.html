@@ -33,6 +33,7 @@
             name: source === 'chat' ? 'راسلنا - ' + pkg : pkg,
             source: source,
             package: pkg,
+            leadSource: localStorage.getItem('leadSource') || 'غير معروف',
             status: 'new',
             createdAt: new Date().toISOString()
         }).catch(function(){});

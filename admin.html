@@ -230,6 +230,10 @@
             <span><span class="badge badge-whatsapp">واتساب <span id="src-w">0</span></span></span>
             <span><span class="badge badge-chat">مراسلة <span id="src-c">0</span></span></span>
         </div>
+        <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center;margin-top:0.5rem">
+            <span style="font-size:0.9rem;font-weight:700;color:#0ea5e9">مصدر الزائر:</span>
+            <span id="lead-source-dist"></span>
+        </div>
     </div>
 
     <!-- Clean Data -->
@@ -260,6 +264,7 @@
                         <th style="width:40px">#</th>
                         <th>العميل</th>
                         <th class="hide-mobile">المصدر</th>
+                        <th>مصدر الزائر</th>
                         <th>الباقة</th>
                         <th>الحالة</th>
                         <th class="hide-mobile">التاريخ</th>
@@ -267,7 +272,7 @@
                     </tr>
                 </thead>
                 <tbody id="table-body">
-                    <tr><td colspan="7" style="text-align:center;padding:3rem;color:#555">جاري تحميل البيانات...</td></tr>
+                    <tr><td colspan="8" style="text-align:center;padding:3rem;color:#555">جاري تحميل البيانات...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -338,7 +343,7 @@ function loadData() {
         renderTable();
     }).catch(err => {
         document.getElementById('table-body').innerHTML =
-            '<tr><td colspan="7" style="text-align:center;padding:3rem;color:#ef4444">خطأ: ' + err.message + '</td></tr>';
+            '<tr><td colspan="8" style="text-align:center;padding:3rem;color:#ef4444">خطأ: ' + err.message + '</td></tr>';
     });
     loadVisitors();
 }
@@ -393,6 +398,7 @@ function updateStats() {
     let week = 0, interested = 0, subscribed = 0;
     let pkgCount = { 'الانطلاقة':0, 'المحترف':0, 'النخبة':0, 'مخصصة':0 };
     let srcCount = { questionnaire:0, whatsapp:0, chat:0 };
+    let leadSrcCount = {};
     let days = Array(7).fill(0);
 
     allLeads.forEach(d => {
@@ -402,6 +408,7 @@ function updateStats() {
         if (d.status === 'subscribed') subscribed++;
         if (d.package && pkgCount[d.package] !== undefined) pkgCount[d.package]++;
         if (d.source && srcCount[d.source] !== undefined) srcCount[d.source]++;
+        if (d.leadSource) leadSrcCount[d.leadSource] = (leadSrcCount[d.leadSource] || 0) + 1;
         for (let i=0; i<7; i++) {
             const day = new Date(now.getTime() - i*864e5);
             if (dt.toDateString() === day.toDateString()) days[6-i]++;
@@ -427,6 +434,11 @@ function updateStats() {
     document.getElementById('src-q').textContent = srcCount.questionnaire;
     document.getElementById('src-w').textContent = srcCount.whatsapp;
     document.getElementById('src-c').textContent = srcCount.chat;
+
+    const leadSrcHtml = Object.keys(leadSrcCount).length
+        ? Object.entries(leadSrcCount).sort((a,b) => b[1]-a[1]).map(([k,v]) => `<span><span style="color:#0ea5e9">${k}</span> ${v}</span>`).join(' · ')
+        : '<span style="color:#555">لا توجد بيانات</span>';
+    document.getElementById('lead-source-dist').innerHTML = leadSrcHtml;
 
     const maxDay = Math.max(...days, 1);
     const dayLabels = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -474,6 +486,7 @@ function renderTable() {
             <td style="color:#555;font-size:0.8rem">${i+1}</td>
             <td onclick="openModal('${d.id}')"><span style="font-weight:700">${displayName}</span><br><span style="font-size:0.75rem;color:#666" class="hide-mobile">${d.phone || d.email || ''}</span></td>
             <td class="hide-mobile" onclick="openModal('${d.id}')"><span class="badge ${sourceClass[d.source]||'badge-new'}">${sourceMap[d.source]||d.source||'-'}</span></td>
+            <td onclick="openModal('${d.id}')"><span style="font-size:0.75rem;color:#0ea5e9">${d.leadSource || '-'}</span></td>
             <td onclick="openModal('${d.id}')">${d.package ? '<span style="color:#f68720;font-weight:700">' + d.package + '</span>' : '<span style="color:#555">-</span>'}</td>
             <td onclick="openModal('${d.id}')"><span class="badge ${statusClass[d.status]||'badge-new'}">${statusMap[d.status]||d.status||'جديد'}</span></td>
             <td class="hide-mobile" onclick="openModal('${d.id}')" style="color:#666;font-size:0.8rem">${date}</td>
@@ -498,6 +511,7 @@ function openModal(id) {
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
             <div><div style="color:#888;font-size:0.8rem">الاسم</div><div style="font-weight:700">${d.name || '-'}</div></div>
             <div><div style="color:#888;font-size:0.8rem">المصدر</div><div><span class="badge badge-${d.source||'new'}">${sourceMap[d.source]||d.source||'-'}</span></div></div>
+            <div><div style="color:#888;font-size:0.8rem">مصدر الزائر</div><div style="color:#0ea5e9">${d.leadSource || '-'}</div></div>
             <div><div style="color:#888;font-size:0.8rem">الإيميل</div><div>${d.email || '-'}</div></div>
             <div><div style="color:#888;font-size:0.8rem">الجوال</div><div dir="ltr" style="text-align:right">${d.phone || '-'} ${d.phone ? `<a href="https://wa.me/${d.phone.replace(/[^0-9]/g,'')}" target="_blank" style="color:#25d366;text-decoration:none;font-size:1.1rem;margin-right:0.5rem" title="فتح واتساب">💬</a>` : ''}</div></div>
             <div><div style="color:#888;font-size:0.8rem">الباقة</div><div style="color:#f68720;font-weight:700">${d.package || 'غير محدد'}</div></div>
@@ -568,10 +582,10 @@ function exportCSV() {
     if (allLeads.length === 0) return;
     const statusMap = { new:'جديد', contacted:'تم التواصل', interested:'مهتم', subscribed:'تم الاشتراك', cancelled:'ملغي' };
     const sourceMap = { questionnaire:'استبيان', whatsapp:'واتساب', chat:'مراسلة' };
-    const h = ['الاسم','الإيميل','الجوال','المصدر','الباقة','الحالة','التاريخ','ملاحظات'];
+    const h = ['الاسم','الإيميل','الجوال','المصدر','مصدر الزائر','الباقة','الحالة','التاريخ','ملاحظات'];
     const r = allLeads.map(d => [
         d.name||'', d.email||'', d.phone||'', sourceMap[d.source]||d.source||'',
-        d.package||'', statusMap[d.status]||d.status||'جديد',
+        d.leadSource||'', d.package||'', statusMap[d.status]||d.status||'جديد',
         d.createdAt||'', (d.data&&d.data.notes)||''
     ]);
     const csv = '\uFEFF' + [h.join(','), ...r.map(rr => rr.map(v => '"'+(v||'').replace(/"/g,'""')+'"').join(','))].join('\n');

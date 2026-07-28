@@ -35,6 +35,9 @@
             }
         }
         var ref = db.collection('visitor_sources').doc(today);
+        // Save source to localStorage for lead tracking (only non-direct sources overwrite)
+        if (src !== 'مباشر') localStorage.setItem('leadSource', src);
+        else if (!localStorage.getItem('leadSource')) localStorage.setItem('leadSource', 'مباشر');
         ref.get().then(function(doc) {
             var data = doc.data() || {};
             data.count = (data.count || 0) + 1;
