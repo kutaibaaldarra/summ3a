@@ -352,33 +352,36 @@ function loadVisitors() {
     }
     const today = days[6];
     db.collection('visitor_sources').get().then(snap => {
-        const data = {};
-        snap.forEach(doc => { data[doc.id] = doc.data().count || 0; });
-        document.getElementById('s-visitors').textContent = data[today] || 0;
-        const maxVis = Math.max(...days.map(d => data[d] || 0), 1);
+        const docs = {};
+        snap.forEach(doc => { docs[doc.id] = doc.data(); });
+        const dayCounts = days.map(d => (docs[d] && docs[d].count) || 0);
+        document.getElementById('s-visitors').textContent = dayCounts[6] || 0;
+        const maxVis = Math.max(...dayCounts, 1);
         const dayLabels = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
         days.forEach((d, i) => {
             const el = document.getElementById('vis'+i);
             const lbl = document.getElementById('vis'+i+'l');
-            if (el) el.style.height = ((data[d]||0) / maxVis * 100) + '%';
+            if (el) el.style.height = ((dayCounts[i] || 0) / maxVis * 100) + '%';
             if (lbl) lbl.textContent = dayLabels[(now.getDay() - 6 + i + 7) % 7];
         });
 
         // Visitor sources for today
         var list = document.getElementById('visitor-sources-list');
-        if (list && data[today] !== undefined) {
-            db.collection('visitor_sources').doc(today).get().then(function(doc2) {
-                if (!doc2.exists) { list.innerHTML = ''; return; }
-                var d2 = doc2.data();
-                var sources = d2.sources || {};
-                var total = d2.count || 1;
-                list.innerHTML = Object.keys(sources).map(function(k) {
-                    var pct = Math.round((sources[k] / total) * 100);
-                    return '<span><span style="color:#0ea5e9;font-weight:700">' + k + '</span> ' + sources[k] + ' (' + pct + '%)</span>';
+        if (list) {
+            var todayData = docs[today];
+            if (todayData && todayData.sources) {
+                var total = todayData.count || 1;
+                list.innerHTML = Object.keys(todayData.sources).map(function(k) {
+                    var pct = Math.round((todayData.sources[k] / total) * 100);
+                    return '<span><span style="color:#0ea5e9;font-weight:700">' + k + '</span> ' + todayData.sources[k] + ' (' + pct + '%)</span>';
                 }).join('');
-            }).catch(function(){});
+            } else {
+                list.innerHTML = '<span style="color:#555">لا توجد بيانات بعد</span>';
+            }
         }
-    }).catch(function(){});
+    }).catch(function(err){
+        console.warn('loadVisitors error:', err);
+    });
 }
 
 // ── Stats ──
