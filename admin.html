@@ -214,6 +214,14 @@
         </div>
     </div>
 
+    <!-- Visitor Sources -->
+    <div class="card fade-in" style="margin-bottom:1.5rem;padding:1rem 1.5rem">
+        <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
+            <span style="font-size:0.9rem;font-weight:700">مصادر الزوار:</span>
+            <span id="visitor-sources-list" style="display:flex;gap:1rem;flex-wrap:wrap"></span>
+        </div>
+    </div>
+
     <!-- Source Distribution -->
     <div class="card fade-in" style="margin-bottom:1.5rem;padding:1rem 1.5rem">
         <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
@@ -356,6 +364,20 @@ function loadVisitors() {
             if (lbl) lbl.textContent = dayLabels[(now.getDay() - 6 + i + 7) % 7];
         });
     }).catch(function(){});
+
+    // Load visitor sources
+    db.collection('visitor_sources').doc(today).get().then(function(doc) {
+        var list = document.getElementById('visitor-sources-list');
+        if (!list) return;
+        if (!doc.exists) { list.innerHTML = ''; return; }
+        var data = doc.data();
+        var sources = data.sources || {};
+        var total = data.count || 1;
+        list.innerHTML = Object.keys(sources).map(function(k) {
+            var pct = Math.round((sources[k] / total) * 100);
+            return '<span><span style="color:#0ea5e9;font-weight:700">' + k + '</span> ' + sources[k] + ' (' + pct + '%)</span>';
+        }).join('');
+    }).catch(function(){});
 }
 
 // ── Stats ──
@@ -365,7 +387,7 @@ function updateStats() {
     const weekAgo = new Date(now.getTime() - 7*864e5);
 
     let week = 0, interested = 0, subscribed = 0;
-    let pkgCount = { 'الانطلاقة':0, 'المحترف':0, 'النخبة':0, 'VIP':0 };
+    let pkgCount = { 'الانطلاقة':0, 'المحترف':0, 'النخبة':0, 'مخصصة':0 };
     let srcCount = { questionnaire:0, whatsapp:0, chat:0 };
     let days = Array(7).fill(0);
 
