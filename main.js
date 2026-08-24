@@ -64,6 +64,338 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas ? canvas.getContext('2d') : null;
     const mobileMenu = document.getElementById('mobile-menu-overlay');
     const sections = document.querySelectorAll('[data-process]');
+    const assistantAudio = document.getElementById('assistant-audio');
+    const assistantWaveBars = document.querySelectorAll('#assistant-wave span');
+    const assistantCard = document.querySelector('.assistant-card');
+    const assistantMuteToggle = document.getElementById('assistant-mute-toggle');
+    const assistantChat = document.getElementById('assistant-chat');
+    const assistantChatBackdrop = document.getElementById('assistant-chat-backdrop');
+    const assistantChatMessages = document.getElementById('assistant-chat-messages');
+    const assistantChatChoices = document.getElementById('assistant-chat-choices');
+
+    const visitorConversation = [
+        {
+            qtiba: 'السلام عليكم، أنا قتيبة.\nسارة، لدينا زائر جديد!\n\nأهلاً وسهلاً! 👋\nكيف يمكننا أن نبدأ معك؟',
+            choices: [{ label: 'ابدأ المحادثة', next: 1 }]
+        },
+        {
+            visitor: 'وعليكم السلام. أريد أن أبدأ رحلتي في هذا الموقع.',
+            qtiba: 'هذا قرار حكيم 😄\nدعني اختصر عليك الوقت ولنتحدث قليلاً',
+            choices: [{ label: 'ما الذي تقدمونه؟', next: 2 }]
+        },
+        {
+            visitor: 'قبل أن أبدأ الجولة... أنتم وكالة تسويق، صحيح؟ ما الذي تقدمونه؟',
+            qtiba: 'صحيح، نحن وكالة سمعة للتسويق الرقمي.\nوببساطة، نساعد المشاريع على بناء حضورها الرقمي وتطويره، من المحتوى والتصميم إلى التصوير والمواقع.',
+            choices: [{ label: 'خدمات التسويق؟ وما الذي تقصدونه تحديداً؟', next: 3 }]
+        },
+        {
+            visitor: 'خدمات التسويق؟ 🤔 وما الذي تقصدونه تحديداً؟',
+            qtiba: 'نقدم خدمات متعددة وظيفة هذه الخدمات زيادة الارباح وتوسيع القاعدة الجماهرية للمشروع وهذه الخدمات تكون على شكل باقات\n\nلدينا باقات مختلفة لتناسب مختلف المشاريع',
+            choices: [{ label: 'وما الذي يمكن أن تتضمنه هذه الباقات؟', next: 4 }]
+        },
+        {
+            visitor: 'وما الذي يمكن أن تتضمنه هذه الباقات؟',
+            qtiba: 'تتضمن كل باقة خدمات مختلفة حسب مرحلة مشروعك واحتياجاته. هذه أمثلة سريعة:',
+            packageCards: [
+                {
+                    name: 'باقة الانطلاقة',
+                    services: ['إنشاء وإدارة صفحات السوشال ميديا', 'تصميم المنشورات وإنشاء الريلز']
+                },
+                {
+                    name: 'باقة المحترف',
+                    services: ['إدارة وتطوير المحتوى باستمرار', 'بحث وتطوير مستمر طوال مدة الباقة']
+                },
+                {
+                    name: 'باقة النخبة',
+                    services: ['تطوير الهوية والحضور الرقمي', 'حلول متقدمة لتحقيق أقصى استفادة من الإنترنت']
+                }
+            ],
+            packageNote: 'ويمكنك تخصيص باقة أيضاً',
+            choices: [{ label: 'لدي مشروع جديد، هل تساعدونني من البداية؟', next: 5 }]
+        },
+        {
+            visitor: 'يعني إذا كان لدي مشروع جديد، يمكنكم مساعدتي من البداية؟',
+            qtiba: 'بالضبط. حتى وإن كان مشروعك متقدماً لدينا باقات تناسبك، من أول ظهور للمشروع على الإنترنت، وصولاً إلى بناء هوية وحضور رقمي متكامل.\n\nوالأهم؟ نحن لا نريد أن نبيعك خدمة لا تحتاجها. نريد أن نعرف ماذا يحتاج مشروعك أولاً، ثم نبني الحل المناسب له.',
+            choices: [{ label: 'أكمل التعرف على سمعة', next: 6 }]
+        },
+        {
+            visitor: 'أكمل التعرف على سمعة.',
+            qtiba: 'من عيوني 😄\nتعرفت الآن على طريقة عملنا والخدمات التي نقدمها.\n\nأمامك خياران لإكمال رحلتك:',
+            choices: [
+                { label: 'الانتقال إلى الباقات', href: 'packages.html' },
+                { label: 'جولة في الصفحة الرئيسية', next: 8 }
+            ]
+        },
+        {
+            visitor: 'أريد العودة إلى الجولة الرئيسية.',
+            qtiba: 'أهلاً بك من جديد! يمكننا متابعة الجولة من البداية متى شئت.',
+            choices: []
+        },
+        {
+            visitor: 'اتخاذ جولة في الموقع.',
+            qtiba: 'وصلنا! 👋\n\nلا تقلق، لن أتركك وحدك في الجولة.\nابدأ بالنظر حولك، وكلما وصلت إلى قسم جديد ستجدني هنا لأشرح لك فكرته.\n\nإذن... أهلاً بك في سمعة.\nهنا لا نريد فقط أن نجعل مشروعك موجوداً على الإنترنت...\nنريد أن نجعل لوجوده معنى. بالتوفيق',
+            choices: []
+        }
+    ];
+
+    function appendChatMessage(text, speaker) {
+        if (!assistantChatMessages) return null;
+        assistantChatMessages.querySelectorAll('.assistant-chat-message.is-active').forEach((message) => {
+            message.classList.remove('is-active');
+            message.classList.add('is-history');
+        });
+        const message = document.createElement('div');
+        message.className = `assistant-chat-message is-active ${speaker === 'visitor' ? 'is-visitor' : 'is-qtiba'}`;
+        assistantChatMessages.appendChild(message);
+        assistantChatMessages.scrollTop = assistantChatMessages.scrollHeight;
+        return message;
+    }
+
+    function typeChatMessage(text, speaker) {
+        const message = appendChatMessage('', speaker);
+        if (!message) return Promise.resolve();
+        message.classList.add('is-typing');
+        let position = 0;
+        return new Promise((resolve) => {
+            const typeNextCharacter = () => {
+                if (position >= text.length) {
+                    message.classList.remove('is-typing');
+                    resolve();
+                    return;
+                }
+                message.textContent += text[position];
+                position += 1;
+                assistantChatMessages.scrollTop = assistantChatMessages.scrollHeight;
+                window.setTimeout(typeNextCharacter, text[position - 1] === '\n' ? 70 : 18);
+            };
+            typeNextCharacter();
+        });
+    }
+
+    function appendPackageCards(cards, note) {
+        if (!assistantChatMessages || !cards?.length) return;
+        const cardsContainer = document.createElement('div');
+        cardsContainer.className = 'assistant-package-cards';
+        cards.forEach((card, index) => {
+            const cardElement = document.createElement('article');
+            cardElement.className = 'assistant-package-card';
+            cardElement.style.setProperty('--card-index', index);
+
+            const title = document.createElement('h3');
+            title.textContent = card.name;
+            cardElement.appendChild(title);
+
+            const services = document.createElement('ul');
+            card.services.forEach((service) => {
+                const serviceItem = document.createElement('li');
+                serviceItem.textContent = service;
+                services.appendChild(serviceItem);
+            });
+            cardElement.appendChild(services);
+
+            cardsContainer.appendChild(cardElement);
+        });
+        if (note) {
+            const noteElement = document.createElement('p');
+            noteElement.className = 'assistant-package-note';
+            noteElement.textContent = note;
+            cardsContainer.appendChild(noteElement);
+        }
+        assistantChatMessages.appendChild(cardsContainer);
+        assistantChatMessages.scrollTop = assistantChatMessages.scrollHeight;
+    }
+
+    async function typeChatSequence(text, speaker) {
+        const messages = String(text).split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean);
+        for (const message of messages) {
+            await typeChatMessage(message, speaker);
+        }
+    }
+
+    const assistantAudioByStep = {
+        0: './audio/اول%20مقطع.mp3',
+        1: './audio/%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.mp3',
+        2: './audio/%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9%20%D8%A7%D9%84%D8%AB%D8%A7%D9%84%D8%AB.mp3',
+        3: './audio/%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9%20%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9.mp3',
+        4: './audio/5.mp3',
+        5: './audio/6.mp3',
+        6: './audio/7.mp3',
+        8: './audio/8.mp3'
+    };
+    let assistantAudioStarted = false;
+
+    function playAssistantAudioForStep(stepIndex) {
+        const source = assistantAudioByStep[stepIndex];
+        if (!assistantAudio || !source) return;
+        assistantAudio.pause();
+        assistantAudio.currentTime = 0;
+        assistantAudio.src = source;
+        assistantAudio.load();
+        assistantAudio.play().then(() => {
+            assistantAudioStarted = true;
+        }).catch(() => {});
+    }
+
+    async function renderConversationStep(stepIndex, addVisitorMessage = false) {
+        const step = visitorConversation[stepIndex];
+        if (!step || !assistantChatMessages || !assistantChatChoices) return;
+        assistantChatChoices.innerHTML = '';
+        assistantChatChoices.classList.add('is-loading');
+        if (addVisitorMessage && step.visitor) await typeChatSequence(step.visitor, 'visitor');
+        if (step.qtiba) await typeChatSequence(step.qtiba, 'qtiba');
+        appendPackageCards(step.packageCards, step.packageNote);
+        (step.choices || []).forEach((choice, choiceIndex) => {
+            const button = document.createElement('button');
+            button.className = 'assistant-chat-choice';
+            button.type = 'button';
+            button.textContent = choice.label;
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                if (assistantChatChoices.classList.contains('is-loading')) return;
+                assistantChatChoices.classList.add('is-loading');
+                assistantChatChoices.querySelectorAll('.assistant-chat-choice').forEach((choiceButton) => {
+                    choiceButton.classList.remove('is-visible');
+                });
+                if (choice.href) {
+                    globalThis.location.assign(new URL(choice.href, document.baseURI).href);
+                    return;
+                }
+                if (choice.action === 'start-tour') {
+                    const firstSection = document.querySelector('[data-process="0"]');
+                    if (firstSection) firstSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+                if (typeof choice.next === 'number') {
+                    playAssistantAudioForStep(choice.next);
+                    renderConversationStep(choice.next, true);
+                }
+            });
+            assistantChatChoices.appendChild(button);
+            window.setTimeout(() => {
+                if (!assistantChatChoices.classList.contains('is-loading')) {
+                    button.classList.add('is-visible');
+                }
+            }, choiceIndex * 650);
+        });
+        assistantChatChoices.classList.remove('is-loading');
+        if (stepIndex === 8) {
+            const firstSection = document.querySelector('[data-process="0"]');
+            if (firstSection) firstSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function openAssistantChat() {
+        if (!assistantChat || !assistantCard) return;
+        assistantChat.classList.add('is-open');
+        assistantChatBackdrop?.classList.add('is-visible');
+        assistantChat.setAttribute('aria-hidden', 'false');
+        assistantCard.setAttribute('aria-expanded', 'true');
+        if (!assistantChatMessages.children.length) renderConversationStep(0);
+        if (!assistantAudioStarted) {
+            if (assistantAudio?.src) assistantAudio.play().then(() => {
+                assistantAudioStarted = true;
+            }).catch(() => playAssistantAudioForStep(0));
+            else playAssistantAudioForStep(0);
+        }
+    }
+
+    function updateAssistantMuteButton() {
+        if (!assistantMuteToggle || !assistantAudio) return;
+        const isMuted = assistantAudio.muted;
+        assistantMuteToggle.setAttribute('aria-pressed', String(isMuted));
+        assistantMuteToggle.setAttribute('aria-label', isMuted ? 'تشغيل الصوت' : 'كتم الصوت');
+        assistantMuteToggle.setAttribute('title', isMuted ? 'تشغيل الصوت' : 'كتم الصوت');
+        assistantMuteToggle.innerHTML = `<i data-lucide="${isMuted ? 'volume-x' : 'volume-2'}" aria-hidden="true"></i><span>${isMuted ? 'تشغيل الصوت' : 'كتم الصوت'}</span>`;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    assistantMuteToggle?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!assistantAudio) return;
+        assistantAudio.muted = !assistantAudio.muted;
+        updateAssistantMuteButton();
+    });
+
+    assistantAudio?.addEventListener('volumechange', updateAssistantMuteButton);
+
+    if (assistantCard && assistantChat) {
+        assistantCard.addEventListener('click', openAssistantChat);
+        window.setTimeout(openAssistantChat, 450);
+    }
+
+    if (assistantAudio && assistantWaveBars.length) {
+        const waveIdle = () => {
+            assistantWaveBars.forEach((bar, index) => {
+                const base = 8 + ((index % 3) * 3);
+                const pulse = Math.sin((performance.now() / 190) + (index * 0.82)) * 11;
+                bar.style.height = `${Math.max(base, base + pulse)}px`;
+            });
+            if (assistantAudio.paused || assistantAudio.ended) {
+                requestAnimationFrame(waveIdle);
+            }
+        };
+
+        let audioContext = null;
+        let analyser = null;
+        let sourceNode = null;
+        let animationFrame = null;
+
+        const stopAudioVisual = () => {
+            if (animationFrame) cancelAnimationFrame(animationFrame);
+            assistantWaveBars.forEach((bar, index) => {
+                const base = 8 + ((index % 3) * 3);
+                bar.style.height = `${base}px`;
+            });
+            if (assistantAudio.paused || assistantAudio.ended) {
+                requestAnimationFrame(waveIdle);
+            }
+        };
+
+        const animateAudioWave = () => {
+            if (!analyser || assistantAudio.paused || assistantAudio.ended) {
+                stopAudioVisual();
+                return;
+            }
+
+            const data = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(data);
+
+            assistantWaveBars.forEach((bar, index) => {
+                const sample = data[index * 2] || 0;
+                const level = Math.max(8, (sample / 4) + 8);
+                bar.style.height = `${level}px`;
+            });
+
+            animationFrame = requestAnimationFrame(animateAudioWave);
+        };
+
+        const setupAudioVisual = () => {
+            if (!assistantAudio) return;
+            if (!audioContext) {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                audioContext = new AudioCtx();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                sourceNode = audioContext.createMediaElementSource(assistantAudio);
+                sourceNode.connect(analyser);
+                analyser.connect(audioContext.destination);
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            animateAudioWave();
+        };
+
+        assistantAudio.addEventListener('play', setupAudioVisual);
+        assistantAudio.addEventListener('pause', stopAudioVisual);
+        assistantAudio.addEventListener('ended', stopAudioVisual);
+
+        if (!assistantAudio.src) {
+            requestAnimationFrame(waveIdle);
+        }
+    }
 
     header.classList.remove('is-expanded');
 
@@ -257,7 +589,75 @@ document.addEventListener('DOMContentLoaded', () => {
     function setSection(index = 0) {
         steps.forEach((_, i) => header.classList.remove('section-' + i));
         header.classList.add('section-' + index);
+        const voiceVisualizer = document.getElementById('island-voice-visualizer');
+        if (voiceVisualizer) {
+            voiceVisualizer.dataset.section = String(index);
+            voiceVisualizer.style.setProperty('--island-accent', steps[index]?.color || steps[0].color);
+        }
     }
+
+    const islandVoiceVisualizer = document.getElementById('island-voice-visualizer');
+    const islandVoiceToggle = document.getElementById('island-voice-toggle');
+    const islandWaveBars = document.querySelectorAll('#island-wave span');
+    let islandAudioContext = null;
+    let islandAudioSource = null;
+    let islandAnalyser = null;
+    let islandAudioData = null;
+    let islandVoiceStream = null;
+    let islandAudioFrame = null;
+
+    function stopIslandVoice() {
+        if (islandAudioFrame) cancelAnimationFrame(islandAudioFrame);
+        islandAudioFrame = null;
+        islandAudioSource?.disconnect();
+        islandAudioSource = null;
+        islandVoiceStream?.getTracks().forEach((track) => track.stop());
+        islandVoiceStream = null;
+        islandAnalyser = null;
+        islandAudioData = null;
+        islandAudioContext?.close();
+        islandAudioContext = null;
+        islandVoiceVisualizer?.classList.remove('is-listening');
+        islandVoiceToggle?.setAttribute('aria-pressed', 'false');
+    }
+
+    function animateIslandVoice() {
+        if (!islandAnalyser || !islandAudioData) return;
+        islandAnalyser.getByteFrequencyData(islandAudioData);
+        islandWaveBars.forEach((bar, index) => {
+            const level = (islandAudioData[index % islandAudioData.length] || 0) / 255;
+            bar.style.setProperty('--voice-level', Math.max(0.18, level).toFixed(3));
+        });
+        islandAudioFrame = requestAnimationFrame(animateIslandVoice);
+    }
+
+    async function startIslandVoice() {
+        if (!navigator.mediaDevices?.getUserMedia) return;
+        islandVoiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        islandAudioContext = new AudioContext();
+        islandAudioSource = islandAudioContext.createMediaStreamSource(islandVoiceStream);
+        islandAnalyser = islandAudioContext.createAnalyser();
+        islandAnalyser.fftSize = 32;
+        islandAudioData = new Uint8Array(islandAnalyser.frequencyBinCount);
+        islandAudioSource.connect(islandAnalyser);
+        islandVoiceVisualizer?.classList.add('is-listening');
+        islandVoiceToggle?.setAttribute('aria-pressed', 'true');
+        animateIslandVoice();
+    }
+
+    islandVoiceToggle?.addEventListener('click', async (event) => {
+        event.stopPropagation();
+        if (islandVoiceVisualizer?.classList.contains('is-listening')) {
+            stopIslandVoice();
+            return;
+        }
+        try {
+            await startIslandVoice();
+        } catch (error) {
+            console.warn('Island voice input unavailable', error);
+            stopIslandVoice();
+        }
+    });
 
     // Panel open/close
     function openPanel() {
