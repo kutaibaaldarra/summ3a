@@ -99,6 +99,7 @@
             updateStats();
             renderClients();
             loadOrders();
+            renderRangeStats();
         }).catch(function (err) {
             var g = $('client-cards');
             if (g) g.innerHTML = '<div class="empty-state">' + ic('info') + 'خطأ في التحميل: ' + esc(err.message) + '</div>';
@@ -114,6 +115,7 @@
             allOrders = allOrders.concat(oldCheckout).sort(function (a, b) { return (b.createdAt || '').localeCompare(a.createdAt || ''); });
             renderOrders();
             updateOrderStats();
+            renderRangeStats();
         }).catch(function (err) {
             var g = $('order-cards');
             if (g) g.innerHTML = '<div class="empty-state">' + ic('info') + 'خطأ في التحميل: ' + esc(err.message) + '</div>';
@@ -143,6 +145,7 @@
             if (dr) dr.textContent = days[0] + ' → ' + today;
 
             renderVisitorSources(days, today);
+            renderRangeStats();
         }).catch(function () {});
     }
 
@@ -593,7 +596,7 @@
         var body = $('snapshots-body');
         if (!body) return;
         if (!allSnapshots.length) {
-            body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#555">لا توجد لقطات محفوظة بعد — اضغط "حفظ الآن" أو انتظر اللقطة التلقائية اليومية</td></tr>';
+            body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#555">لا توجد لقطات محفوظة بعد — الإحصائيات الأسبوعية والشهرية تُحسب تلقائياً من البيانات مباشرة، واللقطة تُحفظ تلقائياً عند فتح اللوحة</td></tr>';
             return;
         }
         body.innerHTML = allSnapshots.map(function (s) {
@@ -611,7 +614,7 @@
         }).join('');
     }
 
-    /* ═══════════════ الإحصائيات أسبوع / شهر ═══════════════ */
+    /* ═══════════════ الإحصائيات أسبوع / شهر (تُحسب مباشرة من البيانات الحية) ═══════════════ */
     function setStatsRange(r) {
         statsRange = (r === 'month') ? 'month' : 'week';
         $('range-week').classList.toggle('active', statsRange === 'week');
@@ -619,14 +622,31 @@
         renderRangeStats();
     }
 
+    function liveClientsCount(dstr) {
+        return activeClients().filter(function (d) { return (d.createdAt || '').slice(0, 10) === dstr; }).length;
+    }
+    function liveOrdersCount(dstr) {
+        return allOrders.filter(function (d) { return (d.createdAt || '').slice(0, 10) === dstr; });
+    }
+    function liveVisitorsCount(dstr) {
+        return (visitorDocs[dstr] && visitorDocs[dstr].count) || 0;
+    }
+
     function renderRangeStats() {
         var days = statsRange === 'week' ? 7 : 30;
-        var since = new Date(Date.now() - days * 864e5).toISOString().slice(0, 10);
-        var snaps = allSnapshots.filter(function (s) { return s.date >= since; });
-        var clients = snaps.reduce(function (s, x) { return s + (x.clients || 0); }, 0);
-        var orders = snaps.reduce(function (s, x) { return s + (x.orders || 0); }, 0);
-        var rev = snaps.reduce(function (s, x) { return s + (x.revenue || 0); }, 0);
-        var vis = snaps.reduce(function (s, x) { return s + (x.visitors || 0); }, 0);
+        var clients = 0;
+        var orders = 0;
+        var rev = 0;
+        var vis = 0;
+        var now = new Date();
+        for (var i = days - 1; i >= 0; i--) {
+            var d = new Date(now.getTime() - i * 864e5).toISOString().slice(0, 10);
+            clients += liveClientsCount(d);
+            var od = liveOrdersCount(d).reduce(function (s, o) { return s + (parseFloat(o.price) || 0); }, 0);
+            orders += liveOrdersCount(d).length;
+            rev += od;
+            vis += liveVisitorsCount(d);
+        }
 
         setText('st-clients-range', clients);
         setText('st-orders-range', orders);
@@ -634,30 +654,36 @@
         setText('st-visitors-range', vis);
         setText('range-subtitle', statsRange === 'week' ? 'آخر 7 أيام' : 'آخر 30 يوماً');
 
-        renderRangeChart(snaps);
+        renderRangeChart();
     }
 
-    function renderRangeChart(snaps) {
+    function renderRangeChart() {
         var chart = $('range-chart');
         if (!chart) return;
-        var counts = statsRange === 'week' ? 8 : 6;
+        var counts = statsRange === 'week' ? 7 : 4;
         var buckets = [];
+        var now = new Date();
         for (var i = counts - 1; i >= 0; i--) {
             var start, label;
             if (statsRange === 'week') {
-                start = new Date(Date.now() - i * 7 * 864e5);
+                start = new Date(now.getTime() - i * 864e5);
                 label = start.toLocaleDateString('ar-SA', { day: 'numeric', month: 'short' });
             } else {
-                start = new Date(new Date().getFullYear(), new Date().getMonth() - i, 1);
-                label = start.toLocaleDateString('ar-SA', { month: 'short', year: '2-digit' });
+                var yd = new Date(now.getTime() - i * 7 * 864e5);
+                start = new Date(yd.getTime() - 6 * 864e5);
+                label = start.toLocaleDateString('ar-SA', { day: 'numeric', month: 'short' });
             }
             var s0 = start.toISOString().slice(0, 10);
-            var e0 = statsRange === 'week' ? new Date(start.getTime() + 7 * 864e5).toISOString().slice(0, 10) : new Date(start.getFullYear(), start.getMonth() + 1, 1).toISOString().slice(0, 10);
-            var inB = snaps.filter(function (s) { return s.date >= s0 && s.date < e0; });
+            var e0 = new Date(start.getTime() + 7 * 864e5).toISOString().slice(0, 10);
+            var bs = [];
+            for (var t = new Date(s0); t.toISOString().slice(0, 10) < e0; t = new Date(t.getTime() + 864e5)) {
+                var td = t.toISOString().slice(0, 10);
+                bs.push({ c: liveClientsCount(td), o: liveOrdersCount(td).length });
+            }
             buckets.push({
                 label: label,
-                clients: inB.reduce(function (s, x) { return s + (x.clients || 0); }, 0),
-                orders: inB.reduce(function (s, x) { return s + (x.orders || 0); }, 0)
+                clients: bs.reduce(function (s, x) { return s + x.c; }, 0),
+                orders: bs.reduce(function (s, x) { return s + x.o; }, 0)
             });
         }
         var maxVal = Math.max.apply(null, buckets.map(function (b) { return Math.max(b.clients, b.orders); }).concat([1]));
@@ -671,7 +697,7 @@
                 '</div><span class="b-label">' + b.label + '</span></div>';
         }).join('');
         var empty = $('range-chart-empty');
-        if (empty) empty.style.display = allSnapshots.length ? 'none' : '';
+        if (empty) empty.style.display = 'none';
     }
 
     /* ═══════════════ واجهة عامة ═══════════════ */
