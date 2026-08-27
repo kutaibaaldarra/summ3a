@@ -116,7 +116,10 @@
             .modal { padding: 1.5rem; }
             .filter-btn { font-size: 0.7rem; padding: 0.3rem 0.7rem; }
         }
+
     </style>
+    <link rel="stylesheet" href="admin-portfolio.css">
+    <link rel="stylesheet" href="admin-crm.css">
 </head>
 <body>
 
@@ -153,25 +156,37 @@
             <img src="images/3.png" alt="" style="width:3rem;height:3rem;border-radius:0.75rem;border:2px solid rgba(246,135,32,0.15)">
             <div>
                 <h1 style="font-size:1.6rem;font-weight:900">لوحة التحكم</h1>
-                <p style="color:#666;font-size:0.85rem">إدارة العملاء المتوقعين والباقات</p>
+                <p style="color:#666;font-size:0.85rem">إدارة العملاء والأعمال والباقات</p>
             </div>
         </div>
         <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap">
             <span id="live-counter" style="color:#22c55e;font-size:0.8rem;display:flex;align-items:center;gap:0.4rem">
                 <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block"></span>مباشر
             </span>
-            <button onclick="exportCSV()" class="btn btn-ghost btn-sm">تصدير CSV</button>
-            <button onclick="logout()" class="btn btn-ghost btn-sm">تسجيل خروج</button>
+            <button onclick="window.open('https://console.firebase.google.com/project/summ3a-3fe32/firestore/data','_blank')" class="btn btn-ghost btn-sm" style="color:#0ea5e9;border-color:rgba(14,165,233,.3);display:inline-flex;align-items:center;gap:.45rem" title="فتح Firestore"><span data-ic="database" data-size="15"></span> قاعدة البيانات</button>
+            <button onclick="exportCSV()" class="btn btn-ghost btn-sm" id="btn-export" style="display:inline-flex;align-items:center;gap:.45rem"><span data-ic="download" data-size="15"></span><span id="btn-export-label">تصدير العملاء CSV</span></button>
+            <button onclick="logout()" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:.45rem"><span data-ic="external" data-size="15"></span> تسجيل خروج</button>
         </div>
     </div>
 
+    <!-- Tabs -->
+    <div class="fade-in" style="display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+        <button id="tab-btn-clients" class="filter-btn active" style="display:inline-flex;align-items:center;gap:.45rem" onclick="switchTab('clients')"><span data-ic="users" data-size="15"></span> العملاء</button>
+        <button id="tab-btn-orders" class="filter-btn" style="display:inline-flex;align-items:center;gap:.45rem" onclick="switchTab('orders')"><span data-ic="package" data-size="15"></span> الطلبات</button>
+        <button id="tab-btn-stats" class="filter-btn" style="display:inline-flex;align-items:center;gap:.45rem" onclick="switchTab('stats')"><span data-ic="bar" data-size="15"></span> الإحصائيات</button>
+        <button id="tab-btn-projects" class="filter-btn" style="display:inline-flex;align-items:center;gap:.45rem" onclick="switchTab('projects')"><span data-ic="award" data-size="15"></span> معرض الأعمال</button>
+    </div>
+
+    <!-- ==================== CLIENTS VIEW ==================== -->
+    <div id="view-clients">
+
     <!-- Stats -->
     <div class="grid-5 fade-in" style="margin-bottom:1.5rem;display:grid;grid-template-columns:repeat(5,1fr);gap:1rem" id="stats-row">
-        <div class="stat"><div class="stat-icon" style="background:rgba(246,135,32,0.08);color:#f68720">📊</div><div class="stat-value" id="s-total">0</div><div class="stat-label">إجمالي الطلبات</div></div>
-        <div class="stat"><div class="stat-icon" style="background:rgba(59,130,246,0.08);color:#3b82f6">📅</div><div class="stat-value" id="s-week">0</div><div class="stat-label">هذا الأسبوع</div></div>
-        <div class="stat"><div class="stat-icon" style="background:rgba(139,92,246,0.08);color:#8b5cf6">🔥</div><div class="stat-value" id="s-interested">0</div><div class="stat-label">مهتم بالباقات</div></div>
-        <div class="stat"><div class="stat-icon" style="background:rgba(34,197,94,0.08);color:#22c55e">✅</div><div class="stat-value" id="s-subscribed">0</div><div class="stat-label">اشتراكات</div></div>
-        <div class="stat"><div class="stat-icon" style="background:rgba(14,165,233,0.08);color:#0ea5e9">👁️</div><div class="stat-value" id="s-visitors">0</div><div class="stat-label">زوار اليوم</div></div>
+        <div class="stat"><div class="stat-icon orange"><span data-ic="users" data-size="22"></span></div><div class="stat-value" id="s-total">0</div><div class="stat-label">إجمالي العملاء</div></div>
+        <div class="stat"><div class="stat-icon blue"><span data-ic="calendar" data-size="22"></span></div><div class="stat-value" id="s-week">0</div><div class="stat-label">عملاء هذا الأسبوع</div></div>
+        <div class="stat"><div class="stat-icon purple"><span data-ic="star" data-size="22"></span></div><div class="stat-value" id="s-interested">0</div><div class="stat-label">مهتم بالباقات</div></div>
+        <div class="stat"><div class="stat-icon green"><span data-ic="check" data-size="22"></span></div><div class="stat-value" id="s-subscribed">0</div><div class="stat-label">اشتراكات</div></div>
+        <div class="stat"><div class="stat-icon sky"><span data-ic="eye" data-size="22"></span></div><div class="stat-value" id="s-visitors">0</div><div class="stat-label">زوار اليوم</div></div>
     </div>
 
     <!-- Charts Row -->
@@ -179,104 +194,222 @@
 
         <!-- Package Popularity -->
         <div class="card">
-            <h3 style="font-weight:700;margin-bottom:1rem;font-size:1rem">🔥 الباقات الأكثر طلباً</h3>
-            <div id="pkg-chart" style="display:flex;flex-direction:column;gap:0.75rem">
-                <div><div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.25rem"><span>الانطلاقة</span><span style="color:#888" id="p-laucnt">0</span></div><div class="bar"><div class="bar-fill" id="p-laubar" style="width:0%"></div></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.25rem"><span>المحترف</span><span style="color:#888" id="p-procnt">0</span></div><div class="bar"><div class="bar-fill" id="p-probar" style="width:0%"></div></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.25rem"><span>النخبة</span><span style="color:#888" id="p-elicnt">0</span></div><div class="bar"><div class="bar-fill" id="p-elibar" style="width:0%"></div></div></div>
-                <div><div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.25rem"><span>مخصصة</span><span style="color:#888" id="p-vipcnt">0</span></div><div class="bar"><div class="bar-fill" id="p-vipbar" style="width:0%"></div></div></div>
-            </div>
+            <div class="card-title"><span data-ic="pie" data-size="16"></span> الباقات الأكثر طلباً</div>
+            <div id="pkg-chart" class="hbars"></div>
         </div>
 
-        <!-- Leads Over Time (simple) -->
+        <!-- Clients Over Time -->
         <div class="card">
-            <h3 style="font-weight:700;margin-bottom:1rem;font-size:1rem">📈 الطلبات آخر 7 أيام</h3>
-            <div id="week-chart" style="display:flex;align-items:flex-end;gap:0.5rem;height:120px;padding-top:0.5rem">
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div class="bar-fill" style="border-radius:4px 4px 0 0;width:100%;min-height:4px" id="day0"></div><span style="font-size:0.65rem;color:#666" id="day0l"></span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div class="bar-fill" style="border-radius:4px 4px 0 0;width:100%;min-height:4px" id="day1"></div><span style="font-size:0.65rem;color:#666" id="day1l"></span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div class="bar-fill" style="border-radius:4px 4px 0 0;width:100%;min-height:4px" id="day2"></div><span style="font-size:0.65rem;color:#666" id="day2l"></span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div class="bar-fill" style="border-radius:4px 4px 0 0;width:100%;min-height:4px" id="day3"></div><span style="font-size:0.65rem;color:#666" id="day3l"></span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div class="bar-fill" style="border-radius:4px 4px 0 0;width:100%;min-height:4px" id="day4"></div><span style="font-size:0.65rem;color:#666" id="day4l"></span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div class="bar-fill" style="border-radius:4px 4px 0 0;width:100%;min-height:4px" id="day5"></div><span style="font-size:0.65rem;color:#666" id="day5l"></span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div class="bar-fill" style="border-radius:4px 4px 0 0;width:100%;min-height:4px" id="day6"></div><span style="font-size:0.65rem;color:#666" id="day6l"></span></div>
-            </div>
+            <div class="card-title"><span data-ic="trending" data-size="16"></span> العملاء آخر 7 أيام</div>
+            <div id="week-chart" class="bars"></div>
         </div>
     </div>
 
     <!-- Visitors Chart -->
-    <div class="card fade-in" style="margin-bottom:1.5rem;padding:1rem 1.5rem">
-        <h3 style="font-weight:700;margin-bottom:1rem;font-size:1rem">???? الزوار آخر 7 أيام</h3>
-        <div id="visitor-chart" style="display:flex;align-items:flex-end;gap:0.5rem;height:100px;padding-top:0.5rem">
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div style="background:#0ea5e9;border-radius:4px 4px 0 0;width:100%;min-height:4px" id="vis0"></div><span style="font-size:0.65rem;color:#666" id="vis0l"></span></div>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div style="background:#0ea5e9;border-radius:4px 4px 0 0;width:100%;min-height:4px" id="vis1"></div><span style="font-size:0.65rem;color:#666" id="vis1l"></span></div>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div style="background:#0ea5e9;border-radius:4px 4px 0 0;width:100%;min-height:4px" id="vis2"></div><span style="font-size:0.65rem;color:#666" id="vis2l"></span></div>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div style="background:#0ea5e9;border-radius:4px 4px 0 0;width:100%;min-height:4px" id="vis3"></div><span style="font-size:0.65rem;color:#666" id="vis3l"></span></div>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div style="background:#0ea5e9;border-radius:4px 4px 0 0;width:100%;min-height:4px" id="vis4"></div><span style="font-size:0.65rem;color:#666" id="vis4l"></span></div>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div style="background:#0ea5e9;border-radius:4px 4px 0 0;width:100%;min-height:4px" id="vis5"></div><span style="font-size:0.65rem;color:#666" id="vis5l"></span></div>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.25rem;height:100%;justify-content:flex-end"><div style="background:#0ea5e9;border-radius:4px 4px 0 0;width:100%;min-height:4px" id="vis6"></div><span style="font-size:0.65rem;color:#666" id="vis6l"></span></div>
+    <div class="card fade-in" style="margin-bottom:1.5rem">
+        <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+            <span style="display:flex;align-items:center;gap:.5rem"><span data-ic="eye" data-size="16"></span> الزوار آخر 7 أيام</span>
+            <span id="visitor-date-range" style="font-size:.75rem;color:#555;font-weight:400"></span>
         </div>
+        <div id="visitor-chart" class="bars small"></div>
     </div>
 
     <!-- Visitor Sources -->
-    <div class="card fade-in" style="margin-bottom:1.5rem;padding:1rem 1.5rem">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
-            <span style="font-size:0.9rem;font-weight:700">مصادر الزوار</span>
-            <span id="visitor-date-range" style="font-size:0.75rem;color:#555"></span>
-        </div>
-        <div id="visitor-sources-list" style="display:flex;gap:0.75rem;flex-wrap:wrap"></div>
-    </div>
-
-    <!-- Source Distribution -->
-    <div class="card fade-in" style="margin-bottom:1.5rem;padding:1rem 1.5rem">
-        <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center">
-            <span style="font-size:0.9rem;font-weight:700">مصادر العملاء:</span>
-            <span><span class="badge badge-questionnaire">استبيان <span id="src-q">0</span></span></span>
-            <span><span class="badge badge-whatsapp">واتساب <span id="src-w">0</span></span></span>
-            <span><span class="badge badge-chat">مراسلة <span id="src-c">0</span></span></span>
-        </div>
-    </div>
-
-    <!-- Clean Data -->
-    <div class="card fade-in" style="margin-bottom:1rem;padding:1rem 1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
-        <button onclick="cleanAllData()" class="btn" style="background:#dc2626;color:#fff;border:none;padding:0.6rem 1.5rem;border-radius:0.75rem;font-weight:700;cursor:pointer">مسح كل البيانات</button>
-        <span style="color:#666;font-size:0.8rem">سيتم حذف جميع العملاء والاستبيانات بشكل نهائي</span>
+    <div class="card fade-in" style="margin-bottom:1.5rem">
+        <div class="card-title"><span data-ic="layers" data-size="16"></span> مصادر الزوار</div>
+        <div id="visitor-sources-list" style="display:flex;gap:.75rem;flex-wrap:wrap"></div>
     </div>
 
     <!-- Filters -->
-    <div class="card fade-in" style="margin-bottom:1rem;padding:1rem 1.5rem;display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center">
-        <span style="font-size:0.85rem;color:#888;font-weight:700">تصفية:</span>
-        <button class="filter-btn active" data-filter="status" data-val="all" onclick="setFilter(this,'status','all')">الكل</button>
-        <button class="filter-btn" data-filter="status" data-val="new" onclick="setFilter(this,'status','new')">جديد</button>
-        <button class="filter-btn" data-filter="status" data-val="contacted" onclick="setFilter(this,'status','contacted')">تم التواصل</button>
-        <button class="filter-btn" data-filter="status" data-val="interested" onclick="setFilter(this,'status','interested')">مهتم</button>
-        <button class="filter-btn" data-filter="status" data-val="subscribed" onclick="setFilter(this,'status','subscribed')">تم الاشتراك</button>
-        <button class="filter-btn" data-filter="status" data-val="cancelled" onclick="setFilter(this,'status','cancelled')">ملغي</button>
-        <span style="color:#333">|</span>
-        <input type="text" id="search-box" class="input" placeholder="بحث..." style="padding:0.5rem 1rem;width:180px;font-size:0.85rem" oninput="renderTable()">
-    </div>
-
-    <!-- Table -->
-    <div class="card fade-in" style="padding:0;overflow:hidden">
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:40px">#</th>
-                        <th>العميل</th>
-                        <th class="hide-mobile">المصدر</th>
-                        <th>مصدر الزائر</th>
-                        <th>الباقة</th>
-                        <th>الحالة</th>
-                        <th class="hide-mobile">التاريخ</th>
-                        <th style="width:60px"></th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <tr><td colspan="8" style="text-align:center;padding:3rem;color:#555">جاري تحميل البيانات...</td></tr>
-                </tbody>
-            </table>
+    <div class="card fade-in" style="margin-bottom:1rem">
+        <div class="toolbar">
+            <div class="chips" id="client-filters">
+                <button class="filter-btn active" data-filter="status" data-val="all" onclick="setFilter(this,'status','all')">الكل</button>
+                <button class="filter-btn" data-filter="status" data-val="new" onclick="setFilter(this,'status','new')">جديد</button>
+                <button class="filter-btn" data-filter="status" data-val="contacted" onclick="setFilter(this,'status','contacted')">تم التواصل</button>
+                <button class="filter-btn" data-filter="status" data-val="interested" onclick="setFilter(this,'status','interested')">مهتم</button>
+                <button class="filter-btn" data-filter="status" data-val="subscribed" onclick="setFilter(this,'status','subscribed')">تم الاشتراك</button>
+                <button class="filter-btn" data-filter="status" data-val="cancelled" onclick="setFilter(this,'status','cancelled')">ملغي</button>
+            </div>
+            <label class="search-box"><span data-ic="search" data-size="15"></span><input type="text" id="search-box" placeholder="بحث بالاسم / الجوال / الإيميل / الباقة..." oninput="crmSearch()"></label>
         </div>
     </div>
+
+    <!-- Client Cards -->
+    <div class="card fade-in" style="padding:1.15rem">
+        <div class="card-title" style="margin-bottom:1rem"><span data-ic="users" data-size="16"></span> سجل العملاء <span id="client-count" style="color:#888;font-weight:600;font-size:.8rem"></span></div>
+        <div id="client-cards" class="crm-grid"></div>
+    </div>
+    </div><!-- /view-clients -->
+
+    <!-- ==================== ORDERS VIEW ==================== -->
+    <div id="view-orders" style="display:none">
+        <div class="grid-4 fade-in" style="margin-bottom:1.5rem">
+            <div class="stat"><div class="stat-icon orange"><span data-ic="package" data-size="22"></span></div><div class="stat-value" id="o-total">0</div><div class="stat-label">إجمالي الطلبات</div></div>
+            <div class="stat"><div class="stat-icon blue"><span data-ic="calendar" data-size="22"></span></div><div class="stat-value" id="o-week">0</div><div class="stat-label">طلبات هذا الأسبوع</div></div>
+            <div class="stat"><div class="stat-icon green"><span data-ic="wallet" data-size="22"></span></div><div class="stat-value" id="o-rev-week">0 ر.س</div><div class="stat-label">إيرادات الأسبوع</div></div>
+            <div class="stat"><div class="stat-icon purple"><span data-ic="clock" data-size="22"></span></div><div class="stat-value" id="o-pending">0</div><div class="stat-label">طلبات قيد المعالجة</div></div>
+        </div>
+
+        <div class="grid-2 fade-in" style="margin-bottom:1.5rem">
+            <div class="card">
+                <div class="card-title"><span data-ic="trending" data-size="16"></span> الطلبات آخر 7 أيام</div>
+                <div id="ord-chart" class="bars"></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span data-ic="pie" data-size="16"></span> الباقات المطلوبة</div>
+                <div id="opkg-chart" class="hbars"></div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card fade-in" style="margin-bottom:1rem">
+            <div class="toolbar">
+                <div class="chips" id="order-filters">
+                    <button class="filter-btn active" data-filter="status" data-val="all" onclick="setOrderFilter(this,'status','all')">الكل</button>
+                    <button class="filter-btn" data-filter="status" data-val="new" onclick="setOrderFilter(this,'status','new')">جديد</button>
+                    <button class="filter-btn" data-filter="status" data-val="contacted" onclick="setOrderFilter(this,'status','contacted')">تم التواصل</button>
+                    <button class="filter-btn" data-filter="status" data-val="interested" onclick="setOrderFilter(this,'status','interested')">مهتم</button>
+                    <button class="filter-btn" data-filter="status" data-val="subscribed" onclick="setOrderFilter(this,'status','subscribed')">تم الاشتراك</button>
+                    <button class="filter-btn" data-filter="status" data-val="cancelled" onclick="setOrderFilter(this,'status','cancelled')">ملغي</button>
+                </div>
+                <label class="search-box"><span data-ic="search" data-size="15"></span><input type="text" id="order-search-box" placeholder="بحث بالاسم / الجوال / الباقة..." oninput="ordSearch()"></label>
+            </div>
+        </div>
+
+        <!-- Order Cards -->
+        <div class="card fade-in" style="padding:1.15rem">
+            <div class="card-title" style="margin-bottom:1rem"><span data-ic="package" data-size="16"></span> سجل الطلبات</div>
+            <div id="order-cards" class="crm-grid"></div>
+        </div>
+    </div>
+
+    <!-- ==================== STATS VIEW ==================== -->
+    <div id="view-stats" style="display:none">
+        <div class="card fade-in" style="margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <div class="card-title" style="margin-bottom:.3rem"><span data-ic="bar" data-size="18"></span> الإحصائيات</div>
+                <p style="color:#666;font-size:.8rem">تُحفظ البيانات يومياً في قاعدة البيانات — اعرضها أسبوعياً أو شهرياً</p>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+                <div class="seg">
+                    <button id="range-week" class="active" onclick="setStatsRange('week')">أسبوع</button>
+                    <button id="range-month" onclick="setStatsRange('month')">شهر</button>
+                </div>
+                <button onclick="snapshotStats()" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:.5rem"><span data-ic="save" data-size="15"></span> حفظ الآن</button>
+            </div>
+        </div>
+
+        <div class="grid-4 fade-in" style="margin-bottom:1.5rem">
+            <div class="stat"><div class="stat-icon orange"><span data-ic="users" data-size="22"></span></div><div class="stat-value" id="st-clients-range">0</div><div class="stat-label">عملاء <span id="range-subtitle" style="color:#666">آخر 7 أيام</span></div></div>
+            <div class="stat"><div class="stat-icon blue"><span data-ic="package" data-size="22"></span></div><div class="stat-value" id="st-orders-range">0</div><div class="stat-label">طلبات في المدى المحدد</div></div>
+            <div class="stat"><div class="stat-icon green"><span data-ic="wallet" data-size="22"></span></div><div class="stat-value" id="st-rev-range">0 ر.س</div><div class="stat-label">إيرادات في المدى المحدد</div></div>
+            <div class="stat"><div class="stat-icon sky"><span data-ic="eye" data-size="22"></span></div><div class="stat-value" id="st-visitors-range">0</div><div class="stat-label">زوار في المدى المحدد</div></div>
+        </div>
+
+        <div class="card fade-in" style="margin-bottom:1.5rem">
+            <div class="card-title" style="display:flex;align-items:center;gap:.5rem"><span data-ic="trending" data-size="16"></span> العملاء والطلبات <span id="range-chart-sub" style="color:#888;font-size:.8rem;font-weight:600"></span></div>
+            <div id="range-chart" class="bars"></div>
+            <div class="legend">
+                <span><i class="k1"></i> العملاء</span>
+                <span><i class="k2"></i> الطلبات</span>
+            </div>
+        </div>
+
+        <div class="card fade-in" style="margin-bottom:1rem">
+            <div class="card-title" style="display:flex;align-items:center;gap:.5rem"><span data-ic="database" data-size="16"></span> اليوميات المحفوظة في قاعدة البيانات</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>العملاء</th>
+                            <th>الطلبات</th>
+                            <th>الإيرادات</th>
+                            <th>الزوار</th>
+                            <th>حسب الباقات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="snapshots-body">
+                        <tr><td colspan="6" style="text-align:center;padding:2rem;color:#555">جاري تحميل الإحصائيات...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared footer (DB + clean) -->
+    <div class="card fade-in" style="margin-bottom:1rem;padding:1rem 1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center" id="shared-footer">
+        <button onclick="cleanAllData()" class="btn" style="background:#dc2626;color:#fff;border:none;padding:0.6rem 1.5rem;border-radius:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem"><span data-ic="trash" data-size="15"></span> مسح كل البيانات</button>
+        <span style="color:#666;font-size:0.8rem">سيتم حذف جميع العملاء والطلبات والاستبيانات والإحصائيات بشكل نهائي</span>
+        <span style="color:#333">|</span>
+        <button onclick="window.open('https://console.firebase.google.com/project/summ3a-3fe32/firestore/data/~2Fleads','_blank')" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:.4rem"><span data-ic="users" data-size="14"></span> العملاء (leads)</button>
+        <button onclick="window.open('https://console.firebase.google.com/project/summ3a-3fe32/firestore/data/~2Forders','_blank')" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:.4rem"><span data-ic="package" data-size="14"></span> الطلبات (orders)</button>
+        <button onclick="window.open('https://console.firebase.google.com/project/summ3a-3fe32/firestore/data/~2Fquestionnaires','_blank')" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:.4rem"><span data-ic="award" data-size="14"></span> الاستبيانات</button>
+        <button onclick="window.open('https://console.firebase.google.com/project/summ3a-3fe32/firestore/data/~2Fprojects','_blank')" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:.4rem"><span data-ic="layout" data-size="14"></span> المشاريع</button>
+        <button onclick="window.open('https://console.firebase.google.com/project/summ3a-3fe32/firestore/data/~2Fvisitor_sources','_blank')" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:.4rem"><span data-ic="eye" data-size="14"></span> الزوار</button>
+        <button onclick="window.open('https://console.firebase.google.com/project/summ3a-3fe32/firestore/data/~2Fstatistics','_blank')" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:.4rem"><span data-ic="bar" data-size="14"></span> الإحصائيات</button>
+    </div>
+
+    <!-- ==================== PROJECTS VIEW ==================== -->
+    <div id="view-projects" style="display:none">
+        <div class="card fade-in" style="margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h3 style="font-weight:900;font-size:1.05rem;display:flex;align-items:center;gap:.5rem"><span data-ic="award" data-size="18" style="color:#f68720"></span> معرض الأعمال</h3>
+                <p style="color:#666;font-size:.8rem;margin-top:.2rem">الأعمال المضافة هنا تظهر مباشرة في صفحة "أعمالنا" — اكتب روابط الصور من أي مصدر</p>
+            </div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                <button onclick="pfOpenEditor()" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:.45rem"><span data-ic="plus" data-size="15"></span> إضافة عمل جديد</button>
+                <button onclick="cleanAllProjects()" class="btn btn-ghost btn-sm" style="color:#f59e0b;border-color:rgba(245,158,11,.3);display:inline-flex;align-items:center;gap:.45rem" title="إزالة الصور القديمة (base64)"><span data-ic="refresh" data-size="14"></span> تنظيف</button>
+            </div>
+        </div>
+        <div id="projects-list" class="pf-grid fade-in"></div>
+    </div>
+</div>
+
+<!-- ==================== VISUAL EDITOR (Behance Style) ==================== -->
+<div id="ve-overlay">
+    <div id="ve-topbar">
+        <button onclick="pfCloseEditor()" class="btn btn-ghost btn-sm">إغلاق</button>
+        <input id="ve-title-input" placeholder="اسم المشروع" style="font-size:1.1rem;font-weight:900">
+        <div style="flex:1"></div>
+        <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:#aaa;cursor:pointer"><input type="checkbox" id="ve-published" checked style="accent-color:#22c55e;width:1rem;height:1rem"> منشور</label>
+        <span id="ve-status"></span>
+        <button onclick="pfSave(false)" class="btn btn-ghost btn-sm">حفظ</button>
+        <button onclick="pfSave(true)" class="btn btn-primary btn-sm">نشر</button>
+    </div>
+    <div id="ve-body">
+        <div id="ve-tools">
+            <div class="ve-tool" onclick="pfAddBlock('title')" title="إضافة عنوان"><span data-ic="layout" data-size="18"></span><span>عنوان</span></div>
+            <div class="ve-tool" onclick="pfAddBlock('lede')" title="سطر تمهيدي"><span data-ic="star" data-size="18"></span><span>تمهيد</span></div>
+            <div class="ve-tool" onclick="pfAddBlock('para')" title="فقرة نصية"><span data-ic="layers" data-size="18"></span><span>فقرة</span></div>
+            <div class="ve-tool" onclick="pfAddBlock('image')" title="صورة مفردة"><span data-ic="eye" data-size="18"></span><span>صورة</span></div>
+            <div class="ve-tool" onclick="pfAddBlock('gallery')" title="معرض صور"><span data-ic="layout" data-size="18"></span><span>معرض</span></div>
+            <div class="ve-tool" onclick="pfAddBlock('ba')" title="قبل وبعد"><span data-ic="trending" data-size="18"></span><span>قبل/بعد</span></div>
+            <div style="flex:1"></div>
+            <div class="ve-tool" onclick="document.getElementById('ve-meta-panel').classList.toggle('ve-meta-open')" title="بيانات المشروع"><span data-ic="pie" data-size="18"></span><span>بيانات</span></div>
+        </div>
+        <div id="ve-scroll"><div id="ve-canvas"></div></div>
+        <div id="ve-meta-panel">
+            <div class="ve-meta-header">
+                <div class="ve-meta-title">بيانات المشروع</div>
+                <button class="ve-meta-close" onclick="document.getElementById('ve-meta-panel').classList.remove('ve-meta-open')" title="إغلاق"><span data-ic="x" data-size="16"></span></button>
+            </div>
+            <div class="ve-meta-grid">
+                <div class="ve-meta-field"><label>الوصف المختصر</label><input id="ve-subtitle" class="input" placeholder="عالم بصري للعلامة"></div>
+                <div class="ve-meta-field"><label>التصنيف</label>
+                    <select id="ve-category" class="input"><option value="digital">رقمية</option><option value="identity">هوية</option><option value="culture">ثقافية</option></select></div>
+                <div class="ve-meta-field"><label>المجال</label><input id="ve-field" class="input" placeholder="هوية علامة تجارية"></div>
+                <div class="ve-meta-field"><label>الخدمات (·)</label><input id="ve-services" class="input" placeholder="استراتيجية · هوية · عالم بصري"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+                    <div class="ve-meta-field"><label>السنة</label><input id="ve-year" class="input" placeholder="٢٠٢٥"></div>
+                    <div class="ve-meta-field"><label>الوسم</label><input id="ve-tag" class="input" placeholder="هوية / ٢٠٢٥"></div>
+                </div>
+                <div class="ve-meta-field"><label>ترتيب العرض</label><input id="ve-order" type="number" class="input" placeholder="1"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- ==================== MODAL ==================== -->
@@ -284,7 +417,7 @@
     <div class="modal fade-in" id="modal-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
             <h2 style="font-weight:900;font-size:1.2rem">تفاصيل العميل</h2>
-            <button onclick="closeModal()" style="background:none;border:none;color:#888;font-size:1.5rem;cursor:pointer">✕</button>
+            <button onclick="closeModal()" style="background:none;border:none;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:.25rem" title="إغلاق"><span data-ic="x" data-size="20"></span></button>
         </div>
         <div id="modal-body"></div>
     </div>
@@ -307,10 +440,6 @@ firebase.initializeApp(CFG);
 const db = firebase.firestore();
 const PASSWORD = "summ3a2026";
 
-let allLeads = [];
-let currentFilter = { status: 'all' };
-
-// ── Auth ──
 function login() {
     const v = document.getElementById('pw-input').value;
     if (v === PASSWORD) {
@@ -339,341 +468,20 @@ if (localStorage.getItem('sam3a_admin') === '1' || sessionStorage.getItem('sam3a
     loadData();
 }
 
-// ── Data ──
-function loadData() {
-    db.collection('leads').orderBy('createdAt','desc').get().then(snap => {
-        allLeads = [];
-        snap.forEach(doc => allLeads.push({ id: doc.id, ...doc.data() }));
-        updateStats();
-        renderTable();
-    }).catch(err => {
-        document.getElementById('table-body').innerHTML =
-            '<tr><td colspan="8" style="text-align:center;padding:3rem;color:#ef4444">خطأ: ' + err.message + '</td></tr>';
-    });
-    loadVisitors();
-}
-
-function loadVisitors() {
-    const now = new Date();
-    const days = [];
-    for (let i = 6; i >= 0; i--) {
-        const d = new Date(now.getTime() - i * 864e5);
-        days.push(d.toISOString().slice(0, 10));
-    }
-    const today = days[6];
-    db.collection('visitor_sources').get().then(snap => {
-        const docs = {};
-        snap.forEach(doc => { docs[doc.id] = doc.data(); });
-        const dayCounts = days.map(d => (docs[d] && docs[d].count) || 0);
-        document.getElementById('s-visitors').textContent = dayCounts[6] || 0;
-        const maxVis = Math.max(...dayCounts, 1);
-        const dayLabels = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-        days.forEach((d, i) => {
-            const el = document.getElementById('vis'+i);
-            const lbl = document.getElementById('vis'+i+'l');
-            if (el) el.style.height = ((dayCounts[i] || 0) / maxVis * 100) + '%';
-            if (lbl) lbl.textContent = dayLabels[(now.getDay() - 6 + i + 7) % 7];
-        });
-        var dr = document.getElementById('visitor-date-range');
-        if (dr) dr.textContent = days[0] + ' → ' + today;
-
-        // Visitor sources for today
-        var list = document.getElementById('visitor-sources-list');
-        if (list) {
-            var todayData = docs[today];
-            if (todayData && todayData.sources) {
-                var yesterdayStr = days[5] || new Date(now.getTime() - 864e5).toISOString().slice(0, 10);
-                var yesterdaySources = (docs[yesterdayStr] && docs[yesterdayStr].sources) || {};
-                var sourceIcons = { 'فيس بوك':'📘', 'انستغرام':'📷', 'جوجل':'🔍', 'تيك توك':'🎵', 'X':'🐦', 'واتساب':'💬', 'مباشر':'🌐', 'رابط خارجي':'🔗' };
-                // جمع أسماء المنصات من كل الأيام
-                var allPlatforms = {};
-                days.forEach(function(d) {
-                    var s = docs[d] && docs[d].sources;
-                    if (s) Object.keys(s).forEach(function(k) { allPlatforms[k] = 1; });
-                });
-                var allSources = {};
-                var perDay = {};
-                days.forEach(function(d) {
-                    var s = docs[d] && docs[d].sources || {};
-                    Object.keys(allPlatforms).forEach(function(k) {
-                        var v = s[k] || 0;
-                        allSources[k] = (allSources[k] || 0) + v;
-                        if (!perDay[k]) perDay[k] = [];
-                        perDay[k].push(v);
-                    });
-                });
-                list.innerHTML = Object.keys(allSources).sort(function(a,b) { return (allSources[b]||0) - (allSources[a]||0); }).map(function(k) {
-                    var cur = todayData.sources[k] || 0;
-                    var week = allSources[k] || 0;
-                    var prev = yesterdaySources[k] || 0;
-                    var pct = prev > 0 ? Math.round((cur - prev) / prev * 100) : (cur > 0 ? 100 : 0);
-                    var arrow = cur > prev ? '↑' : cur < prev ? '↓' : '';
-                    var arrowColor = cur > prev ? '#22c55e' : cur < prev ? '#ef4444' : '#888';
-                    var trendHtml = cur > 0 || prev > 0 ? '<span style="color:' + arrowColor + ';font-weight:700;font-size:0.85rem">' + arrow + ' ' + (pct > 0 ? '+' : '') + pct + '%</span>' : '';
-                    var timeEl = '';
-                    if (docs[today] && docs[today].lastVisits && docs[today].lastVisits[k]) {
-                        timeEl = '<div style="font-size:0.65rem;color:#555">آخر: ' + new Date(docs[today].lastVisits[k]).toLocaleTimeString('ar-SA', {hour:'2-digit',minute:'2-digit'}) + '</div>';
-                    }
-                    // SVG sparkline
-                    var vals = perDay[k] || Array(7).fill(0);
-                    var maxVal = Math.max.apply(null, vals, 1);
-                    var w = 80, h = 24;
-                    var pts = vals.map(function(v, i) {
-                        var x = i / (vals.length - 1 || 1) * w;
-                        var y = h - (v / maxVal * h);
-                        return x.toFixed(1) + ',' + y.toFixed(1);
-                    }).join(' ');
-                    var sparkline = '<svg width="' + w + '" height="' + h + '" style="margin-top:0.3rem"><polyline points="' + pts + '" fill="none" stroke="#f68720" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-                    return '<div class="stat" style="padding:0.75rem 1rem;min-width:170px;flex-shrink:0"><div style="display:flex;align-items:flex-start;gap:0.5rem"><span style="font-size:1.3rem;margin-top:0.2rem">' + (sourceIcons[k]||'📌') + '</span><div style="flex:1"><div style="display:flex;align-items:center;gap:0.5rem;justify-content:space-between"><span style="font-weight:700;font-size:1.1rem">' + cur + '</span>' + trendHtml + '</div><div style="font-size:0.75rem;color:#0ea5e9">' + k + '</div><div style="font-size:0.7rem;color:#666">الأسبوع: ' + week + '</div>' + timeEl + sparkline + '</div></div></div>';
-                }).join('');
-            } else {
-                list.innerHTML = '<div class="stat" style="padding:0.75rem 1rem"><span style="color:#555;font-size:0.85rem">لا توجد بيانات بعد</span></div>';
-            }
-        }
-        window._visitorDocs = docs;
-    }).catch(function(err){
-        console.warn('loadVisitors error:', err);
-    });
-}
-
-// ── Stats ──
-function updateStats() {
-    const total = allLeads.length;
-    const now = new Date();
-    const weekAgo = new Date(now.getTime() - 7*864e5);
-
-    let week = 0, interested = 0, subscribed = 0;
-    let pkgCount = { 'الانطلاقة':0, 'المحترف':0, 'النخبة':0, 'مخصصة':0 };
-    let srcCount = { questionnaire:0, whatsapp:0, chat:0 };
-    let leadSrcCount = {};
-    let days = Array(7).fill(0);
-
-    allLeads.forEach(d => {
-        const dt = new Date(d.createdAt);
-        if (dt >= weekAgo) week++;
-        if (d.status === 'interested') interested++;
-        if (d.status === 'subscribed') subscribed++;
-        if (d.package && pkgCount[d.package] !== undefined) pkgCount[d.package]++;
-        if (d.source && srcCount[d.source] !== undefined) srcCount[d.source]++;
-        if (d.leadSource) leadSrcCount[d.leadSource] = (leadSrcCount[d.leadSource] || 0) + 1;
-        for (let i=0; i<7; i++) {
-            const day = new Date(now.getTime() - i*864e5);
-            if (dt.toDateString() === day.toDateString()) days[6-i]++;
-        }
-    });
-
-    document.getElementById('s-total').textContent = total;
-    document.getElementById('s-week').textContent = week;
-    document.getElementById('s-interested').textContent = interested;
-    document.getElementById('s-subscribed').textContent = subscribed;
-
-    document.getElementById('p-laucnt').textContent = pkgCount['الانطلاقة'];
-    document.getElementById('p-procnt').textContent = pkgCount['المحترف'];
-    document.getElementById('p-elicnt').textContent = pkgCount['النخبة'];
-    document.getElementById('p-vipcnt').textContent = pkgCount['مخصصة'] || pkgCount['VIP'];
-
-    const maxPkg = Math.max(...Object.values(pkgCount), 1);
-    document.getElementById('p-laubar').style.width = (pkgCount['الانطلاقة']/maxPkg*100)+'%';
-    document.getElementById('p-probar').style.width = (pkgCount['المحترف']/maxPkg*100)+'%';
-    document.getElementById('p-elibar').style.width = (pkgCount['النخبة']/maxPkg*100)+'%';
-    document.getElementById('p-vipbar').style.width = ((pkgCount['مخصصة'] || pkgCount['VIP'])/maxPkg*100)+'%';
-
-    document.getElementById('src-q').textContent = srcCount.questionnaire;
-    document.getElementById('src-w').textContent = srcCount.whatsapp;
-    document.getElementById('src-c').textContent = srcCount.chat;
-
-    const maxDay = Math.max(...days, 1);
-    const dayLabels = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    for (let i=0; i<7; i++) {
-        const dayEl = document.getElementById('day'+i);
-        const lblEl = document.getElementById('day'+i+'l');
-        if (dayEl) dayEl.style.height = (days[i]/maxDay*100)+'%';
-        if (lblEl) lblEl.textContent = dayLabels[(now.getDay()-6+i+7)%7];
-    }
-}
-
-// ── Filter ──
-function setFilter(el, key, val) {
-    document.querySelectorAll(`.filter-btn[data-filter="${key}"]`).forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    currentFilter[key] = val;
-    renderTable();
-}
-
-// ── Render ──
-function renderTable() {
-    const search = document.getElementById('search-box').value.toLowerCase().trim();
-    let filtered = allLeads.filter(d => {
-        if (currentFilter.status !== 'all' && d.status !== currentFilter.status) return false;
-        if (search && !(d.name||'').toLowerCase().includes(search) && !(d.email||'').toLowerCase().includes(search) && !(d.phone||'').includes(search)) return false;
-        return true;
-    });
-
-    if (filtered.length === 0) {
-        document.getElementById('table-body').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:3rem;color:#555">لا توجد نتائج</td></tr>';
-        return;
-    }
-
-    const statusMap = { new:'جديد', contacted:'تم التواصل', interested:'مهتم', subscribed:'تم الاشتراك', cancelled:'ملغي' };
-    const statusClass = { new:'badge-new', contacted:'badge-contacted', interested:'badge-interested', subscribed:'badge-subscribed', cancelled:'badge-cancelled' };
-    const sourceMap = { questionnaire:'استبيان', whatsapp:'واتساب', chat:'مراسلة' };
-    const sourceClass = { questionnaire:'badge-questionnaire', whatsapp:'badge-whatsapp', chat:'badge-chat' };
-
-    let html = '';
-    filtered.forEach((d,i) => {
-        const date = d.createdAt ? new Date(d.createdAt).toLocaleDateString('ar-SA', {day:'numeric',month:'short'}) : '-';
-        const name = d.name || 'غير معروف';
-        const displayName = d.source === 'chat' ? (d.package || 'استفسار') : name;
-        html += `<tr style="cursor:pointer">
-            <td style="color:#555;font-size:0.8rem">${i+1}</td>
-            <td onclick="openModal('${d.id}')"><span style="font-weight:700">${displayName}</span><br><span style="font-size:0.75rem;color:#666" class="hide-mobile">${d.phone || d.email || ''}</span></td>
-            <td class="hide-mobile" onclick="openModal('${d.id}')"><span class="badge ${sourceClass[d.source]||'badge-new'}">${sourceMap[d.source]||d.source||'-'}</span></td>
-            <td onclick="openModal('${d.id}')"><span style="font-size:0.75rem;color:#0ea5e9">${d.leadSource || '-'}</span></td>
-            <td onclick="openModal('${d.id}')">${d.package ? '<span style="color:#f68720;font-weight:700">' + d.package + '</span>' : '<span style="color:#555">-</span>'}</td>
-            <td onclick="openModal('${d.id}')"><span class="badge ${statusClass[d.status]||'badge-new'}">${statusMap[d.status]||d.status||'جديد'}</span></td>
-            <td class="hide-mobile" onclick="openModal('${d.id}')" style="color:#666;font-size:0.8rem">${date}</td>
-            <td style="white-space:nowrap;text-align:center">
-                ${d.phone ? `<a href="https://wa.me/${d.phone.replace(/[^0-9]/g,'')}" target="_blank" onclick="event.stopPropagation()" style="color:#25d366;text-decoration:none;font-size:1.3rem" title="فتح واتساب">💬</a>` : ''}
-                <span style="color:#555;font-size:0.8rem;margin-right:0.3rem;cursor:pointer" onclick="openModal('${d.id}')">◀</span>
-            </td>
-        </tr>`;
-    });
-    document.getElementById('table-body').innerHTML = html;
-}
-
-// ── Modal ──
-function openModal(id) {
-    const d = allLeads.find(x => x.id === id);
-    if (!d) return;
-    const statusMap = { new:'جديد', contacted:'تم التواصل', interested:'مهتم', subscribed:'تم الاشتراك', cancelled:'ملغي' };
-    const sourceMap = { questionnaire:'استبيان', whatsapp:'واتساب', chat:'مراسلة' };
-    const data = d.data || {};
-
-    let html = `<div style="display:grid;gap:1rem">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-            <div><div style="color:#888;font-size:0.8rem">الاسم</div><div style="font-weight:700">${d.name || '-'}</div></div>
-            <div><div style="color:#888;font-size:0.8rem">المصدر</div><div><span class="badge badge-${d.source||'new'}">${sourceMap[d.source]||d.source||'-'}</span></div></div>
-            <div><div style="color:#888;font-size:0.8rem">مصدر الزائر</div><div style="color:#0ea5e9">${d.leadSource || '-'}</div></div>
-            <div><div style="color:#888;font-size:0.8rem">الإيميل</div><div>${d.email || '-'}</div></div>
-            <div><div style="color:#888;font-size:0.8rem">الجوال</div><div dir="ltr" style="text-align:right">${d.phone || '-'} ${d.phone ? `<a href="https://wa.me/${d.phone.replace(/[^0-9]/g,'')}" target="_blank" style="color:#25d366;text-decoration:none;font-size:1.1rem;margin-right:0.5rem" title="فتح واتساب">💬</a>` : ''}</div></div>
-            <div><div style="color:#888;font-size:0.8rem">الباقة</div><div style="color:#f68720;font-weight:700">${d.package || 'غير محدد'}</div></div>
-            <div><div style="color:#888;font-size:0.8rem">التاريخ</div><div>${d.createdAt ? new Date(d.createdAt).toLocaleString('ar-SA') : '-'}</div></div>
-        </div>`;
-
-    if (d.source === 'questionnaire' && data) {
-        html += `<div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem">
-            <div style="color:#f68720;font-weight:700;margin-bottom:0.75rem">📋 إجابات الاستبيان</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">`;
-        const fields = [
-            ['business-type','النشاط التجاري'],['goals','الهدف'],['platforms','المنصات'],
-            ['presence','الوجود الرقمي'],['budget','الميزانية'],['timeline','البدء'],
-            ['brand','العلامة التجارية'],['notes','ملاحظات']
-        ];
-        fields.forEach(([k,l]) => {
-            const v = data[k];
-            if (v) html += `<div><div style="color:#888;font-size:0.8rem">${l}</div><div>${Array.isArray(v) ? v.join(' · ') : v}</div></div>`;
-        });
-        html += `</div></div>`;
-    }
-
-    html += `<div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem">
-        <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
-            <div>
-                <div style="color:#888;font-size:0.8rem;margin-bottom:0.3rem">تحديث الحالة</div>
-                <select class="status-select" id="modal-status" onchange="updateStatus('${id}',this.value)">
-                    <option value="new" ${d.status==='new'?'selected':''}>جديد</option>
-                    <option value="contacted" ${d.status==='contacted'?'selected':''}>تم التواصل</option>
-                    <option value="interested" ${d.status==='interested'?'selected':''}>مهتم</option>
-                    <option value="subscribed" ${d.status==='subscribed'?'selected':''}>تم الاشتراك</option>
-                    <option value="cancelled" ${d.status==='cancelled'?'selected':''}>ملغي</option>
-                </select>
-            </div>
-            <button onclick="deleteLead('${id}')" class="btn btn-ghost btn-sm" style="color:#ef4444;border-color:rgba(239,68,68,0.2)">حذف</button>
-        </div>
-    </div>`;
-
-    document.getElementById('modal-body').innerHTML = html;
-    document.getElementById('modal-overlay').classList.add('open');
-}
-
-function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('open');
-}
-
-function updateStatus(id, status) {
-    db.collection('leads').doc(id).update({ status: status }).then(() => {
-        const d = allLeads.find(x => x.id === id);
-        if (d) d.status = status;
-        updateStats();
-        renderTable();
-    });
-}
-
-function deleteLead(id) {
-    if (!confirm('حذف هذا العميل؟')) return;
-    db.collection('leads').doc(id).delete().then(() => {
-        allLeads = allLeads.filter(x => x.id !== id);
-        closeModal();
-        updateStats();
-        renderTable();
-    });
-}
-
-// ── Export ──
-function exportCSV() {
-    if (allLeads.length === 0) return;
-    const statusMap = { new:'جديد', contacted:'تم التواصل', interested:'مهتم', subscribed:'تم الاشتراك', cancelled:'ملغي' };
-    const sourceMap = { questionnaire:'استبيان', whatsapp:'واتساب', chat:'مراسلة' };
-    const h = ['الاسم','الإيميل','الجوال','المصدر','مصدر الزائر','الباقة','الحالة','التاريخ','ملاحظات'];
-    const r = allLeads.map(d => [
-        d.name||'', d.email||'', d.phone||'', sourceMap[d.source]||d.source||'',
-        d.leadSource||'', d.package||'', statusMap[d.status]||d.status||'جديد',
-        d.createdAt||'', (d.data&&d.data.notes)||''
-    ]);
-    const csv = '\uFEFF' + [h.join(','), ...r.map(rr => rr.map(v => '"'+(v||'').replace(/"/g,'""')+'"').join(','))].join('\n');
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-    a.download = 'leads-سمعة-'+new Date().toISOString().slice(0,10)+'.csv';
-    a.click();
-}
-
-// ── Clean All Data ──
-function cleanAllData() {
-    if (!confirm('⚠️ تنبيه: سيتم حذف جميع العملاء والاستبيانات بشكل نهائي!\n\nهل أنت متأكد؟')) return;
-    if (!confirm('تأكيد نهائي: لا يمكن التراجع عن هذا الإجراء.\nتابع؟')) return;
-
-    const btn = event.target;
-    btn.textContent = 'جاري المسح...';
-    btn.disabled = true;
-
-    // Delete all leads
-    db.collection('leads').get().then(snap => {
-        const batch = db.batch();
-        snap.forEach(doc => batch.delete(doc.ref));
-        return batch.commit();
-    }).then(() => {
-        return db.collection('questionnaires').get();
-    }).then(snap => {
-        const batch = db.batch();
-        snap.forEach(doc => batch.delete(doc.ref));
-        return batch.commit();
-    }).then(() => {
-        allLeads = [];
-        updateStats();
-        renderTable();
-        btn.textContent = 'تم المسح ✓';
-        btn.style.background = '#16a34a';
-        setTimeout(() => {
-            btn.textContent = 'مسح كل البيانات';
-            btn.style.background = '#dc2626';
-            btn.disabled = false;
-        }, 2000);
-    }).catch(err => {
-        alert('خطأ: ' + err.message);
-        btn.textContent = 'مسح كل البيانات';
-        btn.disabled = false;
-    });
-}
-</script>
+function switchTab(tab) {
+    const tabs = ['clients','orders','stats','projects'];
+    tabs.forEach(t => document.getElementById('tab-btn-'+t).classList.toggle('active', tab === t));
+    document.getElementById('view-clients').style.display = tab === 'clients' ? 'block' : 'none';
+    document.getElementById('view-orders').style.display = tab === 'orders' ? 'block' : 'none';
+    document.getElementById('view-stats').style.display = tab === 'stats' ? 'block' : 'none';
+    document.getElementById('view-projects').style.display = tab === 'projects' ? 'block' : 'none';
+    if (tab === 'projects' && typeof loadProjects === 'function') loadProjects();
+    const footer = document.getElementById('shared-footer');
+    if (footer) footer.style.display = (tab === 'clients' || tab === 'orders' || tab === 'stats') ? 'flex' : 'none';
+    const label = document.getElementById('btn-export-label');
+    if (label) label.textContent = tab === 'orders' ? 'تصدير الطلبات CSV' : 'تصدير العملاء CSV';
+}</script>
+<script src="admin-crm.js"></script>
+<script src="admin-portfolio.js"></script>
 </body>
 </html>

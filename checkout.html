@@ -206,13 +206,13 @@ function submitOrder() {
         package: pkg.name,
         packageKey: pkgKey,
         price: pkg.price,
-        source: 'checkout',
+        customerType: 'order',
         leadSource: localStorage.getItem('leadSource') || 'غير معروف',
         status: 'new',
         createdAt: new Date().toISOString()
     };
 
-    db.collection('leads').add(orderData).then(docRef => {
+    db.collection('orders').add(orderData).then(docRef => {
         orderDocId = docRef.id;
         orderData.id = docRef.id;
 

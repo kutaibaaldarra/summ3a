@@ -1,0 +1,177 @@
+/* ============================================================
+   admin-crm.css — لوحة التحكم: العملاء / الطلبات / الإحصائيات
+   ============================================================ */
+
+/* ── أيقونات SVG ── */
+.ic { display: inline-flex; vertical-align: middle; flex-shrink: 0; }
+.ic svg { display: block; }
+
+/* ── ألوان مميزة لأيقونات البطاقات الإحصائية ── */
+.stat-icon.orange { background: rgba(246,135,32,0.08); color: #f68720; }
+.stat-icon.blue   { background: rgba(59,130,246,0.10); color: #3b82f6; }
+.stat-icon.purple { background: rgba(139,92,246,0.10); color: #8b5cf6; }
+.stat-icon.green  { background: rgba(34,197,94,0.10);  color: #22c55e; }
+.stat-icon.sky    { background: rgba(14,165,233,0.10); color: #0ea5e9; }
+.stat-icon.slategray { background: rgba(148,163,184,0.12); color: #94a3b8; }
+.stat-icon.solomon { background: rgba(236,72,153,0.10); color: #ec4899; }
+.stat-icon.star   { background: rgba(245,158,11,0.10); color: #f59e0b; }
+
+.stat-icon { display: flex; align-items: center; justify-content: center; }
+.stat-icon svg { width: 1.45rem; height: 1.45rem; }
+
+/* ── بطاقات العملاء / الطلبات (كل بند منفصل وواضح) ── */
+.crm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+.crm-card {
+    background: linear-gradient(145deg, #151515, #0b0b0b);
+    border: 1px solid rgba(246,135,32,0.1);
+    border-radius: 1.25rem;
+    padding: 1.1rem 1.2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    position: relative;
+    overflow: hidden;
+}
+.crm-card::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(246,135,32,0.55), transparent);
+}
+.crm-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(246,135,32,0.28);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+.crm-head { display: flex; align-items: center; gap: 0.75rem; }
+.crm-avatar {
+    width: 2.8rem; height: 2.8rem;
+    border-radius: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.2rem; color: #000;
+    background: linear-gradient(135deg, #f68720, #ffab5e);
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+.crm-name { font-weight: 800; font-size: 0.98rem; line-height: 1.35; }
+.crm-sub  { font-size: 0.72rem; color: #888; margin-top: 0.1rem; }
+.crm-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.35rem; }
+.crm-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem 0.7rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem 0;
+    font-size: 0.78rem; color: #aaa;
+}
+.crm-meta .m { display: flex; align-items: center; gap: 0.35rem; min-width: 0; }
+.crm-meta .m svg { width: 0.9rem; height: 0.9rem; color: #f68720; }
+.crm-meta .m b { color: #fff; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crm-actions { display: flex; gap: 0.45rem; justify-content: flex-end; margin-top: auto; }
+.crm-note { font-size: 0.75rem; color: #999; background: rgba(255,255,255,0.03); border-radius: 0.6rem; padding: 0.45rem 0.7rem; border: 1px dashed rgba(255,255,255,0.08); }
+
+/* ── أزرار الأيقونات ── */
+.icon-btn {
+    width: 2.2rem; height: 2.2rem;
+    border-radius: 0.65rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.09);
+    background: transparent; color: #bbb;
+    cursor: pointer; transition: all 0.2s ease;
+    padding: 0;
+}
+.icon-btn svg { width: 1.05rem; height: 1.05rem; }
+.icon-btn:hover { border-color: rgba(246,135,32,0.45); color: #f68720; }
+.icon-btn.green:hover { border-color: rgba(37,211,102,0.45); color: #25d366; }
+.icon-btn.red:hover   { border-color: rgba(239,68,68,0.45);  color: #ef4444; }
+.icon-btn.sky:hover   { border-color: rgba(14,165,233,0.45); color: #0ea5e9; }
+
+/* ── أشرطة الرسوم البيانية (أعمدة) ── */
+.bars { display: flex; align-items: flex-end; gap: 0.55rem; height: 150px; padding-top: 0.5rem; }
+.bars.small { height: 110px; }
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; height: 100%; justify-content: flex-end; }
+.bar-col .bar {
+    width: 100%; min-height: 4px;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(180deg, #ff9e47, #f68720);
+    transition: height 0.6s ease;
+}
+.bar-col.alt .bar { background: linear-gradient(180deg, #6aa9ff, #3b82f6); }
+.bar-col .b-label { font-size: 0.62rem; color: #777; white-space: nowrap; }
+
+/* أزواج أعمدة (عملاء + طلبات) */
+.bar-pair { display: flex; gap: 4px; align-items: flex-end; height: 100%; width: 100%; }
+.bar-pair i { width: 45%; border-radius: 5px 5px 0 0; min-height: 4px; }
+.bar-pair i.a { background: linear-gradient(180deg, #ff9e47, #f68720); }
+.bar-pair i.b { background: linear-gradient(180deg, #6aa9ff, #3b82f6); }
+
+/* ── أشرطة أفقية (توزيع الباقات) ── */
+.hbars { display: flex; flex-direction: column; gap: 0.8rem; }
+.hbar-row { display: flex; flex-direction: column; gap: 0.3rem; }
+.hbar-head { display: flex; justify-content: space-between; font-size: 0.85rem; }
+.hbar-head .v { color: #888; font-weight: 700; }
+.hbar { height: 0.6rem; border-radius: 999px; background: rgba(255,255,255,0.05); overflow: hidden; }
+.hbar .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #f68720, #ffab5e); transition: width 0.6s ease; }
+.hbar.green .fill { background: linear-gradient(90deg, #22c55e, #4ade80); }
+
+/* ── مفتاح المدى (أسبوع / شهر) ── */
+.seg { display: inline-flex; background: #111; border: 1px solid rgba(255,255,255,0.08); border-radius: 999px; padding: 3px; gap: 3px; }
+.seg button {
+    border: none; background: transparent; color: #888;
+    font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.8rem;
+    padding: 0.4rem 1.1rem; border-radius: 999px; cursor: pointer; transition: all 0.2s ease;
+}
+.seg button.active { background: linear-gradient(135deg, #f68720, #e0781c); color: #000; }
+.seg button:not(.active):hover { color: #f68720; }
+
+/* ── أدوات التصفية والبحث ── */
+.toolbar { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.search-box {
+    background: #111; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0.9rem; color: #fff;
+    padding: 0.55rem 1rem; font-size: 0.85rem; font-family: 'Tajawal', sans-serif;
+    min-width: 220px; flex: 1;
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.search-box svg { width: 1rem; height: 1rem; color: #666; }
+.search-box input { flex: 1; background: none; border: none; outline: none; color: #fff; font-family: 'Tajawal', sans-serif; font-size: 0.85rem; }
+
+/* ── عناوين البطاقات ── */
+.card-title { display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1rem; margin-bottom: 0.9rem; }
+.card-title svg { width: 1.05rem; height: 1.05rem; color: #f68720; }
+.legend { display: flex; align-items: center; gap: 1rem; font-size: 0.75rem; color: #999; margin-top: 0.5rem; }
+.legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.legend i { width: 0.7rem; height: 0.7rem; border-radius: 3px; display: inline-block; }
+.legend .k1 { background: #f68720; }
+.legend .k2 { background: #3b82f6; }
+
+/* ── مصدر الزائر ── */
+.src-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.9rem; border-radius: 0.8rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); }
+.src-chip .src-dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; flex-shrink: 0; }
+.src-trend { font-size: 0.7rem; font-weight: 800; }
+
+/* ── حالات فارغة ── */
+.empty-state {
+    text-align: center; padding: 3rem 1rem; color: #666; font-size: 0.9rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+}
+.empty-state svg { width: 2.4rem; height: 2.4rem; color: #444; }
+
+/* ── وسوم صغيرة ── */
+.kpi-note { font-size: 0.72rem; color: #666; margin-top: 0.2rem; }
+
+/* ── استجابة الجوال ── */
+@media (max-width: 640px) {
+    .crm-meta { grid-template-columns: 1fr; }
+    .bars { height: 130px; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .search-box { width: 100%; }
+}

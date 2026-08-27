@@ -1,0 +1,723 @@
+/* ═══════════════════════════════════════════════════════════
+   admin-portfolio.css
+   Portfolio management section for admin dashboard
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Project Cards Grid ─── */
+.pf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.pf-card {
+  background: linear-gradient(145deg, #141414, #0a0a0a);
+  border: 1px solid rgba(246,135,32,0.08);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .3s, box-shadow .3s;
+}
+.pf-card:hover {
+  border-color: rgba(246,135,32,0.2);
+  box-shadow: 0 8px 32px rgba(246,135,32,0.04);
+}
+
+.pf-card-cover {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #181818;
+  overflow: hidden;
+}
+.pf-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pf-card-cover .pf-empty-cover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 2.2rem;
+}
+
+.pf-card-badge {
+  position: absolute;
+  top: .6rem;
+  left: .6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+}
+.pf-card-badge--draft  { background: rgba(239,68,68,0.12); color: #ef4444; }
+.pf-card-badge--pub    { background: rgba(34,197,94,0.12); color: #22c55e; }
+
+.pf-card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  flex: 1;
+}
+.pf-card-title {
+  font-weight: 900;
+  font-size: 1rem;
+  color: #fff;
+}
+.pf-card-subtitle {
+  color: #666;
+  font-size: .75rem;
+  line-height: 1.4;
+}
+.pf-card-tags {
+  display: flex;
+  gap: .35rem;
+  flex-wrap: wrap;
+  margin-top: .25rem;
+}
+
+.pf-card-actions {
+  display: flex;
+  gap: .45rem;
+  margin-top: auto;
+  padding-top: .6rem;
+}
+.pf-card-actions .btn { flex: 1; }
+
+/* ─── Empty State ─── */
+.pf-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: #555;
+  background: linear-gradient(145deg, #141414, #0a0a0a);
+  border: 1px solid rgba(246,135,32,0.06);
+  border-radius: 1.25rem;
+}
+.pf-empty-hint {
+  font-size: .75rem;
+  color: #444;
+  margin-top: .5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Visual Editor — Behance Style
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Overlay & Layout ─── */
+#ve-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: #0d0d0d;
+  color: #eee;
+  flex-direction: column;
+}
+
+/* ─── Top Bar ─── */
+#ve-topbar {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .7rem 1.2rem;
+  background: #141414;
+  border-bottom: 1px solid #262626;
+  flex-shrink: 0;
+}
+#ve-topbar .btn { white-space: nowrap; }
+
+#ve-title-input {
+  flex: 1;
+  min-width: 120px;
+  max-width: 380px;
+  background: #0d0d0d;
+  border: 1px solid #2c2c2c;
+  border-radius: 10px;
+  padding: .55rem .9rem;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  font-family: 'Tajawal', sans-serif;
+}
+#ve-title-input:focus { outline: none; border-color: #f68720; }
+
+#ve-status {
+  font-size: .75rem;
+  color: #22c55e;
+  white-space: nowrap;
+}
+
+/* ─── Body (Tools + Canvas + Meta) ─── */
+#ve-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ─── Tools Sidebar ─── */
+#ve-tools {
+  width: 76px;
+  background: #141414;
+  border-left: 1px solid #262626;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  padding: 1rem 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.ve-tool {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  border: 1px solid #2c2c2c;
+  background: #1b1b1b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  font-size: 1.05rem;
+}
+.ve-tool span {
+  font-size: .52rem;
+  color: #888;
+}
+.ve-tool:hover {
+  border-color: #f68720;
+  background: #242424;
+}
+
+/* ─── Canvas ─── */
+#ve-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 3rem 1.5rem 6rem;
+}
+#ve-canvas {
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.ve-empty-hint {
+  text-align: center;
+  color: #666;
+  padding: 4rem 1rem;
+  border: 2px dashed #2c2c2c;
+  border-radius: 16px;
+  font-size: .85rem;
+}
+
+/* ─── Block Base ─── */
+.ve-block {
+  position: relative;
+  margin-bottom: 1.6rem;
+  border-radius: 14px;
+  transition: box-shadow .15s;
+  cursor: default;
+}
+.ve-block:hover {
+  outline: 1px dashed rgba(246,135,32,.45);
+  outline-offset: 4px;
+}
+.ve-block.ve-sel {
+  outline: 2px solid #f68720;
+  outline-offset: 4px;
+}
+
+/* ─── Block Controls ─── */
+.ve-ctrls {
+  position: absolute;
+  top: -34px;
+  left: 0;
+  display: none;
+  gap: .25rem;
+  z-index: 20;
+}
+.ve-block:hover .ve-ctrls,
+.ve-block.ve-sel .ve-ctrls { display: flex; }
+
+.ve-ctrl {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #222;
+  border: 1px solid #333;
+  color: #ccc;
+  cursor: pointer;
+  font-size: .8rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s, color .15s;
+}
+.ve-ctrl:hover {
+  background: #f68720;
+  color: #000;
+  border-color: #f68720;
+}
+
+/* ─── Editable Blocks ─── */
+.ve-b-edit {
+  outline: none;
+}
+.ve-b-edit:focus {
+  box-shadow: inset 0 0 0 2px rgba(246,135,32,.35);
+  border-radius: 8px;
+}
+
+/* ─── Image Panel ─── */
+.ve-img-panel {
+  display: none;
+  flex-wrap: wrap;
+  gap: .45rem;
+  margin-top: .6rem;
+  background: #191919;
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  padding: .55rem;
+  align-items: center;
+}
+.ve-block.ve-sel .ve-img-panel { display: flex; }
+
+.ve-img-panel select,
+.ve-img-panel input {
+  background: #101010;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
+  color: #ddd;
+  padding: .3rem .5rem;
+  font-size: .72rem;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.ve-img-btn {
+  background: #2a2a2a;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: .35rem .7rem;
+  cursor: pointer;
+  font-size: .72rem;
+  font-family: 'Tajawal', sans-serif;
+  transition: border-color .15s;
+}
+.ve-img-btn:hover { border-color: #f68720; }
+
+.ve-img-caption-wrap {
+  display: none;
+  padding: 0 12px;
+}
+.ve-block.ve-sel .ve-img-caption-wrap { display: block; }
+.ve-img-caption-editor {
+  background: #141414;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
+  color: #bbb;
+  font-size: .85rem;
+  padding: .4rem .6rem;
+  margin-top: 6px;
+  min-height: 1em;
+  line-height: 1.6;
+}
+.ve-img-caption-editor:focus { border-color: #f68720; }
+.ve-img-caption-editor:empty:before {
+  content: attr(data-placeholder);
+  color: #555;
+  pointer-events: none;
+}
+.ve-img-caption-editor a { color: #f68720; text-decoration: underline; }
+
+.ve-img-align-btns {
+  display: flex;
+  gap: 2px;
+}
+.ve-img-albtn {
+  width: 28px;
+  height: 26px;
+  border: 1px solid #2e2e2e;
+  border-radius: 6px;
+  background: #141414;
+  color: #666;
+  font-size: .65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+}
+.ve-img-albtn:hover { border-color: #555; color: #aaa; }
+.ve-img-albtn.active { background: #f68720; color: #000; border-color: #f68720; }
+
+/* ─── Thumbnail ─── */
+.ve-thumb {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #111;
+}
+.ve-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ve-thumb button {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(239,68,68,.9);
+  color: #fff;
+  font-size: .65rem;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+}
+
+/* ─── Block Type: Title ─── */
+.ve-b-title {
+  background: #1a1a1a;
+  border-radius: 14px;
+  padding: 0;
+}
+.ve-b-title .ve-rt-editor {
+  font-size: clamp(1.6rem,4.8vw,4.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+}
+
+/* ─── Block Type: Lede ─── */
+.ve-b-lede {
+  background: #141414;
+  border-radius: 14px;
+  padding: 0;
+}
+.ve-b-lede .ve-rt-editor {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #aaa;
+}
+
+/* ─── Block Type: Paragraph ─── */
+.ve-b-para {
+  background: #111;
+  border-radius: 14px;
+  padding: 0;
+}
+.ve-b-para .ve-rt-editor {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #999;
+  line-height: 2;
+}
+
+/* ─── Block Type: Image ─── */
+.ve-b-image {
+  background: #0a0a0a;
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+.ve-b-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.ve-b-image-empty {
+  color: #555;
+  font-size: .85rem;
+  padding: 3rem 1rem;
+}
+
+/* ─── Block Type: Gallery ─── */
+.ve-b-gallery {
+  background: #0a0a0a;
+  border-radius: 14px;
+  padding: 1rem;
+  min-height: 140px;
+}
+
+.ve-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: .45rem;
+  margin-bottom: .6rem;
+}
+.ve-gallery-empty {
+  color: #555;
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 1rem;
+  font-size: .8rem;
+}
+
+/* ─── Block Type: Before/After ─── */
+.ve-b-ba {
+  background: #0a0a0a;
+  border-radius: 14px;
+  padding: 1rem;
+}
+.ve-ba-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+}
+.ve-ba-slot {
+  text-align: center;
+}
+.ve-ba-label {
+  font-size: .7rem;
+  color: #666;
+  margin-bottom: .3rem;
+}
+.ve-ba-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.ve-ba-placeholder {
+  aspect-ratio: 4/3;
+  border: 2px dashed #2c2c2c;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .75rem;
+  color: #555;
+}
+.ve-ba-links {
+  display: flex;
+  gap: .4rem;
+  margin-top: .4rem;
+}
+.ve-ba-links input {
+  flex: 1;
+  min-width: 0;
+  background: #101010;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
+  color: #ddd;
+  padding: .35rem .5rem;
+  font-size: .72rem;
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* ─── Meta Panel ─── */
+#ve-meta-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  background: #141414;
+  border-right: 1px solid #262626;
+  padding: 1rem;
+  z-index: 100;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  overflow-y: auto;
+}
+#ve-meta-panel.ve-meta-open { transform: translateX(0); }
+
+.ve-meta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.ve-meta-title {
+  font-weight: 900;
+  font-size: .9rem;
+}
+.ve-meta-close {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.ve-meta-grid {
+  display: grid;
+  gap: .65rem;
+}
+.ve-meta-field label {
+  display: block;
+  color: #888;
+  font-size: .7rem;
+  margin-bottom: .2rem;
+}
+.ve-meta-field .input {
+  font-size: .85rem;
+}
+
+/* ─── Rich Text Toolbar (execCommand) ─── */
+.ve-rt-toolbar {
+  background: #1e1e1e;
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  gap: 8px;
+  user-select: none;
+  flex-wrap: wrap;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid #2a2a2a;
+  border-bottom: none;
+}
+
+.ve-rt-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-right: 1px solid #3d3d3d;
+  padding-right: 8px;
+}
+.ve-rt-group:last-child { border-right: none; padding-right: 0; }
+
+.ve-rt-select {
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: .78rem;
+  font-weight: 700;
+  padding: 4px 6px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 4px;
+  font-family: 'Tajawal', sans-serif;
+}
+.ve-rt-select:hover { background: #333; }
+.ve-rt-select option { background: #1e1e1e; color: #fff; }
+
+.ve-rt-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: .85rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Tajawal', sans-serif;
+}
+.ve-rt-btn:hover { background: #333; color: #f68720; }
+
+/* Contenteditable editor area */
+.ve-rt-editor {
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 0 0 14px 14px;
+  padding: 1rem 1.5rem;
+  min-height: 1.5em;
+  color: #eee;
+  line-height: 1.8;
+  outline: none;
+  font-family: 'Tajawal', sans-serif;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.ve-rt-editor:focus { border-color: #f68720; }
+.ve-rt-editor:empty:before {
+  content: attr(data-placeholder);
+  color: #444;
+  font-style: normal;
+  pointer-events: none;
+}
+.ve-rt-editor a { color: #f68720; text-decoration: underline; }
+.ve-rt-editor strong { font-weight: 700; }
+.ve-rt-editor em { font-style: italic; }
+.ve-rt-editor u { text-decoration: underline; }
+.ve-rt-editor s { text-decoration: line-through; }
+.ve-rt-editor blockquote {
+  border-right: 3px solid #f68720;
+  padding-right: 12px;
+  color: #aaa;
+  margin: .5em 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Drag & Drop Reordering
+   ═══════════════════════════════════════════════════════════ */
+
+.ve-drag-handle {
+  cursor: grab;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: #666;
+  user-select: none;
+}
+.ve-drag-handle:hover { color: #f68720; cursor: grab; }
+.ve-drag-handle:active { cursor: grabbing; }
+
+.ve-block.ve-dragging {
+  opacity: .4;
+  outline: 2px dashed #f68720;
+  outline-offset: 4px;
+}
+
+.ve-block.ve-drag-over-top {
+  border-top: 3px solid #f68720;
+}
+.ve-block.ve-drag-over-bottom {
+  border-bottom: 3px solid #f68720;
+}
+
+.ve-drop-indicator {
+  height: 3px;
+  background: #f68720;
+  border-radius: 999px;
+  margin: 6px 0;
+  box-shadow: 0 0 12px rgba(246,135,32,.5);
+  animation: veDropPulse .8s ease-in-out infinite alternate;
+}
+@keyframes veDropPulse {
+  from { box-shadow: 0 0 8px rgba(246,135,32,.3); }
+  to   { box-shadow: 0 0 16px rgba(246,135,32,.7); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 760px) {
+  .pf-grid {
+    grid-template-columns: 1fr;
+  }
+  .pf-card-cover { aspect-ratio: 16/10; }
+
+  #ve-tools {
+    width: 58px;
+  }
+  .ve-tool {
+    width: 44px;
+    height: 44px;
+    font-size: .9rem;
+  }
+  #ve-meta-panel { width: 100%; }
+}
