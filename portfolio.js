@@ -224,7 +224,7 @@
       if (b.t==='gallery' && b.imgs?.length) {
         const gc = gcMap[b.cols]||'';
         const many = b.imgs.length>2&&!gc?' is-many':'';
-        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g=>'<figure><img src="'+esc(g)+'" alt="" loading="lazy"></figure>').join('')+'</div>';
+        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g=>'<img src="'+esc(g)+'" alt="" loading="lazy">').join('')+'</div>';
       }
       if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before" src="'+esc(b.a)+'" alt="قبل" loading="lazy"><img class="ba-after" src="'+esc(b.b)+'" alt="بعد" loading="lazy"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
       return '';
@@ -265,7 +265,7 @@
       : '';
     const gal = (p.gallery.length && f.showGallery !== false)
       ? `<div class="case-section-title"><span>من داخل المشروع</span><small class="mono">تفاصيل مختارة</small></div>
-         <div class="case-gallery${gc}${p.gallery.length > 2 && !gc ? ' is-many' : ''}">${p.gallery.map((g) => `<figure><img src="${esc(g)}" alt="" loading="lazy"></figure>`).join('')}</div>`
+         <div class="case-gallery${gc}${p.gallery.length > 2 && !gc ? ' is-many' : ''}">${p.gallery.map((g) => `<img src="${esc(g)}" alt="" loading="lazy">`).join('')}</div>`
       : '';
     caseContent.innerHTML = `
       <h2 id="modal-title" class="${(ts + tw).trim()}"${align(ta)}>${esc(p.title)}</h2>
