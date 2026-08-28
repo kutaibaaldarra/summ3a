@@ -38,7 +38,7 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
 .case-hero img { width: 100%; height: 100%; display: block; object-fit: cover; filter: saturate(.9); }
 .case-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,17,15,.62), transparent 55%); pointer-events: none; }
 .case-hero-label { position: absolute; right: 28px; bottom: 22px; z-index: 1; color: var(--paper); font-size: 11px; }
-.case-content { padding: clamp(44px, 6vw, 88px); }
+.case-content { padding: clamp(28px, 5vw, 64px); }
 .case-content .eyebrow { color: var(--orange-dark); }
 .case-content h2 { margin: 25px 0 18px; font-size: clamp(3rem, 7vw, 7rem); line-height: .82; letter-spacing: -.09em; }
 .case-content > p { max-width: 620px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.8; }
@@ -279,16 +279,13 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
    ═══════════════════════════════════════════════════════════ */
 .modal-panel { width: min(1100px, 100%); }
 .case-hero { height: min(540px, 60vh); }
-.case-content h2 { max-width: none; margin: 34px 0 22px; font-size: clamp(1.6rem, 4.8vw, 4.6rem); line-height: 1.05; letter-spacing: -.05em; white-space: nowrap; text-align: center; }
-.case-content h2:first-child { margin-top: 0; }
+.case-content h2 { max-width: none; margin: 28px 0 14px; font-size: clamp(1.6rem, 4.8vw, 4.6rem); line-height: 1.05; letter-spacing: -.05em; white-space: nowrap; text-align: center; }
 .case-lede { max-width: 660px !important; margin: 16px auto 0 !important; color: var(--ink) !important; font-size: clamp(1.05rem, 1.6vw, 1.3rem) !important; line-height: 1.9 !important; font-weight: 500; text-align: center; }
 .case-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .case-chip { padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font: 500 12px 'DM Mono', monospace; transition: .25s; }
 .case-chip:hover { color: var(--paper); background: var(--ink); border-color: var(--ink); }
-.case-paragraphs { max-width: 730px; margin: 0 auto; }
-.case-paragraphs p { max-width: none !important; margin: 0 0 26px !important; color: #413e38 !important; font-size: 16.5px !important; line-height: 2.1 !important; }
-.case-facts { gap: 20px; margin: 60px 0 72px; }
-.case-content .ba-slider { margin: 46px 0 10px; }
+.case-paragraphs { max-width: 730px; }
+.case-paragraphs p { max-width: none !important; margin: 0 0 22px !important; color: #413e38 !important; font-size: 16.5px !important; line-height: 2.1 !important; }
 .case-gallery.is-many { grid-template-columns: 1fr 1fr; gap: 32px; }
 .case-gallery.is-many figure { aspect-ratio: 4 / 3; }
 .case-gallery.is-many figure:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 8.5; }
@@ -353,17 +350,6 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
 .case-gallery.gc-two figure, .case-gallery.gc-two.is-many figure:first-child { grid-column: auto; aspect-ratio: 4 / 3; }
 .case-gallery.gc-single, .case-gallery.gc-single.is-many { grid-template-columns: 1fr; }
 .case-gallery.gc-single figure, .case-gallery.gc-single.is-many figure:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
-
-/* ─── تباعد مريح بين عناصر المشروع وبين الصورة ووصفها ─── */
-.case-content .block-title { margin-top: 52px; }
-.case-content .block-title:first-child { margin-top: 0; }
-.case-content .block-lede { margin-bottom: 30px; }
-.case-content .block-para { margin-bottom: 34px; }
-.block-image { margin: 34px 0 6px; }
-.block-caption { margin-top: 22px; }
-.case-content .ba-slider { margin: 42px 0 6px; }
-.case-content .case-gallery { margin: 0 0 38px; }
-.case-content .case-section-title { margin-top: 52px; }
 
 /* ─── Block classes (match admin editor) ─── */
 .block-title {
