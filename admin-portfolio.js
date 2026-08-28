@@ -225,10 +225,15 @@
     $('ve-services').value = Array.isArray(d.services) ? d.services.join(' · ') : (d.services || '');
     $('ve-year').value = d.year || '';
     $('ve-tag').value = d.tag || '';
+    $('ve-tools').value = Array.isArray(d.tools) ? d.tools.join(' · ') : (d.tools || '');
     $('ve-order').value = d.order != null ? d.order : '';
     $('ve-published').checked = d.published !== false;
     $('ve-status').textContent = '';
     $('ve-meta-panel').classList.remove('ve-meta-open');
+
+    var cover = d.coverImage || '';
+    $('ve-cover-url').value = cover;
+    renderCoverPreview(cover);
 
     pfRender();
     $('ve-overlay').style.display = 'flex';
@@ -242,6 +247,38 @@
     $('ve-meta-panel').classList.remove('ve-meta-open');
     document.body.classList.remove('menu-open');
   }
+
+  function renderCoverPreview(src) {
+    var prev = $('ve-cover-prev');
+    var img = $('ve-cover-prev-img');
+    if (!prev || !img) return;
+    if (src) {
+      img.src = src;
+      prev.style.display = 'block';
+    } else {
+      img.src = '';
+      prev.style.display = 'none';
+    }
+  }
+  function pfClearCover() {
+    $('ve-cover-url').value = '';
+    renderCoverPreview('');
+    veUnsaved = true;
+  }
+
+  var veCoverLoaded = function (src) {
+    $('ve-cover-url').value = src;
+    renderCoverPreview(src);
+    veUnsaved = true;
+  };
+  $('ve-cover-url').addEventListener('input', function () { renderCoverPreview(this.value); veUnsaved = true; });
+  $('ve-cover-file').addEventListener('change', function () {
+    var file = this.files && this.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (e) { veCoverLoaded(e.target.result); };
+    reader.readAsDataURL(file);
+  });
 
   /* ═══════════════════════════════════════════════════════
      SECTION 6: VISUAL EDITOR — Block Rendering
@@ -751,9 +788,10 @@
       services: $('ve-services').value.trim(),
       year: $('ve-year').value.trim(),
       tag: $('ve-tag').value.trim(),
+      tools: $('ve-tools').value.split('·').map(function (s) { return s.trim(); }).filter(Boolean),
       order: parseInt($('ve-order').value) || 0,
       blocks: blocks,
-      coverImage: (coverBlock && coverBlock.src) || (veProject && veProject.coverImage) || '',
+      coverImage: ($('ve-cover-url').value.trim()) || (coverBlock && coverBlock.src) || (veProject && veProject.coverImage) || '',
       beforeImage: baBlock ? baBlock.a : '',
       afterImage: baBlock ? baBlock.b : '',
       galleryImages: galBlock ? galBlock.imgs.filter(Boolean) : allImgs,

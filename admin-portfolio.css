@@ -575,6 +575,24 @@
   font-size: .85rem;
 }
 
+.ve-cover-prev {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #2c2c2c;
+  background: #0d0d0d;
+  margin-bottom: .5rem;
+  display: grid;
+  place-items: center;
+}
+.ve-cover-prev img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* ─── Rich Text Toolbar (execCommand) ─── */
 .ve-rt-toolbar {
   background: #1e1e1e;

@@ -373,6 +373,7 @@
         <button onclick="pfCloseEditor()" class="btn btn-ghost btn-sm">إغلاق</button>
         <input id="ve-title-input" placeholder="اسم المشروع" style="font-size:1.1rem;font-weight:900">
         <div style="flex:1"></div>
+        <button onclick="document.getElementById('ve-meta-panel').classList.add('ve-meta-open')" class="btn" style="background:#1f1f1f;color:#f68720;border:1px solid rgba(246,135,32,.35);display:inline-flex;align-items:center;gap:.45rem"><span data-ic="pie" data-size="15"></span> بيانات المشروع</button>
         <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:#aaa;cursor:pointer"><input type="checkbox" id="ve-published" checked style="accent-color:#22c55e;width:1rem;height:1rem"> منشور</label>
         <span id="ve-status"></span>
         <button onclick="pfSave(false)" class="btn btn-ghost btn-sm">حفظ</button>
@@ -396,16 +397,26 @@
                 <button class="ve-meta-close" onclick="document.getElementById('ve-meta-panel').classList.remove('ve-meta-open')" title="إغلاق"><span data-ic="x" data-size="16"></span></button>
             </div>
             <div class="ve-meta-grid">
+                <div class="ve-meta-field"><label>صورة العرض (الغلاف)</label>
+                    <div id="ve-cover-prev" class="ve-cover-prev" style="display:none"><img id="ve-cover-prev-img" alt=""></div>
+                    <input id="ve-cover-url" class="input" placeholder="https://... أو اختر من الجهاز" style="margin-bottom:.4rem">
+                    <div style="display:flex;gap:.4rem">
+                        <input type="file" id="ve-cover-file" accept="image/*" style="display:none">
+                        <button type="button" class="btn btn-ghost btn-sm" style="flex:1" onclick="document.getElementById('ve-cover-file').click()">رفع صورة</button>
+                        <button type="button" class="btn btn-ghost btn-sm" onclick="pfClearCover()">إزالة</button>
+                    </div>
+                </div>
                 <div class="ve-meta-field"><label>الوصف المختصر</label><input id="ve-subtitle" class="input" placeholder="عالم بصري للعلامة"></div>
                 <div class="ve-meta-field"><label>التصنيف</label>
                     <select id="ve-category" class="input"><option value="digital">رقمية</option><option value="identity">هوية</option><option value="culture">ثقافية</option></select></div>
+                <div class="ve-meta-field"><label>الوسم</label><input id="ve-tag" class="input" placeholder="هوية / ٢٠٢٥"></div>
                 <div class="ve-meta-field"><label>المجال</label><input id="ve-field" class="input" placeholder="هوية علامة تجارية"></div>
                 <div class="ve-meta-field"><label>الخدمات (·)</label><input id="ve-services" class="input" placeholder="استراتيجية · هوية · عالم بصري"></div>
+                <div class="ve-meta-field"><label>الأدوات المستخدمة (·)</label><input id="ve-tools" class="input" placeholder="Figma · Photoshop · After Effects"></div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
                     <div class="ve-meta-field"><label>السنة</label><input id="ve-year" class="input" placeholder="٢٠٢٥"></div>
-                    <div class="ve-meta-field"><label>الوسم</label><input id="ve-tag" class="input" placeholder="هوية / ٢٠٢٥"></div>
+                    <div class="ve-meta-field"><label>ترتيب العرض</label><input id="ve-order" type="number" class="input" placeholder="1"></div>
                 </div>
-                <div class="ve-meta-field"><label>ترتيب العرض</label><input id="ve-order" type="number" class="input" placeholder="1"></div>
             </div>
         </div>
     </div>

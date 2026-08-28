@@ -101,6 +101,7 @@
       beforeImage: d.beforeImage || '',
       afterImage: d.afterImage || '',
       gallery: toArr(d.galleryImages || d.gallery),
+      tools: toArr(d.tools),
       color: d.color || '',
       format: d.format || {},
       blocks: Array.isArray(d.blocks) ? d.blocks : [],
@@ -277,6 +278,7 @@
         <div><span>الخدمات</span><strong>${esc(p.services.join(' · ') || '-')}</strong></div>
         <div><span>السنة</span><strong>${esc(p.year || '-')}</strong></div>
       </div>`}
+      ${(p.tools && p.tools.length) ? `<div class="case-tools"><span class="mono">الأدوات المستخدمة</span><div class="case-chip-row">${p.tools.map((t) => `<span class="case-chip">${esc(t)}</span>`).join('')}</div></div>` : ''}
       ${ba}${gal}
       ${f.showCta === false ? '' : `<a href="#contact" class="cta-link case-cta">اطلب مشروعًا مشابهًا <span>↗</span></a>`}`;
     caseContent.querySelector('.case-cta')?.addEventListener('click', (e) => {
