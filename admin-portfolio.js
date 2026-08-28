@@ -854,6 +854,8 @@
   window.pfCloseEditor = pfCloseEditor;
   window.pfSave = pfSave;
   window.pfAddBlock = pfAddBlock;
+  window.pfTogglePublish = pfTogglePublish;
+  window.pfDeleteProject = pfDeleteProject;
   window.pfSelectBlock = pfSelectBlock;
   window.pfRemoveBlock = pfRemoveBlock;
   window.pfMoveBlock = pfMoveBlock;
