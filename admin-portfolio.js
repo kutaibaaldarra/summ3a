@@ -275,9 +275,8 @@
   $('ve-cover-file').addEventListener('change', function () {
     var file = this.files && this.files[0];
     if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function (e) { veCoverLoaded(e.target.result); };
-    reader.readAsDataURL(file);
+    compressImage(file, function (url) { veCoverLoaded(url || ''); });
+    this.value = '';
   });
 
   /* ═══════════════════════════════════════════════════════
@@ -773,6 +772,18 @@
     statusEl.style.color = '#888';
 
     var blocks = veBlocks.map(function (b) { return Object.assign({}, b); });
+
+    var panelCover = ($('ve-cover-url').value || '').trim();
+    var coverBlockIdx = blocks.findIndex(function (b) { return b.t === 'cover'; });
+    if (panelCover) {
+      if (coverBlockIdx >= 0) {
+        blocks[coverBlockIdx].src = panelCover;
+      } else {
+        blocks.unshift({ t: 'cover', src: panelCover, h: (veProject && veProject.format && veProject.format.coverHeight) || 'md' });
+      }
+    } else if (coverBlockIdx >= 0) {
+      blocks.splice(coverBlockIdx, 1);
+    }
     var coverBlock = blocks.find(function (b) { return b.t === 'cover'; });
     var titleBlock = blocks.find(function (b) { return b.t === 'title'; });
     var ledeBlock = blocks.find(function (b) { return b.t === 'lede'; });
