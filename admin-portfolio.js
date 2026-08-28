@@ -43,17 +43,47 @@
     reader.onload = function (e) {
       var img = new Image();
       img.onload = function () {
-        var MAX = 1400;
+        var MAX = 1600;
         var scale = Math.min(1, MAX / Math.max(img.width, img.height));
         var canvas = document.createElement('canvas');
         canvas.width = Math.round(img.width * scale);
         canvas.height = Math.round(img.height * scale);
         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-        callback(canvas.toDataURL('image/jpeg', 0.78));
+        canvas.toBlob(function (blob) {
+          if (blob && window.firebase && firebase.storage) {
+            uploadBlobToStorage(blob, callback);
+          } else {
+            callback(canvas.toDataURL('image/jpeg', 0.78));
+          }
+        }, 'image/jpeg', 0.82);
       };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  function uploadBlobToStorage(blob, callback) {
+    try {
+      var storage = firebase.storage();
+      var name = 'projects/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.jpg';
+      var task = storage.ref(name).put(blob);
+      task.on('state_changed', null, function (err) {
+        console.warn('storage upload failed, falling back to base64', err);
+        var reader = new FileReader();
+        reader.onload = function (e2) { callback(e2.target.result); };
+        reader.readAsDataURL(blob);
+      }, function () {
+        task.snapshot.ref.getDownloadURL().then(function (url) { callback(url); }).catch(function () {
+          var reader = new FileReader();
+          reader.onload = function (e2) { callback(e2.target.result); };
+          reader.readAsDataURL(blob);
+        });
+      });
+    } catch (e) {
+      var reader = new FileReader();
+      reader.onload = function (e2) { callback(e2.target.result); };
+      reader.readAsDataURL(blob);
+    }
   }
 
   /* ═══════════════════════════════════════════════════════
