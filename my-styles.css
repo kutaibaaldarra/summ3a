@@ -638,7 +638,7 @@
     .assistant-card {
         position: absolute;
         right: 0.7rem;
-        top: 3rem;
+        top: 1rem;
         width: min(11rem, 38vw);
         padding: 0.6rem 0.65rem 0.5rem;
         margin: 0;
@@ -709,7 +709,7 @@
     .assistant-card {
         width: min(10.5rem, 46vw);
         padding: 0.55rem 0.6rem 0.45rem;
-        top: 2.75rem;
+        top: 0.75rem;
         right: 0.6rem;
     }
 
