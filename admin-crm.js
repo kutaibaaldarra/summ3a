@@ -696,8 +696,6 @@
                     '<i class="b" style="height:' + oh + '%" title="طلبات: ' + b.orders + '"></i>' +
                 '</div><span class="b-label">' + b.label + '</span></div>';
         }).join('');
-        var empty = $('range-chart-empty');
-        if (empty) empty.style.display = 'none';
     }
 
     /* ═══════════════ واجهة عامة ═══════════════ */

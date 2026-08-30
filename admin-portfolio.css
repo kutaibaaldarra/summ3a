@@ -3,6 +3,10 @@
    Portfolio management section for admin dashboard
    ═══════════════════════════════════════════════════════════ */
 
+:root {
+  --ve-accent-color: #ef6b32;
+}
+
 /* ─── Project Cards Grid ─── */
 .pf-grid {
   display: grid;
@@ -131,8 +135,9 @@
   gap: .7rem;
   padding: .7rem 1.2rem;
   background: #141414;
-  border-bottom: 1px solid #262626;
+  border-bottom: 1px solid var(--ve-accent-color);
   flex-shrink: 0;
+  transition: border-color .2s ease;
 }
 #ve-topbar .btn { white-space: nowrap; }
 
@@ -198,8 +203,15 @@
   color: #888;
 }
 .ve-tool:hover {
-  border-color: #f68720;
+  border-color: var(--ve-accent-color);
   background: #242424;
+}
+
+.ve-img-btn:hover,
+.ve-rt-btn:hover,
+.ve-ctrl:hover {
+  border-color: var(--ve-accent-color);
+  color: var(--ve-accent-color);
 }
 
 /* ─── Canvas ─── */
@@ -272,15 +284,6 @@
   border-color: #f68720;
 }
 
-/* ─── Editable Blocks ─── */
-.ve-b-edit {
-  outline: none;
-}
-.ve-b-edit:focus {
-  box-shadow: inset 0 0 0 2px rgba(246,135,32,.35);
-  border-radius: 8px;
-}
-
 /* ─── Image Panel ─── */
 .ve-img-panel {
   display: none;
@@ -318,6 +321,10 @@
   transition: border-color .15s;
 }
 .ve-img-btn:hover { border-color: #f68720; }
+
+.ve-ctl-label { font-size: .72rem; color: #aaa; display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
+.ve-ctl-label b { color: #f68720; font-size: .8rem; }
+.ve-img-panel input[type="range"] { accent-color: #f68720; padding: 0; border: none; background: transparent; flex: 1; }
 
 .ve-img-caption-wrap {
   display: none;
@@ -574,6 +581,15 @@
 .ve-meta-field .input {
   font-size: .85rem;
 }
+.ve-color-control { display: flex; align-items: center; gap: .65rem; }
+.ve-color-control input[type="color"] { width: 3rem; height: 2.35rem; padding: .2rem; border: 1px solid #2c2c2c; border-radius: 8px; background: #101010; cursor: pointer; }
+.ve-color-control span { color: #aaa; font: .75rem monospace; direction: ltr; }
+.ve-b-image.r-16-9 img { aspect-ratio: 16 / 9; object-fit: cover; }
+.ve-b-image.r-4-3 img { aspect-ratio: 4 / 3; object-fit: cover; }
+.ve-b-image.r-3-2 img { aspect-ratio: 3 / 2; object-fit: cover; }
+.ve-b-image.r-1-1 img { aspect-ratio: 1 / 1; object-fit: cover; }
+.ve-b-image.r-4-5 img { aspect-ratio: 4 / 5; object-fit: cover; }
+.ve-b-image.r-9-16 img { aspect-ratio: 9 / 16; object-fit: cover; }
 
 .ve-cover-prev {
   width: 100%;

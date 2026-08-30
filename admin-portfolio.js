@@ -26,38 +26,91 @@
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  function toArr(v) {
-    if (Array.isArray(v)) return v;
-    return String(v || '').split(/\n|\·|,/).map(function (s) { return s.trim(); }).filter(Boolean);
-  }
-
   function $(id) { return document.getElementById(id); }
   function db() { return firebase.firestore(); }
+
+  function normalizeRemoteImageUrl(url) {
+    if (!url || typeof url !== 'string') return '';
+    var value = url.trim();
+    if (!value) return '';
+
+    try {
+      var parsed = new URL(value);
+      if (parsed.hostname.includes('1drv.ms') || parsed.hostname.includes('onedrive.live.com')) {
+        if (!parsed.searchParams.has('download')) parsed.searchParams.set('download', '1');
+        return parsed.toString();
+      }
+      return value;
+    } catch (e) {
+      return value;
+    }
+  }
 
   /* ═══════════════════════════════════════════════════════
      SECTION 3: IMAGE COMPRESSION
      ═══════════════════════════════════════════════════════ */
 
   function compressImage(file, callback) {
+    if (!file || !file.type || !file.type.startsWith('image/')) {
+      callback('');
+      return;
+    }
+
+    var statusEl = $('ve-status');
+    if (statusEl) {
+      statusEl.textContent = 'جاري ضغط الصورة...';
+      statusEl.style.color = '#f59e0b';
+    }
+
     var reader = new FileReader();
     reader.onload = function (e) {
       var img = new Image();
       img.onload = function () {
-        var MAX = 1600;
+        var MAX = 1200;
+        var quality = 0.68;
         var scale = Math.min(1, MAX / Math.max(img.width, img.height));
         var canvas = document.createElement('canvas');
-        canvas.width = Math.round(img.width * scale);
-        canvas.height = Math.round(img.height * scale);
-        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        var ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
         canvas.toBlob(function (blob) {
           if (blob && window.firebase && firebase.storage) {
-            uploadBlobToStorage(blob, callback);
+            uploadBlobToStorage(blob, function (url) {
+              if (statusEl) {
+                statusEl.textContent = '✓ تم تجهيز الصورة';
+                statusEl.style.color = '#22c55e';
+              }
+              callback(url || '');
+            });
           } else {
-            callback(canvas.toDataURL('image/jpeg', 0.78));
+            var dataUrl = canvas.toDataURL('image/jpeg', quality);
+            if (statusEl) {
+              statusEl.textContent = '✓ تم تجهيز الصورة';
+              statusEl.style.color = '#22c55e';
+            }
+            callback(dataUrl || '');
           }
-        }, 'image/jpeg', 0.82);
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = function () {
+        if (statusEl) {
+          statusEl.textContent = '❌ فشل قراءة الصورة';
+          statusEl.style.color = '#ef4444';
+        }
+        callback('');
       };
       img.src = e.target.result;
+    };
+    reader.onerror = function () {
+      if (statusEl) {
+        statusEl.textContent = '❌ فشل فتح الملف';
+        statusEl.style.color = '#ef4444';
+      }
+      callback('');
     };
     reader.readAsDataURL(file);
   }
@@ -153,9 +206,6 @@
     }).join('');
   }
 
-  function quickTogglePublish(id) { pfTogglePublish(id); }
-  function deleteProjectDoc(id) { pfDeleteProject(id); }
-
   function pfTogglePublish(id) {
     var p = allProjects.find(function (x) { return x.id === id; });
     if (!p) return;
@@ -215,7 +265,6 @@
      SECTION 5: VISUAL EDITOR — Core
      ═══════════════════════════════════════════════════════ */
 
-  var veHeightOpts = { sm: 'قصيرة', md: 'عادية', lg: 'طويلة', full: 'ملء الشاشة' };
   var veColsOpts = { auto: 'تلقائي', two: 'عمودان', single: 'صورة كاملة' };
 
   function pfSeedBlocks(p) {
@@ -257,6 +306,9 @@
     $('ve-tag').value = d.tag || '';
     $('ve-tools').value = Array.isArray(d.tools) ? d.tools.join(' · ') : (d.tools || '');
     $('ve-order').value = d.order != null ? d.order : '';
+    $('ve-color').value = /^#[0-9a-f]{6}$/i.test(d.color || '') ? d.color : '#ef6b32';
+    $('ve-color-value').textContent = $('ve-color').value;
+    applyVeAccentColor($('ve-color').value);
     $('ve-published').checked = d.published !== false;
     $('ve-status').textContent = '';
     $('ve-meta-panel').classList.remove('ve-meta-open');
@@ -282,8 +334,9 @@
     var prev = $('ve-cover-prev');
     var img = $('ve-cover-prev-img');
     if (!prev || !img) return;
-    if (src) {
-      img.src = src;
+    var safeSrc = normalizeRemoteImageUrl(src || '');
+    if (safeSrc) {
+      img.src = safeSrc;
       prev.style.display = 'block';
     } else {
       img.src = '';
@@ -297,8 +350,9 @@
   }
 
   var veCoverLoaded = function (src) {
-    $('ve-cover-url').value = src;
-    renderCoverPreview(src);
+    var safeSrc = normalizeRemoteImageUrl(src || '');
+    $('ve-cover-url').value = safeSrc;
+    renderCoverPreview(safeSrc);
     veUnsaved = true;
   };
   $('ve-cover-url').addEventListener('input', function () { renderCoverPreview(this.value); veUnsaved = true; });
@@ -357,17 +411,21 @@
       ? '<img src="' + esc(b.src) + '" alt="" style="width:100%;height:auto;display:block">'
       : '<span class="ve-b-image-empty">اضغط لرفع صورة أو صق رابط</span>';
 
-    var heightOpts = Object.keys(veHeightOpts).map(function (k) {
-      return '<option value="' + k + '"' + (b.h === k ? ' selected' : '') + '>' + veHeightOpts[k] + '</option>';
-    }).join('');
+    var w = Math.max(30, Math.min(100, parseInt(b.w, 10) || 100));
 
-    return '<div class="ve-b-image" style="padding:' + (b.src ? 0 : '') + '">' + imgContent + '</div>' +
+    return '<div class="ve-b-image">' + imgContent + '</div>' +
       '<div class="ve-img-panel">' +
         '<input type="file" accept="image/*" id="ve-file-' + i + '" hidden onchange="pfUploadImg(' + i + ',this.files[0])">' +
         '<button class="ve-img-btn" onclick="document.getElementById(\'ve-file-' + i + '\').click()">📁 رفع من الجهاز</button>' +
         '<input type="text" value="' + esc(b.src) + '" placeholder="رابط مباشر https://..." ' +
           'style="flex:1;min-width:120px" oninput="pfOnImgSrc(' + i + ',this.value)">' +
-        '<select onchange="pfOnImgHeight(' + i + ',this.value)">' + heightOpts + '</select>' +
+        '<label class="ve-ctl-label">عرض الصورة <b id="ve-w-val-' + i + '">' + w + '%</b></label>' +
+        '<input type="range" min="30" max="100" step="5" value="' + w + '" oninput="pfOnImgWidth(' + i + ',this.value)" style="flex:1">' +
+        '<select onchange="pfOnImgFit(' + i + ',this.value)">' +
+          '<option value="full"' + (b.fit === 'full' ? ' selected' : '') + '>حافة إلى حافة (ملء عرض الصفحة)</option>' +
+          '<option value="contain"' + (b.fit !== 'cover' && b.fit !== 'full' ? ' selected' : '') + '>الأبعاد كاملة (بلا قص)</option>' +
+          '<option value="cover"' + (b.fit === 'cover' ? ' selected' : '') + '>ملء الإطار (يقص لنسبة ثابتة)</option>' +
+        '</select>' +
         '<div class="ve-img-align-btns">' +
           '<button class="ve-img-albtn' + ((b.align||'center')==='right'?' active':'') + '" onclick="pfOnImgAlign(' + i + ',\'right\')" title="يمين">◀</button>' +
           '<button class="ve-img-albtn' + ((b.align||'center')==='center'?' active':'') + '" onclick="pfOnImgAlign(' + i + ',\'center\')" title="وسط">▬</button>' +
@@ -394,7 +452,7 @@
       '<div style="display:flex;flex-wrap:wrap;gap:.4rem;align-items:center">' +
         '<input type="file" accept="image/*" multiple id="ve-gal-' + i + '" hidden onchange="pfUploadGallery(' + i + ',this.files)">' +
         '<button class="ve-img-btn" onclick="document.getElementById(\'ve-gal-' + i + '\').click()">📁 رفع صور</button>' +
-        '<button class="ve-img-btn" onclick="pfAddGalleryLink(' + i + ')">🔗 رابط</button>' +
+        '<button class="ve-img-btn" onclick="event.stopPropagation();pfAddGalleryLink(' + i + ')">🔗 رابط</button>' +
         '<select onchange="pfOnGalleryCols(' + i + ',this.value)" style="border-radius:8px;background:#101010;color:#ddd;border:1px solid #2e2e2e;padding:.35rem .5rem;font-size:.72rem">' + colOpts + '</select>' +
       '</div></div>';
   }
@@ -406,6 +464,7 @@
     var imgB = b.b
       ? '<img src="' + esc(b.b) + '" alt="" class="ve-ba-img">'
       : '<div class="ve-ba-placeholder">صورة بعد</div>';
+    var w = Math.max(30, Math.min(100, parseInt(b.w, 10) || 100));
 
     return '<div class="ve-b-ba">' +
       '<div class="ve-ba-grid">' +
@@ -417,6 +476,13 @@
         '<input type="file" accept="image/*" id="ve-ba-b-' + i + '" hidden onchange="pfUploadImgBA(' + i + ',\'b\',this.files[0])">' +
         '<button class="ve-img-btn" onclick="document.getElementById(\'ve-ba-a-' + i + '\').click()">📁 رفع "قبل"</button>' +
         '<button class="ve-img-btn" onclick="document.getElementById(\'ve-ba-b-' + i + '\').click()">📁 رفع "بعد"</button>' +
+        '<label class="ve-ctl-label">عرض المقارنة <b id="ve-ba-w-val-' + i + '">' + w + '%</b></label>' +
+        '<input type="range" min="30" max="100" step="5" value="' + w + '" oninput="pfOnBAWidth(' + i + ',this.value)" style="flex:1">' +
+        '<select onchange="pfOnBAFit(' + i + ',this.value)">' +
+          '<option value="full"' + (b.fit === 'full' ? ' selected' : '') + '>حافة إلى حافة (ملء عرض الصفحة)</option>' +
+          '<option value="contain"' + (b.fit !== 'cover' && b.fit !== 'full' ? ' selected' : '') + '>الأبعاد كاملة (بلا قص)</option>' +
+          '<option value="cover"' + (b.fit === 'cover' ? ' selected' : '') + '>ملء الإطار (يقص لنسبة ثابتة)</option>' +
+        '</select>' +
       '</div>' +
       '<div class="ve-ba-links">' +
         '<input type="text" value="' + esc(b.a) + '" placeholder="رابط صورة قبل https://..." oninput="pfOnBAInput(' + i + ',\'a\',this.value)">' +
@@ -574,6 +640,7 @@
     });
 
     if (veSelIdx >= 0 && veSelIdx < veBlocks.length) {
+      canvas.querySelectorAll('.ve-block').forEach(function (b, idx) { b.classList.toggle('ve-sel', idx === veSelIdx); });
       var b2 = veBlocks[veSelIdx];
       if (b2.t === 'title' || b2.t === 'lede' || b2.t === 'para') {
         var ed = document.getElementById('ve-ed-' + veSelIdx);
@@ -702,9 +769,9 @@
       title:   { t: 'title', x: '', align: 'center', size: 'md', weight: 'bold' },
       lede:    { t: 'lede', x: '', align: 'center', size: 'md', weight: 'normal' },
       para:    { t: 'para', x: '', align: 'center', size: 'md', weight: 'normal' },
-      image:   { t: 'image', src: '', h: 'md', caption: '', align: 'center' },
-      gallery: { t: 'gallery', imgs: [], cols: 'auto' },
-      ba:      { t: 'ba', a: '', b: '' }
+      image:   { t: 'image', src: '', w: 100, fit: 'contain', caption: '', align: 'center' },
+      gallery: { t: 'gallery', imgs: [], cols: 'auto', frame: false },
+      ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' }
     };
     var def = Object.assign({}, defaults[type]);
     if (!def) return;
@@ -768,13 +835,38 @@
      SECTION 9: VISUAL EDITOR — Inline Input Handlers
      ═══════════════════════════════════════════════════════ */
 
-  function pfOnBlockInput(i, text) { veBlocks[i].x = text; veUnsaved = true; }
+  function applyVeAccentColor(value) {
+    if (!value || !/^#[0-9a-f]{6}$/i.test(value)) return;
+    document.documentElement.style.setProperty('--ve-accent-color', value);
+    var topbar = $('ve-topbar');
+    if (topbar) topbar.style.borderBottomColor = value;
+  }
+
+  function pfOnColorInput(value) {
+    if (!/^#[0-9a-f]{6}$/i.test(value)) return;
+    if ($('ve-color')) $('ve-color').value = value;
+    $('ve-color-value').textContent = value;
+    applyVeAccentColor(value);
+    veUnsaved = true;
+  }
   function pfOnImgSrc(i, val) { veBlocks[i].src = val; pfRender(); }
-  function pfOnImgHeight(i, val) { veBlocks[i].h = val; pfRender(); }
-  function pfOnImgCaption(i, val) { veBlocks[i].caption = val; veUnsaved = true; }
+  function pfOnImgWidth(i, val) {
+    veBlocks[i].w = parseInt(val, 10) || 100;
+    var lbl = document.getElementById('ve-w-val-' + i);
+    if (lbl) lbl.textContent = veBlocks[i].w + '%';
+    veUnsaved = true;
+  }
+  function pfOnImgFit(i, val) { veBlocks[i].fit = val; veUnsaved = true; pfRender(); }
   function pfOnImgAlign(i, val) { veBlocks[i].align = val; veUnsaved = true; pfRender(); }
   function pfOnGalleryCols(i, val) { veBlocks[i].cols = val; pfRender(); }
   function pfOnBAInput(i, side, val) { veBlocks[i][side] = val; pfRender(); }
+  function pfOnBAWidth(i, val) {
+    veBlocks[i].w = parseInt(val, 10) || 100;
+    var lbl = document.getElementById('ve-ba-w-val-' + i);
+    if (lbl) lbl.textContent = veBlocks[i].w + '%';
+    veUnsaved = true;
+  }
+  function pfOnBAFit(i, val) { veBlocks[i].fit = val; veUnsaved = true; pfRender(); }
 
   function pfAddGalleryLink(i) {
     var url = prompt('صق رابط الصورة:');
@@ -830,12 +922,13 @@
       year: $('ve-year').value.trim(),
       tag: $('ve-tag').value.trim(),
       tools: $('ve-tools').value.split('·').map(function (s) { return s.trim(); }).filter(Boolean),
+      color: $('ve-color').value,
       order: parseInt($('ve-order').value) || 0,
       blocks: blocks,
-      coverImage: ($('ve-cover-url').value.trim()) || (coverBlock && coverBlock.src) || (veProject && veProject.coverImage) || '',
-      beforeImage: baBlock ? baBlock.a : '',
-      afterImage: baBlock ? baBlock.b : '',
-      galleryImages: galBlock ? galBlock.imgs.filter(Boolean) : allImgs,
+      coverImage: normalizeRemoteImageUrl(($('ve-cover-url').value.trim()) || (coverBlock && coverBlock.src) || (veProject && veProject.coverImage) || ''),
+      beforeImage: normalizeRemoteImageUrl(baBlock ? baBlock.a : ''),
+      afterImage: normalizeRemoteImageUrl(baBlock ? baBlock.b : ''),
+      galleryImages: (galBlock ? galBlock.imgs.filter(Boolean) : allImgs).map(function (u) { return normalizeRemoteImageUrl(u); }).filter(Boolean),
       published: publish ? true : $('ve-published').checked,
       format: (veProject && veProject.format) || {}
     };
@@ -865,30 +958,9 @@
     if (veProject && veProject.id) {
       db().collection('projects').doc(veProject.id).get().then(function (snap) {
         var existing = snap.data() || {};
-        var cleanUpdate = {};
-        ['coverImage', 'beforeImage', 'afterImage'].forEach(function (k) {
-          if (typeof existing[k] === 'string' && existing[k].startsWith('data:')) cleanUpdate[k] = '';
-        });
-        if (Array.isArray(existing.galleryImages)) {
-          var clean = existing.galleryImages.filter(function (u) { return typeof u === 'string' && !u.startsWith('data:'); });
-          if (clean.length !== existing.galleryImages.length) cleanUpdate.galleryImages = clean;
-        }
-        if (Array.isArray(existing.blocks)) {
-          cleanUpdate.blocks = existing.blocks.map(function (b) {
-            var nb = Object.assign({}, b);
-            if (nb.src && nb.src.startsWith('data:')) nb.src = '';
-            if (nb.a && nb.a.startsWith('data:')) nb.a = '';
-            if (nb.b && nb.b.startsWith('data:')) nb.b = '';
-            if (Array.isArray(nb.imgs)) nb.imgs = nb.imgs.filter(function (u) { return !u.startsWith('data:'); });
-            return nb;
-          });
-        }
-        if (Object.keys(cleanUpdate).length) {
-          return db().collection('projects').doc(veProject.id).update(cleanUpdate)
-            .then(function () { return db().collection('projects').doc(veProject.id).set(data, { merge: true }); })
-            .then(done).catch(fail);
-        }
-        return db().collection('projects').doc(veProject.id).set(data, { merge: true }).then(done).catch(fail);
+        if (existing.createdAt) data.createdAt = existing.createdAt;
+        return db().collection('projects').doc(veProject.id).set(data)
+          .then(done).catch(fail);
       }).catch(fail);
     } else {
       data.createdAt = new Date().toISOString();
@@ -939,36 +1011,26 @@
   window.pfRemoveBlock = pfRemoveBlock;
   window.pfMoveBlock = pfMoveBlock;
   window.pfOnImgSrc = pfOnImgSrc;
-  window.pfOnImgHeight = pfOnImgHeight;
-  window.pfOnImgCaption = pfOnImgCaption;
+  window.pfOnImgWidth = pfOnImgWidth;
+  window.pfOnImgFit = pfOnImgFit;
   window.pfOnImgAlign = pfOnImgAlign;
   window.pfOnGalleryCols = pfOnGalleryCols;
   window.pfOnBAInput = pfOnBAInput;
+  window.pfOnBAWidth = pfOnBAWidth;
+  window.pfOnBAFit = pfOnBAFit;
   window.pfAddGalleryLink = pfAddGalleryLink;
   window.pfRemoveGalleryImg = pfRemoveGalleryImg;
   window.pfUploadImg = pfUploadImg;
   window.pfUploadGallery = pfUploadGallery;
   window.pfUploadImgBA = pfUploadImgBA;
-  window.pfOnBlockInput = pfOnBlockInput;
-  window.pfOnImgSrc = pfOnImgSrc;
-  window.pfOnImgHeight = pfOnImgHeight;
-  window.pfOnImgCaption = pfOnImgCaption;
-  window.pfOnImgAlign = pfOnImgAlign;
-  window.pfOnGalleryCols = pfOnGalleryCols;
-  window.pfOnBAInput = pfOnBAInput;
-  window.pfAddGalleryLink = pfAddGalleryLink;
-  window.pfRemoveGalleryImg = pfRemoveGalleryImg;
-  window.pfUploadImg = pfUploadImg;
-  window.pfUploadGallery = pfUploadGallery;
-  window.pfUploadImgBA = pfUploadImgBA;
+  window.pfOnColorInput = pfOnColorInput;
+  window.pfClearCover = pfClearCover;
   window.veExecCmd = veExecCmd;
   window.veExecBlockType = veExecBlockType;
   window.veExecFontSize = veExecFontSize;
   window.veExecFontName = veExecFontName;
   window.veExecLink = veExecLink;
   window.loadProjects = loadProjects;
-  window.quickTogglePublish = quickTogglePublish;
-  window.deleteProjectDoc = deleteProjectDoc;
   window.cleanAllProjects = cleanAllProjects;
 
   $('ve-title-input').addEventListener('input', function () { veUnsaved = true; });

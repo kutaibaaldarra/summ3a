@@ -88,9 +88,6 @@
         .filter-btn:hover { border-color: rgba(246,135,32,0.3); color: #f68720; }
         .filter-btn.active { background: rgba(246,135,32,0.1); border-color: #f68720; color: #f68720; }
 
-        .bar { height: 0.6rem; border-radius: 999px; background: rgba(255,255,255,0.04); overflow: hidden; }
-        .bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #f68720, #ff9e47); transition: width 0.6s ease; }
-
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 1rem; }
         .modal-overlay.open { display: flex; }
         .modal { background: linear-gradient(145deg, #141414, #0a0a0a); border: 1px solid rgba(246,135,32,0.1); border-radius: 2rem; padding: 2rem; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
@@ -111,7 +108,6 @@
             .card { padding: 1rem; }
             .stat { padding: 1rem; }
             .stat-value { font-size: 1.5rem; }
-            .hide-mobile { display: none; }
             th, td { padding: 0.6rem 0.5rem; font-size: 0.8rem; }
             .modal { padding: 1.5rem; }
             .filter-btn { font-size: 0.7rem; padding: 0.3rem 0.7rem; }
@@ -181,7 +177,7 @@
     <div id="view-clients">
 
     <!-- Stats -->
-    <div class="grid-5 fade-in" style="margin-bottom:1.5rem;display:grid;grid-template-columns:repeat(5,1fr);gap:1rem" id="stats-row">
+    <div class="grid-5 fade-in" style="margin-bottom:1.5rem" id="stats-row">
         <div class="stat"><div class="stat-icon orange"><span data-ic="users" data-size="22"></span></div><div class="stat-value" id="s-total">0</div><div class="stat-label">إجمالي العملاء</div></div>
         <div class="stat"><div class="stat-icon blue"><span data-ic="calendar" data-size="22"></span></div><div class="stat-value" id="s-week">0</div><div class="stat-label">عملاء هذا الأسبوع</div></div>
         <div class="stat"><div class="stat-icon purple"><span data-ic="star" data-size="22"></span></div><div class="stat-value" id="s-interested">0</div><div class="stat-label">مهتم بالباقات</div></div>
@@ -308,7 +304,7 @@
         </div>
 
         <div class="card fade-in" style="margin-bottom:1.5rem">
-            <div class="card-title" style="display:flex;align-items:center;gap:.5rem"><span data-ic="trending" data-size="16"></span> العملاء والطلبات <span id="range-chart-sub" style="color:#888;font-size:.8rem;font-weight:600"></span></div>
+            <div class="card-title" style="display:flex;align-items:center;gap:.5rem"><span data-ic="trending" data-size="16"></span> العملاء والطلبات</div>
             <div id="range-chart" class="bars"></div>
             <div class="legend">
                 <span><i class="k1"></i> العملاء</span>
@@ -413,6 +409,9 @@
                 <div class="ve-meta-field"><label>المجال</label><input id="ve-field" class="input" placeholder="هوية علامة تجارية"></div>
                 <div class="ve-meta-field"><label>الخدمات (·)</label><input id="ve-services" class="input" placeholder="استراتيجية · هوية · عالم بصري"></div>
                 <div class="ve-meta-field"><label>الأدوات المستخدمة (·)</label><input id="ve-tools" class="input" placeholder="Figma · Photoshop · After Effects"></div>
+                <div class="ve-meta-field"><label for="ve-color">لون خلفية العرض</label>
+                    <div class="ve-color-control"><input id="ve-color" type="color" value="#ef6b32" oninput="pfOnColorInput(this.value)" onchange="pfOnColorInput(this.value)" aria-label="اختيار لون خلفية العرض"><span id="ve-color-value">#ef6b32</span></div>
+                </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
                     <div class="ve-meta-field"><label>السنة</label><input id="ve-year" class="input" placeholder="٢٠٢٥"></div>
                     <div class="ve-meta-field"><label>ترتيب العرض</label><input id="ve-order" type="number" class="input" placeholder="1"></div>

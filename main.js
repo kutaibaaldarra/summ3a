@@ -321,7 +321,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (assistantCard && assistantChat) {
         assistantCard.addEventListener('click', openAssistantChat);
-        window.setTimeout(openAssistantChat, 450);
+        window.setTimeout(() => {
+            if (!assistantCard.getAttribute('aria-expanded') || assistantCard.getAttribute('aria-expanded') === 'false') {
+                openAssistantChat();
+            }
+        }, 450);
     }
 
     if (assistantAudio && assistantWaveBars.length) {
@@ -975,9 +979,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // ── Hero parallax — desktop / non-touch only ──
         if (!isTouch) {
             const parallax = (sel, y, scrub) => gsap.to(sel, { y, ease: 'none', scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub } });
-            parallax('.absolute-left', -30, 1);
-            parallax('.absolute-right', -20, 1);
-            parallax('.become-pro', -15, 1.5);
+            parallax('.absolute-left', 0, 1);
+            parallax('.absolute-right', 0, 1);
+            parallax('.become-pro', 0, 1.5);
         }
 
         // ── Generic (results page) ──

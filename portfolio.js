@@ -3,37 +3,78 @@
   const cursor = document.querySelector('.cursor');
   const canvas = document.getElementById('field');
   const context = canvas?.getContext('2d');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+    (navigator.deviceMemory && navigator.deviceMemory <= 4);
+
+  let fieldFrameId = null;
+  let fieldRunning = false;
+
+  const stopFieldAnimation = () => {
+    if (fieldFrameId) {
+      cancelAnimationFrame(fieldFrameId);
+      fieldFrameId = null;
+    }
+    fieldRunning = false;
+  };
+
+  const startFieldAnimation = () => {
+    if (!canvas || !context) return;
+    if (fieldRunning) return;
+    if (reducedMotion) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth < 768) return;
+
+    fieldRunning = true;
+
+    const drawField = (time = 0) => {
+      if (!context || document.hidden) {
+        stopFieldAnimation();
+        return;
+      }
+
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      context.clearRect(0, 0, width, height);
+      context.strokeStyle = 'rgba(18, 17, 15, .065)';
+      context.lineWidth = 1;
+      const step = 56;
+      const offset = (time * 0.008) % step;
+      for (let x = -step + offset; x < width + step; x += step) {
+        context.beginPath(); context.moveTo(x, 0); context.lineTo(x - height * .2, height); context.stroke();
+      }
+      for (let y = -step; y < height + step; y += step) {
+        context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke();
+      }
+      fieldFrameId = requestAnimationFrame(drawField);
+    };
+
+    fieldFrameId = requestAnimationFrame(drawField);
+  };
 
   const resizeField = () => {
     if (!canvas || !context) return;
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = window.innerWidth * ratio;
     canvas.height = window.innerHeight * ratio;
     canvas.style.width = `${window.innerWidth}px`;
     canvas.style.height = `${window.innerHeight}px`;
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
-  };
 
-  const drawField = (time = 0) => {
-    if (!context) return;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    context.clearRect(0, 0, width, height);
-    context.strokeStyle = 'rgba(18, 17, 15, .065)';
-    context.lineWidth = 1;
-    const step = 56;
-    const offset = (time * 0.008) % step;
-    for (let x = -step + offset; x < width + step; x += step) {
-      context.beginPath(); context.moveTo(x, 0); context.lineTo(x - height * .2, height); context.stroke();
+    if (window.innerWidth < 768) {
+      stopFieldAnimation();
+    } else {
+      startFieldAnimation();
     }
-    for (let y = -step; y < height + step; y += step) {
-      context.beginPath(); context.moveTo(0, y); context.lineTo(width, y); context.stroke();
-    }
-    requestAnimationFrame(drawField);
   };
 
   resizeField();
-  drawField();
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopFieldAnimation();
+    else startFieldAnimation();
+  });
+  window.addEventListener('focus', startFieldAnimation);
+  window.addEventListener('blur', stopFieldAnimation);
   window.addEventListener('resize', resizeField);
 
   if (cursor && window.matchMedia('(pointer: fine)').matches) {
@@ -84,7 +125,37 @@
   ];
 
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-  const toArr = (v) => Array.isArray(v) ? v : String(v || '').split(/\n|\·|,/).map((s) => s.trim()).filter(Boolean);
+  const toArr = (v) => Array.isArray(v) ? v : String(v || '').split(/[\n\u00B7,]/).map((s) => s.trim()).filter(Boolean);
+  const placeholderSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect width='800' height='600' fill='%23171717'/%3E%3Ccircle cx='400' cy='300' r='120' fill='%23f68720' opacity='0.22'/%3E%3C/svg%3E";
+
+  function optimizeImageUrl(url) {
+    if (!url || typeof url !== 'string') return '';
+    const value = url.trim();
+    if (!value) return '';
+
+    try {
+      const parsed = new URL(value);
+
+      if (parsed.hostname.includes('1drv.ms') || parsed.hostname.includes('onedrive.live.com')) {
+        if (!parsed.searchParams.has('download')) {
+          parsed.searchParams.set('download', '1');
+        }
+        return parsed.toString();
+      }
+
+      if (parsed.hostname.includes('images.unsplash.com')) {
+        parsed.searchParams.set('auto', 'format');
+        parsed.searchParams.set('fit', 'crop');
+        parsed.searchParams.set('q', '80');
+        parsed.searchParams.set('w', '900');
+        if (!parsed.searchParams.has('h')) parsed.searchParams.set('h', '900');
+        return parsed.toString();
+      }
+      return value;
+    } catch (error) {
+      return value;
+    }
+  }
 
   function mapDoc(id, d) {
     return {
@@ -96,11 +167,11 @@
       field: d.field || CATEGORY_LABELS[d.category] || 'مشروع إبداعي',
       services: toArr(d.services),
       year: d.year || '',
-      cover: d.coverImage || d.cover || '',
+      cover: optimizeImageUrl(d.coverImage || d.cover || ''),
       description: d.description || '',
-      beforeImage: d.beforeImage || '',
-      afterImage: d.afterImage || '',
-      gallery: toArr(d.galleryImages || d.gallery),
+      beforeImage: optimizeImageUrl(d.beforeImage || ''),
+      afterImage: optimizeImageUrl(d.afterImage || ''),
+      gallery: toArr(d.galleryImages || d.gallery).map(optimizeImageUrl),
       tools: toArr(d.tools),
       color: d.color || '',
       format: d.format || {},
@@ -113,9 +184,10 @@
   const workGrid = document.querySelector('.work-grid');
 
   function cardHTML(p) {
-    return `<article class="work-card reveal is-dynamic" data-category="${esc(p.category)}" tabindex="0" role="button" aria-label="${esc(p.title)}">
+    const coverUrl = optimizeImageUrl(p.cover || '');
+    return `<article class="work-card reveal is-dynamic" data-category="${esc(p.category)}" data-color="${esc(p.color || '')}" tabindex="0" role="button" aria-label="${esc(p.title)}">
       <div class="work-image">
-        <img src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy">
+        <img class="lazy-img" src="${esc(placeholderSvg)}" data-src="${esc(coverUrl)}" alt="${esc(p.title)}" loading="lazy" decoding="async" fetchpriority="low">
         <span class="work-tag">${esc(p.tag || ((CATEGORY_LABELS[p.category] || '') + (p.year ? ' / ' + p.year : '')))}</span>
         <span class="work-arrow"><i data-lucide="arrow-up-right"></i></span>
       </div>
@@ -127,6 +199,37 @@
     if (window.gsap && window.ScrollTrigger) {
       gsap.to(el, { scrollTrigger: { trigger: el, start: 'top 88%' }, y: 0, opacity: 1, duration: .9, ease: 'power3.out' });
     } else { el.style.opacity = '1'; el.style.transform = 'none'; }
+  }
+
+  function loadLazyImages(root = document) {
+    const images = root.querySelectorAll('img[data-src]');
+    if (!images.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      images.forEach((img) => {
+        const src = img.dataset.src;
+        if (!src) return;
+        img.src = src;
+        img.removeAttribute('data-src');
+        img.classList.add('is-loaded');
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const img = entry.target;
+        const src = img.dataset.src;
+        if (!src) return;
+        img.src = src;
+        img.removeAttribute('data-src');
+        img.classList.add('is-loaded');
+        obs.unobserve(img);
+      });
+    }, { rootMargin: '200px 0px' });
+
+    images.forEach((img) => observer.observe(img));
   }
 
   async function loadProjects() {
@@ -148,6 +251,7 @@
       cards.forEach((card, i) => { card._project = list[i]; });
       window.lucide?.createIcons();
       workGrid.querySelectorAll('.work-card').forEach(revealEl);
+      loadLazyImages(workGrid);
       if (window.ScrollTrigger) ScrollTrigger.refresh();
     } catch (err) {
       console.warn('تعذّر تحميل الأعمال من الخادم، سيتم عرض الأعمال الافتراضية.', err);
@@ -158,7 +262,7 @@
   function resolveProject(card) {
     if (card._project) return card._project;
     const title = card.dataset.project || card.querySelector('strong')?.textContent.trim();
-    card._project = FALLBACK_PROJECTS.find((p) => p.title === title) || {
+    const fallback = FALLBACK_PROJECTS.find((p) => p.title === title) || {
       title: title || 'عمل مختار',
       subtitle: card.querySelector('.work-meta span')?.textContent.trim() || '',
       category: card.dataset.category || 'digital',
@@ -167,6 +271,12 @@
       description: 'تجربة رقمية مدروسة بُنيت بعناية وقصد.',
       services: ['استراتيجية', 'تصميم', 'تقنية'],
       gallery: []
+    };
+
+    card._project = {
+      ...fallback,
+      cover: optimizeImageUrl(fallback.cover || ''),
+      gallery: Array.isArray(fallback.gallery) ? fallback.gallery.map(optimizeImageUrl) : []
     };
     return card._project;
   }
@@ -188,6 +298,10 @@
   const caseContent = document.getElementById('case-content');
   const modalImage = document.getElementById('modal-image');
   const modalNumber = document.getElementById('modal-number');
+  const modalHeroTitle = document.getElementById('modal-hero-title');
+  const modalHeroSubtitle = document.getElementById('modal-hero-subtitle');
+  const modalHeroField = document.getElementById('modal-hero-field');
+  const modalHeroYear = document.getElementById('modal-hero-year');
   let currentIndex = -1;
 
   const hMap = { sm:'ch-sm',md:'ch-md',lg:'ch-lg',full:'ch-full' };
@@ -221,13 +335,24 @@
         const dir = b.dir ? 'direction:'+b.dir+';' : '';
         return '<p class="block-para" style="text-align:'+b.align+';font-size:'+fs+';font-weight:'+fw+';'+dir+'">'+b.x+'</p>';
       }
-      if (b.t==='image' && b.src) return '<div class="block-image ch-'+(b.h||'md')+'"><img src="'+esc(b.src)+'" alt="" loading="lazy">'+(b.caption?'<p class="block-caption" style="text-align:'+(b.align||'center')+'">'+esc(b.caption)+'</p>':'')+'</div>';
+      if (b.t==='image' && b.src) {
+        const w = Math.max(30, Math.min(100, parseInt(b.w,10)||100));
+        const caption = b.caption ? '<p class="block-caption" style="text-align:'+(b.align||'center')+'">'+esc(b.caption)+'</p>' : '';
+        if (b.fit === 'full') {
+          return '<div class="block-image block-image-full"><img class="lazy-img" style="width:100%;height:auto" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></div>'+caption;
+        }
+        if (b.fit === 'cover') {
+          const r = (typeof b.r === 'string' && b.r.indexOf('-') > 0) ? b.r : '4-3';
+          return '<div class="block-image block-image-cover r-'+r+'" style="max-width:'+w+'%;margin-left:auto;margin-right:auto"><img class="lazy-img" style="width:100%;height:100%" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async">'+caption+'</div>';
+        }
+        return '<div class="block-image block-image-contain" style="max-width:'+w+'%;margin-left:auto;margin-right:auto"><img class="lazy-img" style="width:100%;height:auto" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async">'+caption+'</div>';
+      }
       if (b.t==='gallery' && b.imgs?.length) {
         const gc = gcMap[b.cols]||'';
         const many = b.imgs.length>2&&!gc?' is-many':'';
-        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g=>'<img src="'+esc(g)+'" alt="" loading="lazy">').join('')+'</div>';
+        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g=>'<img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(g))+'" alt="" loading="lazy" decoding="async">').join('')+'</div>';
       }
-      if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before" src="'+esc(b.a)+'" alt="قبل" loading="lazy"><img class="ba-after" src="'+esc(b.b)+'" alt="بعد" loading="lazy"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
+      if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.a))+'" alt="قبل" loading="lazy" decoding="async"><img class="ba-after lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.b))+'" alt="بعد" loading="lazy" decoding="async"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
       return '';
     }
 
@@ -237,7 +362,9 @@
     if (!sections.length) { sections.push('<h2 class="block-title">'+esc(p.title)+'</h2>'); if (p.subtitle) sections.push('<p class="block-lede">'+esc(p.subtitle)+'</p>'); }
     panel.insertBefore(caseContent, hero);
     caseContent.innerHTML = sections.join('') + '<a href="#contact" class="cta-link case-cta">اطلب مشروعًا مشابهًا <span>↗</span></a>';
+    requestAnimationFrame(() => loadLazyImages(caseContent));
     caseContent.querySelector('.case-cta')?.addEventListener('click', (e) => { e.preventDefault(); closeProject(); document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}); });
+    initBaSliders(caseContent);
   }
   function buildCase(p) {
     if (Array.isArray(p.blocks) && p.blocks.length) return renderBlocksCase(p);
@@ -266,7 +393,7 @@
       : '';
     const gal = (p.gallery.length && f.showGallery !== false)
       ? `<div class="case-section-title"><span>من داخل المشروع</span><small class="mono">تفاصيل مختارة</small></div>
-         <div class="case-gallery${gc}${p.gallery.length > 2 && !gc ? ' is-many' : ''}">${p.gallery.map((g) => `<img src="${esc(g)}" alt="" loading="lazy">`).join('')}</div>`
+         <div class="case-gallery${gc}${p.gallery.length > 2 && !gc ? ' is-many' : ''}">${p.gallery.map((g) => `<img class="lazy-img" src="${esc(placeholderSvg)}" data-src="${esc(optimizeImageUrl(g))}" alt="" loading="lazy" decoding="async">`).join('')}</div>`
       : '';
     caseContent.innerHTML = `
       <h2 id="modal-title" class="${(ts + tw).trim()}"${align(ta)}>${esc(p.title)}</h2>
@@ -281,6 +408,7 @@
       ${(p.tools && p.tools.length) ? `<div class="case-tools"><span class="mono">الأدوات المستخدمة</span><div class="case-chip-row">${p.tools.map((t) => `<span class="case-chip">${esc(t)}</span>`).join('')}</div></div>` : ''}
       ${ba}${gal}
       ${f.showCta === false ? '' : `<a href="#contact" class="cta-link case-cta">اطلب مشروعًا مشابهًا <span>↗</span></a>`}`;
+    requestAnimationFrame(() => loadLazyImages(caseContent));
     caseContent.querySelector('.case-cta')?.addEventListener('click', (e) => {
       e.preventDefault(); closeProject();
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -294,11 +422,18 @@
     currentIndex = cards.indexOf(card);
     modalImage.src = p.cover || card.querySelector('img')?.src || '';
     modalImage.alt = p.title;
+    modalHeroTitle.textContent = p.title || '';
+    modalHeroSubtitle.textContent = p.subtitle || '';
+    modalHeroField.textContent = p.field || CATEGORY_LABELS[p.category] || '';
+    modalHeroYear.textContent = p.year || '';
     modalNumber.textContent = p.number || AR_NUM[currentIndex] || '٠١';
     buildCase(p);
-    root.style.setProperty('--orange', card.dataset.color || '#ef6b32');
+    const projectColor = /^#[0-9a-f]{6}$/i.test(card.dataset.color || '') ? card.dataset.color : '#ef6b32';
+    root.style.setProperty('--orange', projectColor);
+    root.style.setProperty('--project-bg', projectColor);
     modal.classList.add('is-open');
     if (!modal.open) modal.showModal();
+    requestAnimationFrame(() => loadLazyImages(caseContent));
     document.body.classList.add('menu-open');
     modal.querySelector('.modal-close')?.focus();
     modal.querySelector('.modal-panel')?.scrollTo(0, 0);
@@ -354,14 +489,15 @@
   }, { passive: true });
 
   const revealElements = document.querySelectorAll('.reveal');
-  if (window.gsap && window.ScrollTrigger) {
+  if (reducedMotion || !window.gsap || !window.ScrollTrigger) {
+    revealElements.forEach((element) => { element.style.opacity = '1'; element.style.transform = 'none'; });
+  } else {
     gsap.registerPlugin(ScrollTrigger);
     gsap.from('.hero-title span', { y: 90, opacity: 0, stagger: .1, duration: 1.25, ease: 'power4.out' });
     gsap.from('.hero-top > *, .hero-bottom > *', { y: 20, opacity: 0, stagger: .12, duration: .8, delay: .35, ease: 'power2.out' });
     revealElements.forEach((element) => gsap.to(element, { scrollTrigger: { trigger: element, start: 'top 84%' }, y: 0, opacity: 1, duration: .9, ease: 'power3.out' }));
-  } else {
-    revealElements.forEach((element) => { element.style.opacity = '1'; element.style.transform = 'none'; });
   }
 
+  loadLazyImages(document);
   loadProjects();
 })();
