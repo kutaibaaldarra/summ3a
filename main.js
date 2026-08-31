@@ -321,6 +321,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (assistantCard && assistantChat) {
         assistantCard.addEventListener('click', openAssistantChat);
+        window.setTimeout(() => {
+            if (!assistantCard.getAttribute('aria-expanded') || assistantCard.getAttribute('aria-expanded') === 'false') {
+                openAssistantChat();
+            }
+        }, 450);
     }
 
     if (assistantAudio && assistantWaveBars.length) {
