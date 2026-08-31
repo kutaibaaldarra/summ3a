@@ -657,7 +657,7 @@
 
     .assistant-card[aria-expanded="true"] {
         position: absolute;
-        top: 2rem;
+        top: 1rem;
         left: 0.75rem;
         right: 0.75rem;
         width: auto;
