@@ -36,81 +36,6 @@
 
         /* ── Mobile (≤768px) ── */
         @media (max-width: 768px) {
-            body { padding-top: 80px !important; }
-
-            header {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                z-index: 99999 !important;
-                background: #000 !important;
-                border-bottom: 2px solid #f68720 !important;
-                height: 56px !important;
-                display: flex !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                padding: 0 0.75rem !important;
-                width: 100% !important;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
-            }
-
-            header img {
-                width: 36px !important;
-                height: 36px !important;
-                display: block !important;
-                border: 2px solid #f68720 !important;
-                border-radius: 8px !important;
-            }
-
-            header nav { display: none !important; }
-
-            #mobile-menu-btn {
-                display: flex !important;
-                padding: 0.5rem !important;
-                background: #f68720 !important;
-                border-radius: 8px !important;
-            }
-
-            #mobile-menu-btn div {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 4px !important;
-            }
-
-            #menu-line-1, #menu-line-2 {
-                width: 24px !important;
-                height: 3px !important;
-                background: #000 !important;
-                display: block !important;
-            }
-
-            #mobile-menu {
-                position: fixed !important;
-                top: 80px !important;
-                left: 0 !important;
-                right: 0 !important;
-                background: #000 !important;
-                border-bottom: 2px solid #f68720 !important;
-                z-index: 9998 !important;
-                padding: 1rem !important;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
-            }
-
-            #mobile-menu.hidden { display: none !important; }
-            #mobile-menu:not(.hidden) { display: block !important; }
-
-            #mobile-menu a {
-                display: block !important;
-                padding: 1rem !important;
-                text-align: center !important;
-                font-size: 1.1rem !important;
-                border-radius: 8px !important;
-                transition: all 0.3s ease !important;
-            }
-
-            #mobile-menu a:hover { background: rgba(246, 135, 32, 0.1) !important; }
-
             section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
             .hero-section { padding-top: 100px !important; }
         }
@@ -126,6 +51,7 @@
             .scroll-animate, .footer-animate, .hero-animate { opacity: 1 !important; transform: none !important; animation: none !important; }
         }
     </style>
+    <link rel="stylesheet" href="mobile-header.css?v=1">
 </head>
 <body class="bg-black">
 
@@ -160,7 +86,7 @@
     </header>
 
     <!-- Mobile Menu Dropdown -->
-    <div id="mobile-menu" class="hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 md:hidden z-40">
+    <div id="mobile-menu">
         <div class="flex flex-col p-4 gap-4">
             <a href="index.html" class="text-gray-400 hover:text-white transition-colors py-2">الرئيسية</a>
             <a href="packages.html" class="text-gray-400 hover:text-white transition-colors py-2">الباقات</a>
@@ -405,19 +331,19 @@
         const menuLine2 = document.getElementById('menu-line-2');
 
         mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            if (mobileMenu.classList.contains('hidden')) {
-                menuLine1.style.transform = '';
-                menuLine2.style.transform = '';
-            } else {
+            mobileMenu.classList.toggle('open');
+            if (mobileMenu.classList.contains('open')) {
                 menuLine1.style.transform = 'rotate(45deg) translateY(4px)';
                 menuLine2.style.transform = 'rotate(-45deg) translateY(-4px)';
+            } else {
+                menuLine1.style.transform = '';
+                menuLine2.style.transform = '';
             }
         });
 
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('open');
                 menuLine1.style.transform = '';
                 menuLine2.style.transform = '';
             });
