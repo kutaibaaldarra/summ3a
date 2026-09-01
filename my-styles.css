@@ -26,7 +26,7 @@
     left: 1rem;
     width: auto;
     height: calc(100% - 2rem);
-    max-height: 38rem;
+    max-height: 42rem;
     min-height: 28rem;
     padding: 1.5rem;
     border-radius: 2rem;
@@ -662,7 +662,7 @@
         right: 0.75rem;
         width: auto;
         height: calc(100% - 1.5rem);
-        max-height: 32rem;
+        max-height: 36rem;
         min-height: 23rem;
         padding: 1rem;
         transform: none;
@@ -1127,7 +1127,7 @@ body { font-family: 'Tajawal', sans-serif; background-color: #fef4ea; color: #1e
     position: relative;
     overflow: hidden;
     backface-visibility: hidden;
-    min-height: 78vh !important;
+    min-height: 88vh !important;
     padding-top: 4rem !important;
     margin-top: 0.5rem !important;
 }
@@ -1684,7 +1684,7 @@ canvas {
 
     /* Hero Section - Mobile Optimized */
     .hero-section {
-        min-height: 55vh !important;
+        min-height: 72vh !important;
         padding: 1.5rem 1rem !important;
         margin: 5.5rem auto 1rem auto !important;
         width: 95% !important;
@@ -3379,7 +3379,7 @@ footer .border-t img[alt="Logo"] {
 
 /* ─── Extra Small (480px) — Final overrides ─── */
 @media (max-width: 480px) {
-    .hero-section { min-height: 50vh !important; padding: 1rem !important; margin: 5.5rem auto 0.75rem auto !important; }
+    .hero-section { min-height: 65vh !important; padding: 1rem !important; margin: 5.5rem auto 0.75rem auto !important; }
     #ai-strategy { padding: 1rem 0 !important; }
     #testimonials { padding: 0.75rem 0 !important; }
     #process { padding: 1rem 0 !important; }
