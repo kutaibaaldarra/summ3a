@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+๏ปฟ<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <!--Start of Tawk.to Script-->
@@ -30,29 +30,29 @@
     const pkgDb = firebase.firestore(firebase.app("packages"));
     function logLead(pkg, source) {
         pkgDb.collection('leads').add({
-            name: source === 'chat' ? 'ัวำแไว - ' + pkg : pkg,
+            name: source === 'chat' ? 'ุฑุงุณููุง - ' + pkg : pkg,
             source: source,
             package: pkg,
-            leadSource: localStorage.getItem('leadSource') || 'Ûํั ใฺัๆÝ',
+            leadSource: localStorage.getItem('leadSource') || 'ุบูุฑ ู…ุนุฑูู',
             status: 'new',
             createdAt: new Date().toISOString()
         }).catch(function(){});
     }
 
     function openTawkWithName() {
-        var name = prompt('วแัฬวม ลฯฮวแ วแวำใ แแใัวำแษ:');
+        var name = prompt('ุงูุฑุฌุงุก ุฅุฏุฎุงู ุงูุงุณู… ููู…ุฑุงุณูุฉ:');
         if (!name || !name.trim()) return;
         if (typeof Tawk_API !== 'undefined') {
             Tawk_API.setAttributes({ name: name.trim() }, function(){});
             Tawk_API.toggle();
         } else {
-            window.open('https://wa.me/963934692217?text=' + encodeURIComponent('ใัอศว๐ก รไว ' + name.trim()), '_blank');
+            window.open('https://wa.me/963934692217?text=' + encodeURIComponent('ู…ุฑุญุจุงูุ ุฃูุง ' + name.trim()), '_blank');
         }
     }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ำใฺษ</title>
+    <title>ุณู…ุนุฉ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -439,7 +439,7 @@
             aspect-ratio: 16 / 9;
             height: auto;
         }
-        /* Þำใ วแศฯวํษ ใฺ วแÝํฯํๆ */
+        /* ูุณู… ุงูุจุฏุงูุฉ ู…ุน ุงูููุฏูู */
         section:first-of-type {
             border-bottom: 1px solid rgba(246, 135, 32, 0.1);
             animation: fadeInUp 0.8s ease-out forwards;
@@ -549,7 +549,7 @@
             transform: translateY(0);
         }
         .expand-cta.expanded::after {
-            content: "?";
+            content: "โ–";
         }
         
         /* Smooth scroll */
@@ -676,10 +676,10 @@
 </head>
 <body class="bg-glow">
 
-        <!-- ??????????????????????????????????????????????????????????????? -->
-        <!-- ?                    ?? Þำใ วแๅํฯั (Header)                      ? -->
-        <!-- ?            ิัํุ วแสไÞแ วแฺแๆํ ใฺ วแแๆÞๆ ๆวแÞวฦใษ               ? -->
-        <!-- ??????????????????????????????????????????????????????????????? -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+        <!-- โ”                    ๐  ูุณู… ุงูููุฏุฑ (Header)                      โ” -->
+        <!-- โ”            ุดุฑูุท ุงูุชููู ุงูุนููู ู…ุน ุงููููู ูุงููุงุฆู…ุฉ               โ” -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
         <header class="grid grid-cols-3 items-center px-4 md:px-10 py-2 md:py-4 bg-black border-b border-white/5 sticky top-0 z-50">
             <!-- Logo -->
             <div class="flex items-center">
@@ -690,12 +690,12 @@
 
             <!-- Centered Navigation -->
             <nav class="hidden md:flex justify-center gap-6 font-bold text-xs tracking-widest text-gray-400">
-                <a href="index.html" class="hover:text-white transition-colors">วแัฦํำํษ</a>
-                <a href="packages.html" class="text-white border-b-2 border-[#f68720] pb-1">วแศวÞวส</a>
-                <a href="our-work.html" class="hover:text-white transition-colors">รฺใวแไว</a>
-                <a href="questionnaire.html" class="hover:text-white transition-colors">วำสศํวไ</a>
-                <a href="about.html" class="hover:text-white transition-colors">ใไ ไอไ</a>
-                <a href="terms.html" class="hover:text-white transition-colors">วแิัๆุ</a>
+                <a href="index.html" class="hover:text-white transition-colors">ุงูุฑุฆูุณูุฉ</a>
+                <a href="packages.html" class="text-white border-b-2 border-[#f68720] pb-1">ุงูุจุงูุงุช</a>
+                <a href="our-work.html" class="hover:text-white transition-colors">ุฃุนู…ุงููุง</a>
+                <a href="questionnaire.html" class="hover:text-white transition-colors">ุงุณุชุจูุงู</a>
+                <a href="about.html" class="hover:text-white transition-colors">ู…ู ูุญู</a>
+                <a href="terms.html" class="hover:text-white transition-colors">ุงูุดุฑูุท</a>
             </nav>
 
             <!-- Mobile Menu Button -->
@@ -712,40 +712,40 @@
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu">
             <div class="flex flex-col p-4 gap-4">
-                <a href="index.html" class="text-gray-400 hover:text-white transition-colors py-2">วแัฦํำํษ</a>
-                <a href="packages.html" class="text-[#f68720] font-bold py-2">วแศวÞวส</a>
-                <a href="our-work.html" class="text-gray-400 hover:text-white transition-colors py-2">รฺใวแไว</a>
-                <a href="questionnaire.html" class="text-gray-400 hover:text-white transition-colors py-2">วำสศํวไ</a>
-                <a href="about.html" class="text-gray-400 hover:text-white transition-colors py-2">ใไ ไอไ</a>
-                <a href="terms.html" class="text-gray-400 hover:text-white transition-colors py-2">วแิัๆุ</a>
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors py-2">ุงูุฑุฆูุณูุฉ</a>
+                <a href="packages.html" class="text-[#f68720] font-bold py-2">ุงูุจุงูุงุช</a>
+                <a href="our-work.html" class="text-gray-400 hover:text-white transition-colors py-2">ุฃุนู…ุงููุง</a>
+                <a href="questionnaire.html" class="text-gray-400 hover:text-white transition-colors py-2">ุงุณุชุจูุงู</a>
+                <a href="about.html" class="text-gray-400 hover:text-white transition-colors py-2">ู…ู ูุญู</a>
+                <a href="terms.html" class="text-gray-400 hover:text-white transition-colors py-2">ุงูุดุฑูุท</a>
             </div>
         </div>
 
         <main>
 
-    <!-- ??????????????????????????????????????????????????????????????? -->
-    <!-- ?               ?? Þำใ ฺัึ วแศวÞวส วแัฦํำํ                       ? -->
-    <!-- ?          วแศวไั วแสฺัํÝํ ใฺ วแÝํฯํๆ ๆวแไี วแสๆึํอํ             ? -->
-    <!-- ??????????????????????????????????????????????????????????????? -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+    <!-- โ”               ๐“ฆ ูุณู… ุนุฑุถ ุงูุจุงูุงุช ุงูุฑุฆูุณู                       โ” -->
+    <!-- โ”          ุงูุจุงูุฑ ุงูุชุนุฑููู ู…ุน ุงูููุฏูู ูุงููุต ุงูุชูุถูุญู             โ” -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
     <div class="px-4 md:px-0 max-w-7xl mx-auto">
         <section class="py-16 md:py-24">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <!-- วแไี -->
+                <!-- ุงููุต -->
                 <div class="order-2 md:order-1" dir="rtl">
                     <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
-                        <span class="text-white">ใวๅํ ๅะๅ วแศวÞวส ฟ</span>
+                        <span class="text-white">ู…ุงูู ูุฐู ุงูุจุงูุงุช ุ</span>
                         
                     </h2>
                     <p class="text-gray-400 text-base md:text-lg mb-6 leading-relaxed">
-                        ไอไ ไÝๅใ รไ ฿แ ใิัๆฺ Ýัํฯ ใไ ไๆฺๅ. แะว Þใไว ศสีใํใ ศวÞวส ใสฺฯฯษ สสไวำศ ใฺ วอสํวฬวส ฺใแ฿ ๆใําวไํส฿ก ใไ วแศฯวํษ วแศำํุษ ลแ์ วแอแ วแิวใแ วแวอสัวÝํ.
+                        ูุญู ูููู… ุฃู ูู ู…ุดุฑูุน ูุฑูุฏ ู…ู ููุนู. ูุฐุง ูู…ูุง ุจุชุตู…ูู… ุจุงูุงุช ู…ุชุนุฏุฏุฉ ุชุชูุงุณุจ ู…ุน ุงุญุชูุงุฌุงุช ุนู…ูู ูู…ูุฒุงููุชูุ ู…ู ุงูุจุฏุงูุฉ ุงูุจุณูุทุฉ ุฅูู ุงูุญู ุงูุดุงู…ู ุงูุงุญุชุฑุงูู.
                     </p>
-                                            <span class="text-white">฿ํÝ สฮสวั วแศวÞษ วแสํ สไวำศ฿ ฟ</span>
+                                            <span class="text-white">ููู ุชุฎุชุงุฑ ุงูุจุงูุฉ ุงูุชู ุชูุงุณุจู ุ</span>
 
                     <p class="text-gray-400 text-base md:text-lg mb-8 leading-relaxed">
-ๅะๅ วแศวÞวส แํำส ใฺํวั แใำสๆ์ วแฺใแ ศแ ใีใใษ ศฺไวํษ แสไวำศ วแใิัๆฺ ศอำศ ใำสๆ์ วแวไฯใวฬ วแัÞใํ วแอวแํ ๆ วแใุแๆศ                     </p>
+ูุฐู ุงูุจุงูุงุช ููุณุช ู…ุนูุงุฑ ูู…ุณุชูู ุงูุนู…ู ุจู ู…ุตู…ู…ุฉ ุจุนูุงูุฉ ูุชูุงุณุจ ุงูู…ุดุฑูุน ุจุญุณุจ ู…ุณุชูู ุงูุงูุฏู…ุงุฌ ุงูุฑูู…ู ุงูุญุงูู ู ุงูู…ุทููุจ                     </p>
                 </div>
 
-                <!-- วแÝํฯํๆ -->
+                <!-- ุงูููุฏูู -->
                 <div class="order-1 md:order-2">
                                         <div class="video-art" style="margin-bottom: 0;">
                         <iframe
@@ -761,152 +761,152 @@
             </div>
         </section>
 
-        <!-- ??????????????????????????????????????????????????????????????? -->
-        <!-- ?           ?? ิศ฿ษ ศุวÞวส วแศวÞวส (Packages Grid)              ? -->
-        <!-- ?      ฺัึ วแศวÞวส วแใสวอษ: รำวำํก วอสัวÝํก ใฤำำํก ใฮีีษ           ? -->
-        <!-- ??????????????????????????????????????????????????????????????? -->
-        <!-- วแศวÞวส -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+        <!-- โ”           ๐’ ุดุจูุฉ ุจุทุงูุงุช ุงูุจุงูุงุช (Packages Grid)              โ” -->
+        <!-- โ”      ุนุฑุถ ุงูุจุงูุงุช ุงูู…ุชุงุญุฉ: ุฃุณุงุณูุ ุงุญุชุฑุงููุ ู…ุคุณุณูุ ู…ุฎุตุตุฉ           โ” -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+        <!-- ุงูุจุงูุงุช -->
         <div id="packages" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 <div class="package-card" style="border-width:2px;">
-<div class="badge">วแวไุแวÞษ</div>
-                <h3 class="font-montserrat text-xl font-black mb-2">ศวÞษ วแวไุแวÞษ วแวำสัวสํฬํษ</h3>
+<div class="badge">ุงูุงูุทูุงูุฉ</div>
+                <h3 class="font-montserrat text-xl font-black mb-2">ุจุงูุฉ ุงูุงูุทูุงูุฉ ุงูุงุณุชุฑุงุชูุฌูุฉ</h3>
                 <div class="mb-4 relative">
-                    <p class="text-gray-400 text-sm mb-4">ฺัึ ใอฯๆฯ วแๆÞส</p>
+                    <p class="text-gray-400 text-sm mb-4">ุนุฑุถ ู…ุญุฏูุฏ ุงูููุช</p>
                     <div class="mx-auto max-w-xs">
                         <span class="block bg-gradient-to-r from-[#f68720]/95 to-orange-400 px-6 py-2 rounded-full text-black font-bold text-base shadow-2xl glow-edges text-center relative z-10" style="animation: pulse 2s infinite;">
-                            ?? ฿วไ $700 วแยไ ÝÞุ $550! ??
+                            ๐ ูุงู $700 ุงูุขู ููุท $550! ๐
                         </span>
                     </div>
                 </div>
-                <p class="text-gray-400 text-sm mb-6 leading-relaxed">ศไวม ใว฿ํไษ ศํฺ สฬะศ วแาศวฦไ ๆสฺใแ แีวแอ฿ ฺแ์ วแใฯ์ วแุๆํแ ใไวำศษ แแใิวัํฺ วแสํ สศไํ ใไีวสๅว วแัÞใํษ(ำๆิวแ ใํฯํว)อฯํหว๐.</p>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">ุจูุงุก ู…ุงูููุฉ ุจูุน ุชุฌุฐุจ ุงูุฒุจุงุฆู ูุชุนู…ู ูุตุงูุญู ุนูู ุงูู…ุฏู ุงูุทููู ู…ูุงุณุจุฉ ููู…ุดุงุฑูุน ุงูุชู ุชุจูู ู…ูุตุงุชูุง ุงูุฑูู…ูุฉ(ุณูุดุงู ู…ูุฏูุง)ุญุฏูุซุงู.</p>
 
-                <div class="text-[#f68720] font-black text-2xl mb-6">$550 / แใฯษ ิๅัํไ</div>
+                <div class="text-[#f68720] font-black text-2xl mb-6">$550 / ูู…ุฏุฉ ุดูุฑูู</div>
                 
                 <!-- Scroll CTA to bottom details -->
 <a id="scroll-to-details" href="#package-details" class="cta-glass service-btn w-full text-center block no-underline scroll-btn py-4 px-8 font-bold text-lg rounded-xl mb-3" data-package="launch">
-                    วแสÝวีํแ ?
+                    ุงูุชูุงุตูู โ–ฝ
                 </a>
                 <div class="flex gap-2">
                 <a href="questionnaire.html?package=launch" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    วิสั฿ วแยไ
+                    ุงุดุชุฑู ุงูุขู
                 </a>
-                <a href="javascript:void(0)" onclick="logLead('วแวไุแวÞษ','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
-                    ัวำแไว
+                <a href="javascript:void(0)" onclick="logLead('ุงูุงูุทูุงูุฉ','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                    ุฑุงุณููุง
                 </a>
                 </div>
             </div>
             <div class="package-card" style="border-width:2px; border-color: #f68720; box-shadow: 0 0 30px rgba(246,135,32,0.25);">
-                <div class="badge">วแใอสัÝ - วแร฿หั ใศํฺว๐</div>
-                <h3 class="font-montserrat text-xl font-black mb-2">ศวÞษ วแใอสัÝ  แแวำสÞัวั ๆวแสุๆั</h3>
+                <div class="badge">ุงูู…ุญุชุฑู - ุงูุฃูุซุฑ ู…ุจูุนุงู</div>
+                <h3 class="font-montserrat text-xl font-black mb-2">ุจุงูุฉ ุงูู…ุญุชุฑู  ููุงุณุชูุฑุงุฑ ูุงูุชุทูุฑ</h3>
                 <div class="mb-4 relative">
-                    <p class="text-gray-400 text-sm mb-4">ฺัึ ใอฯๆฯษ</p>
+                    <p class="text-gray-400 text-sm mb-4">ุนุฑุถ ู…ุญุฏูุฏุฉ</p>
                     <div class="mx-auto max-w-xs">
                         <span class="block bg-gradient-to-r from-[#f68720]/95 to-orange-400 px-6 py-2 rounded-full text-black font-bold text-base shadow-2xl glow-edges text-center relative z-10" style="animation: pulse 2s infinite;">
-                            ?? ฿วไ $950 วแยไ ÝÞุ $900! ??
+                            ๐ ูุงู $950 ุงูุขู ููุท $900! ๐
                         </span>
                     </div>
                 </div>
-                <p class="text-gray-400 text-sm mb-6 leading-relaxed">วแอแ วแรใหแ แแใิวัํฺ วแสํ สศอห ฺไ วแวำสใัวั ๆ สุๆํั ใอสๆวๅว ศรÝึแ ุัํÞษ ใใ฿ไษ ใไวำศ แแใิวัํฺ วแสํ สัํฯ สุๆํั ๆว฿ใวแ ใำํัสๅว ฺแ์ วแวไสัไส.</p>
-                <div class="text-[#f68720] font-black text-2xl mb-6">$900 / แใฯษ 3 ริๅั</div>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">ุงูุญู ุงูุฃู…ุซู ููู…ุดุงุฑูุน ุงูุชู ุชุจุญุซ ุนู ุงูุงุณุชู…ุฑุงุฑ ู ุชุทููุฑ ู…ุญุชูุงูุง ุจุฃูุถู ุทุฑููุฉ ู…ู…ููุฉ ู…ูุงุณุจ ููู…ุดุงุฑูุน ุงูุชู ุชุฑูุฏ ุชุทููุฑ ูุงูู…ุงู ู…ุณูุฑุชูุง ุนูู ุงูุงูุชุฑูุช.</p>
+                <div class="text-[#f68720] font-black text-2xl mb-6">$900 / ูู…ุฏุฉ 3 ุฃุดูุฑ</div>
                 
                 <a id="scroll-to-professional" href="#package-details" class="cta-glass service-btn w-full text-center block no-underline scroll-btn py-4 px-8 font-bold text-lg rounded-xl mb-3" data-package="professional">
-                    วแสÝวีํแ ?
+                    ุงูุชูุงุตูู โ–ฝ
                 </a>
                 <div class="flex gap-2">
                 <a href="questionnaire.html?package=professional" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    วิสั฿ วแยไ
+                    ุงุดุชุฑู ุงูุขู
                 </a>
-                <a href="javascript:void(0)" onclick="logLead('วแใอสัÝ','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
-                    ัวำแไว
+                <a href="javascript:void(0)" onclick="logLead('ุงูู…ุญุชุฑู','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                    ุฑุงุณููุง
                 </a>
                 </div>
         </div>
             <div class="package-card">
-                <div class="badge">วแไฮศษ</div>
-                <h3 class="font-montserrat text-xl font-black mb-2">ศวÞษ วแไฮศษ </h3>
+                <div class="badge">ุงููุฎุจุฉ</div>
+                <h3 class="font-montserrat text-xl font-black mb-2">ุจุงูุฉ ุงููุฎุจุฉ </h3>
                 <div class="mb-4 relative">
-                    <p class="text-gray-400 text-sm mb-4">ฺัึ อีัํ </p>
+                    <p class="text-gray-400 text-sm mb-4">ุนุฑุถ ุญุตุฑู </p>
                     <div class="mx-auto max-w-xs">
                         <span class="block bg-gradient-to-r from-[#f68720]/95 to-orange-400 px-6 py-2 rounded-full text-black font-bold text-base shadow-2xl glow-edges text-center relative z-10" style="animation: pulse 2s infinite;">
-                            ?? ฿วไ $3000 วแยไ ÝÞุ $2500! ??
+                            ๐”ฅ ูุงู $3000 ุงูุขู ููุท $2500! ๐”ฅ
                         </span>
                     </div>
                 </div>
-                <p class="text-gray-400 text-sm mb-6 leading-relaxed">สๅฯÝ ๅะๅ วแศวÞษ แไÞแ ฺแวใส฿ วแสฬวัํษ วแ์ ใำสๆ์ วแไฮศษ ใไวำศษ ฬฯว๐ แแใิวัํฺ วแสํ สัÛศ ศวแอีๆแ ฺแ์ วÞี์ วำสÝวฯษ ใไ วแวไสัไส</p>
-                                <div class="text-[#f68720] font-black text-2xl mb-6">$2500 / แใฯษ 4 ริๅั</div>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed">ุชูุฏู ูุฐู ุงูุจุงูุฉ ูููู ุนูุงู…ุชู ุงูุชุฌุงุฑูุฉ ุงูู ู…ุณุชูู ุงููุฎุจุฉ ู…ูุงุณุจุฉ ุฌุฏุงู ููู…ุดุงุฑูุน ุงูุชู ุชุฑุบุจ ุจุงูุญุตูู ุนูู ุงูุตู ุงุณุชูุงุฏุฉ ู…ู ุงูุงูุชุฑูุช</p>
+                                <div class="text-[#f68720] font-black text-2xl mb-6">$2500 / ูู…ุฏุฉ 4 ุฃุดูุฑ</div>
                 
                 <a id="scroll-to-elite" href="#package-details" class="cta-glass service-btn w-full text-center block no-underline scroll-btn py-4 px-8 font-bold text-lg rounded-xl mb-3" data-package="elite">
-                    วแสÝวีํแ ?
+                    ุงูุชูุงุตูู โ–ฝ
                 </a>
                 <div class="flex gap-2">
                 <a href="questionnaire.html?package=elite" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl bg-gradient-to-r from-[#f68720] to-orange-400 text-black hover:from-orange-400 hover:to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    วิสั฿ วแยไ
+                    ุงุดุชุฑู ุงูุขู
                 </a>
-                <a href="javascript:void(0)" onclick="logLead('วแไฮศษ','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
-                    ัวำแไว
+                <a href="javascript:void(0)" onclick="logLead('ุงููุฎุจุฉ','chat');openTawkWithName()" class="flex-1 text-center block no-underline py-4 px-4 font-bold text-base rounded-xl border border-[#f68720] text-[#f68720] hover:bg-[#f68720] hover:text-black transition-all duration-300">
+                    ุฑุงุณููุง
                 </a>
                 </div>
         </div>
         </div>
 
-        <!-- ??????????????????????????????????????????????????????????????? -->
-        <!-- ?              ?? ศวÞษ ใฮีีษ (Custom Package)              ? -->
-        <!-- ??????????????????????????????????????????????????????????????? -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+        <!-- โ”              ๐’ ุจุงูุฉ ู…ุฎุตุตุฉ (Custom Package)              โ” -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
         <div class="max-w-7xl mx-auto px-4 md:px-8 mb-16">
             <div class="relative overflow-hidden rounded-3xl border border-[#f68720]/40" style="background: linear-gradient(135deg, #1a1208 0%, #0d0d0d 50%, #1a1208 100%);">
                 <div class="absolute inset-0 opacity-10" style="background: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(246,135,32,0.1) 35px, rgba(246,135,32,0.1) 36px);"></div>
                 <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-12">
                     <div class="flex items-center gap-6">
                         <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f68720] to-orange-400 flex items-center justify-center flex-shrink-0 shadow-[0_0_30px_rgba(246,135,32,0.3)]">
-                            <span class="text-3xl">??</span>
+                            <span class="text-3xl">๐’</span>
                         </div>
                         <div>
-                            <h3 class="text-2xl md:text-3xl font-black text-white mb-2">ศวÞษ <span class="text-[#f68720]">ใฮีีษ</span></h3>
-                            <p class="text-gray-400 text-sm md:text-base leading-relaxed">ศวÞษ ใีใใษ ฮีํีว๐ แวอสํวฬวส ใิัๆฺ฿ - สๆวีแ ใฺไว แไอฯฯ วแฮุุ ๆวแรๅฯวÝ วแใไวำศษ แร฿ศั ฺวฦฯ</p>
+                            <h3 class="text-2xl md:text-3xl font-black text-white mb-2">ุจุงูุฉ <span class="text-[#f68720]">ู…ุฎุตุตุฉ</span></h3>
+                            <p class="text-gray-400 text-sm md:text-base leading-relaxed">ุจุงูุฉ ู…ุตู…ู…ุฉ ุฎุตูุตุงู ูุงุญุชูุงุฌุงุช ู…ุดุฑูุนู - ุชูุงุตู ู…ุนูุง ููุญุฏุฏ ุงูุฎุทุท ูุงูุฃูุฏุงู ุงูู…ูุงุณุจุฉ ูุฃูุจุฑ ุนุงุฆุฏ</p>
                         </div>
                     </div>
                     <a href="questionnaire.html" class="flex-shrink-0 px-8 py-4 bg-gradient-to-r from-[#f68720] to-orange-400 text-black font-black text-lg rounded-xl hover:from-orange-400 hover-to-[#f68720] transition-all duration-300 transform hover:scale-105 shadow-[0_0_25px_rgba(246,135,32,0.3)]">
-                        วิสั฿ วแยไ
+                        ุงุดุชุฑู ุงูุขู
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- ??????????????????????????????????????????????????????????????? -->
-        <!-- ?         ?? ฬฯๆแ สÝวีํแ วแศวÞษ (Package Details)                ? -->
-        <!-- ?     ฺัึ สÝวฺแํ แใอสๆ์ ฿แ ศวÞษ ฺไฯ วฮสํวัๅว                    ? -->
-        <!-- ??????????????????????????????????????????????????????????????? -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+        <!-- โ”         ๐“ ุฌุฏูู ุชูุงุตูู ุงูุจุงูุฉ (Package Details)                โ” -->
+        <!-- โ”     ุนุฑุถ ุชูุงุนูู ูู…ุญุชูู ูู ุจุงูุฉ ุนูุฏ ุงุฎุชูุงุฑูุง                    โ” -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
 <section id="package-details" class="py-16 md:py-24 mt-20">
             <div class="glass-hero max-w-7xl mx-auto glass-card p-8 md:p-12 rounded-3xl my-8">
                 <h2 id="package-title" class="text-3xl md:text-4xl font-montserrat font-black mb-12 text-center" style="color: #f68720;">
-                    วฮสั ศวÞษ แฺัึ วแสÝวีํแ
+                    ุงุฎุชุฑ ุจุงูุฉ ูุนุฑุถ ุงูุชูุงุตูู
                 </h2>
                 
                 <div id="details-note" class="text-center mb-8">
                     <div class="inline-block bg-gradient-to-r from-[rgba(246,135,32,0.2)] to-[rgba(255,158,71,0.1)] border border-[rgba(246,135,32,0.4)] rounded-xl px-8 py-4 shadow-lg">
-                        <p class="text-[#f68720] font-bold text-xl mb-2">!ใแวอูษ ๅวใษ</p>
-                        <p class="text-gray-200 text-base">วึÛุ ฺแ์ าั วแสÝวีํแ รฺแวๅ อส์ สูๅั วแสÝวีํแ</p>
+                        <p class="text-[#f68720] font-bold text-xl mb-2">!ู…ูุงุญุธุฉ ูุงู…ุฉ</p>
+                        <p class="text-gray-200 text-base">ุงุถุบุท ุนูู ุฒุฑ ุงูุชูุงุตูู ุฃุนูุงู ุญุชู ุชุธูุฑ ุงูุชูุงุตูู</p>
                     </div>
                 </div>
                 
                 <div id="package-content" class="hidden">
-                    <!-- วแใอสๆ์ ำํสใ สอฯํหๅ ฯํไวใํ฿ํว๐ -->
+                    <!-- ุงูู…ุญุชูู ุณูุชู… ุชุญุฏูุซู ุฏููุงู…ูููุงู -->
                 </div>
             </div>
         </section>
 
-        <!-- ??????????????????????????????????????????????????????????????? -->
-        <!-- ?         ?? Þำใ วแัฤ์ ๆวแใๆวัฯ (Social Media Insights)          ? -->
-        <!-- ?      ใÞวแวสก ไีวฦอก ๆสÞวัํั แสร฿ํฯ วแำแุษ Ýํ วแใฬวแ            ? -->
-        <!-- ??????????????????????????????????????????????????????????????? -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+        <!-- โ”         ๐“ ูุณู… ุงูุฑุคู ูุงูู…ูุงุฑุฏ (Social Media Insights)          โ” -->
+        <!-- โ”      ู…ูุงูุงุชุ ูุตุงุฆุญุ ูุชูุงุฑูุฑ ูุชุฃููุฏ ุงูุณูุทุฉ ูู ุงูู…ุฌุงู            โ” -->
+        <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
         <section id="insights" class="py-16 md:py-24 border-t border-gray-900">
             <div class="max-w-7xl mx-auto px-4 md:px-8">
                 <div class="text-center mb-12">
-                    <span class="text-[#f68720] text-sm font-bold tracking-[0.3em] uppercase mb-4 block">ใฺัÝษ วอสัวÝํษ</span>
+                    <span class="text-[#f68720] text-sm font-bold tracking-[0.3em] uppercase mb-4 block">ู…ุนุฑูุฉ ุงุญุชุฑุงููุฉ</span>
                     <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
-                        วำส฿ิÝ ัฤ์ <span class="text-[#f68720]">ๆำวฦแ วแสๆวีแ</span> วแวฬสใวฺํ
+                        ุงุณุชูุดู ุฑุคู <span class="text-[#f68720]">ูุณุงุฆู ุงูุชูุงุตู</span> ุงูุงุฌุชู…ุงุนู
                     </h2>
-                    <p class="text-gray-400 max-w-2xl mx-auto">ไีวฦอก ฮฯฺก ๆสอแํแวส ิๅัํษ แสศÞ์ ใสÞฯใว๐ ฺแ์ ใไวÝำํ฿</p>
+                    <p class="text-gray-400 max-w-2xl mx-auto">ูุตุงุฆุญุ ุฎุฏุนุ ูุชุญูููุงุช ุดูุฑูุฉ ูุชุจูู ู…ุชูุฏู…ุงู ุนูู ู…ูุงูุณูู</p>
                 </div>
 
                 <!-- Articles Grid -->
@@ -918,11 +918,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
-                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">ไีํอษ ำัํฺษ</span>
-                        <h3 class="text-lg font-bold text-white mt-2 mb-3">5 ฮฯฺ แาํวฯษ วแสÝวฺแ Ýํ วแัํแา</h3>
-                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">ว฿สิÝ ฿ํÝ สฬฺแ Ýํฯํๆๅวส฿ สไสิั ศิ฿แ ร฿ศั ศวำสฮฯวใ ๅะๅ วแอํแ วแศำํุษ...</p>
+                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">ูุตูุญุฉ ุณุฑูุนุฉ</span>
+                        <h3 class="text-lg font-bold text-white mt-2 mb-3">5 ุฎุฏุน ูุฒูุงุฏุฉ ุงูุชูุงุนู ูู ุงูุฑููุฒ</h3>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">ุงูุชุดู ููู ุชุฌุนู ููุฏูููุงุชู ุชูุชุดุฑ ุจุดูู ุฃูุจุฑ ุจุงุณุชุฎุฏุงู… ูุฐู ุงูุญูู ุงูุจุณูุทุฉ...</p>
                         <button onclick="document.getElementById('forum-popup').style.display='flex'" class="mt-2 px-5 py-2.5 bg-[#f68720] text-black text-sm font-bold rounded-xl hover:bg-[#ff9e47] transition-all cursor-pointer">
-                            วÞัร วแใาํฯ
+                            ุงูุฑุฃ ุงูู…ุฒูุฏ
                         </button>
                     </div>
 
@@ -933,11 +933,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
                         </div>
-                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">สÞัํั ิๅัํ</span>
-                        <h3 class="text-lg font-bold text-white mt-2 mb-3">สอแํแ สัไฯวส 2025</h3>
-                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">รอฯห วแวสฬวๅวส Ýํ ฺวแใ วแำๆิวแ ใํฯํว ๆ฿ํÝ สำสÝํฯ ใไๅว แฺแวใส฿...</p>
+                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">ุชูุฑูุฑ ุดูุฑู</span>
+                        <h3 class="text-lg font-bold text-white mt-2 mb-3">ุชุญููู ุชุฑูุฏุงุช 2025</h3>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">ุฃุญุฏุซ ุงูุงุชุฌุงูุงุช ูู ุนุงูู… ุงูุณูุดุงู ู…ูุฏูุง ูููู ุชุณุชููุฏ ู…ููุง ูุนูุงู…ุชู...</p>
                         <button onclick="document.getElementById('forum-popup').style.display='flex'" class="mt-2 px-5 py-2.5 bg-[#f68720] text-black text-sm font-bold rounded-xl hover:bg-[#ff9e47] transition-all cursor-pointer">
-                            สอใํแ วแสÞัํั
+                            ุชุญู…ูู ุงูุชูุฑูุฑ
                         </button>
                     </div>
 
@@ -948,11 +948,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
                             </svg>
                         </div>
-                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">อํแษ ำๆิวแ ใํฯํว</span>
-                        <h3 class="text-lg font-bold text-white mt-2 mb-3">วแๆÞส วแใหวแํ แแไิั</h3>
-                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">วอีวฦํวส ฯÞํÞษ ฺไ รÝึแ รๆÞวส วแไิั ฺแ์ ฿แ ใไีษ แสอÞํÞ รÞี์ ๆีๆแ...</p>
+                        <span class="text-[#f68720] text-xs font-bold uppercase tracking-wider">ุญููุฉ ุณูุดุงู ู…ูุฏูุง</span>
+                        <h3 class="text-lg font-bold text-white mt-2 mb-3">ุงูููุช ุงูู…ุซุงูู ูููุดุฑ</h3>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed">ุงุญุตุงุฆูุงุช ุฏูููุฉ ุนู ุฃูุถู ุฃููุงุช ุงููุดุฑ ุนูู ูู ู…ูุตุฉ ูุชุญููู ุฃูุตู ูุตูู...</p>
                         <button onclick="document.getElementById('forum-popup').style.display='flex'" class="mt-2 px-5 py-2.5 bg-[#f68720] text-black text-sm font-bold rounded-xl hover:bg-[#ff9e47] transition-all cursor-pointer">
-                            ว฿สิÝ วแยไ
+                            ุงูุชุดู ุงูุขู
                         </button>
                     </div>
                 </div>
@@ -961,13 +961,13 @@
                 <div class="glass-card p-8 rounded-2xl border border-[#f68720]/20 bg-gradient-to-r from-[#151515] to-[#0a0a0a]">
                     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                         <div>
-                            <h3 class="text-xl font-black text-white mb-2">วิสั฿ Ýํ ไิัสไว วแศัํฯํษ</h3>
-                            <p class="text-gray-400 text-sm">วอีแ ฺแ์ ไีวฦอ รำศๆฺํษ ๆสÞวัํั ิๅัํษ ใฬวไว๐</p>
+                            <h3 class="text-xl font-black text-white mb-2">ุงุดุชุฑู ูู ูุดุฑุชูุง ุงูุจุฑูุฏูุฉ</h3>
+                            <p class="text-gray-400 text-sm">ุงุญุตู ุนูู ูุตุงุฆุญ ุฃุณุจูุนูุฉ ูุชูุงุฑูุฑ ุดูุฑูุฉ ู…ุฌุงูุงู</p>
                         </div>
                         <div class="flex gap-3 w-full md:w-auto">
-                            <input type="email" placeholder="ศัํฯ฿ วแลแ฿สัๆไํ" class="flex-1 md:w-64 px-4 py-3 rounded-xl bg-black/50 border border-gray-700 text-white text-sm focus:border-[#f68720] focus:outline-none transition-colors">
+                            <input type="email" placeholder="ุจุฑูุฏู ุงูุฅููุชุฑููู" class="flex-1 md:w-64 px-4 py-3 rounded-xl bg-black/50 border border-gray-700 text-white text-sm focus:border-[#f68720] focus:outline-none transition-colors">
                             <button class="px-6 py-3 bg-[#f68720] text-black font-bold rounded-xl hover:bg-[#ff9e47] transition-all whitespace-nowrap">
-                                วิสัว฿
+                                ุงุดุชุฑุงู
                             </button>
                         </div>
                     </div>
@@ -975,12 +975,12 @@
             </div>
         </section>
 
-    <!-- ??????????????????????????????????????????????????????????????? -->
-    <!-- ?           ?? Þำใ วแใÞวัไษ (ฬฯๆแ)                               ? -->
-    <!-- ??????????????????????????????????????????????????????????????? -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+    <!-- โ”           ๐“ ูุณู… ุงูู…ูุงุฑูุฉ (ุฌุฏูู)                               โ” -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
     <section class="py-12" style="background: linear-gradient(180deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%);">
         <div class="max-w-7xl mx-auto px-4 mb-6">
-            <h3 class="text-center text-2xl font-bold text-[#f68720] mb-2">?? ใÞวัไษ วแศวÞวส</h3>
+            <h3 class="text-center text-2xl font-bold text-[#f68720] mb-2">๐“ ู…ูุงุฑูุฉ ุงูุจุงูุงุช</h3>
         </div>
         
         <div class="max-w-7xl mx-auto px-4" style="overflow-x:auto;">
@@ -988,125 +988,125 @@
                 <thead>
                     <tr>
                         <th class="corner-cell"></th>
-                        <th class="pkg-cell launch">วแวไุแวÞษ</th>
-                        <th class="pkg-cell pro">วแใอสัÝ</th>
-                        <th class="pkg-cell elite">วแไฮศษ</th>
+                        <th class="pkg-cell launch">ุงูุงูุทูุงูุฉ</th>
+                        <th class="pkg-cell pro">ุงูู…ุญุชุฑู</th>
+                        <th class="pkg-cell elite">ุงููุฎุจุฉ</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- ? สิใแๅว ศวÞษ วแวไุแวÞษ ? -->
+                    <!-- โ“ ุชุดู…ููุง ุจุงูุฉ ุงูุงูุทูุงูุฉ โ“ -->
                     <tr>
-                        <td class="feature-cell">ลฯวัษ วแำๆิวแ ใํฯํว</td>
-                        <td class="check-cell">ลฯวัษ รำวำํษ</td>
-                        <td class="check-cell">ลฯวัษ วอสัวÝํษ</td>
-                        <td class="check-cell">ลฯวัษ วอสัวÝํษ</td>
+                        <td class="feature-cell">ุฅุฏุงุฑุฉ ุงูุณูุดุงู ู…ูุฏูุง</td>
+                        <td class="check-cell">ุฅุฏุงุฑุฉ ุฃุณุงุณูุฉ</td>
+                        <td class="check-cell">ุฅุฏุงุฑุฉ ุงุญุชุฑุงููุฉ</td>
+                        <td class="check-cell">ุฅุฏุงุฑุฉ ุงุญุชุฑุงููุฉ</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">ัํแา วอสัวÝํษ</td>
-                        <td class="check-cell">16 ัํแ แแิๅัํไ</td>
-                        <td class="check-cell">14 ัํแ</td>
-                        <td class="check-cell">14 ัํแ</td>
+                        <td class="feature-cell">ุฑููุฒ ุงุญุชุฑุงููุฉ</td>
+                        <td class="check-cell">16 ุฑูู ููุดูุฑูู</td>
+                        <td class="check-cell">14 ุฑูู</td>
+                        <td class="check-cell">14 ุฑูู</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">ศๆำสวส ิๅัํษ</td>
-                        <td class="check-cell">24 ศๆำส แแิๅัํไ</td>
-                        <td class="check-cell">16 ศๆำส</td>
-                        <td class="check-cell">16 ศๆำส</td>
+                        <td class="feature-cell">ุจูุณุชุงุช ุดูุฑูุฉ</td>
+                        <td class="check-cell">24 ุจูุณุช ููุดูุฑูู</td>
+                        <td class="check-cell">16 ุจูุณุช</td>
+                        <td class="check-cell">16 ุจูุณุช</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">Þีี สÝวฺแํษ</td>
-                        <td class="check-cell">4 Þีี/ํๆใ</td>
-                        <td class="check-cell">28 Þีษ/ิๅั</td>
-                        <td class="check-cell">28 Þีษ/ิๅั</td>
+                        <td class="feature-cell">ูุตุต ุชูุงุนููุฉ</td>
+                        <td class="check-cell">4 ูุตุต/ููู…</td>
+                        <td class="check-cell">28 ูุตุฉ/ุดูุฑ</td>
+                        <td class="check-cell">28 ูุตุฉ/ุดูุฑ</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">สอแํแ อำวศ</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ุชุญููู ุญุณุงุจ</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">สÞัํั รฯวม ิๅัํ</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">4 ใฤิัวส</td>
-                        <td class="check-cell">4 ใฤิัวส</td>
+                        <td class="feature-cell">ุชูุฑูุฑ ุฃุฏุงุก ุดูุฑู</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">4 ู…ุคุดุฑุงุช</td>
+                        <td class="check-cell">4 ู…ุคุดุฑุงุช</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">วแสีๆํั ศวำสฯํๆ</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ุงูุชุตููุฑ ุจุงุณุชุฏูู</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">วำสฮฯวใ วแะ฿วม วแวีุไวฺํ</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ุงุณุชุฎุฏุงู… ุงูุฐูุงุก ุงูุงุตุทูุงุนู</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
-                    <!-- ? แว สิใแๅว ศวÞษ วแวไุแวÞษ ? -->
+                    <!-- โ— ูุง ุชุดู…ููุง ุจุงูุฉ ุงูุงูุทูุงูุฉ โ— -->
                     <tr>
-                        <td class="feature-cell">Ýํฯํๆ ฬัวÝํ฿</td>
-                        <td class="cross-cell">?</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">Ýํฯํๆ + ีๆั</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-cell">ลฯวัษ ลฺแวไวส ใใๆแษ</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ููุฏูู ุฌุฑุงููู</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">ููุฏูู + ุตูุฑ</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">รสใสษ ใศํฺวส วแัำวฦแ</td>
-                        <td class="cross-cell">?</td>
+                        <td class="feature-cell">ุฅุฏุงุฑุฉ ุฅุนูุงูุงุช ู…ู…ููุฉ</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-cell">ุฃุชู…ุชุฉ ู…ุจูุนุงุช ุงูุฑุณุงุฆู</td>
+                        <td class="cross-cell">โ—</td>
                         <td class="check-cell">Manychat</td>
                         <td class="check-cell">Manychat</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">Þวฺฯษ ศํวไวส (MySQL)</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ูุงุนุฏุฉ ุจูุงูุงุช (MySQL)</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">ๅํ฿แ ลฺแวไํ</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ูููู ุฅุนูุงูู</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">ฬแำวส สุๆํั</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ุฌูุณุงุช ุชุทููุฑ</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">โ“</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">ลไิวม ใๆÞฺ ลแ฿สัๆไํ</td>
-                        <td class="cross-cell">?</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ุฅูุดุงุก ู…ููุน ุฅููุชุฑููู</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">ศ฿ำแ + สอแํแ ำแๆ฿</td>
-                        <td class="cross-cell">?</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">ุจูุณู + ุชุญููู ุณููู</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr>
-                        <td class="feature-cell">CRM + ลฺวฯษ วำสๅฯวÝ</td>
-                        <td class="cross-cell">?</td>
-                        <td class="cross-cell">?</td>
-                        <td class="check-cell">?</td>
+                        <td class="feature-cell">CRM + ุฅุนุงุฏุฉ ุงุณุชูุฏุงู</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="cross-cell">โ—</td>
+                        <td class="check-cell">โ“</td>
                     </tr>
                     <tr class="group-separator"><td colspan="4"></td></tr>
                     <tr>
-                        <td class="feature-cell">วแใฯษ</td>
-                        <td class="check-cell">ิๅัํไ</td>
-                        <td class="check-cell">3 ริๅั</td>
-                        <td class="check-cell">4 ริๅั</td>
+                        <td class="feature-cell">ุงูู…ุฏุฉ</td>
+                        <td class="check-cell">ุดูุฑูู</td>
+                        <td class="check-cell">3 ุฃุดูุฑ</td>
+                        <td class="check-cell">4 ุฃุดูุฑ</td>
                     </tr>
                     <tr class="price-row">
-                        <td class="feature-cell">วแำฺั</td>
+                        <td class="feature-cell">ุงูุณุนุฑ</td>
                         <td class="price-cell">$550</td>
                         <td class="price-cell">$900</td>
                         <td class="price-cell">$2500</td>
@@ -1117,18 +1117,18 @@
                             <div class="suitable-grid">
                                 <div class="suitable-item">
                                     <span class="suitable-icon">01</span>
-                                    <span class="suitable-label">วแวไุแวÞษ</span>
-                                    <p class="suitable-text">แแใิวัํฺ วแฬฯํฯษ (Startups) วแสํ สอสวฬ ลุแวÞ ีÝอวสๅว ศรÞแ ส฿แÝษ (~$275/ิๅั). ใไวำศษ แศไวม วแๅๆํษ วแศีัํษ ๆÞวฺฯษ วแฬใๅๆั วแรๆแ์.</p>
+                                    <span class="suitable-label">ุงูุงูุทูุงูุฉ</span>
+                                    <p class="suitable-text">ููู…ุดุงุฑูุน ุงูุฌุฏูุฏุฉ (Startups) ุงูุชู ุชุญุชุงุฌ ุฅุทูุงู ุตูุญุงุชูุง ุจุฃูู ุชูููุฉ (~$275/ุดูุฑ). ู…ูุงุณุจุฉ ูุจูุงุก ุงููููุฉ ุงูุจุตุฑูุฉ ููุงุนุฏุฉ ุงูุฌู…ููุฑ ุงูุฃููู.</p>
                                 </div>
                                 <div class="suitable-item">
                                     <span class="suitable-icon">02</span>
-                                    <span class="suitable-label">วแใอสัÝ</span>
-                                    <p class="suitable-text">แแใิวัํฺ วแสํ สสฬวๆา ใัอแษ วแสรำํำ ๆสอสวฬ วำสใัวัํษ + สุๆํั ศใอสๆ์ วอสัวÝํ ๆลฺแวไวส ใใๆแษ (~$300/ิๅั). ใหวแํษ แแไใๆ วแใสำวัฺ.</p>
+                                    <span class="suitable-label">ุงูู…ุญุชุฑู</span>
+                                    <p class="suitable-text">ููู…ุดุงุฑูุน ุงูุชู ุชุชุฌุงูุฒ ู…ุฑุญูุฉ ุงูุชุฃุณูุณ ูุชุญุชุงุฌ ุงุณุชู…ุฑุงุฑูุฉ + ุชุทููุฑ ุจู…ุญุชูู ุงุญุชุฑุงูู ูุฅุนูุงูุงุช ู…ู…ููุฉ (~$300/ุดูุฑ). ู…ุซุงููุฉ ูููู…ู ุงูู…ุชุณุงุฑุน.</p>
                                 </div>
                                 <div class="suitable-item">
                                     <span class="suitable-icon">03</span>
-                                    <span class="suitable-label">วแไฮศษ</span>
-                                    <p class="suitable-text">แแใิวัํฺ วแุใๆอษ วแสํ สัํฯ อแๆแว๐ ใส฿วใแษ: ใๆÞฺ ลแ฿สัๆไํก รสใสษ ใศํฺวสก ศ฿ำแก CRMก ๆลฺวฯษ วำสๅฯวÝ (~$625/ิๅั). แอึๆั ัÞใํ วำสหไวฦํ.</p>
+                                    <span class="suitable-label">ุงููุฎุจุฉ</span>
+                                    <p class="suitable-text">ููู…ุดุงุฑูุน ุงูุทู…ูุญุฉ ุงูุชู ุชุฑูุฏ ุญูููุงู ู…ุชูุงู…ูุฉ: ู…ููุน ุฅููุชุฑูููุ ุฃุชู…ุชุฉ ู…ุจูุนุงุชุ ุจูุณูุ CRMุ ูุฅุนุงุฏุฉ ุงุณุชูุฏุงู (~$625/ุดูุฑ). ูุญุถูุฑ ุฑูู…ู ุงุณุชุซูุงุฆู.</p>
                                 </div>
                             </div>
                         </td>
@@ -1141,9 +1141,9 @@
     </div>
     </main>
 
-    <!-- ??????????????????????????????????????????????????????????????? -->
-    <!-- ?                 ?? Þำใ วแÝๆสั (Footer Section)                  ? -->
-    <!-- ??????????????????????????????????????????????????????????????? -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+    <!-- โ”                 ๐“ ูุณู… ุงูููุชุฑ (Footer Section)                  โ” -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
     <footer class="footer-animate" style="background: #111; border: 1px solid rgba(246, 135, 32, 0.3); color:#ffffff; padding:4rem 0 3rem 0; margin-top:4rem; border-radius: 2rem 2rem 0 0; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(246,135,32,0.15);">
         <div class="max-w-7xl mx-auto px-4 md:px-0">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
@@ -1151,7 +1151,7 @@
                 <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
                     <img src="images/3.png" alt="Logo" class="w-24 h-24 object-contain mx-auto mb-4">
                     <p class="text-sm mb-6 leading-relaxed">
-                        ิั฿ษ "ำใฺษ" แแสีใํใ ๆ วแสำๆํÞ วแวแ฿สัๆไํ  สวศฺไว ฺแ์ ฿แ วแใไีวส
+                        ุดุฑูุฉ "ุณู…ุนุฉ" ููุชุตู…ูู… ู ุงูุชุณููู ุงูุงููุชุฑููู  ุชุงุจุนูุง ุนูู ูู ุงูู…ูุตุงุช
                     </p>
                     <div class="flex justify-center md:justify-start gap-4">
                         <a href="#" class="w-10 h-10 bg-gradient-to-br from-[#f68720] to-orange-400 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(246,135,32,0.4)]">
@@ -1168,30 +1168,30 @@
                 
                 <!-- Quick Links -->
                 <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
-                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">ัๆวศุ ำัํฺษ</h4>
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">ุฑูุงุจุท ุณุฑูุนุฉ</h4>
                     <ul class="space-y-3 text-sm">
-                        <li><a href="index.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">วแัฦํำํษ</a></li>
-                        <li><a href="packages.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">วแศวÞวส</a></li>
-                        <li><a href="questionnaire.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">วศฯร วแยไ</a></li>
-                        <li><a href="terms.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">วแิัๆุ ๆวแรอ฿วใ</a></li>
-                        <li><a href="about.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ใไ ไอไ</a></li>
+                        <li><a href="index.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุงูุฑุฆูุณูุฉ</a></li>
+                        <li><a href="packages.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุงูุจุงูุงุช</a></li>
+                        <li><a href="questionnaire.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุงุจุฏุฃ ุงูุขู</a></li>
+                        <li><a href="terms.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุงูุดุฑูุท ูุงูุฃุญูุงู…</a></li>
+                        <li><a href="about.html" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ู…ู ูุญู</a></li>
                     </ul>
                 </div>
                 
                 <!-- Services -->
                 <div class="footer-section text-center md:text-right p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
-                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">ฮฯใวสไว</h4>
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">ุฎุฏู…ุงุชูุง</h4>
                     <ul class="space-y-3 text-sm">
-                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ลฯวัษ วแำๆิวแ ใํฯํว</a></li>
-                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ลไิวม วแใอสๆ์</a></li>
-                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">สีใํใ วแๅๆํษ</a></li>
-                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">วแสำๆํÞ วแัÞใํ</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุฅุฏุงุฑุฉ ุงูุณูุดุงู ู…ูุฏูุง</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุฅูุดุงุก ุงูู…ุญุชูู</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุชุตู…ูู… ุงููููุฉ</a></li>
+                        <li><a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุงูุชุณููู ุงูุฑูู…ู</a></li>
                     </ul>
                 </div>
                 
                 <!-- Contact -->
                 <div class="footer-section text-center p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-[rgba(246,135,32,0.05)]">
-                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">สๆวีแ ใฺไว</h4>
+                    <h4 class="text-white font-bold text-lg mb-6 font-montserrat">ุชูุงุตู ู…ุนูุง</h4>
                     <ul class="space-y-4 text-sm">
                         <li class="flex items-center justify-center gap-3 hover:text-[#f68720] transition-colors cursor-pointer group">
                             <div class="w-8 h-8 bg-[rgba(246,135,32,0.1)] rounded-full flex items-center justify-center group-hover:bg-[#f68720] transition-colors flex-shrink-0">
@@ -1237,12 +1237,12 @@
                 <div class="flex flex-col md:flex-row justify-between items-center text-sm">
                     <div class="flex items-center justify-center gap-2">
                         <img src="images/3.png" alt="Logo" class="w-12 h-12 object-contain">
-                        <span class="font-montserrat tracking-tighter">&copy; 2026. ฬใํฺ วแอÞๆÞ ใอÝๆูษ.</span>
+                        <span class="font-montserrat tracking-tighter">&copy; 2026. ุฌู…ูุน ุงูุญููู ู…ุญููุธุฉ.</span>
                     </div>
                     <div class="flex gap-6 mt-4 md:mt-0">
-                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ำํวำษ วแฮีๆีํษ</a>
-                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ิัๆุ วแฮฯใษ</a>
-                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ำํวำษ ใแÝวส สฺัํÝ วแวัสศวุ</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุณูุงุณุฉ ุงูุฎุตูุตูุฉ</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุดุฑูุท ุงูุฎุฏู…ุฉ</a>
+                        <a href="#" class="hover:text-[#f68720] transition-all duration-300 hover:translate-x-1 inline-block">ุณูุงุณุฉ ู…ููุงุช ุชุนุฑูู ุงูุงุฑุชุจุงุท</a>
                     </div>
                 </div>
             </div>
@@ -1250,7 +1250,7 @@
     </footer>
 
     <style>
-        /* ===== ฬฯๆแ วแใÞวัไษ ===== */
+        /* ===== ุฌุฏูู ุงูู…ูุงุฑูุฉ ===== */
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
@@ -1407,28 +1407,28 @@
     <!-- Forum Coming Soon Popup -->
     <div id="forum-popup" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem;">
         <div style="background:linear-gradient(135deg,#1a1a1a,#0d0d0d); border:1px solid rgba(246,135,32,0.3); border-radius:1.5rem; padding:2.5rem 2rem; max-width:400px; width:100%; text-align:center; position:relative; box-shadow:0 0 40px rgba(246,135,32,0.15);">
-            <div style="font-size:3rem; margin-bottom:1rem;">??</div>
-            <h3 style="color:#f68720; font-size:1.25rem; font-weight:900; margin-bottom:0.75rem;">วแใไสฯ์ Þัํศว๐</h3>
-            <p style="color:#9ca3af; font-size:0.9rem; line-height:1.7; margin-bottom:1.5rem;">ไอไ ไฺใแ ฺแ์ ศไวม ใไสฯ์ วอสัวÝํ แสิวั฿ Ýํๅ ฮศัวส฿ ๆไีวฦอ฿ ใฺ วแใฬสใฺ. สวศฺๆไว!</p>
-            <button onclick="document.getElementById('forum-popup').style.display='none'" style="background:#f68720; color:#000; font-weight:700; padding:0.75rem 2rem; border-radius:0.75rem; border:none; cursor:pointer; font-size:0.95rem;">อำไว๐</button>
+            <div style="font-size:3rem; margin-bottom:1rem;">๐ง</div>
+            <h3 style="color:#f68720; font-size:1.25rem; font-weight:900; margin-bottom:0.75rem;">ุงูู…ูุชุฏู ูุฑูุจุงู</h3>
+            <p style="color:#9ca3af; font-size:0.9rem; line-height:1.7; margin-bottom:1.5rem;">ูุญู ูุนู…ู ุนูู ุจูุงุก ู…ูุชุฏู ุงุญุชุฑุงูู ูุชุดุงุฑู ููู ุฎุจุฑุงุชู ููุตุงุฆุญู ู…ุน ุงูู…ุฌุชู…ุน. ุชุงุจุนููุง!</p>
+            <button onclick="document.getElementById('forum-popup').style.display='none'" style="background:#f68720; color:#000; font-weight:700; padding:0.75rem 2rem; border-radius:0.75rem; border:none; cursor:pointer; font-size:0.95rem;">ุญุณูุงู</button>
         </div>
     </div>
 
-    <!-- ??????????????????????????????????????????????????????????????? -->
-    <!-- ?              ?? ำ฿ัํศสวส JavaScript                             ? -->
-    <!-- ?     สÝวฺแวส วแศวÞวส ๆวแัำๆใ วแใสอั฿ษ ๆÞวฦใษ วแใๆศวํแ           ? -->
-    <!-- ??????????????????????????????????????????????????????????????? -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
+    <!-- โ”              โ๏ธ ุณูุฑูุจุชุงุช JavaScript                             โ” -->
+    <!-- โ”     ุชูุงุนูุงุช ุงูุจุงูุงุช ูุงูุฑุณูู… ุงูู…ุชุญุฑูุฉ ููุงุฆู…ุฉ ุงูู…ูุจุงูู           โ” -->
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
     <script>
-        // Observer แแÜ Glow Edges - สิÛํแ วแรไใํิไ ÝÞุ ฺไฯ วแÜ Visibility
+        // Observer ููู€ Glow Edges - ุชุดุบูู ุงูุฃูู…ูุดู ููุท ุนูุฏ ุงูู€ Visibility
         document.addEventListener('DOMContentLoaded', () => {
             const glowEdgesElements = document.querySelectorAll('.glow-edges .glow-effect');
             const glowEdgesObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // วแฺไีั ูวๅั - สิÛํแ วแรไใํิไ
+                        // ุงูุนูุตุฑ ุธุงูุฑ - ุชุดุบูู ุงูุฃูู…ูุดู
                         entry.target.classList.remove('glow-paused');
                     } else {
-                        // วแฺไีั Ûํั ูวๅั - ลํÞวÝ วแรไใํิไ แสๆÝํั CPU
+                        // ุงูุนูุตุฑ ุบูุฑ ุธุงูุฑ - ุฅููุงู ุงูุฃูู…ูุดู ูุชูููุฑ CPU
                         entry.target.classList.add('glow-paused');
                     }
                 });
@@ -1438,7 +1438,7 @@
             });
 
             glowEdgesElements.forEach(element => {
-                // ลึวÝษ glow-paused Ýํ วแศฯวํษ แรไ วแฺไวีั Þฯ ส฿ๆไ Ûํั ูวๅัษ Ýํ วแศฯวํษ
+                // ุฅุถุงูุฉ glow-paused ูู ุงูุจุฏุงูุฉ ูุฃู ุงูุนูุงุตุฑ ูุฏ ุชููู ุบูุฑ ุธุงูุฑุฉ ูู ุงูุจุฏุงูุฉ
                 element.classList.add('glow-paused');
                 glowEdgesObserver.observe(element);
             });
@@ -1608,7 +1608,7 @@
             `;
             modal.innerHTML = `
                 <img id="modalImage" style="max-width: 90%; max-height: 90%; margin: auto; display: block; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
-                <span id="closeModal" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001;">ื</span>
+                <span id="closeModal" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001;">ร—</span>
             `;
             document.body.appendChild(modal);
 
@@ -1638,20 +1638,20 @@
             // Package data
             const packageData = {
                 launch: {
-                    title: 'สÝวีํแ ศวÞษ <span style="color: white;">วแวไุแวÞษ วแวำสัวสํฬํษ</span>',
+                    title: 'ุชูุงุตูู ุจุงูุฉ <span style="color: white;">ุงูุงูุทูุงูุฉ ุงูุงุณุชุฑุงุชูุฌูุฉ</span>',
                     content: `
-                        <!-- ศไฯ 1: Facebook -->
+                        <!-- ุจูุฏ 1: Facebook -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. ลไิวม ๆลฯวัษ ีÝอวส วแำๆิวแ ใํฯํว</h3>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. ุฅูุดุงุก ูุฅุฏุงุฑุฉ ุตูุญุงุช ุงูุณูุดุงู ู…ูุฏูุง</h3>
                                                  <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]"> (Instagram + Facebook)</h3>
 
-                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ํิใแ ลฺฯวฯว๐ วอสัวÝํว๐ ฿วใแว๐ แแอำวศวส:</p>
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ูุดู…ู ุฅุนุฏุงุฏุงู ุงุญุชุฑุงููุงู ูุงู…ูุงู ููุญุณุงุจุงุช:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• สีใํใ วแๅๆํษ วแศีัํษ วแใๆอฯษ (ีๆัษ วแÛแวÝ – วแศวํๆ – วแÞีี วแศวัาษ)</li>
-                                    <li>• ลฺฯวฯ ๅํ฿แํษ วแีÝอวส ๆÝÞ ๅๆํษ ศีัํษ ฿วใแษ ใฺ วฯัวฬ ใฺแๆใวส วแีÝอษ</li>
-                                    <li>• ัศุ วแีÝอวส ใฺว๐ ๆลไิวม ๆวฯวัษ ีÝอษ Meta Business</li>
-                                    <li>• วำสแวใ ฮฯใษ วแฺใแวม ฯวฮแ วแีÝอวส ๆวแัฯ ฺแ์ วแัำวฦแ</li>
+                                    <li>โ€ข ุชุตู…ูู… ุงููููุฉ ุงูุจุตุฑูุฉ ุงูู…ูุญุฏุฉ (ุตูุฑุฉ ุงูุบูุงู โ€“ ุงูุจุงูู โ€“ ุงููุตุต ุงูุจุงุฑุฒุฉ)</li>
+                                    <li>โ€ข ุฅุนุฏุงุฏ ูููููุฉ ุงูุตูุญุงุช ููู ูููุฉ ุจุตุฑูุฉ ูุงู…ูุฉ ู…ุน ุงุฏุฑุงุฌ ู…ุนููู…ุงุช ุงูุตูุญุฉ</li>
+                                    <li>โ€ข ุฑุจุท ุงูุตูุญุงุช ู…ุนุงู ูุฅูุดุงุก ูุงุฏุงุฑุฉ ุตูุญุฉ Meta Business</li>
+                                    <li>โ€ข ุงุณุชูุงู… ุฎุฏู…ุฉ ุงูุนู…ูุงุก ุฏุงุฎู ุงูุตูุญุงุช ูุงูุฑุฏ ุนูู ุงูุฑุณุงุฆู</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1659,18 +1659,18 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 2: Reels -->
+                        <!-- ุจูุฏ 2: Reels -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. ลไิวม 16 ัํแ วอสัวÝํ</h3>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. ุฅูุดุงุก 16 ุฑูู ุงุญุชุฑุงูู</h3>
                                                                                  <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]"> (Instagram + Facebook)</h3>
 
-                                <p class="text-gray-300 text-lg mb-6">ใÞำใษ ลแ์ 3 รไๆวฺ:</p>
+                                <p class="text-gray-300 text-lg mb-6">ู…ูุณู…ุฉ ุฅูู 3 ุฃููุงุน:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• Ýํฯํๆๅวส ศวแะ฿วม วแวีุไวฺํ ใฺ สฺแํÞ ีๆสํ</li>
-                                    <li>• Ýํฯํๆๅวส สีๆํั วอสัวÝํ แแใไสฬวส</li>
-                                    <li>• Ýํฯํๆๅวส สีๆํั ิฮีํษ (Personal Branding)</li>
-                                                                        <li>• สึใไ สÝวฺแ ๆฬแศ ฺใแวม ใอสใแํไ</li>
+                                    <li>โ€ข ููุฏูููุงุช ุจุงูุฐูุงุก ุงูุงุตุทูุงุนู ู…ุน ุชุนููู ุตูุชู</li>
+                                    <li>โ€ข ููุฏูููุงุช ุชุตููุฑ ุงุญุชุฑุงูู ููู…ูุชุฌุงุช</li>
+                                    <li>โ€ข ููุฏูููุงุช ุชุตููุฑ ุดุฎุตูุฉ (Personal Branding)</li>
+                                                                        <li>โ€ข ุชุถู…ู ุชูุงุนู ูุฌูุจ ุนู…ูุงุก ู…ุญุชู…ููู</li>
 
                                 </ul>
                             </div>
@@ -1679,14 +1679,14 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 3: Posts -->
+                        <!-- ุจูุฏ 3: Posts -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
                             <div dir="rtl" class="flex flex-col justify-center">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. สีใํใ 24 ใไิๆั หวศส</h3>
-                                <p class="text-gray-300 text-lg mb-6">ํิใแ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. ุชุตู…ูู… 24 ู…ูุดูุฑ ุซุงุจุช</h3>
+                                <p class="text-gray-300 text-lg mb-6">ูุดู…ู:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• ใไิๆัวส Ýัฯํษ</li>
-                                    <li>• ใไิๆัวส ใสฺฯฯษ (Carousel)</li>
+                                    <li>โ€ข ู…ูุดูุฑุงุช ูุฑุฏูุฉ</li>
+                                    <li>โ€ข ู…ูุดูุฑุงุช ู…ุชุนุฏุฏุฉ (Carousel)</li>
                                 </ul>
                             </div>
                             <div class="video-art rounded-xl overflow-hidden mx-auto" style="position: relative; aspect-ratio: 1/1; max-height: 480px; width: 100%; max-width: 480px;">
@@ -1701,11 +1701,11 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 4: Stories -->
+                        <!-- ุจูุฏ 4: Stories -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                             <div dir="rtl" class="flex flex-col justify-center">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">4. ลไิวม 15 Þีษ สÝวฺแํษ (Stories)</h3>
-                                <p class="text-gray-300 text-lg mb-6">ใีใใษ แัÝฺ วแสÝวฺแ ๆสฺาํา ๆีๆแ วแอำวศ.</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">4. ุฅูุดุงุก 15 ูุตุฉ ุชูุงุนููุฉ (Stories)</h3>
+                                <p class="text-gray-300 text-lg mb-6">ู…ุตู…ู…ุฉ ูุฑูุน ุงูุชูุงุนู ูุชุนุฒูุฒ ูุตูู ุงูุญุณุงุจ.</p>
                             </div>
                             <div class="flex justify-center">
                                 <div id="storiesViewer" style="width: 240px; aspect-ratio: 9/16; background: #111; border-radius: 24px; border: 3px solid #333; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(246,135,32,0.2);">
@@ -1730,15 +1730,15 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 5: สีๆํั ใไสฬวส -->
+                        <!-- ุจูุฏ 5: ุชุตููุฑ ู…ูุชุฌุงุช -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">5. สีๆํั ใไสฬวส วอสัวÝํ</h3>
-                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ํิใแ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">5. ุชุตููุฑ ู…ูุชุฌุงุช ุงุญุชุฑุงูู</h3>
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ูุดู…ู:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• ลฺฯวฯ ลึวมษ วอสัวÝํษ</li>
-                                    <li>• ฮแÝํวส ใสฺฯฯษ แแใไสฬวส</li>
-                                    <li>• ฮแÞ ศํฦษ ใไวำศษ แแใไสฬ แลูๅวั Þํใสๅ</li>
+                                    <li>โ€ข ุฅุนุฏุงุฏ ุฅุถุงุกุฉ ุงุญุชุฑุงููุฉ</li>
+                                    <li>โ€ข ุฎูููุงุช ู…ุชุนุฏุฏุฉ ููู…ูุชุฌุงุช</li>
+                                    <li>โ€ข ุฎูู ุจูุฆุฉ ู…ูุงุณุจุฉ ููู…ูุชุฌ ูุฅุธูุงุฑ ููู…ุชู</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1746,31 +1746,31 @@
                             </div>
                         </div>
 
-                        <!-- ไๆฺ วแฮุษ -->
+                        <!-- ููุน ุงูุฎุทุฉ -->
                         <div class="text-center py-16 mt-20 border-t border-gray-700">
-                            <h2 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]"> ฮุษ ุๆํแษ วแรใฯ</h2>
+                            <h2 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]"> ุฎุทุฉ ุทูููุฉ ุงูุฃู…ุฏ</h2>
                             
                             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 text-gray-300 text-lg">
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1?? สัว฿ใํษ วแÞํใษ: วแไิั วแ฿หํÝ แแÝํฯํๆๅวส ๆวแศๆำสวส ํึวฺÝ วแูๅๆั ๆําํฯ วแหÞษ ใไ ฮแวแ ศไวม ฺแวÞษ ศํไ วแใอสๆ์ ๆวแฮๆวัาใํวสก ใใว ํัÝฺ ใฺฯแ วแๆีๆแ</div>
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2??    สฺาํา ๆีๆแ วแีÝอวส วแุศํฺํ</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1๏ธโฃ ุชุฑุงูู…ูุฉ ุงูููู…ุฉ: ุงููุดุฑ ุงููุซูู ููููุฏูููุงุช ูุงูุจูุณุชุงุช ูุถุงุนู ุงูุธููุฑ ููุฒูุฏ ุงูุซูุฉ ู…ู ุฎูุงู ุจูุงุก ุนูุงูุฉ ุจูู ุงูู…ุญุชูู ูุงูุฎูุงุฑุฒู…ูุงุชุ ู…ู…ุง ูุฑูุน ู…ุนุฏู ุงููุตูู</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2๏ธโฃ    ุชุนุฒูุฒ ูุตูู ุงูุตูุญุงุช ุงูุทุจูุนู</div>
                             </div>
                         </div>
                     `
                 },
                 professional: {
-                    title: 'สÝวีํแ ศวÞษ <span style="color: white;">วแใอสัÝ</span>',
+                    title: 'ุชูุงุตูู ุจุงูุฉ <span style="color: white;">ุงูู…ุญุชุฑู</span>',
                     content: `
-                        <!-- ศไฯ 1: ลฯวัษ ีÝอวส วแำๆิวแ ใํฯํว -->
+                        <!-- ุจูุฏ 1: ุฅุฏุงุฑุฉ ุตูุญุงุช ุงูุณูุดุงู ู…ูุฏูุง -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. ลฯวัษ ีÝอวส วแำๆิวแ ใํฯํว</h3>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. ุฅุฏุงุฑุฉ ุตูุญุงุช ุงูุณูุดุงู ู…ูุฏูุง</h3>
                                                  <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]"> (Instagram + Facebook)</h3>
-                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ลฯวัษ วอสัวÝํษ ิวใแษ แแอำวศวส:</p>
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ุฅุฏุงุฑุฉ ุงุญุชุฑุงููุฉ ุดุงู…ูุฉ ููุญุณุงุจุงุช:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• สุๆํั ๆสอำํไ วแๅๆํษ วแศีัํษ แแีÝอวส</li>
-                                    <li>• ลฯวัษ ํๆใํษ แแอำวศวส ๆวแัฯ ฺแ์ วแัำวฦแ</li>
-                                    <li>• ฬฯๆแษ ๆไิั วแใอสๆ์ Ýํ รÝึแ วแรๆÞวส</li>
-                                    <li>• ใสวศฺษ วแรฯวม ๆสอแํแ วแไสวฦฬ</li>
+                                    <li>โ€ข ุชุทููุฑ ูุชุญุณูู ุงููููุฉ ุงูุจุตุฑูุฉ ููุตูุญุงุช</li>
+                                    <li>โ€ข ุฅุฏุงุฑุฉ ููู…ูุฉ ููุญุณุงุจุงุช ูุงูุฑุฏ ุนูู ุงูุฑุณุงุฆู</li>
+                                    <li>โ€ข ุฌุฏููุฉ ููุดุฑ ุงูู…ุญุชูู ูู ุฃูุถู ุงูุฃููุงุช</li>
+                                    <li>โ€ข ู…ุชุงุจุนุฉ ุงูุฃุฏุงุก ูุชุญููู ุงููุชุงุฆุฌ</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1778,16 +1778,16 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 2: ัํแา วอสัวÝํษ -->
+                        <!-- ุจูุฏ 2: ุฑููุฒ ุงุญุชุฑุงููุฉ -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. 14 ัํแ วอสัวÝํ ิๅัํว๐</h3>
-                                <p class="text-gray-300 text-lg mb-6">ใอสๆ์ Ýํฯํๆ ฺวแํ วแฬๆฯษ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. 14 ุฑูู ุงุญุชุฑุงูู ุดูุฑูุงู</h3>
+                                <p class="text-gray-300 text-lg mb-6">ู…ุญุชูู ููุฏูู ุนุงูู ุงูุฌูุฏุฉ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• ัํแา ศสÞไํษ 4K</li>
-                                    <li>• ใฤหัวส วอสัวÝํษ ๆใๆำํÞ์ สีๆํัํษ</li>
-                                    <li>• ไีๆี สำๆํÞํษ ใÞไฺษ</li>
-                                    <li>• สอำํไ ใำสใั แแรฯวม ๆวแสÝวฺแ</li>
+                                    <li>โ€ข ุฑููุฒ ุจุชูููุฉ 4K</li>
+                                    <li>โ€ข ู…ุคุซุฑุงุช ุงุญุชุฑุงููุฉ ูู…ูุณููู ุชุตููุฑูุฉ</li>
+                                    <li>โ€ข ูุตูุต ุชุณููููุฉ ู…ููุนุฉ</li>
+                                    <li>โ€ข ุชุญุณูู ู…ุณุชู…ุฑ ููุฃุฏุงุก ูุงูุชูุงุนู</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1795,15 +1795,15 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 3: ศๆำสวส ใฯัๆำษ -->
+                        <!-- ุจูุฏ 3: ุจูุณุชุงุช ู…ุฏุฑูุณุฉ -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
                             <div dir="rtl" class="flex flex-col justify-center">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. 16 ศๆำส ิๅัํว๐</h3>
-                                <p class="text-gray-300 text-lg mb-6">ใอสๆ์ วำสัวสํฬํ ใสไๆฺ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. 16 ุจูุณุช ุดูุฑูุงู</h3>
+                                <p class="text-gray-300 text-lg mb-6">ู…ุญุชูู ุงุณุชุฑุงุชูุฌู ู…ุชููุน:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• 6 ศๆำส สฺแํใํ</li>
-                                    <li>• 6 ศๆำส สำๆํÞํ</li>
-                                    <li>• 4 ศๆำส สÝวฺแํ</li>
+                                    <li>โ€ข 6 ุจูุณุช ุชุนููู…ู</li>
+                                    <li>โ€ข 6 ุจูุณุช ุชุณูููู</li>
+                                    <li>โ€ข 4 ุจูุณุช ุชูุงุนูู</li>
                                 </ul>
                             </div>
                             <div class="video-art rounded-xl overflow-hidden mx-auto" style="position: relative; aspect-ratio: 1/1; max-height: 480px; width: 100%; max-width: 480px;">
@@ -1816,15 +1816,15 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 4: Þีี ิๅัํษ -->
+                        <!-- ุจูุฏ 4: ูุตุต ุดูุฑูุฉ -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
                             <div dir="rtl" class="flex flex-col justify-center">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">4. 28 Þีษ สÝวฺแํษ ิๅัํว๐ (Stories)</h3>
-                                <p class="text-gray-300 text-lg mb-6">Þีี ํๆใํษ แสฺาํา วแสÝวฺแ ๆวแๆีๆแ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">4. 28 ูุตุฉ ุชูุงุนููุฉ ุดูุฑูุงู (Stories)</h3>
+                                <p class="text-gray-300 text-lg mb-6">ูุตุต ููู…ูุฉ ูุชุนุฒูุฒ ุงูุชูุงุนู ูุงููุตูู:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• Þีี สÝวฺแํษ ํๆใํษ</li>
-                                    <li>• วำสุแวฺวส ๆใำวศÞวส</li>
-                                    <li>• ใอสๆ์ อีัํ ๆฮแÝ วแ฿ๆวแํำ</li>
+                                    <li>โ€ข ูุตุต ุชูุงุนููุฉ ููู…ูุฉ</li>
+                                    <li>โ€ข ุงุณุชุทูุงุนุงุช ูู…ุณุงุจูุงุช</li>
+                                    <li>โ€ข ู…ุญุชูู ุญุตุฑู ูุฎูู ุงูููุงููุณ</li>
                                 </ul>
                             </div>
                             <div class="flex justify-center">
@@ -1847,16 +1847,16 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 5: ไูวใ วสใสษ วแใศํฺวส -->
+                        <!-- ุจูุฏ 5: ูุธุงู… ุงุชู…ุชุฉ ุงูู…ุจูุนุงุช -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">5. ไูวใ วสใสษ ใศํฺวส วแัำวฦแ</h3>
-                                <p class="text-gray-300 text-lg mb-6">ศไวม ใำวัวส ัฯๆฯ ยแํษ ใส฿วใแษ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">5. ูุธุงู… ุงุชู…ุชุฉ ู…ุจูุนุงุช ุงูุฑุณุงุฆู</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุจูุงุก ู…ุณุงุฑุงุช ุฑุฏูุฏ ุขููุฉ ู…ุชูุงู…ูุฉ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• ลฺฯวฯ ศๆสวส ัฯๆฯ ยแํษ ฺศั Manychat</li>
-                                    <li>• ใำวัวส ใศํฺวส ะ฿ํษ สแÞวฦํษ</li>
-                                    <li>• ัฯๆฯ Ýๆัํษ ฺแ์ วำสÝำวัวส วแฺใแวม</li>
-                                    <li>• สอๆํแ วแสÝวฺแ ลแ์ ใศํฺวส ศิ฿แ ใำสใั</li>
+                                    <li>โ€ข ุฅุนุฏุงุฏ ุจูุชุงุช ุฑุฏูุฏ ุขููุฉ ุนุจุฑ Manychat</li>
+                                    <li>โ€ข ู…ุณุงุฑุงุช ู…ุจูุนุงุช ุฐููุฉ ุชููุงุฆูุฉ</li>
+                                    <li>โ€ข ุฑุฏูุฏ ููุฑูุฉ ุนูู ุงุณุชูุณุงุฑุงุช ุงูุนู…ูุงุก</li>
+                                    <li>โ€ข ุชุญููู ุงูุชูุงุนู ุฅูู ู…ุจูุนุงุช ุจุดูู ู…ุณุชู…ุฑ</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1864,16 +1864,16 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 6: ไูวใ ฬใฺ วแศํวไวส -->
+                        <!-- ุจูุฏ 6: ูุธุงู… ุฌู…ุน ุงูุจูุงูุงุช -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">6. ไูวใ ฬใฺ วแศํวไวส ๆศไวม Þวฺฯษ ศํวไวส</h3>
-                                <p class="text-gray-300 text-lg mb-6">ศไวม ฯวสวศํำ วอสัวÝํษ ฺศั MySQL:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">6. ูุธุงู… ุฌู…ุน ุงูุจูุงูุงุช ูุจูุงุก ูุงุนุฏุฉ ุจูุงูุงุช</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุจูุงุก ุฏุงุชุงุจูุณ ุงุญุชุฑุงููุฉ ุนุจุฑ MySQL:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• ฬใฺ วแวำใ ๆัÞใ วแๅวสÝ ๆวแลํใํแ</li>
-                                    <li>• ศไวม Þวฺฯษ ศํวไวส ใไูใษ ฺศั MySQL</li>
-                                    <li>• สีไํÝ ๆสไูํใ ศํวไวส วแฺใแวม</li>
-                                    <li>• สรใํไ Þํใษ ัฦํำํษ แแใๅวใ วแสำๆํÞํษ</li>
+                                    <li>โ€ข ุฌู…ุน ุงูุงุณู… ูุฑูู… ุงููุงุชู ูุงูุฅูู…ูู</li>
+                                    <li>โ€ข ุจูุงุก ูุงุนุฏุฉ ุจูุงูุงุช ู…ูุธู…ุฉ ุนุจุฑ MySQL</li>
+                                    <li>โ€ข ุชุตููู ูุชูุธูู… ุจูุงูุงุช ุงูุนู…ูุงุก</li>
+                                    <li>โ€ข ุชุฃู…ูู ููู…ุฉ ุฑุฆูุณูุฉ ููู…ูุงู… ุงูุชุณููููุฉ</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1881,86 +1881,86 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 7: วแๅํ฿แ วแลฺแวไํ -->
+                        <!-- ุจูุฏ 7: ุงููููู ุงูุฅุนูุงูู -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">7. ลไิวม ๅํ฿แ ลฺแวไํ ใส฿วใแ</h3>
-                                <p class="text-gray-300 text-lg mb-6">วำสๅฯวÝ วอสัวÝํ ๆวฮสศวั ใำสใั:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">7. ุฅูุดุงุก ูููู ุฅุนูุงูู ู…ุชูุงู…ู</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุงุณุชูุฏุงู ุงุญุชุฑุงูู ูุงุฎุชุจุงุฑ ู…ุณุชู…ุฑ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• สÞำํใ ิัวฦอ วแฬใๅๆั วแใำสๅฯÝ ศฯÞษ</li>
-                                    <li>• วฮสศวัวส A/B รำศๆฺํษ แสฺาํา ฿Ýวมษ วแอใแวส</li>
-                                    <li>• ีํวÛษ ๆสีๆํั Ýํฯํๆๅวส ใๆฬๅษ แแศํฺ</li>
-                                    <li>• สไÝํะ ศรฯๆวส ๆๆำวฦแ วอสัวÝํษ ๆใใๅ๘ไษ</li>
+                                    <li>โ€ข ุชูุณูู… ุดุฑุงุฆุญ ุงูุฌู…ููุฑ ุงูู…ุณุชูุฏู ุจุฏูุฉ</li>
+                                    <li>โ€ข ุงุฎุชุจุงุฑุงุช A/B ุฃุณุจูุนูุฉ ูุชุนุฒูุฒ ููุงุกุฉ ุงูุญู…ูุงุช</li>
+                                    <li>โ€ข ุตูุงุบุฉ ูุชุตููุฑ ููุฏูููุงุช ู…ูุฌูุฉ ููุจูุน</li>
+                                    <li>โ€ข ุชูููุฐ ุจุฃุฏูุงุช ููุณุงุฆู ุงุญุชุฑุงููุฉ ูู…ู…ูู‘ูุฉ</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- ศไฯ 8: วแสÞัํั วแส฿สํ฿ํ -->
+                        <!-- ุจูุฏ 8: ุงูุชูุฑูุฑ ุงูุชูุชููู -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">8. วแสÞัํั วแส฿สํ฿ํ แใฤิัวส วแรฯวม</h3>
-                                <p class="text-gray-300 text-lg mb-6">สÞัํั ิๅัํ ศÜ 4 รัÞวใ ฬๆๅัํษ ÝÞุ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">8. ุงูุชูุฑูุฑ ุงูุชูุชููู ูู…ุคุดุฑุงุช ุงูุฃุฏุงุก</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุชูุฑูุฑ ุดูุฑู ุจู€ 4 ุฃุฑูุงู… ุฌููุฑูุฉ ููุท:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• ส฿แÝษ วแอีๆแ ฺแ์ วแฺใํแ/วแัำวแษ (CPL)</li>
-                                    <li>• ใฺฯแ วแสอๆํแ ใไ ใิวๅฯษ ลแ์ ัำวแษ</li>
-                                    <li>• รÝึแ 3 Ýํฯํๆๅวส อÞÞส ใศํฺวส/สÝวฺแ</li>
-                                    <li>• ฮุษ ฺใแ วแิๅั วแสวแํ วแใำสไฯษ แแรัÞวใ</li>
+                                    <li>โ€ข ุชูููุฉ ุงูุญุตูู ุนูู ุงูุนู…ูู/ุงูุฑุณุงูุฉ (CPL)</li>
+                                    <li>โ€ข ู…ุนุฏู ุงูุชุญููู ู…ู ู…ุดุงูุฏุฉ ุฅูู ุฑุณุงูุฉ</li>
+                                    <li>โ€ข ุฃูุถู 3 ููุฏูููุงุช ุญููุช ู…ุจูุนุงุช/ุชูุงุนู</li>
+                                    <li>โ€ข ุฎุทุฉ ุนู…ู ุงูุดูุฑ ุงูุชุงูู ุงูู…ุณุชูุฏุฉ ููุฃุฑูุงู…</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- ศไฯ 9: ฬแำวส วแสุๆํั -->
+                        <!-- ุจูุฏ 9: ุฌูุณุงุช ุงูุชุทููุฑ -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">9. ฬแำวส ๆวฬสใวฺวส วแสุๆํั</h3>
-                                <p class="text-gray-300 text-lg mb-6">ศอห ๆสุๆํั ใำสใั ุๆวแ ใฯษ วแศวÞษ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">9. ุฌูุณุงุช ูุงุฌุชู…ุงุนุงุช ุงูุชุทููุฑ</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุจุญุซ ูุชุทููุฑ ู…ุณุชู…ุฑ ุทูุงู ู…ุฏุฉ ุงูุจุงูุฉ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• วฬสใวฺวส ฯๆัํษ แใัวฬฺษ วแรฯวม</li>
-                                    <li>• brainstorming แรÝ฿วั ใอสๆ์ ฬฯํฯษ</li>
-                                    <li>• สอแํแ วแใไวÝำํไ ๆสศไํ รอฯห วแวำสัวสํฬํวส</li>
-                                    <li>• ๆึฺ ฮุุ สุๆํั ิๅัํษ</li>
+                                    <li>โ€ข ุงุฌุชู…ุงุนุงุช ุฏูุฑูุฉ ูู…ุฑุงุฌุนุฉ ุงูุฃุฏุงุก</li>
+                                    <li>โ€ข brainstorming ูุฃููุงุฑ ู…ุญุชูู ุฌุฏูุฏุฉ</li>
+                                    <li>โ€ข ุชุญููู ุงูู…ูุงูุณูู ูุชุจูู ุฃุญุฏุซ ุงูุงุณุชุฑุงุชูุฌูุงุช</li>
+                                    <li>โ€ข ูุถุน ุฎุทุท ุชุทููุฑ ุดูุฑูุฉ</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- แใวะว ศวÞษ วแใอสัÝ -->
+                        <!-- ูู…ุงุฐุง ุจุงูุฉ ุงูู…ุญุชุฑู -->
                         <div class="text-center py-16 mt-20 border-t border-gray-700">
-                            <h3 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]">แใวะว ศวÞษ วแใอสัÝฟ</h3>
+                            <h3 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]">ูู…ุงุฐุง ุจุงูุฉ ุงูู…ุญุชุฑูุ</h3>
                             <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-gray-300 text-lg">
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1?? ไใๆ ใสำวัฺ</div>
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2?? วำสๅฯวÝ วอสัวÝํ</div>
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">3?? ไสวฦฬ ใึใๆไษ</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1๏ธโฃ ูู…ู ู…ุชุณุงุฑุน</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2๏ธโฃ ุงุณุชูุฏุงู ุงุญุชุฑุงูู</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">3๏ธโฃ ูุชุงุฆุฌ ู…ุถู…ููุฉ</div>
                             </div>
                         </div>
                     `
                 },
                 elite: {
-                    title: 'สÝวีํแ ศวÞษ <span style="color: white;">วแไฮศษ</span>',
+                    title: 'ุชูุงุตูู ุจุงูุฉ <span style="color: white;">ุงููุฎุจุฉ</span>',
                     content: `
-                        <!-- ศไฯ 1: สุๆํั ๆศไวม ีÝอษ ๅศๆุ -->
+                        <!-- ุจูุฏ 1: ุชุทููุฑ ูุจูุงุก ุตูุญุฉ ูุจูุท -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. สุๆํั ๆศไวม ใๆÞฺ ลแ฿สัๆไํ / ีÝอษ ๅศๆุ</h3>
-                                <p class="text-gray-300 text-lg mb-6">อึๆั ัÞใํ วอสัวÝํ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">1. ุชุทููุฑ ูุจูุงุก ู…ููุน ุฅููุชุฑููู / ุตูุญุฉ ูุจูุท</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุญุถูุฑ ุฑูู…ู ุงุญุชุฑุงูู:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• สีใํใ ๆศัใฬษ ีÝอษ ๅศๆุ (Landing Page) ใอำ๘ไษ</li>
-                                    <li>• สีใํใ ใสฬวๆศ แฬใํฺ วแรฬๅาษ</li>
-                                    <li>• SEO รำวำํ แใอั฿วส วแศอห</li>
-                                    <li>• ำัฺษ สอใํแ ฺวแํษ ๆรฯวม ใใสวา</li>
+                                    <li>โ€ข ุชุตู…ูู… ูุจุฑู…ุฌุฉ ุตูุญุฉ ูุจูุท (Landing Page) ู…ุญุณู‘ูุฉ</li>
+                                    <li>โ€ข ุชุตู…ูู… ู…ุชุฌุงูุจ ูุฌู…ูุน ุงูุฃุฌูุฒุฉ</li>
+                                    <li>โ€ข SEO ุฃุณุงุณู ูู…ุญุฑูุงุช ุงูุจุญุซ</li>
+                                    <li>โ€ข ุณุฑุนุฉ ุชุญู…ูู ุนุงููุฉ ูุฃุฏุงุก ู…ู…ุชุงุฒ</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- ศไฯ 2: 14 ัํแ วอสัวÝํ -->
+                        <!-- ุจูุฏ 2: 14 ุฑูู ุงุญุชุฑุงูู -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. 14 ัํแ วอสัวÝํ ิๅัํว๐</h3>
-                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ใอสๆ์ Ýํฯํๆ วอสัวÝํ ฺวแํ วแฬๆฯษ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">2. 14 ุฑูู ุงุญุชุฑุงูู ุดูุฑูุงู</h3>
+                                <p class="text-gray-300 text-lg mb-6 leading-relaxed">ู…ุญุชูู ููุฏูู ุงุญุชุฑุงูู ุนุงูู ุงูุฌูุฏุฉ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• ัํแา ศสÞไํษ 4K</li>
-                                    <li>• ใฤหัวส วอสัวÝํษ ๆใๆำํÞ์ สีๆํัํษ</li>
-                                    <li>• ไีๆี สำๆํÞํษ ใÞไฺษ</li>
-                                    <li>• สอำํไ ใำสใั แแรฯวม ๆวแสÝวฺแ</li>
+                                    <li>โ€ข ุฑููุฒ ุจุชูููุฉ 4K</li>
+                                    <li>โ€ข ู…ุคุซุฑุงุช ุงุญุชุฑุงููุฉ ูู…ูุณููู ุชุตููุฑูุฉ</li>
+                                    <li>โ€ข ูุตูุต ุชุณููููุฉ ู…ููุนุฉ</li>
+                                    <li>โ€ข ุชุญุณูู ู…ุณุชู…ุฑ ููุฃุฏุงุก ูุงูุชูุงุนู</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1968,16 +1968,16 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 3: 4 Ýํฯํๆๅวส ฬัวÝํ฿ -->
+                        <!-- ุจูุฏ 3: 4 ููุฏูููุงุช ุฌุฑุงููู -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. 4 Ýํฯํๆๅวส ฬัวÝํ฿ ิๅัํว๐</h3>
-                                <p class="text-gray-300 text-lg mb-6">motion graphics วอสัวÝํษ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">3. 4 ููุฏูููุงุช ุฌุฑุงููู ุดูุฑูุงู</h3>
+                                <p class="text-gray-300 text-lg mb-6">motion graphics ุงุญุชุฑุงููุฉ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• สีใํใ ฬัวÝํ฿ ใสอั฿ ฺวแํ วแฬๆฯษ</li>
-                                    <li>• ใๆำํÞ์ ๆใฤหัวส ีๆสํษ</li>
-                                    <li>• ไีๆี ใสอั฿ษ ใÞไฺษ</li>
-                                    <li>• ใไวำศษ แแลฺแวไวส ๆวแใอสๆ์ วแสำๆํÞํ</li>
+                                    <li>โ€ข ุชุตู…ูู… ุฌุฑุงููู ู…ุชุญุฑู ุนุงูู ุงูุฌูุฏุฉ</li>
+                                    <li>โ€ข ู…ูุณููู ูู…ุคุซุฑุงุช ุตูุชูุฉ</li>
+                                    <li>โ€ข ูุตูุต ู…ุชุญุฑูุฉ ู…ููุนุฉ</li>
+                                    <li>โ€ข ู…ูุงุณุจุฉ ููุฅุนูุงูุงุช ูุงูู…ุญุชูู ุงูุชุณูููู</li>
                                 </ul>
                             </div>
                             <div class="video-art" style="height: 300px;">
@@ -1985,15 +1985,15 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 4: ศๆำสวส -->
+                        <!-- ุจูุฏ 4: ุจูุณุชุงุช -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
                             <div dir="rtl" class="flex flex-col justify-center">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">4. 16 ศๆำส ิๅัํว๐</h3>
-                                <p class="text-gray-300 text-lg mb-6">ใอสๆ์ วำสัวสํฬํ ใสไๆฺ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">4. 16 ุจูุณุช ุดูุฑูุงู</h3>
+                                <p class="text-gray-300 text-lg mb-6">ู…ุญุชูู ุงุณุชุฑุงุชูุฌู ู…ุชููุน:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• 6 ศๆำส สฺแํใํ</li>
-                                    <li>• 6 ศๆำส สำๆํÞํ</li>
-                                    <li>• 4 ศๆำส สÝวฺแํ</li>
+                                    <li>โ€ข 6 ุจูุณุช ุชุนููู…ู</li>
+                                    <li>โ€ข 6 ุจูุณุช ุชุณูููู</li>
+                                    <li>โ€ข 4 ุจูุณุช ุชูุงุนูู</li>
                                 </ul>
                             </div>
                             <div class="video-art rounded-xl overflow-hidden mx-auto" style="position: relative; aspect-ratio: 1/1; max-height: 480px; width: 100%; max-width: 480px;">
@@ -2006,15 +2006,15 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 5: Þีี -->
+                        <!-- ุจูุฏ 5: ูุตุต -->
                         <div class="detail-item glass-card p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
                             <div dir="rtl" class="flex flex-col justify-center">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">5. 28 Þีษ สÝวฺแํษ ิๅัํว๐ (Stories)</h3>
-                                <p class="text-gray-300 text-lg mb-6">Þีี ํๆใํษ แสฺาํา วแสÝวฺแ ๆวแๆีๆแ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">5. 28 ูุตุฉ ุชูุงุนููุฉ ุดูุฑูุงู (Stories)</h3>
+                                <p class="text-gray-300 text-lg mb-6">ูุตุต ููู…ูุฉ ูุชุนุฒูุฒ ุงูุชูุงุนู ูุงููุตูู:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• Þีี สÝวฺแํษ ํๆใํษ</li>
-                                    <li>• วำสุแวฺวส ๆใำวศÞวส</li>
-                                    <li>• ใอสๆ์ อีัํ ๆฮแÝ วแ฿ๆวแํำ</li>
+                                    <li>โ€ข ูุตุต ุชูุงุนููุฉ ููู…ูุฉ</li>
+                                    <li>โ€ข ุงุณุชุทูุงุนุงุช ูู…ุณุงุจูุงุช</li>
+                                    <li>โ€ข ู…ุญุชูู ุญุตุฑู ูุฎูู ุงูููุงููุณ</li>
                                 </ul>
                             </div>
                             <div class="flex justify-center">
@@ -2037,69 +2037,69 @@
                             </div>
                         </div>
 
-                        <!-- ศไฯ 6: วสใสษ + ฬใฺ ศํวไวส + ๅํ฿แ ลฺแวไํ -->
+                        <!-- ุจูุฏ 6: ุงุชู…ุชุฉ + ุฌู…ุน ุจูุงูุงุช + ูููู ุฅุนูุงูู -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">6. วสใสษ วแใศํฺวส ๆวแศํวไวส ๆวแๅํ฿แ วแลฺแวไํ</h3>
-                                <p class="text-gray-300 text-lg mb-6">ไูวใ ใส฿วใแ แแสอๆํแ ๆวแใสวศฺษ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">6. ุงุชู…ุชุฉ ุงูู…ุจูุนุงุช ูุงูุจูุงูุงุช ูุงููููู ุงูุฅุนูุงูู</h3>
+                                <p class="text-gray-300 text-lg mb-6">ูุธุงู… ู…ุชูุงู…ู ููุชุญููู ูุงูู…ุชุงุจุนุฉ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• วสใสษ ใศํฺวส วแัำวฦแ ฺศั Manychat</li>
-                                    <li>• ฬใฺ วแศํวไวส ๆศไวม Þวฺฯษ ศํวไวส MySQL</li>
-                                    <li>• ๅํ฿แ ลฺแวไํ ศสÞำํใ ิัวฦอ วแฬใๅๆั</li>
-                                    <li>• วฮสศวัวส A/B รำศๆฺํษ แสฺาํา วแ฿Ýวมษ</li>
-                                    <li>• Ýํฯํๆๅวส ใๆฬๅษ แแศํฺ ศรฯๆวส วอสัวÝํษ</li>
+                                    <li>โ€ข ุงุชู…ุชุฉ ู…ุจูุนุงุช ุงูุฑุณุงุฆู ุนุจุฑ Manychat</li>
+                                    <li>โ€ข ุฌู…ุน ุงูุจูุงูุงุช ูุจูุงุก ูุงุนุฏุฉ ุจูุงูุงุช MySQL</li>
+                                    <li>โ€ข ูููู ุฅุนูุงูู ุจุชูุณูู… ุดุฑุงุฆุญ ุงูุฌู…ููุฑ</li>
+                                    <li>โ€ข ุงุฎุชุจุงุฑุงุช A/B ุฃุณุจูุนูุฉ ูุชุนุฒูุฒ ุงูููุงุกุฉ</li>
+                                    <li>โ€ข ููุฏูููุงุช ู…ูุฌูุฉ ููุจูุน ุจุฃุฏูุงุช ุงุญุชุฑุงููุฉ</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- ศไฯ 7: วแสÞัํั วแส฿สํ฿ํ + ฬแำวส วแสุๆํั -->
+                        <!-- ุจูุฏ 7: ุงูุชูุฑูุฑ ุงูุชูุชููู + ุฌูุณุงุช ุงูุชุทููุฑ -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">7. วแสÞัํั วแส฿สํ฿ํ ๆฬแำวส วแสุๆํั</h3>
-                                <p class="text-gray-300 text-lg mb-6">สอแํแ ๆสฮุํุ ใสÞฯใ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">7. ุงูุชูุฑูุฑ ุงูุชูุชููู ูุฌูุณุงุช ุงูุชุทููุฑ</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุชุญููู ูุชุฎุทูุท ู…ุชูุฏู…:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• สÞัํั ิๅัํ ศÜ 4 รัÞวใ ฬๆๅัํษ (CPL + วแสอๆํแ + รÝึแ Ýํฯํๆๅวส + ฮุษ วแิๅั วแสวแํ)</li>
-                                    <li>• วฬสใวฺวส ฯๆัํษ แใัวฬฺษ วแรฯวม</li>
-                                    <li>• สอแํแ วแใไวÝำํไ ๆวำสัวสํฬํวส ฬฯํฯษ</li>
-                                    <li>• ฮุุ สุๆํั ิๅัํษ ใฮีีษ</li>
+                                    <li>โ€ข ุชูุฑูุฑ ุดูุฑู ุจู€ 4 ุฃุฑูุงู… ุฌููุฑูุฉ (CPL + ุงูุชุญููู + ุฃูุถู ููุฏูููุงุช + ุฎุทุฉ ุงูุดูุฑ ุงูุชุงูู)</li>
+                                    <li>โ€ข ุงุฌุชู…ุงุนุงุช ุฏูุฑูุฉ ูู…ุฑุงุฌุนุฉ ุงูุฃุฏุงุก</li>
+                                    <li>โ€ข ุชุญููู ุงูู…ูุงูุณูู ูุงุณุชุฑุงุชูุฌูุงุช ุฌุฏูุฏุฉ</li>
+                                    <li>โ€ข ุฎุทุท ุชุทููุฑ ุดูุฑูุฉ ู…ุฎุตุตุฉ</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- ศไฯ 8: ศ฿ำแ + สอแํแ ำแๆ฿ + สอๆํแ ใสÞฯใ -->
+                        <!-- ุจูุฏ 8: ุจูุณู + ุชุญููู ุณููู + ุชุญููู ู…ุชูุฏู… -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">8. วแสสศฺ ๆวแสอแํแ วแใสÞฯใ</h3>
-                                <p class="text-gray-300 text-lg mb-6">ลฺฯวฯ รฯๆวส วแÞํวำ ๆวแใสวศฺษ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">8. ุงูุชุชุจุน ูุงูุชุญููู ุงูู…ุชูุฏู…</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุฅุนุฏุงุฏ ุฃุฏูุงุช ุงูููุงุณ ูุงูู…ุชุงุจุนุฉ:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• สหศํส ๆลฺฯวฯ ศ฿ำแ วแสสศฺ (Meta & TikTok Pixels)</li>
-                                    <li>• ัศุ รฯๆวส สอแํแ ำแๆ฿ วแใำสฮฯใ (GA4 / Hotjar)</li>
-                                    <li>• ลฺฯวฯ รอฯวห วแสอๆํแ วแใสÞฯใษ (Conversion API & Event Tracking)</li>
+                                    <li>โ€ข ุชุซุจูุช ูุฅุนุฏุงุฏ ุจูุณู ุงูุชุชุจุน (Meta & TikTok Pixels)</li>
+                                    <li>โ€ข ุฑุจุท ุฃุฏูุงุช ุชุญููู ุณููู ุงูู…ุณุชุฎุฏู… (GA4 / Hotjar)</li>
+                                    <li>โ€ข ุฅุนุฏุงุฏ ุฃุญุฏุงุซ ุงูุชุญููู ุงูู…ุชูุฏู…ุฉ (Conversion API & Event Tracking)</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- ศไฯ 9: CRM + ลฺวฯษ วแวำสๅฯวÝ -->
+                        <!-- ุจูุฏ 9: CRM + ุฅุนุงุฏุฉ ุงูุงุณุชูุฏุงู -->
                         <div class="detail-item glass-card p-8 md:p-12 mb-16">
                             <div dir="rtl">
-                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">9. CRM ๆลฺวฯษ วแวำสๅฯวÝ วแฯํไวใํ฿ํ</h3>
-                                <p class="text-gray-300 text-lg mb-6">ัศุ วแฺใแํวส ๆวำสๅฯวÝ ะ฿ํ:</p>
+                                <h3 class="font-montserrat text-2xl font-black mb-6 text-[#f68720]">9. CRM ูุฅุนุงุฏุฉ ุงูุงุณุชูุฏุงู ุงูุฏููุงู…ููู</h3>
+                                <p class="text-gray-300 text-lg mb-6">ุฑุจุท ุงูุนู…ููุงุช ูุงุณุชูุฏุงู ุฐูู:</p>
                                 <ul class="text-gray-300 space-y-3 text-lg">
-                                    <li>• รสใสษ ัศุ วแุแศวส ศไูวใ ลฯวัษ วแฺใแวม (CRM / Sheets)</li>
-                                    <li>• อใแวส ลฺวฯษ วแวำสๅฯวÝ วแฯํไวใํ฿ํษ (Dynamic Retargeting)</li>
-                                    <li>• ใสวศฺษ สแÞวฦํษ แแฺใแวม วแใอสใแํไ</li>
-                                    <li>• สอๆํแ รฺแ์ ใไ ฮแวแ วแวำสๅฯวÝ วแใฬฯๆแ</li>
+                                    <li>โ€ข ุฃุชู…ุชุฉ ุฑุจุท ุงูุทูุจุงุช ุจูุธุงู… ุฅุฏุงุฑุฉ ุงูุนู…ูุงุก (CRM / Sheets)</li>
+                                    <li>โ€ข ุญู…ูุงุช ุฅุนุงุฏุฉ ุงูุงุณุชูุฏุงู ุงูุฏููุงู…ูููุฉ (Dynamic Retargeting)</li>
+                                    <li>โ€ข ู…ุชุงุจุนุฉ ุชููุงุฆูุฉ ููุนู…ูุงุก ุงูู…ุญุชู…ููู</li>
+                                    <li>โ€ข ุชุญููู ุฃุนูู ู…ู ุฎูุงู ุงูุงุณุชูุฏุงู ุงูู…ุฌุฏูู</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- แใวะว ศวÞษ วแไฮศษ -->
+                        <!-- ูู…ุงุฐุง ุจุงูุฉ ุงููุฎุจุฉ -->
                         <div class="text-center py-16 mt-20 border-t border-gray-700">
-                            <h3 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]">แใวะว ศวÞษ วแไฮศษฟ</h3>
+                            <h3 class="font-montserrat text-2xl font-black mb-8 text-[#f68720]">ูู…ุงุฐุง ุจุงูุฉ ุงููุฎุจุฉุ</h3>
                             <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-gray-300 text-lg">
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1?? อแ ิวใแ</div>
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2?? ฯฺใ VIP</div>
-                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">3?? ไสวฦฬ วำสหไวฦํษ</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">1๏ธโฃ ุญู ุดุงู…ู</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">2๏ธโฃ ุฏุนู… VIP</div>
+                                <div class="summary-tile text-center p-6 rounded-2xl my-4 transition-all duration-300 hover:scale-105">3๏ธโฃ ูุชุงุฆุฌ ุงุณุชุซูุงุฆูุฉ</div>
                             </div>
                         </div>
                     `

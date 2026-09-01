@@ -51,10 +51,9 @@
         display: none !important;
     }
 
-    /* Hamburger button — transparent, white lines (stacked column) */
+    /* Hamburger button — transparent, white lines */
     #mobile-menu-btn {
         display: flex !important;
-        flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
         width: 44px !important;
@@ -63,7 +62,6 @@
         background: transparent !important;
         border: 0 !important;
         border-radius: 0 !important;
-        line-height: 0 !important;
         cursor: pointer;
     }
 
