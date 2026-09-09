@@ -1,6 +1,7 @@
 (function () {
   if (window.__projectImagesPreloaded) return;
   window.__projectImagesPreloaded = true;
+  var runStarted = false;
 
   var CFG = {
     apiKey: "AIzaSyBCP30snA8NGU5PDk6m4Vt_fvYXcxSvem8",
@@ -57,14 +58,17 @@
   }
 
   function warm(urls) {
-    for (var i = 0; i < urls.length; i++) (function (url) {
+    urls.slice(0, 6).forEach(function (url) {
       var img = new Image();
       img.decoding = 'async';
+      img.fetchPriority = 'low';
       img.src = url;
-    })(urls[i]);
+    });
   }
 
   function run() {
+    if (runStarted) return;
+    runStarted = true;
     if (typeof firebase === 'undefined' || !firebase.firestore) return;
     var db;
     try {
@@ -82,12 +86,17 @@
       .catch(function () {});
   }
 
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    run();
-  } else {
-    window.addEventListener('load', run);
+  function scheduleWarmup() {
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(run, { timeout: 3000 });
+    } else {
+      window.setTimeout(run, 1200);
+    }
   }
-  if (window.requestIdleCallback) {
-    window.setTimeout(function () { window.requestIdleCallback(run); }, 1500);
+
+  if (document.readyState === 'complete') {
+    scheduleWarmup();
+  } else {
+    window.addEventListener('load', scheduleWarmup, { once: true });
   }
 })();

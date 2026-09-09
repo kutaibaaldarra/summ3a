@@ -396,11 +396,12 @@
                 <div class="ve-meta-field"><label>صورة العرض (الغلاف)</label>
                     <div id="ve-cover-prev" class="ve-cover-prev" style="display:none"><img id="ve-cover-prev-img" alt=""></div>
                     <input id="ve-cover-url" class="input" placeholder="https://... أو اختر من الجهاز" style="margin-bottom:.4rem">
-                    <div style="display:flex;gap:.4rem">
+                    <div class="ve-upload-actions">
                         <input type="file" id="ve-cover-file" accept="image/*" style="display:none">
-                        <button type="button" class="btn btn-ghost btn-sm" style="flex:1" onclick="document.getElementById('ve-cover-file').click()">رفع صورة</button>
+                        <button type="button" class="btn btn-ghost btn-sm ve-upload-primary" onclick="document.getElementById('ve-cover-file').click()">رفع من الجهاز</button>
                         <button type="button" class="btn btn-ghost btn-sm" onclick="pfClearCover()">إزالة</button>
                     </div>
+                    <small class="ve-upload-hint">تُضغط الصورة تلقائيًا بصيغة WebP مع الحفاظ على جودة العرض.</small>
                 </div>
                 <div class="ve-meta-field"><label>الوصف المختصر</label><input id="ve-subtitle" class="input" placeholder="عالم بصري للعلامة"></div>
                 <div class="ve-meta-field"><label>التصنيف</label>

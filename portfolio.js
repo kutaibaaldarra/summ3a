@@ -107,6 +107,8 @@
     messagingSenderId: "587094312862",
     appId: "1:587094312862:web:ed31e9cf4e97af846ef88f"
   };
+  const PROJECT_CACHE_KEY = 'summ3a:portfolio-projects:v1';
+  const PROJECT_LIMIT = 12;
   const AR_NUM = ['٠١','٠٢','٠٣','٠٤','٠٥','٠٦','٠٧','٠٨','٠٩','١٠','١١','١٢'];
 
   const FALLBACK_PROJECTS = [
@@ -157,6 +159,40 @@
     }
   }
 
+  function isVideoMedia(url) {
+    if (!url || typeof url !== 'string') return false;
+    const value = url.trim().toLowerCase();
+    if (!value) return false;
+      return /(youtube\.com|youtu\.be|vimeo\.com|\.mp4(\?|$)|\.webm(\?|$)|\.ogg(\?|$)|\.mov(\?|$)|\.m4v(\?|$)|video\/)/i.test(value);
+  }
+
+  function getVideoEmbed(url) {
+    if (!url || typeof url !== 'string') return '';
+    const value = url.trim();
+    if (!value) return '';
+
+    const ytMatch = value.match(/(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{11})/i);
+    if (ytMatch) {
+      const id = ytMatch[1];
+      return '<div class="case-video-wrap"><iframe src="https://www.youtube.com/embed/' + id + '?rel=0" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
+    }
+
+    const vimeoMatch = value.match(/vimeo\.com\/(\d+)/i);
+    if (vimeoMatch) {
+      const id = vimeoMatch[1];
+      return '<div class="case-video-wrap"><iframe src="https://player.vimeo.com/video/' + id + '" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
+    }
+
+    return '<div class="case-video-wrap"><video class="case-video" controls playsinline preload="metadata" src="' + esc(value) + '"></video></div>';
+  }
+
+  function renderGalleryMedia(url) {
+    const value = String(url || '').trim();
+    if (!value) return '';
+    if (isVideoMedia(value)) return getVideoEmbed(value);
+    return '<img class="lazy-img" src="' + esc(placeholderSvg) + '" data-src="' + esc(optimizeImageUrl(value)) + '" alt="" loading="lazy" decoding="async">';
+  }
+
   function mapDoc(id, d) {
     return {
       id,
@@ -183,11 +219,15 @@
   /* ═══════════════════ الشبكة ═══════════════════ */
   const workGrid = document.querySelector('.work-grid');
 
-  function cardHTML(p) {
+  function cardHTML(p, index = 0) {
     const coverUrl = optimizeImageUrl(p.cover || '');
+    const isAboveFold = index < 3 && coverUrl;
+    const imageAttrs = isAboveFold
+      ? `src="${esc(coverUrl)}" alt="${esc(p.title)}" loading="eager" decoding="async" fetchpriority="high"`
+      : `src="${esc(placeholderSvg)}" data-src="${esc(coverUrl)}" alt="${esc(p.title)}" loading="lazy" decoding="async" fetchpriority="low"`;
     return `<article class="work-card reveal is-dynamic" data-category="${esc(p.category)}" data-color="${esc(p.color || '')}" tabindex="0" role="button" aria-label="${esc(p.title)}">
       <div class="work-image">
-        <img class="lazy-img" src="${esc(placeholderSvg)}" data-src="${esc(coverUrl)}" alt="${esc(p.title)}" loading="lazy" decoding="async" fetchpriority="low">
+        <img class="lazy-img${isAboveFold ? ' is-loaded' : ''}" ${imageAttrs}>
         <span class="work-tag">${esc(p.tag || ((CATEGORY_LABELS[p.category] || '') + (p.year ? ' / ' + p.year : '')))}</span>
         <span class="work-arrow"><i data-lucide="arrow-up-right"></i></span>
       </div>
@@ -205,13 +245,17 @@
     const images = root.querySelectorAll('img[data-src]');
     if (!images.length) return;
 
+    const loadImage = (img) => {
+      const src = img.dataset.src;
+      if (!src) return;
+      img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
+      img.src = src;
+      img.removeAttribute('data-src');
+    };
+
     if (!('IntersectionObserver' in window)) {
       images.forEach((img) => {
-        const src = img.dataset.src;
-        if (!src) return;
-        img.src = src;
-        img.removeAttribute('data-src');
-        img.classList.add('is-loaded');
+        loadImage(img);
       });
       return;
     }
@@ -220,11 +264,7 @@
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const img = entry.target;
-        const src = img.dataset.src;
-        if (!src) return;
-        img.src = src;
-        img.removeAttribute('data-src');
-        img.classList.add('is-loaded');
+        loadImage(img);
         obs.unobserve(img);
       });
     }, { rootMargin: '200px 0px' });
@@ -233,18 +273,7 @@
   }
 
   async function loadProjects() {
-    try {
-      if (typeof firebase === 'undefined') return;
-      firebase.initializeApp(CFG);
-      const db = firebase.firestore();
-      const snap = await db.collection('projects').get();
-      const list = [];
-      snap.forEach((doc) => {
-        const data = doc.data();
-        if (data.published === false) return;
-        list.push(mapDoc(doc.id, data));
-      });
-      list.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+    const renderProjects = (list) => {
       if (!list.length) return;
       workGrid.innerHTML = list.map(cardHTML).join('');
       const cards = workGrid.querySelectorAll('.work-card');
@@ -253,6 +282,34 @@
       workGrid.querySelectorAll('.work-card').forEach(revealEl);
       loadLazyImages(workGrid);
       if (window.ScrollTrigger) ScrollTrigger.refresh();
+    };
+
+    try {
+      const cached = JSON.parse(localStorage.getItem(PROJECT_CACHE_KEY) || 'null');
+      if (Array.isArray(cached) && cached.length) renderProjects(cached);
+    } catch (error) {
+      localStorage.removeItem(PROJECT_CACHE_KEY);
+    }
+
+    try {
+      if (typeof firebase === 'undefined') return;
+      firebase.initializeApp(CFG);
+      const db = firebase.firestore();
+      const snap = await db.collection('projects').limit(PROJECT_LIMIT).get();
+      const list = [];
+      snap.forEach((doc) => {
+        const data = doc.data();
+        if (data.published === false) return;
+        list.push(mapDoc(doc.id, data));
+      });
+      list.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+      if (!list.length) return;
+      renderProjects(list);
+      try {
+        const cacheable = list.map(({ id, title, subtitle, category, tag, field, year, cover, color, order }) =>
+          ({ id, title, subtitle, category, tag, field, year, cover, color, order }));
+        localStorage.setItem(PROJECT_CACHE_KEY, JSON.stringify(cacheable));
+      } catch (error) { /* Storage may be unavailable or full. */ }
     } catch (err) {
       console.warn('تعذّر تحميل الأعمال من الخادم، سيتم عرض الأعمال الافتراضية.', err);
     }
@@ -350,7 +407,7 @@
       if (b.t==='gallery' && b.imgs?.length) {
         const gc = gcMap[b.cols]||'';
         const many = b.imgs.length>2&&!gc?' is-many':'';
-        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g=>'<img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(g))+'" alt="" loading="lazy" decoding="async">').join('')+'</div>';
+        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g => renderGalleryMedia(g)).join('')+'</div>';
       }
       if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.a))+'" alt="قبل" loading="lazy" decoding="async"><img class="ba-after lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.b))+'" alt="بعد" loading="lazy" decoding="async"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
       return '';
@@ -393,7 +450,7 @@
       : '';
     const gal = (p.gallery.length && f.showGallery !== false)
       ? `<div class="case-section-title"><span>من داخل المشروع</span><small class="mono">تفاصيل مختارة</small></div>
-         <div class="case-gallery${gc}${p.gallery.length > 2 && !gc ? ' is-many' : ''}">${p.gallery.map((g) => `<img class="lazy-img" src="${esc(placeholderSvg)}" data-src="${esc(optimizeImageUrl(g))}" alt="" loading="lazy" decoding="async">`).join('')}</div>`
+         <div class="case-gallery${gc}${p.gallery.length > 2 && !gc ? ' is-many' : ''}">${p.gallery.map((g) => renderGalleryMedia(g)).join('')}</div>`
       : '';
     caseContent.innerHTML = `
       <h2 id="modal-title" class="${(ts + tw).trim()}"${align(ta)}>${esc(p.title)}</h2>

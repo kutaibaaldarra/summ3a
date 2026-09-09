@@ -296,6 +296,15 @@
   padding: .55rem;
   align-items: center;
 }
+.ve-upload-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .45rem;
+  width: 100%;
+}
+.ve-upload-primary { border-color: rgba(246,135,32,.65); color: #fff; }
+.ve-upload-hint { display: block; margin-top: .35rem; color: #777; font-size: .68rem; line-height: 1.5; }
 .ve-block.ve-sel .ve-img-panel { display: flex; }
 
 .ve-img-panel select,
@@ -321,6 +330,7 @@
   transition: border-color .15s;
 }
 .ve-img-btn:hover { border-color: #f68720; }
+.ve-upload-actions .ve-img-btn { min-width: 112px; }
 
 .ve-ctl-label { font-size: .72rem; color: #aaa; display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
 .ve-ctl-label b { color: #f68720; font-size: .8rem; }

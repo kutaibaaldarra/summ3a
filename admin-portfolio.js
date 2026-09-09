@@ -29,6 +29,49 @@
   function $(id) { return document.getElementById(id); }
   function db() { return firebase.firestore(); }
 
+  function collectStorageImageUrls(project) {
+    var urls = {};
+    if (!project || typeof project !== 'object') return urls;
+    var add = function (value) {
+      if (typeof value !== 'string' || !value || value.indexOf('data:') === 0) return;
+      if (/firebasestorage\.googleapis\.com|firebasestorage\.app|storage\.googleapis\.com/i.test(value)) urls[value] = true;
+    };
+    ['coverImage', 'beforeImage', 'afterImage'].forEach(function (key) { add(project[key]); });
+    (Array.isArray(project.galleryImages) ? project.galleryImages : []).forEach(add);
+    (Array.isArray(project.blocks) ? project.blocks : []).forEach(function (block) {
+      add(block.src);
+      add(block.a);
+      add(block.b);
+      (Array.isArray(block.imgs) ? block.imgs : []).forEach(add);
+    });
+    return urls;
+  }
+
+  function deleteRemovedStorageImages(previous, next, projectId) {
+    var oldUrls = collectStorageImageUrls(previous);
+    var newUrls = collectStorageImageUrls(next);
+    var removed = Object.keys(oldUrls).filter(function (url) { return !newUrls[url]; });
+    if (!removed.length || !window.firebase || !firebase.storage) return Promise.resolve();
+
+    return db().collection('projects').get().then(function (snap) {
+      var stillUsed = {};
+      snap.forEach(function (doc) {
+        if (doc.id === projectId) return;
+        Object.keys(collectStorageImageUrls(doc.data())).forEach(function (url) { stillUsed[url] = true; });
+      });
+      return Promise.all(removed.filter(function (url) { return !stillUsed[url]; }).map(function (url) {
+        try {
+          return firebase.storage().refFromURL(url).delete().catch(function (error) {
+            console.warn('تعذر حذف ملف الصورة من Storage', url, error);
+          });
+        } catch (error) {
+          console.warn('رابط Storage غير صالح للحذف', url, error);
+          return Promise.resolve();
+        }
+      }));
+    });
+  }
+
   function normalizeRemoteImageUrl(url) {
     if (!url || typeof url !== 'string') return '';
     var value = url.trim();
@@ -66,8 +109,8 @@
     reader.onload = function (e) {
       var img = new Image();
       img.onload = function () {
-        var MAX = 1200;
-        var quality = 0.68;
+        var MAX = 1000;
+        var quality = 0.72;
         var scale = Math.min(1, MAX / Math.max(img.width, img.height));
         var canvas = document.createElement('canvas');
         canvas.width = Math.max(1, Math.round(img.width * scale));
@@ -78,22 +121,7 @@
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         canvas.toBlob(function (blob) {
-          if (blob && window.firebase && firebase.storage) {
-            uploadBlobToStorage(blob, function (url) {
-              if (statusEl) {
-                statusEl.textContent = '✓ تم تجهيز الصورة';
-                statusEl.style.color = '#22c55e';
-              }
-              callback(url || '');
-            });
-          } else {
-            var dataUrl = canvas.toDataURL('image/jpeg', quality);
-            if (statusEl) {
-              statusEl.textContent = '✓ تم تجهيز الصورة';
-              statusEl.style.color = '#22c55e';
-            }
-            callback(dataUrl || '');
-          }
+          finishCompressedImage(blob, statusEl, callback);
         }, 'image/jpeg', quality);
       };
       img.onerror = function () {
@@ -115,27 +143,76 @@
     reader.readAsDataURL(file);
   }
 
-  function uploadBlobToStorage(blob, callback) {
+  function finishCompressedImage(blob, statusEl, callback) {
+    if (!blob) { callback(''); return; }
+    var completed = false;
+    var finish = function (url) {
+      if (completed) return;
+      completed = true;
+      callback(url || '');
+    };
+    var fail = function () {
+      if (statusEl) {
+        statusEl.textContent = '❌ فشل رفع الصورة — تأكد من اتصال الإنترنت';
+        statusEl.style.color = '#ef4444';
+      }
+      finish('');
+    };
+    if (window.firebase && firebase.storage) {
+      uploadBlobToStorage(blob, function (url) {
+        if (statusEl) {
+          statusEl.textContent = '✓ تم رفع الصورة';
+          statusEl.style.color = '#22c55e';
+        }
+        finish(url);
+      }, fail, statusEl);
+    } else {
+      fail();
+    }
+  }
+
+  function uploadBlobToStorage(blob, callback, fallback, statusEl) {
+    var settled = false;
+    var settleFallback = function () {
+      if (settled) return;
+      settled = true;
+      fallback();
+    };
+    var timeoutId = window.setTimeout(function () {
+      console.warn('storage upload timed out');
+      if (statusEl) {
+        statusEl.textContent = '❌ انتهت مهلة الرفع — تحقق من الإنترنت';
+        statusEl.style.color = '#ef4444';
+      }
+      settleFallback();
+    }, 15000);
     try {
       var storage = firebase.storage();
-      var name = 'projects/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.jpg';
-      var task = storage.ref(name).put(blob);
-      task.on('state_changed', null, function (err) {
+      var extension = blob.type === 'image/webp' ? 'webp' : 'jpg';
+      var name = 'projects/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + extension;
+      var task = storage.ref(name).put(blob, { contentType: blob.type });
+      task.on('state_changed', function (snapshot) {
+        if (!statusEl || !snapshot.totalBytes) return;
+        var percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        statusEl.textContent = 'جاري رفع الصورة... ' + percent + '%';
+      }, function (err) {
         console.warn('storage upload failed, falling back to base64', err);
-        var reader = new FileReader();
-        reader.onload = function (e2) { callback(e2.target.result); };
-        reader.readAsDataURL(blob);
+        window.clearTimeout(timeoutId);
+        settleFallback();
       }, function () {
-        task.snapshot.ref.getDownloadURL().then(function (url) { callback(url); }).catch(function () {
-          var reader = new FileReader();
-          reader.onload = function (e2) { callback(e2.target.result); };
-          reader.readAsDataURL(blob);
+        task.snapshot.ref.getDownloadURL().then(function (url) {
+          window.clearTimeout(timeoutId);
+          if (settled) return;
+          settled = true;
+          callback(url);
+        }).catch(function () {
+          window.clearTimeout(timeoutId);
+          settleFallback();
         });
       });
     } catch (e) {
-      var reader = new FileReader();
-      reader.onload = function (e2) { callback(e2.target.result); };
-      reader.readAsDataURL(blob);
+      window.clearTimeout(timeoutId);
+      settleFallback();
     }
   }
 
@@ -214,9 +291,17 @@
 
   function pfDeleteProject(id) {
     if (!confirm('حذف هذا العمل نهائياً؟ سيختفي من صفحة أعمالنا.')) return;
-    db().collection('projects').doc(id).delete().then(function () {
+    var projectRef = db().collection('projects').doc(id);
+    projectRef.get().then(function (snap) {
+      var existing = snap.data() || {};
+      return projectRef.delete().then(function () {
+        return deleteRemovedStorageImages(existing, {}, id);
+      });
+    }).then(function () {
       allProjects = allProjects.filter(function (x) { return x.id !== id; });
       loadProjects();
+    }).catch(function (error) {
+      alert('تعذر حذف المشروع: ' + error.message);
     });
   }
 
@@ -439,8 +524,13 @@
 
   function pfBlockGallery(b, i) {
     var thumbs = b.imgs.map(function (s, j) {
-      return '<div class="ve-thumb"><img src="' + esc(s) + '" alt="" onerror="this.parentElement.style.display=\'none\'">' +
-        '<button onclick="event.stopPropagation();pfRemoveGalleryImg(' + i + ',' + j + ')">✕</button></div>';
+      var media = '';
+      if (/\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(String(s || '')) || /youtube\.com|youtu\.be|vimeo\.com/i.test(String(s || '')) || /video\//i.test(String(s || ''))) {
+        media = '<video src="' + esc(s) + '" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover"></video>';
+      } else {
+        media = '<img src="' + esc(s) + '" alt="" onerror="this.parentElement.style.display=\'none\'">';
+      }
+      return '<div class="ve-thumb">' + media + '<button onclick="event.stopPropagation();pfRemoveGalleryImg(' + i + ',' + j + ')">✕</button></div>';
     }).join('');
 
     var colOpts = Object.keys(veColsOpts).map(function (k) {
@@ -449,9 +539,10 @@
 
     return '<div class="ve-b-gallery">' +
       '<div class="ve-gallery-grid">' + (thumbs || '<div class="ve-gallery-empty">لا توجد صور بعد</div>') + '</div>' +
-      '<div style="display:flex;flex-wrap:wrap;gap:.4rem;align-items:center">' +
+      '<div class="ve-upload-actions">' +
         '<input type="file" accept="image/*" multiple id="ve-gal-' + i + '" hidden onchange="pfUploadGallery(' + i + ',this.files)">' +
         '<button class="ve-img-btn" onclick="document.getElementById(\'ve-gal-' + i + '\').click()">📁 رفع صور</button>' +
+        '<button class="ve-img-btn" onclick="event.stopPropagation();pfAddGalleryVideo(' + i + ')">🎬 فيديو</button>' +
         '<button class="ve-img-btn" onclick="event.stopPropagation();pfAddGalleryLink(' + i + ')">🔗 رابط</button>' +
         '<select onchange="pfOnGalleryCols(' + i + ',this.value)" style="border-radius:8px;background:#101010;color:#ddd;border:1px solid #2e2e2e;padding:.35rem .5rem;font-size:.72rem">' + colOpts + '</select>' +
       '</div></div>';
@@ -821,9 +912,24 @@
   }
 
   function pfUploadGallery(i, files) {
-    Array.from(files || []).forEach(function (f) {
-      compressImage(f, function (url) { veBlocks[i].imgs.push(url); veUnsaved = true; pfRender(); });
-    });
+    var arr = Array.from(files || []).slice(0, 12);
+    var idx = 0;
+    function next() {
+      if (idx >= arr.length) return;
+      compressImage(arr[idx], function (url) {
+        if (url) veBlocks[i].imgs.push(url);
+        veUnsaved = true;
+        idx++;
+        pfRender();
+        next();
+      });
+    }
+    next();
+  }
+
+  function pfAddGalleryVideo(i) {
+    var url = prompt('صق رابط الفيديو أو رابط YouTube/Vimeo/MP4:');
+    if (url && url.trim()) { veBlocks[i].imgs.push(url.trim()); veUnsaved = true; pfRender(); }
   }
 
   function pfUploadImgBA(i, side, file) {
@@ -925,10 +1031,12 @@
       color: $('ve-color').value,
       order: parseInt($('ve-order').value) || 0,
       blocks: blocks,
-      coverImage: normalizeRemoteImageUrl(($('ve-cover-url').value.trim()) || (coverBlock && coverBlock.src) || (veProject && veProject.coverImage) || ''),
+      // Do not restore a deleted cover from the previous Firestore document.
+      coverImage: normalizeRemoteImageUrl(($('ve-cover-url').value.trim()) || (coverBlock && coverBlock.src) || ''),
       beforeImage: normalizeRemoteImageUrl(baBlock ? baBlock.a : ''),
       afterImage: normalizeRemoteImageUrl(baBlock ? baBlock.b : ''),
-      galleryImages: (galBlock ? galBlock.imgs.filter(Boolean) : allImgs).map(function (u) { return normalizeRemoteImageUrl(u); }).filter(Boolean),
+      // Gallery images already live in blocks; keep the legacy field only for old-format projects.
+      galleryImages: (galBlock ? [] : allImgs).map(function (u) { return normalizeRemoteImageUrl(u); }).filter(Boolean),
       published: publish ? true : $('ve-published').checked,
       format: (veProject && veProject.format) || {}
     };
@@ -938,11 +1046,13 @@
     if (ledeBlock) { data.format.descAlign = ledeBlock.align; data.format.descSize = ledeBlock.size; data.format.descWeight = ledeBlock.weight; }
     if (galBlock) data.format.galleryCols = galBlock.cols;
 
-    var estimateKB = Math.round(JSON.stringify(data).length / 1024);
-    if (estimateKB > 950) {
+    var serializedData = JSON.stringify(data);
+    var estimateBytes = window.TextEncoder ? new TextEncoder().encode(serializedData).length : serializedData.length;
+    var estimateKB = Math.round(estimateBytes / 1024);
+    if (estimateBytes > 900 * 1024) {
       statusEl.textContent = '❌ الحجم كبير جداً (' + estimateKB + 'KB)';
       statusEl.style.color = '#ef4444';
-      alert('البيانات أكبر من الحد المسموح Firebase (1MB).\nقلّل عدد الصور أو استخدم روابط خارجية.');
+      alert('حجم البيانات الفعلي ' + estimateKB + 'KB.\nاحذف الصور القديمة أو استخدم روابط صور خارجية؛ الحد الآمن أقل من 1MB بسبب بيانات Firestore الإضافية.');
       return;
     }
 
@@ -960,6 +1070,9 @@
         var existing = snap.data() || {};
         if (existing.createdAt) data.createdAt = existing.createdAt;
         return db().collection('projects').doc(veProject.id).set(data)
+          .then(function () {
+            return deleteRemovedStorageImages(existing, data, veProject.id);
+          })
           .then(done).catch(fail);
       }).catch(fail);
     } else {

@@ -3,15 +3,23 @@
 <head>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6a61a3fc5d853f1d46949c44/1ju6mh5k8';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+    var Tawk_API = window.Tawk_API || {};
+    var tawkStarted = false;
+    function loadTawk() {
+        if (tawkStarted) return;
+        tawkStarted = true;
+        window.Tawk_LoadStart = new Date();
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://embed.tawk.to/6a61a3fc5d853f1d46949c44/1ju6mh5k8';
+        script.charset = 'UTF-8';
+        script.setAttribute('crossorigin', '*');
+        document.head.appendChild(script);
+    }
+    ['pointerdown', 'touchstart', 'keydown'].forEach(function (eventName) {
+        window.addEventListener(eventName, loadTawk, { once: true, passive: true });
+    });
+    window.setTimeout(loadTawk, 4000);
     </script>
     <!--End of Tawk.to Script-->
     <meta charset="UTF-8">
@@ -22,6 +30,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="dns-prefetch" href="//www.youtube.com">
     <link rel="dns-prefetch" href="//img.youtube.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link rel="preconnect" href="https://firestore.googleapis.com">
     <link rel="icon" type="image/png" href="images/3.png">
     <link rel="preload" as="image" href="images/Gemini_Generated_Image_20cdk320cdk320cd.webp" fetchpriority="high">
 <title>سمعة</title>

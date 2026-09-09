@@ -1,4 +1,5 @@
 (function() {
+    function startTracker() {
     try {
         if (typeof firebase === 'undefined') { console.warn('tracker: firebase not loaded'); return; }
         var today = new Date().toISOString().slice(0, 10);
@@ -51,4 +52,16 @@
             console.log('tracker: saved visit from ' + src);
         }).catch(function(err) { console.warn('tracker: set error', err); });
     } catch(e) { console.warn('tracker error', e); }
+    }
+
+    var trackerStarted = false;
+    function scheduleTracker() {
+        if (trackerStarted) return;
+        trackerStarted = true;
+        startTracker();
+    }
+    ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function (eventName) {
+        window.addEventListener(eventName, scheduleTracker, { once: true, passive: true });
+    });
+    window.setTimeout(scheduleTracker, 4000);
 })();
