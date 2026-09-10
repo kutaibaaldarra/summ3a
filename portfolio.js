@@ -137,10 +137,17 @@
 
     try {
       const parsed = new URL(value);
-
       if (parsed.hostname.includes('1drv.ms') || parsed.hostname.includes('onedrive.live.com')) {
         if (!parsed.searchParams.has('download')) {
           parsed.searchParams.set('download', '1');
+        }
+        const requestedWidth = Number.parseInt(parsed.searchParams.get('width'), 10);
+        const requestedHeight = Number.parseInt(parsed.searchParams.get('height'), 10);
+        const maxWidth = 1400;
+        if (requestedWidth > maxWidth) {
+          const ratio = requestedHeight > 0 ? requestedHeight / requestedWidth : 1;
+          parsed.searchParams.set('width', String(maxWidth));
+          parsed.searchParams.set('height', String(Math.max(1, Math.round(maxWidth * ratio))));
         }
         return parsed.toString();
       }
@@ -253,6 +260,17 @@
       img.removeAttribute('data-src');
     };
 
+    // Images inside the open project modal are visible immediately. Do not
+    // wait for an observer tick or native lazy loading after the dialog opens.
+    if (root.closest?.('.project-modal')) {
+      images.forEach((img) => {
+        img.loading = 'eager';
+        img.fetchPriority = 'low';
+        loadImage(img);
+      });
+      return;
+    }
+
     if (!('IntersectionObserver' in window)) {
       images.forEach((img) => {
         loadImage(img);
@@ -338,6 +356,28 @@
     return card._project;
   }
 
+  const warmedProjectIds = new Set();
+
+  function preloadProjectMedia(project) {
+    if (!project || warmedProjectIds.has(project.id)) return;
+    warmedProjectIds.add(project.id);
+
+    const urls = [project.cover, project.beforeImage, project.afterImage];
+    (Array.isArray(project.gallery) ? project.gallery : []).forEach((url) => urls.push(url));
+    (Array.isArray(project.blocks) ? project.blocks : []).forEach((block) => {
+      if (!block) return;
+      urls.push(block.src, block.a, block.b);
+      if (Array.isArray(block.imgs)) block.imgs.forEach((url) => urls.push(url));
+    });
+
+    [...new Set(urls.filter(Boolean).map(optimizeImageUrl))].slice(0, 6).forEach((url) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.fetchPriority = 'low';
+      image.src = url;
+    });
+  }
+
   /* ═══════════════════ الفلاتر ═══════════════════ */
   document.querySelectorAll('.filter').forEach((filter) => {
     filter.addEventListener('click', () => {
@@ -369,7 +409,12 @@
     const panel = modal.querySelector('.modal-panel');
     let textOrder = 'image'; let sections = [];
     p.blocks.forEach(b => {
-      if (b.t==='cover') { hero.className = 'case-hero '+(hMap[b.h]||'ch-md'); modalImage.src = b.src||''; }
+      if (b.t==='cover') {
+        hero.className = 'case-hero '+(hMap[b.h]||'ch-md');
+        modalImage.src = optimizeImageUrl(b.src || '');
+        modalImage.loading = 'eager';
+        modalImage.fetchPriority = 'high';
+      }
       else if (b.t==='title') textOrder = 'text';
     });
 
@@ -410,6 +455,12 @@
         return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g => renderGalleryMedia(g)).join('')+'</div>';
       }
       if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.a))+'" alt="قبل" loading="lazy" decoding="async"><img class="ba-after lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.b))+'" alt="بعد" loading="lazy" decoding="async"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
+      if (b.t==='imgtext' && b.src) {
+        const sp = Math.max(25,Math.min(75,parseInt(b.split,10)||50));
+        const dir = b.side==='left' ? 'ltr' : 'rtl';
+        const imgObjFit = b.fit==='contain'?'contain':b.fit==='contain-w'?'contain':'cover';
+        return '<div class="block-imgtext" style="direction:'+dir+';grid-template-columns:'+sp+'% '+(100-sp)+'%"><div class="block-imgtext-img"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" style="object-fit:'+imgObjFit+'" loading="lazy" decoding="async"></div><div class="block-imgtext-text">'+b.text+'</div></div>';
+      }
       return '';
     }
 
@@ -477,7 +528,9 @@
     const p = resolveProject(card);
     const cards = [...document.querySelectorAll('.work-card')];
     currentIndex = cards.indexOf(card);
-    modalImage.src = p.cover || card.querySelector('img')?.src || '';
+    modalImage.src = optimizeImageUrl(p.cover || card.querySelector('img')?.src || '');
+    modalImage.loading = 'eager';
+    modalImage.fetchPriority = 'high';
     modalImage.alt = p.title;
     modalHeroTitle.textContent = p.title || '';
     modalHeroSubtitle.textContent = p.subtitle || '';
@@ -522,6 +575,18 @@
   workGrid?.addEventListener('click', (e) => {
     const card = e.target.closest('.work-card');
     if (card) openProject(card);
+  });
+  workGrid?.addEventListener('pointerover', (e) => {
+    const card = e.target.closest('.work-card');
+    if (card) preloadProjectMedia(resolveProject(card));
+  });
+  workGrid?.addEventListener('touchstart', (e) => {
+    const card = e.target.closest('.work-card');
+    if (card) preloadProjectMedia(resolveProject(card));
+  }, { passive: true });
+  workGrid?.addEventListener('focusin', (e) => {
+    const card = e.target.closest('.work-card');
+    if (card) preloadProjectMedia(resolveProject(card));
   });
   workGrid?.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;

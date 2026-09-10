@@ -62,8 +62,8 @@
   font-size: .7rem;
   font-weight: 700;
 }
-.pf-card-badge--draft  { background: rgba(239,68,68,0.12); color: #ef4444; }
-.pf-card-badge--pub    { background: rgba(34,197,94,0.12); color: #22c55e; }
+.pf-card-badge--draft  { background: rgba(239,68,68,0.18); color: #ffe1e1; }
+.pf-card-badge--pub    { background: rgba(34,197,94,0.18); color: #e3fbe9; }
 
 .pf-card-body {
   padding: 1rem;
@@ -78,7 +78,7 @@
   color: #fff;
 }
 .pf-card-subtitle {
-  color: #666;
+  color: #b7b7b7;
   font-size: .75rem;
   line-height: 1.4;
 }
@@ -170,7 +170,7 @@
 }
 
 /* ─── Tools Sidebar ─── */
-#ve-tools {
+#ve-toolbox {
   width: 76px;
   background: #141414;
   border-left: 1px solid #262626;
@@ -370,7 +370,7 @@
   border: 1px solid #2e2e2e;
   border-radius: 6px;
   background: #141414;
-  color: #666;
+  color: #d4d4d4;
   font-size: .65rem;
   cursor: pointer;
   display: flex;
@@ -747,6 +747,38 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
+   Image + Text Block (imgtext)
+   ═══════════════════════════════════════════════════════════ */
+.ve-b-imgtext { display:flex;flex-direction:column;gap:.5rem; }
+.ve-imgtext-row { display:grid;gap:0;min-height:220px;border-radius:8px;overflow:hidden; }
+.ve-imgtext-img {
+  background:#0a0a0a;display:flex;align-items:center;justify-content:center;
+  min-height:200px;overflow:hidden;
+}
+.ve-imgtext-img img { width:100%;height:100%;object-fit:cover;display:block; }
+.ve-imgtext-text {
+  background:#101010;padding:1rem;display:flex;flex-direction:column;
+}
+.ve-imgtext-editor {
+  flex:1;min-height:100px;outline:none;font-size:.88rem;line-height:1.7;
+  color:#e0e0e0;direction:rtl;
+}
+.ve-imgtext-editor:empty::before {
+  content:attr(data-placeholder);color:#555;pointer-events:none;
+}
+.ve-imgtext-panel {
+  display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;
+}
+.ve-imgtext-panel input[type="text"] {
+  flex:1;min-width:140px;padding:.4rem .6rem;border-radius:8px;
+  background:#101010;color:#ddd;border:1px solid #2e2e2e;font-size:.75rem;
+}
+.ve-imgtext-panel select {
+  border-radius:8px;background:#101010;color:#ddd;
+  border:1px solid #2e2e2e;padding:.35rem .5rem;font-size:.72rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 760px) {
@@ -755,7 +787,7 @@
   }
   .pf-card-cover { aspect-ratio: 16/10; }
 
-  #ve-tools {
+  #ve-toolbox {
     width: 58px;
   }
   .ve-tool {

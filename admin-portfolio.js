@@ -17,6 +17,7 @@
   var veBlocks = [];
   var veSelIdx = -1;
   var veUnsaved = false;
+  var veUploadCache = {};
 
   /* ═══════════════════════════════════════════════════════
      SECTION 2: UTILITIES
@@ -89,6 +90,37 @@
     }
   }
 
+  function getFileUploadKey(file) {
+    if (!file || typeof file !== 'object') return '';
+    return [file.name || '', file.size || '', file.lastModified || '', file.type || ''].join(':');
+  }
+
+  function shouldSkipRepeatedUpload(file, currentValue) {
+    var key = getFileUploadKey(file);
+    if (!key) return false;
+    var current = String(currentValue || '').trim();
+    if (current && veUploadCache[key] === current) return true;
+    return false;
+  }
+
+  function rememberUploadedFile(file, value) {
+    var key = getFileUploadKey(file);
+    if (!key) return;
+    veUploadCache[key] = String(value || '').trim();
+  }
+
+  function isFirebaseStorageUrl(value) {
+    return typeof value === 'string' && /firebasestorage\.googleapis\.com|firebasestorage\.app|storage\.googleapis\.com/i.test(value);
+  }
+
+  function deleteStorageUrlIfExists(url) {
+    if (!url || !isFirebaseStorageUrl(url) || !window.firebase || !firebase.storage) return Promise.resolve(false);
+    return firebase.storage().refFromURL(url).delete().then(function () { return true; }).catch(function (error) {
+      console.warn('تعذر حذف الملف من Firebase Storage:', url, error);
+      return false;
+    });
+  }
+
   /* ═══════════════════════════════════════════════════════
      SECTION 3: IMAGE COMPRESSION
      ═══════════════════════════════════════════════════════ */
@@ -121,8 +153,16 @@
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         canvas.toBlob(function (blob) {
-          finishCompressedImage(blob, statusEl, callback);
-        }, 'image/jpeg', quality);
+          if (blob) {
+            finishCompressedImage(blob, statusEl, callback);
+            return;
+          }
+
+          // Older browsers may not support WebP encoding.
+          canvas.toBlob(function (fallbackBlob) {
+            finishCompressedImage(fallbackBlob, statusEl, callback);
+          }, 'image/jpeg', quality);
+        }, 'image/webp', 0.78);
       };
       img.onerror = function () {
         if (statusEl) {
@@ -375,6 +415,18 @@
     return b;
   }
 
+  function veAddTool(tool) {
+    var field = $('ve-tools-field');
+    if (!field) return;
+    var value = (field.value || '').trim();
+    var tools = value ? value.split(/·|,|\n/).map(function (item) { return item.trim(); }).filter(Boolean) : [];
+    var nextTool = String(tool || '').trim();
+    if (!nextTool) return;
+    if (tools.indexOf(nextTool) === -1) tools.push(nextTool);
+    field.value = tools.join(' · ');
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
   function pfOpenEditor(id) {
     veProject = id ? allProjects.find(function (x) { return x.id === id; }) : null;
     var d = veProject || {};
@@ -389,7 +441,7 @@
     $('ve-services').value = Array.isArray(d.services) ? d.services.join(' · ') : (d.services || '');
     $('ve-year').value = d.year || '';
     $('ve-tag').value = d.tag || '';
-    $('ve-tools').value = Array.isArray(d.tools) ? d.tools.join(' · ') : (d.tools || '');
+    $('ve-tools-field').value = Array.isArray(d.tools) ? d.tools.join(' · ') : (d.tools || '');
     $('ve-order').value = d.order != null ? d.order : '';
     $('ve-color').value = /^#[0-9a-f]{6}$/i.test(d.color || '') ? d.color : '#ef6b32';
     $('ve-color-value').textContent = $('ve-color').value;
@@ -429,6 +481,16 @@
     }
   }
   function pfClearCover() {
+    var currentUrl = ($('ve-cover-url').value || '').trim();
+    if (currentUrl) {
+      var shouldDelete = confirm('هل تريد حذف الصورة نهائياً؟\nسيتم حذف الملف أيضاً من Firebase Storage إذا كان موجوداً هناك.');
+      if (shouldDelete) {
+        deleteStorageUrlIfExists(currentUrl).catch(function () {});
+      } else {
+        return;
+      }
+    }
+
     $('ve-cover-url').value = '';
     renderCoverPreview('');
     veUnsaved = true;
@@ -581,6 +643,33 @@
       '</div></div>';
   }
 
+  function pfBlockImgText(b, i) {
+    var split = Math.max(25, Math.min(75, parseInt(b.split, 10) || 50));
+    var imgContent = b.src
+      ? '<img src="' + esc(b.src) + '" alt="" style="width:100%;height:100%;object-fit:' + esc(b.fit||'cover') + ';display:block">'
+      : '<span class="ve-b-image-empty">اضغط لرفع صورة</span>';
+
+    return '<div class="ve-b-imgtext">' +
+      '<div class="ve-imgtext-row" style="grid-template-columns:' + split + '% ' + (100-split) + '%;direction:' + (b.side==='left'?'ltr':'rtl') + '">' +
+        '<div class="ve-imgtext-img">' + imgContent + '</div>' +
+        '<div class="ve-imgtext-text"><div class="ve-rt-editor ve-imgtext-editor" id="ve-it-ed-' + i + '" data-i="' + i + '" data-it="1" contenteditable="true" data-placeholder="اكتب النص هنا...">' + (b.text || '') + '</div></div>' +
+      '</div>' +
+      '<div class="ve-imgtext-panel">' +
+        '<input type="file" accept="image/*" id="ve-it-file-' + i + '" hidden onchange="pfUploadImgText(' + i + ',this.files[0])">' +
+        '<button class="ve-img-btn" onclick="document.getElementById(\'ve-it-file-' + i + '\').click()">📁 رفع من الجهاز</button>' +
+        '<input type="text" value="' + esc(b.src) + '" placeholder="رابط الصورة https://..." oninput="pfOnImgTextSrc(' + i + ',this.value)">' +
+        '<select onchange="pfOnImgTextSide(' + i + ',this.value)">' +
+          '<option value="right"' + (b.side !== 'left' ? ' selected' : '') + '>صورة يمين</option>' +
+          '<option value="left"' + (b.side === 'left' ? ' selected' : '') + '>صورة يسار</option>' +
+        '</select>' +
+        '<select onchange="pfOnImgTextFit(' + i + ',this.value)">' +
+          '<option value="cover"' + ((b.fit||'cover') === 'cover' ? ' selected' : '') + '>ملء الإطار</option>' +
+          '<option value="contain"' + (b.fit === 'contain' ? ' selected' : '') + '>الأبعاد كاملة</option>' +
+          '<option value="contain-w"' + (b.fit === 'contain-w' ? ' selected' : '') + '>عرض كامل</option>' +
+        '</select>' +
+      '</div>';
+  }
+
   /* ═══════════════════════════════════════════════════════
      RICH TEXT EDITOR — execCommand-based toolbar
      ═══════════════════════════════════════════════════════ */
@@ -677,6 +766,8 @@
     if (isNaN(idx) || !veBlocks[idx]) return;
     if (el.dataset.cap) {
       veBlocks[idx].caption = el.innerHTML;
+    } else if (el.dataset.it) {
+      veBlocks[idx].text = el.innerHTML;
     } else {
       veBlocks[idx].x = el.innerHTML;
     }
@@ -707,6 +798,7 @@
         case 'image': inner = pfBlockImage(b, i); break;
         case 'gallery': inner = pfBlockGallery(b, i); break;
         case 'ba':    inner = pfBlockBA(b, i); break;
+        case 'imgtext': inner = pfBlockImgText(b, i); break;
       }
       return '<div class="ve-block" data-i="' + i + '" onclick="pfSelectBlock(' + i + ')">' + pfBlockCtrls(i) + inner + '</div>';
     }).join('');
@@ -862,7 +954,8 @@
       para:    { t: 'para', x: '', align: 'center', size: 'md', weight: 'normal' },
       image:   { t: 'image', src: '', w: 100, fit: 'contain', caption: '', align: 'center' },
       gallery: { t: 'gallery', imgs: [], cols: 'auto', frame: false },
-      ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' }
+      ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' },
+      imgtext: { t: 'imgtext', src: '', text: '', side: 'right', split: 50, fit: 'cover' }
     };
     var def = Object.assign({}, defaults[type]);
     if (!def) return;
@@ -883,6 +976,22 @@
   }
 
   function pfRemoveBlock(i) {
+    var removed = veBlocks[i];
+    if (!removed) return;
+
+    var urlsToDelete = [];
+    if (removed.t === 'image' && removed.src && isFirebaseStorageUrl(removed.src)) urlsToDelete.push(removed.src);
+    if (removed.t === 'ba') {
+      if (removed.a && isFirebaseStorageUrl(removed.a)) urlsToDelete.push(removed.a);
+      if (removed.b && isFirebaseStorageUrl(removed.b)) urlsToDelete.push(removed.b);
+    }
+
+    if (urlsToDelete.length) {
+      var ok = confirm('هل تريد حذف الصورة/الصور المحددة نهائياً؟\nسيتم حذفها من Firebase Storage أيضاً.');
+      if (!ok) return;
+      Promise.all(urlsToDelete.map(function (url) { return deleteStorageUrlIfExists(url); }));
+    }
+
     veBlocks.splice(i, 1);
     if (veSelIdx >= veBlocks.length) veSelIdx = veBlocks.length - 1;
     veUnsaved = true;
@@ -906,9 +1015,18 @@
 
   function pfUploadImg(i, file) {
     if (!file) return;
+    if (shouldSkipRepeatedUpload(file, veBlocks[i] && veBlocks[i].src)) {
+      return;
+    }
     veBlocks[i].src = '⏳ جاري الرفع...';
     pfRender();
-    compressImage(file, function (url) { veBlocks[i].src = url || ''; veUnsaved = true; pfRender(); });
+    compressImage(file, function (url) {
+      var finalUrl = url || '';
+      veBlocks[i].src = finalUrl;
+      rememberUploadedFile(file, finalUrl);
+      veUnsaved = true;
+      pfRender();
+    });
   }
 
   function pfUploadGallery(i, files) {
@@ -916,8 +1034,17 @@
     var idx = 0;
     function next() {
       if (idx >= arr.length) return;
-      compressImage(arr[idx], function (url) {
-        if (url) veBlocks[i].imgs.push(url);
+      var file = arr[idx];
+      if (shouldSkipRepeatedUpload(file, veBlocks[i].imgs[idx])) {
+        idx++;
+        next();
+        return;
+      }
+      compressImage(file, function (url) {
+        if (url) {
+          veBlocks[i].imgs.push(url);
+          rememberUploadedFile(file, url);
+        }
         veUnsaved = true;
         idx++;
         pfRender();
@@ -934,7 +1061,16 @@
 
   function pfUploadImgBA(i, side, file) {
     if (!file) return;
-    compressImage(file, function (url) { veBlocks[i][side] = url; veUnsaved = true; pfRender(); });
+    if (shouldSkipRepeatedUpload(file, veBlocks[i] && veBlocks[i][side])) {
+      return;
+    }
+    compressImage(file, function (url) {
+      var finalUrl = url || '';
+      veBlocks[i][side] = finalUrl;
+      rememberUploadedFile(file, finalUrl);
+      veUnsaved = true;
+      pfRender();
+    });
   }
 
   /* ═══════════════════════════════════════════════════════
@@ -974,12 +1110,27 @@
   }
   function pfOnBAFit(i, val) { veBlocks[i].fit = val; veUnsaved = true; pfRender(); }
 
+  function pfUploadImgText(i, file) {
+    if (!file) return;
+    compressImage(file, function (url) { veBlocks[i].src = url || ''; veUnsaved = true; pfRender(); });
+  }
+  function pfOnImgTextSrc(i, val) { veBlocks[i].src = val; pfRender(); }
+  function pfOnImgTextSide(i, val) { veBlocks[i].side = val; veUnsaved = true; pfRender(); }
+  function pfOnImgTextFit(i, val) { veBlocks[i].fit = val; veUnsaved = true; pfRender(); }
+
   function pfAddGalleryLink(i) {
     var url = prompt('صق رابط الصورة:');
     if (url && url.trim()) { veBlocks[i].imgs.push(url.trim()); veUnsaved = true; pfRender(); }
   }
 
   function pfRemoveGalleryImg(i, j) {
+    var target = veBlocks[i] && veBlocks[i].imgs && veBlocks[i].imgs[j];
+    if (target && isFirebaseStorageUrl(target)) {
+      var ok = confirm('هل تريد حذف هذه الصورة نهائياً؟\nسيتم حذفها من Firebase Storage أيضاً.');
+      if (!ok) return;
+      deleteStorageUrlIfExists(target).catch(function () {});
+    }
+
     veBlocks[i].imgs.splice(j, 1);
     veUnsaved = true;
     pfRender();
@@ -1027,7 +1178,7 @@
       services: $('ve-services').value.trim(),
       year: $('ve-year').value.trim(),
       tag: $('ve-tag').value.trim(),
-      tools: $('ve-tools').value.split('·').map(function (s) { return s.trim(); }).filter(Boolean),
+      tools: $('ve-tools-field').value.split('·').map(function (s) { return s.trim(); }).filter(Boolean),
       color: $('ve-color').value,
       order: parseInt($('ve-order').value) || 0,
       blocks: blocks,

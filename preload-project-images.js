@@ -20,6 +20,14 @@
       var parsed = new URL(value);
       if (parsed.hostname.includes('1drv.ms') || parsed.hostname.includes('onedrive.live.com')) {
         if (!parsed.searchParams.has('download')) parsed.searchParams.set('download', '1');
+        var requestedWidth = Number.parseInt(parsed.searchParams.get('width'), 10);
+        var requestedHeight = Number.parseInt(parsed.searchParams.get('height'), 10);
+        var maxWidth = 1400;
+        if (requestedWidth > maxWidth) {
+          var ratio = requestedHeight > 0 ? requestedHeight / requestedWidth : 1;
+          parsed.searchParams.set('width', String(maxWidth));
+          parsed.searchParams.set('height', String(Math.max(1, Math.round(maxWidth * ratio))));
+        }
         return parsed.toString();
       }
       if (parsed.hostname.includes('images.unsplash.com')) {
