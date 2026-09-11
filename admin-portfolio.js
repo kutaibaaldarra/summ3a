@@ -685,6 +685,56 @@
       '</div>';
   }
 
+  function arabicToLatin(str) {
+    return String(str).replace(/[٠-٩]/g, function (d) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)); });
+  }
+
+  function pfBlockStats(b, i) {
+    var items = Array.isArray(b.items) && b.items.length ? b.items : [{ n: '', suffix: '', label: '' }];
+
+    var rows = items.map(function (it, j) {
+      var numVal = it.n || '';
+      var sufVal = it.suffix || '';
+      var lblVal = it.label || '';
+      if (/[٠-٩]/.test(numVal)) numVal = arabicToLatin(numVal);
+      return '<div class="ve-stat-row">' +
+        '<input type="text" inputmode="decimal" value="' + esc(numVal) + '" placeholder="الرقم: 120" ' +
+          'oninput="pfOnStatField(' + i + ',' + j + ',\'n\',this.value)" class="ve-stat-n">' +
+        '<input type="text" value="' + esc(sufVal) + '" placeholder="اللاحقة: +" ' +
+          'oninput="pfOnStatField(' + i + ',' + j + ',\'suffix\',this.value)" class="ve-stat-s">' +
+        '<input type="text" value="' + esc(lblVal) + '" placeholder="التسمية: مشروع مكتمل" ' +
+          'oninput="pfOnStatField(' + i + ',' + j + ',\'label\',this.value)" class="ve-stat-l">' +
+        '<button class="ve-ctrl" onclick="event.stopPropagation();pfRemoveStat(' + i + ',' + j + ')" title="حذف" style="color:#f87171">✕</button>' +
+      '</div>';
+    }).join('');
+
+    return '<div class="ve-b-stats" onclick="event.stopPropagation()">' +
+      '<div class="ve-stat-title">أرقام المشروع</div>' +
+      '<div class="ve-stats-row">' + rows + '</div>' +
+      '<button class="ve-img-btn" onclick="event.stopPropagation();pfAddStat(' + i + ')">➕ إضافة رقم</button>' +
+    '</div>';
+  }
+
+  function pfOnStatField(i, j, field, val) {
+    if (!veBlocks[i] || !Array.isArray(veBlocks[i].items)) return;
+    if (!veBlocks[i].items[j]) veBlocks[i].items[j] = { n: '', suffix: '', label: '' };
+    veBlocks[i].items[j][field] = val;
+    veUnsaved = true;
+  }
+  function pfAddStat(i) {
+    if (!veBlocks[i]) return;
+    if (!Array.isArray(veBlocks[i].items)) veBlocks[i].items = [];
+    veBlocks[i].items.push({ n: '', suffix: '', label: '' });
+    veUnsaved = true;
+    pfRender();
+  }
+  function pfRemoveStat(i, j) {
+    if (!veBlocks[i] || !Array.isArray(veBlocks[i].items)) return;
+    veBlocks[i].items.splice(j, 1);
+    veUnsaved = true;
+    pfRender();
+  }
+
   /* ═══════════════════════════════════════════════════════
      RICH TEXT EDITOR — execCommand-based toolbar
      ═══════════════════════════════════════════════════════ */
@@ -816,6 +866,7 @@
         case 'gallery': inner = pfBlockGallery(b, i); break;
         case 'ba':    inner = pfBlockBA(b, i); break;
         case 'imgtext': inner = pfBlockImgText(b, i); break;
+        case 'stats': inner = pfBlockStats(b, i); break;
       }
       return '<div class="ve-block" data-i="' + i + '" onclick="pfSelectBlock(' + i + ')">' + pfBlockCtrls(i) + inner + '</div>';
     }).join('');
@@ -972,7 +1023,8 @@
       image:   { t: 'image', src: '', w: 100, fit: 'contain', caption: '', align: 'center' },
       gallery: { t: 'gallery', imgs: [], cols: 'auto', frame: false },
       ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' },
-      imgtext: { t: 'imgtext', src: '', eyebrow: '', heading: '', text: '', side: 'right', ratio: '4/3', stack: 'img-first' }
+      imgtext: { t: 'imgtext', src: '', eyebrow: '', heading: '', text: '', side: 'right', ratio: '4/3', stack: 'img-first' },
+      stats:   { t: 'stats', items: [{ n: '', suffix: '', label: '' }] }
     };
     var def = Object.assign({}, defaults[type]);
     if (!def) return;
@@ -1312,6 +1364,9 @@
   window.pfOnImgTextRatio = pfOnImgTextRatio;
   window.pfOnImgTextSide = pfOnImgTextSide;
   window.pfOnImgTextStack = pfOnImgTextStack;
+  window.pfOnStatField = pfOnStatField;
+  window.pfAddStat = pfAddStat;
+  window.pfRemoveStat = pfRemoveStat;
   window.veExecCmd = veExecCmd;
   window.veExecBlockType = veExecBlockType;
   window.veExecFontSize = veExecFontSize;

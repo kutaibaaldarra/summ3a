@@ -802,6 +802,19 @@
   .ve-imgtext-row[data-stack="text-first"] .ve-imgtext-text { order:-1; }
 }
 
+/* ─── Block Type: Stats ─── */
+.ve-b-stats { display:flex;flex-direction:column;gap:.5rem;background:#1a1a1a;border-radius:14px;padding:1rem; }
+.ve-stat-title { font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f68720; }
+.ve-stats-row { display:flex;flex-direction:column;gap:.45rem; }
+.ve-stat-row { display:flex;gap:.5rem;align-items:center; }
+.ve-stat-row input {
+  border-radius:8px;background:#101010;color:#ddd;border:1px solid #2e2e2e;padding:.45rem .55rem;font-size:.8rem;
+}
+.ve-stat-n { width:90px;font-weight:700; }
+.ve-stat-s { width:70px; }
+.ve-stat-l { flex:1;min-width:100px; }
+.ve-stat-row .ve-ctrl { flex:0 0 auto; }
+
 /* ═══════════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════════ */

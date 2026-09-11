@@ -193,11 +193,32 @@
     return '<div class="case-video-wrap"><video class="case-video" controls playsinline preload="metadata" src="' + esc(value) + '"></video></div>';
   }
 
+  function masonryUrl(url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.hostname.includes('images.unsplash.com')) { parsed.search = 'auto=format&w=900&q=80'; return parsed.toString(); }
+    } catch (error) {}
+    return url;
+  }
+  function lightboxUrl(url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.hostname.includes('images.unsplash.com')) { parsed.search = 'auto=format&w=1600&q=85'; return parsed.toString(); }
+      if (parsed.hostname.includes('1drv.ms') || parsed.hostname.includes('onedrive.live.com')) {
+        parsed.searchParams.set('download', '1');
+        parsed.searchParams.delete('width');
+      }
+    } catch (error) {}
+    return url;
+  }
+
   function renderGalleryMedia(url) {
     const value = String(url || '').trim();
     if (!value) return '';
-    if (isVideoMedia(value)) return getVideoEmbed(value);
-    return '<img class="lazy-img" src="' + esc(placeholderSvg) + '" data-src="' + esc(optimizeImageUrl(value)) + '" alt="" loading="lazy" decoding="async">';
+    if (isVideoMedia(value)) return '<figure class="g-item g-video">' + getVideoEmbed(value) + '</figure>';
+    const thumb = masonryUrl(value);
+    const full = lightboxUrl(value);
+    return '<figure class="g-item"><img class="lazy-img" data-lb="' + esc(full) + '" src="' + esc(placeholderSvg) + '" data-src="' + esc(thumb) + '" alt="" loading="lazy" decoding="async"></figure>';
   }
 
   function mapDoc(id, d) {
@@ -452,7 +473,17 @@
       if (b.t==='gallery' && b.imgs?.length) {
         const gc = gcMap[b.cols]||'';
         const many = b.imgs.length>2&&!gc?' is-many':'';
-        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery '+gc+many+'">'+b.imgs.map(g => renderGalleryMedia(g)).join('')+'</div>';
+        return '<div class="case-section-title"><span>من داخل المشروع</span></div><div class="case-gallery masonry '+gc+many+'">'+b.imgs.map(g => renderGalleryMedia(g)).join('')+'</div>';
+      }
+      if (b.t==='stats' && b.items?.length) {
+        const items = b.items.filter(it => String(it?.n ?? '').trim() !== '').map(it => {
+          const num = esc(String(it.n));
+          const suffix = it.suffix ? '<span class="stat-suffix">'+esc(it.suffix)+'</span>' : '';
+          const label = it.label ? '<div class="stat-label">'+esc(it.label)+'</div>' : '';
+          return '<div class="stat-item"><div class="stat-num"><span class="stat-count" data-count="'+num+'">0</span>'+suffix+'</div>'+label+'</div>';
+        }).join('');
+        if (!items) return '';
+        return '<div class="block-stats">'+items+'</div>';
       }
       if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.a))+'" alt="قبل" loading="lazy" decoding="async"><img class="ba-after lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.b))+'" alt="بعد" loading="lazy" decoding="async"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
       if (b.t==='imgtext' && b.src) {
@@ -477,7 +508,7 @@
     caseContent.innerHTML = sections.join('') + '<a href="#contact" class="cta-link case-cta">اطلب مشروعًا مشابهًا <span>↗</span></a>';
     requestAnimationFrame(() => loadLazyImages(caseContent));
     caseContent.querySelector('.case-cta')?.addEventListener('click', (e) => { e.preventDefault(); closeProject(); document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}); });
-    initBaSliders(caseContent);
+    initCaseInteractions(caseContent);
   }
   function buildCase(p) {
     if (Array.isArray(p.blocks) && p.blocks.length) return renderBlocksCase(p);
@@ -526,10 +557,11 @@
       e.preventDefault(); closeProject();
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     });
-    initBaSliders(caseContent);
+    initCaseInteractions(caseContent);
   }
 
   function openProject(card) {
+    closeLightbox();
     const p = resolveProject(card);
     const cards = [...document.querySelectorAll('.work-card')];
     currentIndex = cards.indexOf(card);
@@ -549,6 +581,7 @@
     modal.classList.add('is-open');
     if (!modal.open) modal.showModal();
     requestAnimationFrame(() => loadLazyImages(caseContent));
+    setTimeout(() => { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, 350);
     document.body.classList.add('menu-open');
     modal.querySelector('.modal-close')?.focus();
     modal.querySelector('.modal-panel')?.scrollTo(0, 0);
@@ -556,6 +589,7 @@
 
   const closeProject = () => {
     if (!modal) return;
+    closeLightbox();
     modal.classList.remove('is-open');
     if (modal.open) modal.close();
     document.body.classList.remove('menu-open');
@@ -574,6 +608,111 @@
       const onEnd = () => { dragging = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onEnd); document.removeEventListener('touchmove', onMove); document.removeEventListener('touchend', onEnd); };
       slider.addEventListener('mousedown', (e) => { dragging = true; update(e); document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onEnd); });
       slider.addEventListener('touchstart', (e) => { dragging = true; update(e); document.addEventListener('touchmove', onMove, {passive:false}); document.addEventListener('touchend', onEnd); }, {passive:true});
+    });
+  }
+
+  /* ═══════════════════ عدّاد الأرقام (GSAP + ScrollTrigger) ═══════════════════ */
+  function formatStatValue(v, dec) {
+    const fixed = dec > 0 ? Number(v).toFixed(dec) : String(Math.round(v));
+    return fixed.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  function statDecimalPlaces(raw) {
+    const s = String(raw || '0');
+    const m = s.match(/\.(\d+)/);
+    return m ? Math.min(2, m[1].length) : 0;
+  }
+  function initStatCounters(root) {
+    const counts = root.querySelectorAll('.stat-count');
+    if (!counts.length) return;
+    if (window.ScrollTrigger) {
+      ScrollTrigger.getAll().forEach((st) => { if (st.trigger && root.contains(st.trigger)) st.kill(); });
+    }
+    const scroller = modal?.querySelector('.modal-panel') || window;
+    counts.forEach((el) => {
+      const raw = el.dataset.count;
+      const target = parseFloat(String(raw).replace(/,/g, '').replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))) || 0;
+      const dec = statDecimalPlaces(raw);
+      const apply = (v) => { el.textContent = formatStatValue(v, dec); };
+      if (!window.gsap || !window.ScrollTrigger || reducedMotion) { apply(target); return; }
+      const obj = { v: 0 };
+      gsap.to(obj, {
+        v: target,
+        duration: 2,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true, scroller },
+        onUpdate: () => apply(obj.v)
+      });
+    });
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }
+
+  /* ═══════════════════ Lightbox (معرض Masonry) ═══════════════════ */
+  let lbItems = [];
+  let lbIndex = 0;
+  function ensureLightbox() {
+    let lb = document.querySelector('.lb-overlay');
+    if (lb) return lb;
+    lb = document.createElement('div');
+    lb.className = 'lb-overlay';
+    lb.innerHTML =
+      '<div class="lb-backdrop" data-lb-close></div>' +
+      '<figure class="lb-stage"><img alt="" loading="lazy"></figure>' +
+      '<button class="lb-btn lb-close" aria-label="إغلاق" data-lb-close>✕</button>' +
+      '<button class="lb-btn lb-prev" aria-label="السابق">‹</button>' +
+      '<button class="lb-btn lb-next" aria-label="التالي">›</button>' +
+      '<div class="lb-count"></div>';
+    lb.querySelector('[data-lb-close]')?.addEventListener('click', closeLightbox);
+    lb.querySelector('.lb-prev').addEventListener('click', (e) => { e.stopPropagation(); lbGo(-1); });
+    lb.querySelector('.lb-next').addEventListener('click', (e) => { e.stopPropagation(); lbGo(1); });
+    lb.querySelector('.lb-stage').addEventListener('click', (e) => e.stopPropagation());
+    (() => {
+      let x0 = 0, y0 = 0;
+      lb.addEventListener('touchstart', (e) => { const t = e.changedTouches[0]; x0 = t.clientX; y0 = t.clientY; }, { passive: true });
+      lb.addEventListener('touchend', (e) => {
+        const t = e.changedTouches[0];
+        const dx = t.clientX - x0, dy = t.clientY - y0;
+        if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) lbGo(dx < 0 ? 1 : -1);
+      }, { passive: true });
+    })();
+    if (modal) modal.appendChild(lb); else document.body.appendChild(lb);
+    return lb;
+  }
+  function lbShow() {
+    const lb = ensureLightbox();
+    if (!lbItems.length) return;
+    const img = lb.querySelector('.lb-stage img');
+    img.src = lbItems[lbIndex];
+    lb.querySelector('.lb-count').textContent = (lbIndex + 1) + ' / ' + lbItems.length;
+    lb.classList.add('is-open');
+    document.body.classList.add('lb-open');
+  }
+  function closeLightbox() {
+    const lb = document.querySelector('.lb-overlay');
+    if (lb) { lb.classList.remove('is-open'); lb.querySelector('.lb-stage img').src = ''; }
+    document.body.classList.remove('lb-open');
+  }
+  function lbGo(dir) {
+    if (!lbItems.length) return;
+    lbIndex = (lbIndex + dir + lbItems.length) % lbItems.length;
+    lbShow();
+  }
+  function openLightboxFromGallery(galleryEl, clickedImg) {
+    const imgs = [...galleryEl.querySelectorAll('img[data-lb]')];
+    if (!imgs.length) return;
+    const full = clickedImg.dataset.lb || clickedImg.src;
+    lbItems = imgs.map((img) => img.dataset.lb || img.src);
+    lbIndex = lbItems.indexOf(full);
+    if (lbIndex < 0) lbIndex = 0;
+    lbShow();
+  }
+  function initCaseInteractions(root) {
+    initBaSliders(root);
+    initStatCounters(root);
+    root.querySelectorAll('.case-gallery.masonry').forEach((gallery) => {
+      gallery.addEventListener('click', (e) => {
+        const img = e.target.closest('img[data-lb]');
+        if (img) openLightboxFromGallery(gallery, img);
+      });
     });
   }
 
@@ -601,6 +740,16 @@
   modal?.querySelectorAll('[data-close-modal]').forEach((element) => element.addEventListener('click', closeProject));
   document.addEventListener('keydown', (e) => {
     if (!modal?.open) return;
+    const lb = document.querySelector('.lb-overlay');
+    const lbOpen = lb && lb.classList.contains('is-open');
+    if (lbOpen) {
+      if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); return; }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); lbGo(-1); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); lbGo(1); return; }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); return; }
+      return;
+    }
+    if (e.key === 'Escape') { return; }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       const cards = [...document.querySelectorAll('.work-card:not(.is-hidden)')];
       if (cards.length < 2) return;
