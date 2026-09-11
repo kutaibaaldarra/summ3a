@@ -750,14 +750,18 @@
    Image + Text Block (imgtext) — flexible, Behance-inspired
    ═══════════════════════════════════════════════════════════ */
 .ve-b-imgtext { display:flex;flex-direction:column;gap:.5rem; }
-.ve-imgtext-row { display:grid;min-height:220px;border-radius:10px;overflow:hidden; }
+.ve-imgtext-row { display:grid;grid-template-columns:1fr 1fr;gap:28px;min-height:0;border-radius:10px;overflow:hidden;align-items:center; }
 .ve-imgtext-img {
   background:#0a0a0a;display:flex;align-items:center;justify-content:center;
-  min-height:200px;overflow:hidden;
+  min-height:0;overflow:hidden;width:100%;
 }
+.ve-imgtext-row[data-ratio="16/9"] .ve-imgtext-img { aspect-ratio: 16/9; }
+.ve-imgtext-row[data-ratio="4/3"] .ve-imgtext-img { aspect-ratio: 4/3; }
+.ve-imgtext-row[data-ratio="3/4"] .ve-imgtext-img { aspect-ratio: 3/4; }
+.ve-imgtext-row[data-ratio="1/1"] .ve-imgtext-img { aspect-ratio: 1/1; }
 .ve-imgtext-img img { width:100%;height:100%;object-fit:cover;display:block; }
 .ve-imgtext-text {
-  background:#1a1a1a;padding:1rem;display:flex;flex-direction:column;gap:.45rem;
+  background:#1a1a1a;padding:1rem;display:flex;flex-direction:column;justify-content:center;gap:.45rem;
 }
 .ve-it-eyebrow {
   font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;

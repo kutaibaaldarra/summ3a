@@ -456,16 +456,15 @@
       }
       if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.a))+'" alt="قبل" loading="lazy" decoding="async"><img class="ba-after lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.b))+'" alt="بعد" loading="lazy" decoding="async"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
       if (b.t==='imgtext' && b.src) {
-        const sp = Math.max(25,Math.min(75,parseInt(b.split,10)||50));
         const dir = b.side==='left' ? 'ltr' : 'rtl';
-        const imgObjFit = b.fit==='cover'?'cover':'contain';
+        const ratio = (b.ratio==='16/9'||b.ratio==='4/3'||b.ratio==='3/4'||b.ratio==='1/1') ? b.ratio : '4/3';
         const stack = b.stack||'img-first';
         const eyebrow = b.eyebrow ? '<div class="it-eyebrow">'+b.eyebrow+'</div>' : '';
         const heading = b.heading ? '<h3 class="it-heading">'+b.heading+'</h3>' : '';
         const body = b.text ? '<div class="it-copy">'+b.text+'</div>' : '';
         const copy = eyebrow+heading+body;
         if (!copy) return '';
-        return '<div class="block-imgtext" style="direction:'+dir+';--it-split:'+sp+'%;--it-objfit:'+imgObjFit+'" data-stack="'+stack+'"><figure class="it-media"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></figure><div class="it-content">'+copy+'</div></div>';
+        return '<div class="block-imgtext" style="direction:'+dir+'" data-stack="'+stack+'"><figure class="it-media" style="--it-ratio:'+ratio+'"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></figure><div class="it-content">'+copy+'</div></div>';
       }
       return '';
     }
