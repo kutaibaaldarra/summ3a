@@ -458,10 +458,14 @@
       if (b.t==='imgtext' && b.src) {
         const sp = Math.max(25,Math.min(75,parseInt(b.split,10)||50));
         const dir = b.side==='left' ? 'ltr' : 'rtl';
-        const imgObjFit = b.fit==='contain'?'contain':(b.fit||'contain')==='cover'?'cover':'contain';
-        const valign = b.valign||'middle';
+        const imgObjFit = b.fit==='cover'?'cover':'contain';
         const stack = b.stack||'img-first';
-        return '<div class="block-imgtext" style="direction:'+dir+';--it-split:'+sp+'%;--it-objfit:'+imgObjFit+'" data-stack="'+stack+'"><div class="block-imgtext-img"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></div><div class="block-imgtext-text ve-valign-'+valign+'">'+b.text+'</div></div>';
+        const eyebrow = b.eyebrow ? '<div class="it-eyebrow">'+b.eyebrow+'</div>' : '';
+        const heading = b.heading ? '<h3 class="it-heading">'+b.heading+'</h3>' : '';
+        const body = b.text ? '<div class="it-copy">'+b.text+'</div>' : '';
+        const copy = eyebrow+heading+body;
+        if (!copy) return '';
+        return '<div class="block-imgtext" style="direction:'+dir+';--it-split:'+sp+'%;--it-objfit:'+imgObjFit+'" data-stack="'+stack+'"><figure class="it-media"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></figure><div class="it-content">'+copy+'</div></div>';
       }
       return '';
     }
