@@ -1289,6 +1289,10 @@
   window.pfUploadImgBA = pfUploadImgBA;
   window.pfOnColorInput = pfOnColorInput;
   window.pfClearCover = pfClearCover;
+  window.pfUploadImgText = pfUploadImgText;
+  window.pfOnImgTextSrc = pfOnImgTextSrc;
+  window.pfOnImgTextSide = pfOnImgTextSide;
+  window.pfOnImgTextFit = pfOnImgTextFit;
   window.veExecCmd = veExecCmd;
   window.veExecBlockType = veExecBlockType;
   window.veExecFontSize = veExecFontSize;
