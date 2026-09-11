@@ -458,8 +458,10 @@
       if (b.t==='imgtext' && b.src) {
         const sp = Math.max(25,Math.min(75,parseInt(b.split,10)||50));
         const dir = b.side==='left' ? 'ltr' : 'rtl';
-        const imgObjFit = b.fit==='contain'?'contain':b.fit==='contain-w'?'contain':'cover';
-        return '<div class="block-imgtext" style="direction:'+dir+';grid-template-columns:'+sp+'% '+(100-sp)+'%"><div class="block-imgtext-img"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" style="object-fit:'+imgObjFit+'" loading="lazy" decoding="async"></div><div class="block-imgtext-text">'+b.text+'</div></div>';
+        const imgObjFit = b.fit==='contain'?'contain':(b.fit||'contain')==='cover'?'cover':'contain';
+        const valign = b.valign||'middle';
+        const stack = b.stack||'img-first';
+        return '<div class="block-imgtext" style="direction:'+dir+';--it-split:'+sp+'%;--it-objfit:'+imgObjFit+'" data-stack="'+stack+'"><div class="block-imgtext-img"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></div><div class="block-imgtext-text ve-valign-'+valign+'">'+b.text+'</div></div>';
       }
       return '';
     }

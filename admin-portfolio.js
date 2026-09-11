@@ -645,28 +645,38 @@
 
   function pfBlockImgText(b, i) {
     var split = Math.max(25, Math.min(75, parseInt(b.split, 10) || 50));
+    var fit = b.fit || 'contain';
     var imgContent = b.src
-      ? '<img src="' + esc(b.src) + '" alt="" style="width:100%;height:100%;object-fit:' + esc(b.fit||'cover') + ';display:block">'
+      ? '<img src="' + esc(b.src) + '" alt="" style="width:100%;height:100%;object-fit:' + esc(fit) + ';display:block">'
       : '<span class="ve-b-image-empty">اضغط لرفع صورة</span>';
 
+    var stackOpts = '<option value="img-first"' + (b.stack !== 'text-first' ? ' selected' : '') + '>صورة أولاً</option>' +
+                    '<option value="text-first"' + (b.stack === 'text-first' ? ' selected' : '') + '>نص أولاً</option>';
+    var valignOpts = '<option value="top"' + (b.valign === 'top' ? ' selected' : '') + '>أعلى</option>' +
+                     '<option value="middle"' + (b.valign !== 'top' && b.valign !== 'bottom' ? ' selected' : '') + '>منتصف</option>' +
+                     '<option value="bottom"' + (b.valign === 'bottom' ? ' selected' : '') + '>أسفل</option>';
+
     return '<div class="ve-b-imgtext">' +
-      '<div class="ve-imgtext-row" style="grid-template-columns:' + split + '% ' + (100-split) + '%;direction:' + (b.side==='left'?'ltr':'rtl') + '">' +
+      '<div class="ve-imgtext-row" data-stack="' + esc(b.stack || 'img-first') + '" style="grid-template-columns:' + split + '% ' + (100-split) + '%;direction:' + (b.side==='left'?'ltr':'rtl') + '">' +
         '<div class="ve-imgtext-img">' + imgContent + '</div>' +
-        '<div class="ve-imgtext-text"><div class="ve-rt-editor ve-imgtext-editor" id="ve-it-ed-' + i + '" data-i="' + i + '" data-it="1" contenteditable="true" data-placeholder="اكتب النص هنا...">' + (b.text || '') + '</div></div>' +
+        '<div class="ve-imgtext-text ve-valign-' + esc(b.valign || 'middle') + '"><div class="ve-rt-editor ve-imgtext-editor" id="ve-it-ed-' + i + '" data-i="' + i + '" data-it="1" contenteditable="true" data-placeholder="اكتب النص هنا...">' + (b.text || '') + '</div></div>' +
       '</div>' +
-      '<div class="ve-imgtext-panel">' +
+      '<div class="ve-imgtext-panel" onclick="event.stopPropagation()">' +
         '<input type="file" accept="image/*" id="ve-it-file-' + i + '" hidden onchange="pfUploadImgText(' + i + ',this.files[0])">' +
         '<button class="ve-img-btn" onclick="document.getElementById(\'ve-it-file-' + i + '\').click()">📁 رفع من الجهاز</button>' +
         '<input type="text" value="' + esc(b.src) + '" placeholder="رابط الصورة https://..." oninput="pfOnImgTextSrc(' + i + ',this.value)">' +
+        '<label class="ve-ctl-label">عرض الصورة <b id="ve-it-w-val-' + i + '">' + split + '%</b></label>' +
+        '<input type="range" min="25" max="75" step="5" value="' + split + '" oninput="pfOnImgTextSplit(' + i + ',this.value)" style="flex:1">' +
         '<select onchange="pfOnImgTextSide(' + i + ',this.value)">' +
           '<option value="right"' + (b.side !== 'left' ? ' selected' : '') + '>صورة يمين</option>' +
           '<option value="left"' + (b.side === 'left' ? ' selected' : '') + '>صورة يسار</option>' +
         '</select>' +
         '<select onchange="pfOnImgTextFit(' + i + ',this.value)">' +
-          '<option value="cover"' + ((b.fit||'cover') === 'cover' ? ' selected' : '') + '>ملء الإطار</option>' +
-          '<option value="contain"' + (b.fit === 'contain' ? ' selected' : '') + '>الأبعاد كاملة</option>' +
-          '<option value="contain-w"' + (b.fit === 'contain-w' ? ' selected' : '') + '>عرض كامل</option>' +
+          '<option value="contain"' + (fit === 'contain' ? ' selected' : '') + '>كاملة بلا قص</option>' +
+          '<option value="cover"' + (fit === 'cover' ? ' selected' : '') + '>ملء الإطار (قص)</option>' +
         '</select>' +
+        '<select onchange="pfOnImgTextValign(' + i + ',this.value)">' + valignOpts + '</select>' +
+        '<select onchange="pfOnImgTextStack(' + i + ',this.value)">' + stackOpts + '</select>' +
       '</div>';
   }
 
@@ -955,7 +965,7 @@
       image:   { t: 'image', src: '', w: 100, fit: 'contain', caption: '', align: 'center' },
       gallery: { t: 'gallery', imgs: [], cols: 'auto', frame: false },
       ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' },
-      imgtext: { t: 'imgtext', src: '', text: '', side: 'right', split: 50, fit: 'cover' }
+      imgtext: { t: 'imgtext', src: '', text: '', side: 'right', split: 50, fit: 'contain', valign: 'middle', stack: 'img-first' }
     };
     var def = Object.assign({}, defaults[type]);
     if (!def) return;
@@ -1115,8 +1125,17 @@
     compressImage(file, function (url) { veBlocks[i].src = url || ''; veUnsaved = true; pfRender(); });
   }
   function pfOnImgTextSrc(i, val) { veBlocks[i].src = val; pfRender(); }
+  function pfOnImgTextSplit(i, val) {
+    veBlocks[i].split = val;
+    var lbl = document.getElementById('ve-it-w-val-' + i);
+    if (lbl) lbl.textContent = val + '%';
+    veUnsaved = true;
+    pfRender();
+  }
   function pfOnImgTextSide(i, val) { veBlocks[i].side = val; veUnsaved = true; pfRender(); }
   function pfOnImgTextFit(i, val) { veBlocks[i].fit = val; veUnsaved = true; pfRender(); }
+  function pfOnImgTextValign(i, val) { veBlocks[i].valign = val; veUnsaved = true; pfRender(); }
+  function pfOnImgTextStack(i, val) { veBlocks[i].stack = val; veUnsaved = true; pfRender(); }
 
   function pfAddGalleryLink(i) {
     var url = prompt('صق رابط الصورة:');
@@ -1291,8 +1310,11 @@
   window.pfClearCover = pfClearCover;
   window.pfUploadImgText = pfUploadImgText;
   window.pfOnImgTextSrc = pfOnImgTextSrc;
+  window.pfOnImgTextSplit = pfOnImgTextSplit;
   window.pfOnImgTextSide = pfOnImgTextSide;
   window.pfOnImgTextFit = pfOnImgTextFit;
+  window.pfOnImgTextValign = pfOnImgTextValign;
+  window.pfOnImgTextStack = pfOnImgTextStack;
   window.veExecCmd = veExecCmd;
   window.veExecBlockType = veExecBlockType;
   window.veExecFontSize = veExecFontSize;
