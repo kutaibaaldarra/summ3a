@@ -685,6 +685,34 @@
       '</div>';
   }
 
+  function pfBlockQuote(b, i) {
+    var sync = function (prop, placeholder) {
+      return 'contenteditable="true" class="ve-rt-editor" data-i="' + i + '" ' +
+        'data-imgtextprop="' + prop + '" data-placeholder="' + placeholder + '" ' +
+        'onmousedown="event.stopPropagation()" onclick="event.stopPropagation()"';
+    };
+    return '<div class="ve-b-quote" onclick="event.stopPropagation()">' +
+      '<div class="ve-quote-mark">”</div>' +
+      '<div class="ve-quote-copy">' +
+        '<div class="ve-quote-text" ' + sync('text', 'اكتب الاقتباس الضخم هنا...') + '>' + (b.text || '') + '</div>' +
+        '<div class="ve-quote-author" ' + sync('author', 'اسم العميل...') + '>' + (b.author || '') + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function pfBlockFullBleed(b, i) {
+    var imgContent = b.src
+      ? '<img src="' + esc(b.src) + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block">'
+      : '<span class="ve-b-image-empty">اضغط لرفع غلاف عريض أو الصق رابط</span>';
+    return '<div class="ve-b-fullbleed">' + imgContent + '</div>' +
+      '<div class="ve-img-panel">' +
+        '<input type="file" accept="image/*" id="ve-fb-file-' + i + '" hidden onchange="pfUploadImg(' + i + ',this.files[0])">' +
+        '<button class="ve-img-btn" onclick="document.getElementById(\'ve-fb-file-' + i + '\').click()">📁 رفع من الجهاز</button>' +
+        '<input type="text" value="' + esc(b.src) + '" placeholder="رابط مباشر https://..." ' +
+          'style="flex:1;min-width:120px" oninput="pfOnImgSrc(' + i + ',this.value)">' +
+      '</div>';
+  }
+
   function arabicToLatin(str) {
     return String(str).replace(/[٠-٩]/g, function (d) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)); });
   }
@@ -867,6 +895,8 @@
         case 'ba':    inner = pfBlockBA(b, i); break;
         case 'imgtext': inner = pfBlockImgText(b, i); break;
         case 'stats': inner = pfBlockStats(b, i); break;
+        case 'quote': inner = pfBlockQuote(b, i); break;
+        case 'fullbleed': inner = pfBlockFullBleed(b, i); break;
       }
       return '<div class="ve-block" data-i="' + i + '" onclick="pfSelectBlock(' + i + ')">' + pfBlockCtrls(i) + inner + '</div>';
     }).join('');
@@ -1024,7 +1054,9 @@
       gallery: { t: 'gallery', imgs: [], cols: 'auto', frame: false },
       ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' },
       imgtext: { t: 'imgtext', src: '', eyebrow: '', heading: '', text: '', side: 'right', ratio: '4/3', stack: 'img-first' },
-      stats:   { t: 'stats', items: [{ n: '', suffix: '', label: '' }] }
+      stats:   { t: 'stats', items: [{ n: '', suffix: '', label: '' }] },
+      quote:   { t: 'quote', text: '', author: '' },
+      fullbleed: { t: 'fullbleed', src: '' }
     };
     var def = Object.assign({}, defaults[type]);
     if (!def) return;

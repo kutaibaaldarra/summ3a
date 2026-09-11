@@ -486,6 +486,14 @@
         return '<div class="block-stats">'+items+'</div>';
       }
       if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.a))+'" alt="قبل" loading="lazy" decoding="async"><img class="ba-after lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.b))+'" alt="بعد" loading="lazy" decoding="async"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
+      if (b.t==='quote') {
+        if (!b.text) return '';
+        const qAuthor = b.author ? '<footer class="quote-author">'+b.author+'</footer>' : '';
+        return '<blockquote class="block-quote">'+b.text+qAuthor+'</blockquote>';
+      }
+      if (b.t==='fullbleed' && b.src) {
+        return '<figure class="block-fullbleed"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></figure>';
+      }
       if (b.t==='imgtext' && b.src) {
         const dir = b.side==='left' ? 'ltr' : 'rtl';
         const ratio = (b.ratio==='16/9'||b.ratio==='4/3'||b.ratio==='3/4'||b.ratio==='1/1') ? b.ratio : '4/3';
