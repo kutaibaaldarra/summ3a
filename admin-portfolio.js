@@ -796,6 +796,47 @@
     veExecCmd('fontName', val);
   }
 
+  function veEditorFromSel() {
+    var sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return null;
+    var node = sel.getRangeAt(0).commonAncestorContainer;
+    if (node && node.nodeType === 3) node = node.parentElement;
+    return (node && node.closest) ? node.closest('.ve-rt-editor') : null;
+  }
+
+  function veExecForeColor(hex) {
+    veRestoreSel();
+    document.execCommand('foreColor', false, hex || '');
+    var editor = veEditorFromSel();
+    if (!editor) return;
+    editor.querySelectorAll('font[color]').forEach(function (f) {
+      var s = document.createElement('span');
+      s.style.color = f.getAttribute('color');
+      while (f.firstChild) s.appendChild(f.firstChild);
+      f.parentNode.replaceChild(s, f);
+    });
+    veSyncContenteditable(editor);
+  }
+
+  function veExecClearColor() {
+    veRestoreSel();
+    var editor = veEditorFromSel();
+    if (!editor) return;
+    var range = window.getSelection() && window.getSelection().rangeCount ? window.getSelection().getRangeAt(0) : null;
+    editor.querySelectorAll('font[color], span[style*="color"]').forEach(function (el) {
+      if (range && !range.intersectsNode(el)) return;
+      if (el.tagName === 'FONT') el.removeAttribute('color');
+      else el.style.color = '';
+      var empty = el.tagName === 'FONT' ? el.attributes.length === 0 : !el.style.length && el.attributes.length === 0;
+      if (empty) {
+        var frag = document.createDocumentFragment();
+        while (el.firstChild) frag.appendChild(el.firstChild);
+        el.parentNode.replaceChild(frag, el);
+      }
+    });
+    veSyncContenteditable(editor);
+  }
+
   function veExecLink() {
     var url = prompt('أدخل الرابط:', 'https://');
     if (url) { veRestoreSel(); veExecCmd('createLink', url); }
@@ -828,6 +869,10 @@
           '<option value="6">24</option>' +
           '<option value="7">32</option>' +
         '</select>' +
+      '</div>' +
+      '<div class="ve-rt-group">' +
+        '<input type="color" class="ve-rt-color" value="#12110f" title="لون النص" onmousedown="event.stopPropagation();veSaveSel()" oninput="veExecForeColor(this.value)">' +
+        '<button class="ve-rt-btn" onmousedown="event.preventDefault();veSaveSel()" onclick="veExecClearColor()" title="إزالة اللون"><s style="color:#f68720">A</s></button>' +
       '</div>' +
       '<div class="ve-rt-group">' +
         '<button class="ve-rt-btn" onmousedown="event.preventDefault()" onclick="veExecCmd(\'bold\')" title="غامق"><b>B</b></button>' +
@@ -1425,6 +1470,9 @@
   window.veExecFontSize = veExecFontSize;
   window.veExecFontName = veExecFontName;
   window.veExecLink = veExecLink;
+  window.veExecForeColor = veExecForeColor;
+  window.veExecClearColor = veExecClearColor;
+  window.veSaveSel = veSaveSel;
   window.loadProjects = loadProjects;
   window.cleanAllProjects = cleanAllProjects;
 

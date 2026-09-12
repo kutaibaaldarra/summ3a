@@ -741,6 +741,22 @@
 }
 .ve-rt-btn:hover { background: #333; color: #f68720; }
 
+.ve-rt-color {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  border: 1px solid #3d3d3d;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+}
+.ve-rt-color::-webkit-color-swatch-wrapper { padding: 0; }
+.ve-rt-color::-webkit-color-swatch { border: none; border-radius: 2px; }
+.ve-rt-color::-moz-color-swatch { border: none; border-radius: 2px; }
+.ve-rt-color:hover { border-color: #f68720; }
+
 /* Contenteditable editor area */
 .ve-rt-editor {
   background: #111;
