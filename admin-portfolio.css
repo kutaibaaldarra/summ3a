@@ -849,6 +849,12 @@
   flex:1;min-height:60px;outline:none;font-size:.83rem;line-height:1.7;color:#ddd;
   direction:rtl;
 }
+.ve-imgtext-text .ve-rt-editor {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
 .ve-imgtext-panel {
   display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;
 }
