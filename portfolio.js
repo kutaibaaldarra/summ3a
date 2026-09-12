@@ -444,23 +444,25 @@
         const fw = b.weight==='light'?400:b.weight==='bold'?900:b.weight==='medium'?650:700;
         const fs = b.size==='sm'?'clamp(1.3rem,3.5vw,2.8rem)':b.size==='lg'?'clamp(1.9rem,6.4vw,5.8rem)':'clamp(1.6rem,4.8vw,4.6rem)';
         const dir = b.dir ? 'direction:'+b.dir+';' : '';
-        return '<h2 id="modal-title" class="block-title" style="text-align:'+b.align+';font-size:'+fs+';font-weight:'+fw+';'+dir+'">'+b.x+'</h2>';
+        return '<div id="modal-title" class="block-title" style="text-align:'+b.align+';font-size:'+fs+';font-weight:'+fw+';'+dir+'">'+b.x+'</div>';
       }
       if (b.t==='lede') {
         const fw = b.weight==='bold'?700:b.weight==='light'?400:500;
         const fs = b.size==='sm'?'14.5px':b.size==='lg'?'1.45rem':'clamp(1.05rem,1.6vw,1.3rem)';
         const dir = b.dir ? 'direction:'+b.dir+';' : '';
-        return '<p class="block-lede" style="text-align:'+b.align+';font-size:'+fs+';font-weight:'+fw+';'+dir+'">'+b.x+'</p>';
+        return '<div class="block-lede" style="text-align:'+b.align+';font-size:'+fs+';font-weight:'+fw+';'+dir+'">'+b.x+'</div>';
       }
       if (b.t==='para') {
+        const plainText = String(b.x || '').replace(/<[^>]*>/g, '').trim();
+        if (plainText === 'الفكرة المحورية:' || plainText === 'الفكرة المحورية') return '';
         const fw = b.weight==='bold'?700:400;
         const fs = b.size==='sm'?'14.5px':b.size==='lg'?'19px':'16.5px';
         const dir = b.dir ? 'direction:'+b.dir+';' : '';
-        return '<p class="block-para" style="text-align:'+b.align+';font-size:'+fs+';font-weight:'+fw+';'+dir+'">'+b.x+'</p>';
+        return '<div class="block-para" style="text-align:'+b.align+';font-size:'+fs+';font-weight:'+fw+';'+dir+'">'+b.x+'</div>';
       }
       if (b.t==='image' && b.src) {
         const w = Math.max(30, Math.min(100, parseInt(b.w,10)||100));
-        const caption = b.caption ? '<p class="block-caption" style="text-align:'+(b.align||'center')+'">'+esc(b.caption)+'</p>' : '';
+        const caption = b.caption ? '<p class="block-caption" style="text-align:'+(b.align||'center')+'">'+b.caption+'</p>' : '';
         if (b.fit === 'full') {
           return '<div class="block-image block-image-full"><img class="lazy-img" style="width:100%;height:auto" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></div>'+caption;
         }
@@ -486,15 +488,7 @@
         return '<div class="block-stats">'+items+'</div>';
       }
       if (b.t==='ba' && b.a && b.b) return '<div class="ba-slider" style="--ba-pct:50%"><img class="ba-before lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.a))+'" alt="قبل" loading="lazy" decoding="async"><img class="ba-after lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.b))+'" alt="بعد" loading="lazy" decoding="async"><div class="ba-edge-before"></div><div class="ba-edge-after"></div><div class="ba-handle"></div><span class="ba-label ba-lbl-before">قبل</span><span class="ba-label ba-lbl-after">بعد</span><span class="ba-hint"><span class="ba-hint-icon">⇔</span> اسحب للمقارنة</span></div>';
-      if (b.t==='quote') {
-        if (!b.text) return '';
-        const qAuthor = b.author ? '<footer class="quote-author">'+b.author+'</footer>' : '';
-        return '<blockquote class="block-quote">'+b.text+qAuthor+'</blockquote>';
-      }
-      if (b.t==='fullbleed' && b.src) {
-        return '<figure class="block-fullbleed"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></figure>';
-      }
-      if (b.t==='imgtext' && b.src) {
+      if (b.t==='imgtext') {
         const dir = b.side==='left' ? 'ltr' : 'rtl';
         const ratio = (b.ratio==='16/9'||b.ratio==='4/3'||b.ratio==='3/4'||b.ratio==='1/1') ? b.ratio : '4/3';
         const stack = b.stack||'img-first';
@@ -503,7 +497,8 @@
         const body = b.text ? '<div class="it-copy">'+b.text+'</div>' : '';
         const copy = eyebrow+heading+body;
         if (!copy) return '';
-        return '<div class="block-imgtext" style="direction:'+dir+'" data-stack="'+stack+'"><figure class="it-media" style="--it-ratio:'+ratio+'"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></figure><div class="it-content">'+copy+'</div></div>';
+        const media = b.src ? '<figure class="it-media" style="--it-ratio:'+ratio+'"><img class="lazy-img" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async"></figure>' : '';
+        return '<div class="block-imgtext'+(b.src ? '' : ' no-media')+'" style="direction:'+dir+'" data-stack="'+stack+'">'+media+'<div class="it-content">'+copy+'</div></div>';
       }
       return '';
     }

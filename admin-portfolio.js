@@ -523,6 +523,28 @@
       '</div>';
   }
 
+  function pfBlockInsertAfter(i) {
+    var blockTypeOptions = [
+      ['title', 'عنوان'],
+      ['lede', 'سطر تمهيدي'],
+      ['para', 'فقرة'],
+      ['image', 'صورة'],
+      ['gallery', 'معرض صور'],
+      ['ba', 'قبل/بعد'],
+      ['imgtext', 'صورة + نص'],
+      ['stats', 'إحصائيات']
+    ];
+
+    var menuItems = blockTypeOptions.map(function (type) {
+      return '<button type="button" class="ve-add-item" data-type="' + type[0] + '" data-index="' + (i + 1) + '">' + type[1] + '</button>';
+    }).join('');
+
+    return '<div class="ve-insert-between">' +
+      '<button type="button" class="ve-add-between">＋ إضافة</button>' +
+      '<div class="ve-add-menu">' + menuItems + '</div>' +
+      '</div>';
+  }
+
   function pfBlockTitle(b, i) {
     var fs = b.size==='sm'?'clamp(1.3rem,3.5vw,2.8rem)':b.size==='lg'?'clamp(1.9rem,6.4vw,5.8rem)':'clamp(1.6rem,4.8vw,4.6rem)';
     var fw = b.weight==='light'?400:b.weight==='bold'?900:b.weight==='medium'?650:700;
@@ -650,7 +672,7 @@
       : '<span class="ve-b-image-empty">اضغط لرفع صورة</span>';
 
     var sync = function (prop) {
-      return 'contenteditable="true" class="ve-rt-editor" data-i="' + i + '" ' +
+      return 'contenteditable="true" data-i="' + i + '" ' +
         'data-imgtextprop="' + prop + '" onmousedown="event.stopPropagation()" ' +
         'onclick="event.stopPropagation()"';
     };
@@ -667,9 +689,9 @@
       '<div class="ve-imgtext-row" data-stack="' + esc(b.stack || 'img-first') + '" style="grid-template-columns:1fr 1fr;direction:' + (b.side==='left'?'ltr':'rtl') + '" data-ratio="' + ratio + '">' +
         '<div class="ve-imgtext-img">' + imgContent + '</div>' +
         '<div class="ve-imgtext-text">' +
-          '<div class="ve-it-eyebrow" ' + sync('eyebrow') + ' data-placeholder="سطر صغير (كيكر)..." >' + (b.eyebrow || '') + '</div>' +
-          '<div class="ve-it-heading" ' + sync('heading') + ' data-placeholder="العنوان الكبير..." >' + (b.heading || '') + '</div>' +
-          '<div class="ve-it-body" ' + sync('text') + ' data-placeholder="اكتب النص هنا...">' + (b.text || '') + '</div>' +
+          '<div class="ve-it-eyebrow ve-rt-editor" ' + sync('eyebrow') + ' data-placeholder="سطر صغير (كيكر)..." >' + (b.eyebrow || '') + '</div>' +
+          '<div class="ve-it-heading ve-rt-editor" ' + sync('heading') + ' data-placeholder="العنوان الكبير..." >' + (b.heading || '') + '</div>' +
+          '<div class="ve-it-body ve-rt-editor" ' + sync('text') + ' data-placeholder="اكتب النص هنا...">' + (b.text || '') + '</div>' +
         '</div>' +
       '</div>' +
       '<div class="ve-imgtext-panel">' +
@@ -682,35 +704,7 @@
           '<option value="left"' + (b.side === 'left' ? ' selected' : '') + '>صورة يسار</option>' +
         '</select>' +
         '<select onchange="pfOnImgTextStack(' + i + ',this.value)">' + stackOpts + '</select>' +
-      '</div>';
-  }
-
-  function pfBlockQuote(b, i) {
-    var sync = function (prop, placeholder) {
-      return 'contenteditable="true" class="ve-rt-editor" data-i="' + i + '" ' +
-        'data-imgtextprop="' + prop + '" data-placeholder="' + placeholder + '" ' +
-        'onmousedown="event.stopPropagation()" onclick="event.stopPropagation()"';
-    };
-    return '<div class="ve-b-quote" onclick="event.stopPropagation()">' +
-      '<div class="ve-quote-mark">”</div>' +
-      '<div class="ve-quote-copy">' +
-        '<div class="ve-quote-text" ' + sync('text', 'اكتب الاقتباس الضخم هنا...') + '>' + (b.text || '') + '</div>' +
-        '<div class="ve-quote-author" ' + sync('author', 'اسم العميل...') + '>' + (b.author || '') + '</div>' +
-      '</div>' +
-    '</div>';
-  }
-
-  function pfBlockFullBleed(b, i) {
-    var imgContent = b.src
-      ? '<img src="' + esc(b.src) + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block">'
-      : '<span class="ve-b-image-empty">اضغط لرفع غلاف عريض أو الصق رابط</span>';
-    return '<div class="ve-b-fullbleed">' + imgContent + '</div>' +
-      '<div class="ve-img-panel">' +
-        '<input type="file" accept="image/*" id="ve-fb-file-' + i + '" hidden onchange="pfUploadImg(' + i + ',this.files[0])">' +
-        '<button class="ve-img-btn" onclick="document.getElementById(\'ve-fb-file-' + i + '\').click()">📁 رفع من الجهاز</button>' +
-        '<input type="text" value="' + esc(b.src) + '" placeholder="رابط مباشر https://..." ' +
-          'style="flex:1;min-width:120px" oninput="pfOnImgSrc(' + i + ',this.value)">' +
-      '</div>';
+      '</div></div>';
   }
 
   function arabicToLatin(str) {
@@ -874,6 +868,8 @@
     var canvas = $('ve-canvas');
     if (!canvas) return;
 
+    canvas.querySelectorAll('.ve-rt-editor').forEach(function (el) { veSyncContenteditable(el); });
+
     if (!veBlocks.length) {
       canvas.innerHTML = '<div class="ve-empty-hint">اضغط على زر "+" على اليسار لإضافة العنصر الأول</div>';
       return;
@@ -895,10 +891,8 @@
         case 'ba':    inner = pfBlockBA(b, i); break;
         case 'imgtext': inner = pfBlockImgText(b, i); break;
         case 'stats': inner = pfBlockStats(b, i); break;
-        case 'quote': inner = pfBlockQuote(b, i); break;
-        case 'fullbleed': inner = pfBlockFullBleed(b, i); break;
       }
-      return '<div class="ve-block" data-i="' + i + '" onclick="pfSelectBlock(' + i + ')">' + pfBlockCtrls(i) + inner + '</div>';
+      return '<div class="ve-block" data-i="' + i + '" onclick="pfSelectBlock(' + i + ')">' + pfBlockCtrls(i) + inner + pfBlockInsertAfter(i) + '</div>';
     }).join('');
 
     canvas.querySelectorAll('.ve-rt-editor').forEach(function (el) {
@@ -928,6 +922,25 @@
         if (ed) ed.focus();
       }
     }
+
+    canvas.querySelectorAll('.ve-add-between').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var wrap = btn.closest('.ve-insert-between');
+        if (wrap) wrap.classList.toggle('open');
+      });
+    });
+
+    canvas.querySelectorAll('.ve-add-item').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var wrap = btn.closest('.ve-insert-between');
+        if (wrap) wrap.classList.remove('open');
+        var type = btn.getAttribute('data-type');
+        var idx = parseInt(btn.getAttribute('data-index'), 10);
+        if (type) pfInsertBlock(type, idx);
+      });
+    });
 
     pfInitDragDrop();
   }
@@ -1045,7 +1058,7 @@
      SECTION 7: VISUAL EDITOR — Block Operations
      ═══════════════════════════════════════════════════════ */
 
-  function pfAddBlock(type) {
+  function pfInsertBlock(type, index) {
     var defaults = {
       title:   { t: 'title', x: '', align: 'center', size: 'md', weight: 'bold' },
       lede:    { t: 'lede', x: '', align: 'center', size: 'md', weight: 'normal' },
@@ -1055,25 +1068,28 @@
       ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' },
       imgtext: { t: 'imgtext', src: '', eyebrow: '', heading: '', text: '', side: 'right', ratio: '4/3', stack: 'img-first' },
       stats:   { t: 'stats', items: [{ n: '', suffix: '', label: '' }] },
-      quote:   { t: 'quote', text: '', author: '' },
-      fullbleed: { t: 'fullbleed', src: '' }
     };
     var def = Object.assign({}, defaults[type]);
     if (!def) return;
 
+    var insertAt = Number.isInteger(index) ? index : veBlocks.length;
+    insertAt = Math.max(0, Math.min(insertAt, veBlocks.length));
+
     if (type === 'title' || type === 'lede') {
       var existing = veBlocks.findIndex(function (b) { return b.t === 'title'; });
-      var idx = type === 'title' ? (existing >= 0 ? existing : 0) : (existing >= 0 ? existing + 1 : veBlocks.length);
-      veBlocks.splice(Math.min(idx, veBlocks.length), 0, def);
-      veSelIdx = Math.min(idx, veBlocks.length - 1);
-    } else {
-      veBlocks.push(def);
-      veSelIdx = veBlocks.length - 1;
+      if (type === 'title' && existing >= 0) insertAt = existing;
+      if (type === 'lede' && existing >= 0) insertAt = Math.min(existing + 1, veBlocks.length);
     }
 
+    veBlocks.splice(insertAt, 0, def);
+    veSelIdx = insertAt;
     veUnsaved = true;
     pfRender();
     requestAnimationFrame(function () { pfSelectBlock(Math.max(0, veSelIdx)); });
+  }
+
+  function pfAddBlock(type) {
+    pfInsertBlock(type, veBlocks.length);
   }
 
   function pfRemoveBlock(i) {
@@ -1213,12 +1229,16 @@
 
   function pfUploadImgText(i, file) {
     if (!file) return;
+    pfSyncBlockEditors(i);
     compressImage(file, function (url) { veBlocks[i].src = url || ''; veUnsaved = true; pfRender(); });
   }
-  function pfOnImgTextSrc(i, val) { veBlocks[i].src = val; pfRender(); }
-  function pfOnImgTextRatio(i, val) { veBlocks[i].ratio = val; veUnsaved = true; pfRender(); }
-  function pfOnImgTextSide(i, val) { veBlocks[i].side = val; veUnsaved = true; pfRender(); }
-  function pfOnImgTextStack(i, val) { veBlocks[i].stack = val; veUnsaved = true; pfRender(); }
+  function pfSyncBlockEditors(i) {
+    document.querySelectorAll('.ve-rt-editor[data-i="' + i + '"]').forEach(function (el) { veSyncContenteditable(el); });
+  }
+  function pfOnImgTextSrc(i, val) { pfSyncBlockEditors(i); veBlocks[i].src = val; veUnsaved = true; pfRender(); }
+  function pfOnImgTextRatio(i, val) { pfSyncBlockEditors(i); veBlocks[i].ratio = val; veUnsaved = true; pfRender(); }
+  function pfOnImgTextSide(i, val) { pfSyncBlockEditors(i); veBlocks[i].side = val; veUnsaved = true; pfRender(); }
+  function pfOnImgTextStack(i, val) { pfSyncBlockEditors(i); veBlocks[i].stack = val; veUnsaved = true; pfRender(); }
 
   function pfAddGalleryLink(i) {
     var url = prompt('صق رابط الصورة:');
@@ -1370,6 +1390,7 @@
   window.pfOpenEditor = pfOpenEditor;
   window.pfCloseEditor = pfCloseEditor;
   window.pfSave = pfSave;
+  window.pfInsertBlock = pfInsertBlock;
   window.pfAddBlock = pfAddBlock;
   window.pfTogglePublish = pfTogglePublish;
   window.pfDeleteProject = pfDeleteProject;

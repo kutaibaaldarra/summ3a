@@ -332,7 +332,7 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
 .case-tools { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 18px 0 34px; padding: 22px; border: 1px dashed var(--line); border-radius: var(--radius); }
 .case-tools > span { color: var(--orange-dark); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
 .case-chip-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.case-paragraphs { max-width: 730px; }
+.case-paragraphs { width: 100%; max-width: 900px; margin-inline: auto; }
 .case-paragraphs p { max-width: none !important; margin: 0 0 22px !important; color: #413e38 !important; font-size: 16.5px !important; line-height: 2.1 !important; }
 .case-gallery.is-many { column-count: 2; }
 .case-gallery.is-many .g-item img { height: auto; aspect-ratio: auto; }
@@ -394,29 +394,93 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
 .case-paragraphs.dz-lg p { font-size: 19px !important; line-height: 2.05 !important; }
 .case-lede.dw-b, .case-paragraphs.dw-b p { font-weight: 700 !important; }
 
-/* ─── Block classes (match admin editor) ─── */
-.block-title {
-  margin: 28px 0 14px;
-  line-height: 1.05;
-  letter-spacing: -.05em;
+/* ─── Rich text blocks ─── */
+.block-title,
+.block-lede,
+.block-para {
+  box-sizing: border-box;
+  width: 100%;
   max-width: none;
+  margin-inline: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
   text-align: center;
+}
+.block-title {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  margin-bottom: 1rem;
+  line-height: 1.08;
+  letter-spacing: -.04em;
 }
 .block-lede {
-  max-width: 660px;
-  margin: 16px auto 0;
+  margin-top: 1rem;
   color: var(--ink);
   font-weight: 500;
-  line-height: 1.9;
-  text-align: center;
+  line-height: 1.85;
 }
 .block-para {
-  max-width: 730px;
-  margin: clamp(2.5rem, 5vw, 3.75rem) auto clamp(2.5rem, 5vw, 3.75rem);
+  margin-top: clamp(2rem, 4vw, 3.25rem);
+  margin-bottom: clamp(2rem, 4vw, 3.25rem);
   color: #413e38;
-  line-height: 2.1;
-  text-align: center;
+  line-height: 2;
 }
+.block-title > *,
+.block-lede > *,
+.block-para > * {
+  max-width: 100%;
+}
+.block-title p,
+.block-lede p,
+.block-para p {
+  margin: 0;
+}
+.block-title p + p,
+.block-lede p + p,
+.block-para p + p {
+  margin-top: .75em;
+}
+.block-title h1,
+.block-title h2,
+.block-title h3,
+.block-lede h1,
+.block-lede h2,
+.block-lede h3,
+.block-para h1,
+.block-para h2,
+.block-para h3 {
+  margin: 0 0 .65em;
+  line-height: 1.2;
+}
+.block-title a,
+.block-lede a,
+.block-para a {
+  color: var(--orange-dark);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.block-title strong,
+.block-lede strong,
+.block-para strong { color: var(--ink); font-weight: 700; }
+.block-title ul,
+.block-title ol,
+.block-lede ul,
+.block-lede ol,
+.block-para ul,
+.block-para ol {
+  margin: 0 0 1em;
+  padding-inline-start: 1.4em;
+  text-align: start;
+}
+.block-title blockquote,
+.block-lede blockquote,
+.block-para blockquote {
+  margin: 1em 0;
+  padding-inline: 1em;
+  border-inline-start: 3px solid var(--orange);
+  color: var(--muted);
+}
+.block-para u { text-decoration: underline; text-underline-offset: 3px; }
 .block-image {
   margin-top: clamp(2.5rem, 5vw, 4rem);
   overflow: hidden;
@@ -444,6 +508,9 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
   gap: clamp(32px, 4vw, 48px);
   margin-top: clamp(64px, 8vw, 100px);
 }
+.block-imgtext[data-stack="text-first"] .it-content { order: -1; }
+.block-imgtext[data-stack="text-first"] .it-media { order: 1; }
+.block-imgtext.no-media { display: block; }
 .it-media {
   margin: 0;
   position: relative;
@@ -498,6 +565,12 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
 .it-copy img { max-width: 100%; border-radius: 7px; }
 .it-copy iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 7px; }
 
+@media (min-width: 761px) {
+  .case-content { padding-inline: clamp(28px, 3vw, 48px); }
+  .block-lede { width: 100%; max-width: none; margin-inline: auto; }
+  .block-para { width: 100%; max-width: none; margin-inline: auto; }
+}
+
 @media (max-width: 760px) {
   .block-imgtext {
     grid-template-columns: 1fr !important;
@@ -528,12 +601,6 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
   .block-image.r-9-16 { height: auto; }
 }
 
-/* ─── Quill HTML content inside blocks ─── */
-.block-title p, .block-lede p, .block-para p { margin: 0; }
-.block-title p + p, .block-lede p + p, .block-para p + p { margin-top: .6em; }
-.block-para a { color: #f68720; text-decoration: underline; text-underline-offset: 2px; }
-.block-title a, .block-lede a { color: #f68720; text-decoration: none; }
-.block-para u { text-decoration: underline; text-underline-offset: 2px; }
 .block-caption p { margin: 0; }
 
 /* ─── Masonry video sizing ─── */
@@ -555,63 +622,7 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
 .stat-label { color: #635d56; font-size: clamp(.9rem, 1.4vw, 1rem); letter-spacing: .02em; }
 @media (max-width: 760px) {
   .block-stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 26px; padding: 26px 0; }
-  .block-quote { margin: clamp(48px, 10vw, 84px) auto; padding: 20px 8px; }
-  .block-fullbleed img { height: min(46vh, 360px); }
-}
-
-/* ─── Quote block ─── */
-.block-quote {
-  position: relative;
-  margin: clamp(64px, 9vw, 120px) auto;
-  padding: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px);
-  max-width: 780px;
-  text-align: center;
-  font-size: clamp(1.7rem, 4.2vw, 3rem);
-  font-weight: 800;
-  line-height: 1.35;
-  letter-spacing: -.04em;
-  color: var(--ink, #12110f);
-  white-space: normal;
-}
-.block-quote::before {
-  content: '”';
-  position: absolute;
-  top: -6px;
-  right: calc(50% - .5em);
-  font-size: clamp(3.5rem, 8vw, 6rem);
-  font-family: Georgia, 'Times New Roman', serif;
-  font-weight: 900;
-  line-height: 1;
-  color: var(--orange, #ef6b32);
-  opacity: .85;
-  pointer-events: none;
-}
-.block-quote p { margin: 0; }
-.block-quote div { margin: 0; }
-.block-quote .quote-author {
-  display: block;
-  margin-top: clamp(18px, 3vw, 26px);
-  font-size: .62em;
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: #635d56;
-}
-
-/* ─── Full-bleed divider image ─── */
-.block-fullbleed {
-  margin: clamp(56px, 8vw, 96px) calc(-1 * var(--cw-px));
-  position: relative;
-  overflow: hidden;
-  background: #ece7dd;
-}
-.block-fullbleed img {
-  display: block;
-  width: 100%;
-  height: min(64vh, 560px);
-  object-fit: cover;
-  object-position: center;
-}
+  }
 
 /* ─── Lightbox ─── */
 .lb-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s .3s; }
