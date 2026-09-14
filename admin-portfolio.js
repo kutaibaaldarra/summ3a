@@ -529,6 +529,7 @@
       ['lede', 'سطر تمهيدي'],
       ['para', 'فقرة'],
       ['image', 'صورة'],
+      ['video', 'فيديو'],
       ['gallery', 'معرض صور'],
       ['ba', 'قبل/بعد'],
       ['imgtext', 'صورة + نص'],
@@ -603,6 +604,63 @@
       '</div>' +
       '<div class="ve-img-caption-wrap" id="ve-ed-wrap-cap-' + i + '">' +
         '<div class="ve-rt-editor ve-img-caption-editor" id="ve-ed-cap-' + i + '" data-i="' + i + '" data-cap="1" contenteditable="true" data-placeholder="وصف الصورة (اختياري)...">' +
+        (b.caption || '') + '</div></div>';
+  }
+
+  function pfBlockVideo(b, i) {
+    var src = String(b.src || '').trim();
+    var isGif = /\.gif(\?|$)/i.test(src) || /^data:image\/gif/i.test(src);
+    var isVid = /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(src) || /video\//i.test(src) || /^data:video/i.test(src);
+
+    var preview = '';
+    if (!src) {
+      preview = '<span class="ve-b-image-empty">اضغط لرفع فيديو/GIF أو صق رابط</span>';
+    } else if (isGif) {
+      preview = '<img src="' + esc(src) + '" alt="" style="width:100%;height:auto;display:block">';
+    } else if (isVid) {
+      preview = '<video src="' + esc(src) + '" controls playsinline preload="metadata" style="width:100%;height:auto;display:block;max-height:420px"></video>';
+    } else if (/^data:/i.test(src)) {
+      preview = '<img src="' + esc(src) + '" alt="" style="width:100%;height:auto;display:block">';
+    } else {
+      var ytM = src.match(/(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{11})/i);
+      var vmM = src.match(/vimeo\.com\/(\d+)/i);
+      if (ytM) {
+        preview = '<iframe src="https://www.youtube.com/embed/' + ytM[1] + '?rel=0" style="width:100%;aspect-ratio:16/9;border:0;display:block" allowfullscreen></iframe>';
+      } else if (vmM) {
+        preview = '<iframe src="https://player.vimeo.com/video/' + vmM[1] + '" style="width:100%;aspect-ratio:16/9;border:0;display:block" allowfullscreen></iframe>';
+      } else {
+        preview = '<span class="ve-b-image-empty">لصق رابط فيديو (mp4) أو صورة (gif)</span>';
+      }
+    }
+
+    var w = Math.max(30, Math.min(100, parseInt(b.w, 10) || 100));
+    var curR = /^\d+-\d+$/.test(b.r || '') ? b.r : '16-9';
+    var ratioOpts = ['16-9', '4-3', '3-2', '1-1', '4-5', '9-16'].map(function (r2) {
+      return '<option value="' + r2 + '"' + (curR === r2 ? ' selected' : '') + '>نسبة ' + r2.split('-').join(':') + '</option>';
+    }).join('');
+
+    return '<div class="ve-b-video">' + preview + '</div>' +
+      '<div class="ve-img-panel">' +
+        '<input type="file" accept="video/*,image/*" id="ve-vfile-' + i + '" hidden onchange="pfUploadVideo(' + i + ',this.files[0])">' +
+        '<button class="ve-img-btn" onclick="document.getElementById(\'ve-vfile-' + i + '\').click()">📁 رفع فيديو/GIF</button>' +
+        '<input type="text" value="' + esc(b.src) + '" placeholder="رابط فيديو/GIF أو YouTube/Vimeo https://..." ' +
+          'style="flex:1;min-width:140px" oninput="pfOnVideoSrc(' + i + ',this.value)">' +
+        '<label class="ve-ctl-label">عرض الفيديو <b id="ve-vw-val-' + i + '">' + w + '%</b></label>' +
+        '<input type="range" min="30" max="100" step="5" value="' + w + '" oninput="pfOnVideoWidth(' + i + ',this.value)" style="flex:1">' +
+        '<select onchange="pfOnVideoFit(' + i + ',this.value)">' +
+          '<option value="contain"' + (b.fit !== 'cover' && b.fit !== 'full' ? ' selected' : '') + '>الأبعاد كاملة (بلا قص)</option>' +
+          '<option value="cover"' + (b.fit === 'cover' ? ' selected' : '') + '>ملء الإطار (نسبة ثابتة)</option>' +
+          '<option value="full"' + (b.fit === 'full' ? ' selected' : '') + '>حافة إلى حافة (ملء عرض الصفحة)</option>' +
+        '</select>' +
+        '<select onchange="pfOnVideoRatio(' + i + ',this.value)">' + ratioOpts + '</select>' +
+        '<div class="ve-img-align-btns">' +
+          '<button class="ve-img-albtn' + ((b.align || 'center') === 'right' ? ' active' : '') + '" onclick="pfOnVideoAlign(' + i + ',\'right\')" title="يمين">◀</button>' +
+          '<button class="ve-img-albtn' + ((b.align || 'center') === 'center' ? ' active' : '') + '" onclick="pfOnVideoAlign(' + i + ',\'center\')" title="وسط">▬</button>' +
+          '<button class="ve-img-albtn' + ((b.align || 'center') === 'left' ? ' active' : '') + '" onclick="pfOnVideoAlign(' + i + ',\'left\')" title="يسار">▶</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ve-img-caption-wrap" id="ve-ed-wrap-cap-' + i + '">' +
+        '<div class="ve-rt-editor ve-img-caption-editor" id="ve-ed-cap-' + i + '" data-i="' + i + '" data-cap="1" contenteditable="true" data-placeholder="وصف الفيديو (اختياري)...">' +
         (b.caption || '') + '</div></div>';
   }
 
@@ -932,6 +990,7 @@
         case 'lede':  inner = pfBlockLede(b, i); break;
         case 'para':  inner = pfBlockPara(b, i); break;
         case 'image': inner = pfBlockImage(b, i); break;
+        case 'video': inner = pfBlockVideo(b, i); break;
         case 'gallery': inner = pfBlockGallery(b, i); break;
         case 'ba':    inner = pfBlockBA(b, i); break;
         case 'imgtext': inner = pfBlockImgText(b, i); break;
@@ -1109,6 +1168,7 @@
       lede:    { t: 'lede', x: '', align: 'center', size: 'md', weight: 'normal' },
       para:    { t: 'para', x: '', align: 'center', size: 'md', weight: 'normal' },
       image:   { t: 'image', src: '', w: 100, fit: 'contain', caption: '', align: 'center' },
+      video:   { t: 'video', src: '', w: 100, fit: 'contain', r: '16-9', caption: '', align: 'center' },
       gallery: { t: 'gallery', imgs: [], cols: 'auto', frame: false },
       ba:      { t: 'ba', a: '', b: '', w: 100, fit: 'contain' },
       imgtext: { t: 'imgtext', src: '', eyebrow: '', heading: '', text: '', side: 'right', ratio: '4/3', stack: 'img-first' },
@@ -1143,6 +1203,7 @@
 
     var urlsToDelete = [];
     if (removed.t === 'image' && removed.src && isFirebaseStorageUrl(removed.src)) urlsToDelete.push(removed.src);
+    if (removed.t === 'video' && removed.src && isFirebaseStorageUrl(removed.src)) urlsToDelete.push(removed.src);
     if (removed.t === 'ba') {
       if (removed.a && isFirebaseStorageUrl(removed.a)) urlsToDelete.push(removed.a);
       if (removed.b && isFirebaseStorageUrl(removed.b)) urlsToDelete.push(removed.b);
@@ -1189,6 +1250,65 @@
       veUnsaved = true;
       pfRender();
     });
+  }
+
+  function pfUploadVideo(i, file) {
+    if (!file) return;
+    if (shouldSkipRepeatedUpload(file, veBlocks[i] && veBlocks[i].src)) {
+      return;
+    }
+    uploadVideoToStorage(file, function (url) {
+      var finalUrl = url || '';
+      veBlocks[i].src = finalUrl;
+      rememberUploadedFile(file, finalUrl);
+      veUnsaved = true;
+      pfRender();
+    });
+  }
+
+  function uploadVideoToStorage(file, callback) {
+    var statusEl = $('ve-status');
+    if (statusEl) {
+      statusEl.textContent = 'جاري رفع الفيديو...';
+      statusEl.style.color = '#f59e0b';
+    }
+
+    var ext = 'bin';
+    var parts = (file.name || '').toLowerCase().split('.');
+    if (parts.length > 1) ext = parts[parts.length - 1];
+
+    var settled = false;
+    var finish = function (url) {
+      if (settled) return;
+      settled = true;
+      if (statusEl) {
+        statusEl.textContent = '✓ تم رفع الفيديو';
+        statusEl.style.color = '#22c55e';
+      }
+      callback(url || '');
+    };
+    var fail = function () {
+      if (settled) return;
+      settled = true;
+      if (statusEl) {
+        statusEl.textContent = '❌ فشل رفع الفيديو — تأكد من اتصال الإنترنت';
+        statusEl.style.color = '#ef4444';
+      }
+      callback('');
+    };
+
+    if (!(window.firebase && firebase.storage)) { fail(); return; }
+    try {
+      var name = 'projects/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+      var task = firebase.storage().ref(name).put(file, { contentType: file.type || 'application/octet-stream' });
+      task.on('state_changed', function (snapshot) {
+        if (!statusEl || !snapshot.totalBytes) return;
+        var percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        statusEl.textContent = 'جاري رفع الفيديو... ' + percent + '%';
+      }, function () { fail(); }, function () {
+        task.snapshot.ref.getDownloadURL().then(function (url) { finish(url); }).catch(function () { finish(''); });
+      });
+    } catch (e) { fail(); }
   }
 
   function pfUploadGallery(i, files) {
@@ -1262,6 +1382,16 @@
   }
   function pfOnImgFit(i, val) { veBlocks[i].fit = val; veUnsaved = true; pfRender(); }
   function pfOnImgAlign(i, val) { veBlocks[i].align = val; veUnsaved = true; pfRender(); }
+  function pfOnVideoSrc(i, val) { veBlocks[i].src = val; veUnsaved = true; pfRender(); }
+  function pfOnVideoWidth(i, val) {
+    veBlocks[i].w = parseInt(val, 10) || 100;
+    var lbl = document.getElementById('ve-vw-val-' + i);
+    if (lbl) lbl.textContent = veBlocks[i].w + '%';
+    veUnsaved = true;
+  }
+  function pfOnVideoFit(i, val) { veBlocks[i].fit = val; veUnsaved = true; pfRender(); }
+  function pfOnVideoRatio(i, val) { veBlocks[i].r = val; veUnsaved = true; pfRender(); }
+  function pfOnVideoAlign(i, val) { veBlocks[i].align = val; veUnsaved = true; pfRender(); }
   function pfOnGalleryCols(i, val) { veBlocks[i].cols = val; pfRender(); }
   function pfOnBAInput(i, side, val) { veBlocks[i][side] = val; pfRender(); }
   function pfOnBAWidth(i, val) {
@@ -1453,6 +1583,12 @@
   window.pfAddGalleryLink = pfAddGalleryLink;
   window.pfRemoveGalleryImg = pfRemoveGalleryImg;
   window.pfUploadImg = pfUploadImg;
+  window.pfUploadVideo = pfUploadVideo;
+  window.pfOnVideoSrc = pfOnVideoSrc;
+  window.pfOnVideoWidth = pfOnVideoWidth;
+  window.pfOnVideoFit = pfOnVideoFit;
+  window.pfOnVideoRatio = pfOnVideoRatio;
+  window.pfOnVideoAlign = pfOnVideoAlign;
   window.pfUploadGallery = pfUploadGallery;
   window.pfUploadImgBA = pfUploadImgBA;
   window.pfOnColorInput = pfOnColorInput;

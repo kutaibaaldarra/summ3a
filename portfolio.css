@@ -499,6 +499,65 @@ button { border: 0; color: inherit; font: inherit; cursor: pointer; }
 .block-image.r-9-16 { aspect-ratio: 9 / 16; }
 
 /* ═══════════════════════════════════════════════════════════
+   Video Block — supports GIF, MP4 and YouTube/Vimeo embeds
+   ═══════════════════════════════════════════════════════════ */
+.block-video {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.block-video-contain video,
+.block-video-contain iframe {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 0;
+  border-radius: var(--radius);
+  background: #12110f;
+}
+.block-video-cover {
+  position: relative;
+  display: block;
+}
+.block-video-cover video,
+.block-video-cover iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.block-video-full {
+  margin-left: calc(-1 * var(--cw-px));
+  margin-right: calc(-1 * var(--cw-px));
+  border-radius: 0;
+}
+.block-video-full video,
+.block-video-full iframe {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 0;
+  background: #12110f;
+}
+.block-video.r-16-9 { aspect-ratio: 16 / 9; }
+.block-video.r-4-3 { aspect-ratio: 4 / 3; }
+.block-video.r-3-2 { aspect-ratio: 3 / 2; }
+.block-video.r-1-1 { aspect-ratio: 1 / 1; }
+.block-video.r-4-5 { aspect-ratio: 4 / 5; }
+.block-video.r-9-16 { aspect-ratio: 9 / 16; }
+.block-video .case-video-wrap { width: 100%; height: 100%; border-radius: var(--radius); overflow: hidden; }
+.block-video .case-video-wrap video,
+.block-video .case-video-wrap iframe { width: 100%; height: 100%; min-height: 0; border: 0; }
+.block-video-cover .case-video-wrap video,
+.block-video-cover .block-video-el { object-fit: cover; }
+.block-video-contain .case-video-wrap video,
+.block-video-contain .case-video-wrap iframe { height: auto; min-height: 280px; aspect-ratio: 16 / 9; }
+.block-video-full .case-video-wrap video,
+.block-video-full .case-video-wrap iframe { height: auto; aspect-ratio: 16 / 9; }
+
+/* ═══════════════════════════════════════════════════════════
    Image + Text Block (imgtext) — Behance-style editorial layout
    ═══════════════════════════════════════════════════════════ */
 .block-imgtext {

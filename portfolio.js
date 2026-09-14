@@ -472,6 +472,31 @@
         }
         return '<div class="block-image block-image-contain" style="max-width:'+w+'%;margin-left:auto;margin-right:auto"><img class="lazy-img" style="width:100%;height:auto" src="'+esc(placeholderSvg)+'" data-src="'+esc(optimizeImageUrl(b.src))+'" alt="" loading="lazy" decoding="async">'+caption+'</div>';
       }
+      if (b.t==='video' && b.src) {
+        const src = String(b.src).trim();
+        const isGif = /\.gif(\?|$)/i.test(src) || /^data:image\/gif/i.test(src);
+        const w = Math.max(30, Math.min(100, parseInt(b.w,10)||100));
+        const caption = b.caption ? '<p class="block-caption" style="text-align:'+(b.align||'center')+'">'+b.caption+'</p>' : '';
+        if (isGif) {
+          if (b.fit === 'full') {
+            return '<div class="block-video block-video-full"><img class="lazy-img" style="width:100%;height:auto" src="'+esc(placeholderSvg)+'" data-src="'+esc(src)+'" alt="" loading="lazy" decoding="async"></div>'+caption;
+          }
+          if (b.fit === 'cover') {
+            const r = (typeof b.r === 'string' && b.r.indexOf('-') > 0) ? b.r : '16-9';
+            return '<div class="block-video block-video-cover r-'+r+'" style="max-width:'+w+'%;margin-left:auto;margin-right:auto"><img class="lazy-img" style="width:100%;height:100%" src="'+esc(placeholderSvg)+'" data-src="'+esc(src)+'" alt="" loading="lazy" decoding="async">'+caption+'</div>';
+          }
+          return '<div class="block-video block-video-contain" style="max-width:'+w+'%;margin-left:auto;margin-right:auto"><img class="lazy-img" style="width:100%;height:auto" src="'+esc(placeholderSvg)+'" data-src="'+esc(src)+'" alt="" loading="lazy" decoding="async">'+caption+'</div>';
+        }
+        const embed = isVideoMedia(src) ? getVideoEmbed(src) : '<video class="block-video-el" src="'+esc(src)+'" controls playsinline preload="metadata"></video>';
+        if (b.fit === 'full') {
+          return '<div class="block-video block-video-full">'+embed+'</div>'+caption;
+        }
+        if (b.fit === 'cover') {
+          const r = (typeof b.r === 'string' && b.r.indexOf('-') > 0) ? b.r : '16-9';
+          return '<div class="block-video block-video-cover r-'+r+'" style="max-width:'+w+'%;margin-left:auto;margin-right:auto">'+embed+caption+'</div>';
+        }
+        return '<div class="block-video block-video-contain" style="max-width:'+w+'%;margin-left:auto;margin-right:auto">'+embed+caption+'</div>';
+      }
       if (b.t==='gallery' && b.imgs?.length) {
         const gc = gcMap[b.cols]||'';
         const many = b.imgs.length>2&&!gc?' is-many':'';

@@ -537,6 +537,36 @@
   padding: 3rem 1rem;
 }
 
+/* ─── Block Type: Video ─── */
+.ve-b-video {
+  background: #0a0a0a;
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+.ve-b-video video {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  display: block;
+  object-fit: contain;
+}
+.ve-b-video img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.ve-b-video iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
+}
+
 /* ─── Block Type: Gallery ─── */
 .ve-b-gallery {
   background: #0a0a0a;
