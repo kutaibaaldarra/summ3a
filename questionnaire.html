@@ -539,17 +539,26 @@
 
                     <!-- Step 3: Budget & Timeline -->
                     <div class="step" id="step-3">
-                        <h2 class="text-2xl font-black text-white mb-2">ما ميزانيتك الشهرية المتوقعة؟</h2>
-                        <p class="text-gray-500 text-sm mb-6">حدد المبلغ بالدولار أو اختر "غير محدد"</p>
-                        
-                        <div class="mb-8">
-                            <div class="text-center mb-4">
-                                <span class="text-gray-500">$</span>
-                                <input type="number" min="0" step="100" placeholder="أدخل الميزانية" class="max-w-xs mx-auto" id="budget-input" oninput="updateBudget(this.value)">
-                            </div>
-                            <div class="flex items-center justify-center gap-2 mt-3">
-                                <input type="checkbox" id="budget-unspecified" onchange="toggleUnspecifiedBudget(this.checked)" class="w-5 h-5" style="accent-color:#f68720;width:18px;height:18px;cursor:pointer">
-                                <label for="budget-unspecified" class="text-gray-400 cursor-pointer hover:text-white transition-colors" style="user-select:none">غير محدد</label>
+                        <!-- Package banner (shown when arriving from packages) -->
+                        <div id="package-banner" class="hidden mb-8 p-6 rounded-2xl border border-[#f68720]/40 text-center" style="background:rgba(246,135,32,0.08)">
+                            <div class="text-[#f68720] font-bold text-sm mb-1" id="package-banner-label">الباقة المختارة</div>
+                            <div class="text-white font-black text-xl" id="package-banner-name"></div>
+                            <div class="text-[#f68720] font-black text-2xl mt-1" id="package-banner-price"></div>
+                        </div>
+
+                        <div id="budget-section">
+                            <h2 class="text-2xl font-black text-white mb-2">ما ميزانيتك الشهرية المتوقعة؟</h2>
+                            <p class="text-gray-500 text-sm mb-6">حدد المبلغ بالدولار أو اختر "غير محدد"</p>
+                            
+                            <div class="mb-8">
+                                <div class="text-center mb-4">
+                                    <span class="text-gray-500">$</span>
+                                    <input type="number" min="0" step="100" placeholder="أدخل الميزانية" class="max-w-xs mx-auto" id="budget-input" oninput="updateBudget(this.value)">
+                                </div>
+                                <div class="flex items-center justify-center gap-2 mt-3">
+                                    <input type="checkbox" id="budget-unspecified" onchange="toggleUnspecifiedBudget(this.checked)" class="w-5 h-5" style="accent-color:#f68720;width:18px;height:18px;cursor:pointer">
+                                    <label for="budget-unspecified" class="text-gray-400 cursor-pointer hover:text-white transition-colors" style="user-select:none">غير محدد</label>
+                                </div>
                             </div>
                         </div>
 
@@ -659,6 +668,12 @@
         const formData = {};
         const urlParams = new URLSearchParams(window.location.search);
         const selectedPackage = urlParams.get('package') || '';
+        const PACKAGE_META = {
+            launch:      { name: 'باقة الانطلاقة',    price: '350' },
+            professional:{ name: 'باقة المحترف',      price: '475' },
+            elite:       { name: 'باقة النخبة',       price: '1500' }
+        };
+        const packageMeta = selectedPackage ? PACKAGE_META[selectedPackage] : null;
 
         // Progress Update
         function updateProgress() {
@@ -810,7 +825,11 @@
         }
 
         function checkStep3Completion() {
-            if (formData['budget'] && formData['timeline']) {
+            if (packageMeta) {
+                if (formData['timeline']) {
+                    document.getElementById('btn-step-3').disabled = false;
+                }
+            } else if (formData['budget'] && formData['timeline']) {
                 document.getElementById('btn-step-3').disabled = false;
             }
         }
@@ -839,7 +858,7 @@
             if (!formData['goals']) missing.push('الهدف');
             if (!formData['platforms']?.length) missing.push('المنصات');
             if (!formData['presence']) missing.push('الوجود الرقمي');
-            if (!formData['budget']) missing.push('الميزانية');
+            if (!packageMeta && !formData['budget']) missing.push('الميزانية');
             if (!formData['timeline']) missing.push('موعد البدء');
 
             if (missing.length > 0) {
@@ -927,6 +946,20 @@
 
         // Initialize
         updateProgress();
+
+        if (packageMeta) {
+            formData.budget = packageMeta.price;
+            const bannerLabel = document.getElementById('package-banner-label');
+            if (bannerLabel) bannerLabel.textContent = 'الباقة المختارة — بدلاً عن تحديد الميزانية';
+            const bannerName = document.getElementById('package-banner-name');
+            if (bannerName) bannerName.textContent = packageMeta.name;
+            const bannerPrice = document.getElementById('package-banner-price');
+            if (bannerPrice) bannerPrice.textContent = '$' + packageMeta.price;
+            const banner = document.getElementById('package-banner');
+            if (banner) banner.classList.remove('hidden');
+            const budgetSection = document.getElementById('budget-section');
+            if (budgetSection) budgetSection.classList.add('hidden');
+        }
     </script>
     <footer class="footer-animate" style="background: #111; border: 1px solid rgba(246, 135, 32, 0.3); color:#ffffff; padding:4rem 0 3rem 0; margin-top:4rem; border-radius: 2rem 2rem 0 0; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(246,135,32,0.15);">
         <div class="max-w-7xl mx-auto px-4 md:px-0">
